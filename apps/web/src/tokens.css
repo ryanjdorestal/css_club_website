@@ -1,0 +1,108 @@
+/* tokens.css — John Jay CSS design tokens (context/05 "Tokens (final)").
+   This file exists before any component. Components use var(--accent) and never
+   pick a literal color themselves. */
+
+@import "tailwindcss";
+
+@theme {
+  --color-navy-900: #0C183C;
+  --color-navy-800: #12294A;
+  --color-navy-700: #183C60;
+  --color-navy-600: #1E4664;
+  --color-navy-500: #305484;
+  --color-ink: #F4F7FB;
+  --color-muted: #9DB0C4;
+  --color-line: #2A4460;
+  --color-teal: #6ED2E6;
+  --color-red: #CE4A4A;
+  --color-green: #40A33F;
+  --color-blue: #1E80F0;
+  --color-cube-red: #D82028;
+  --color-cube-green: #70B840;
+  --color-cube-blue: #2058A0;
+  --color-light: #F5F7FA;
+  --color-seam: #1A1618;
+  --font-display: "Archivo", system-ui, sans-serif;
+  --font-body: "Poppins", system-ui, sans-serif;
+  --font-mono: "JetBrains Mono", ui-monospace, monospace;
+  --font-pixel: "VT323", monospace;
+  --radius-sm: 4px;
+  --radius-md: 8px;
+  --radius-lg: 14px;
+  --label-size: 11px;
+  --label-tracking: 0.08em;
+}
+
+/* Section accent — set per route on a wrapper as data-accent="red|green|blue".
+   Teal is the only color allowed everywhere. */
+:root,
+[data-accent="teal"] {
+  --accent: var(--color-teal);
+  --accent-tint: color-mix(in srgb, var(--color-teal) 14%, var(--color-light));
+}
+[data-accent="red"] {
+  --accent: var(--color-red);
+  --accent-tint: color-mix(in srgb, var(--color-red) 13%, var(--color-light));
+}
+[data-accent="green"] {
+  --accent: var(--color-green);
+  --accent-tint: color-mix(in srgb, var(--color-green) 13%, var(--color-light));
+}
+[data-accent="blue"] {
+  --accent: var(--color-blue);
+  --accent-tint: color-mix(in srgb, var(--color-blue) 13%, var(--color-light));
+}
+
+/* Base */
+html {
+  background: var(--color-navy-600);
+  color: var(--color-ink);
+  font-family: var(--font-body);
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+}
+
+body {
+  margin: 0;
+  min-height: 100dvh;
+}
+
+::selection {
+  background: var(--color-teal);
+  color: var(--color-navy-900);
+}
+
+:focus-visible {
+  outline: 2px solid var(--color-teal);
+  outline-offset: 2px;
+}
+
+/* Typography primitives */
+.font-display {
+  font-family: var(--font-display);
+}
+
+/* Mono label — JetBrains Mono, uppercase, 11px, 0.08em (DESIGN.md) */
+.mono-label {
+  font-family: var(--font-mono);
+  font-size: var(--label-size);
+  letter-spacing: var(--label-tracking);
+  text-transform: uppercase;
+}
+
+/* VT323 only at >= 20px */
+.pixel {
+  font-family: var(--font-pixel);
+  font-size: max(20px, 1em);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}

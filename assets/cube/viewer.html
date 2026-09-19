@@ -1,0 +1,59 @@
+<!doctype html><html><head><meta charset="utf-8">
+<style>html,body{margin:0;background:#0e0f12;overflow:hidden}canvas{display:block}</style>
+<script type="importmap">{"imports":{"three":"./node_modules/three/build/three.module.js","three/addons/":"./node_modules/three/examples/jsm/"}}</script>
+</head><body>
+<script type="module">
+import * as THREE from 'three';
+import { GLTFLoader } from 'three/addons/loaders/GLTFLoader.js';
+import { RoomEnvironment } from 'three/addons/environments/RoomEnvironment.js';
+
+const q = new URLSearchParams(location.search);
+const W = +q.get('w')||1200, H = +q.get('h')||1000;
+const renderer = new THREE.WebGLRenderer({antialias:true, alpha:true, preserveDrawingBuffer:true});
+renderer.setSize(W,H); renderer.setPixelRatio(1);
+const TM={none:THREE.NoToneMapping,aces:THREE.ACESFilmicToneMapping,agx:THREE.AgXToneMapping,neutral:THREE.NeutralToneMapping};
+renderer.toneMapping = TM[q.get('tm')||'neutral']; renderer.toneMappingExposure = +q.get('exp')||0.8;
+renderer.shadowMap.enabled = !q.get('noshadow'); renderer.shadowMap.type = THREE.PCFSoftShadowMap;
+document.body.appendChild(renderer.domElement);
+
+const scene = new THREE.Scene();
+if (!q.get('transparent')) scene.background = new THREE.Color('#0e0f12');
+const pmrem = new THREE.PMREMGenerator(renderer);
+scene.environment = pmrem.fromScene(new RoomEnvironment(), 0.04).texture; scene.environmentIntensity = +q.get('env')||0.3;
+
+const cam = new THREE.PerspectiveCamera(28, W/H, 0.1, 100);
+const key = new THREE.DirectionalLight(0xffffff, +q.get('key')||1.0); key.position.set(-1.5,4.5,3.5); key.castShadow=true;
+key.shadow.mapSize.set(2048,2048); key.shadow.radius=4; scene.add(key);
+scene.add(new THREE.AmbientLight(0xffffff, 0.15)); const fill=new THREE.DirectionalLight(0xffffff,0.45); fill.position.set(4,1.5,-2); scene.add(fill);
+
+// dot-grid floor + soft shadow catcher
+if (!q.get('nofloor')) {
+  const floor = new THREE.Mesh(new THREE.PlaneGeometry(20,20), new THREE.ShadowMaterial({opacity:0.35}));
+  floor.rotation.x = -Math.PI/2; floor.position.y = -0.75; floor.receiveShadow = true; scene.add(floor);
+}
+
+new GLTFLoader().load('cs_cube.glb', (g) => {
+  g.scene.traverse(o => {
+    if (o.isMesh) {
+      const c = o.material.color.clone();
+      if (q.get('debug')==='normals') { o.material = new THREE.MeshNormalMaterial(); return; }
+      o.material = o.name === 'core'
+        ? new THREE.MeshStandardMaterial({color:0x111114, roughness:1, metalness:0})
+        : new THREE.MeshPhysicalMaterial({color:c, roughness:0.42, metalness:0, clearcoat:0.55, clearcoatRoughness:0.22});
+      o.castShadow = o.receiveShadow = true;
+    }
+  });
+  const root = new THREE.Group(); root.add(g.scene); scene.add(root);
+  root.rotation.y = THREE.MathUtils.degToRad(+q.get('spin')||0);
+  const view = q.get('view')||'front';
+  const dist = 4.6;
+  const views = {
+    front:[1,0.85,1], back:[-1,0.85,-1], left:[-1,0.85,1], right:[1,0.85,-1],
+    top:[0.01,1,0.01], bottom:[0.01,-1,0.01], straight:[0,0.35,1],
+  };
+  const v = new THREE.Vector3(...(views[view]||views.front)).normalize().multiplyScalar(dist);
+  cam.position.copy(v); cam.lookAt(0,-0.05,0);
+  renderer.render(scene, cam);
+  window.__ready = true;
+});
+</script></body></html>

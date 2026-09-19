@@ -1,0 +1,53 @@
+# DESIGN.md — the short version (full spec: `context/05_DESIGN_SYSTEM.md`)
+
+Any tool generating UI for this repo reads this first. **The theme is John Jay's own —
+derived from the club's existing repo CSS, its YouTube banner, its GitHub org, and the
+`jj_inspo` references. It is NOT rhecwb's red/cream theme. No cream. No rhecwb tokens.**
+
+**Direction:** modern industrial-editorial (the `jj_inspo` folder): big grotesque type,
+one accent per section, spec-sheet mono labels, numbered sections, the 3D cube as the one
+hero object. Key refs (`assets/refs/jj_inspo/`): jj_06 CATCH Conference (3D glyph cubes,
+giant type), jj_11 TRA/D350 (spec sheets, stat tiles, "user manual" framing), jj_03 Web3
+agency (stat chips + ticker), jj_04 Swiss deck (numbered index, arrows ↗), jj_05 Chinese
+posters (halftone, geometric type), jj_10 phone UI (technical labels), jj_12 Supavoxel
+(dark tool UI, mono readouts).
+
+**Palette — all sampled from John Jay CSS's own assets**
+- Base navy (YouTube banner, JJ seal): `--navy-900 #0C183C` · `--navy-700 #183C60` · `--navy-600 #1E4664` (the banner's dominant color; default page background) · `--navy-500 #305484` (raised surfaces)
+- Ink `#F4F7FB` · muted `#9DB0C4` · line `#2A4460`
+- **Teal glow** `#6ED2E6` (the ring around the logo in the banner) — links, focus rings, cube bloom, the "live" dot
+- **Section accents = the old site's own trio** (they used these as 15% tints):
+  red `#CE4A4A` = Events + Cyberhounds · green `#40A33F` = Apps · blue `#1E80F0` = Join/community
+- Cube colors (only on the cube and its 3D-derived marks): red `#D82028` · green `#70B840` · blue `#2058A0`
+- Light surfaces (reading pages, OS documents): `#F5F7FA` with the section accent at 12–15% tint — exactly how the old site tinted its sections, modernized. Not cream.
+- Rule: **one accent per section.** Teal is the only color allowed everywhere.
+
+**Type**
+- Display: **Archivo** (variable; use expanded widths for hero/section titles — the CATCH/TRA look)
+- Body: **Poppins** (the old site's typeface — continuity; text weights only, never for display)
+- Labels/metadata: **JetBrains Mono**, uppercase, 11px, 0.08em tracking. Numbers are the design.
+- Accent mono: **VT323** (the old site's pixel-terminal font) — only at large sizes: the binary rings, ticker digits, big counters, the 404. Never below 20px.
+- **Never Inter.**
+
+**Identity elements**: cube (`assets/brand/cs_logo_sharp.svg`, `assets/cube/cs_cube.glb`) ·
+binary rings `01001…` in VT323 on circular paths, faint, drifting (background texture; from
+the old header) · circular stamp lockup (footer) · taglines *Debug Your Mind, Commit To
+Growth* / *Algorithm Thinking | Dev Journeys | Tech Motivation* (ticker) · **the John Jay
+Bloodhound** as the chatbot mascot (see `context/17_MASCOT_AND_CHATBOT.md`).
+
+**Layout**: numbered section headers with a mono kicker (`// FALL 2026 · 06 EVENTS`) ·
+status strip on Home (next event · members · apps shipped — real numbers or nothing) ·
+cards are spec sheets (title, then a mono label row) · corner brackets sparingly ·
+pixel-block dividers · ticker marquee.
+
+**Motion**: cube idle + parallax on Home only; scroll-explode into three faces; teal bloom on
+edges; number tickers; hover tilt. One canvas, lazy-loaded, paused off-screen,
+`prefers-reduced-motion` → static SVG.
+
+**Do not**: Inter · cream/beige anything · rhecwb's red-on-black · purple/violet gradients ·
+centered hero + 3-col feature grid as the default shape · unmodified shadcn radius/shadows ·
+glassmorphism · generic dot-grid (use the rings) · animation on every page · decorative 3D
+beyond the cube · mixed accents · fake stats · dead placeholders · Poppins for headlines ·
+VT323 under 20px.
+
+**Order of operations**: `tokens.css` (Tailwind v4 `@theme`) exists → then components.
