@@ -3,7 +3,21 @@ import { Routes, Route, Outlet, useLocation } from "react-router-dom";
 import { Nav } from "@/components/Nav";
 import { Footer } from "@/components/Footer";
 
+const Home = lazy(() => import("@/pages/Home"));
+const Events = lazy(() => import("@/pages/Events"));
+const Apps = lazy(() => import("@/pages/Apps"));
+const Cyberhounds = lazy(() => import("@/pages/Cyberhounds"));
+const About = lazy(() => import("@/pages/About"));
+const Resources = lazy(() => import("@/pages/Resources"));
+const Join = lazy(() => import("@/pages/Join"));
+const NotFound = lazy(() => import("@/pages/NotFound"));
 const Styleguide = lazy(() => import("@/pages/Styleguide"));
+const News = lazy(() =>
+  import("@/pages/News").then((m) => ({ default: m.NewsIndex })),
+);
+const NewsArticle = lazy(() =>
+  import("@/pages/News").then((m) => ({ default: m.NewsArticle })),
+);
 
 /** Route → section accent (brand.config accents; one accent per section). */
 const ACCENT_BY_PATH: Record<string, "red" | "green" | "blue" | "teal"> = {
@@ -31,32 +45,22 @@ function Layout() {
   );
 }
 
-function Placeholder({ name }: { name: string }) {
-  return (
-    <main className="max-w-6xl mx-auto px-5 py-24">
-      <p className="mono-label text-(--accent)">{"//"} under construction</p>
-      <h1 className="font-display font-black uppercase text-5xl mt-2" style={{ fontStretch: "115%" }}>
-        {name}
-      </h1>
-    </main>
-  );
-}
-
 export default function App() {
   return (
     <Suspense fallback={null}>
       <Routes>
         <Route element={<Layout />}>
-          <Route index element={<Placeholder name="Home" />} />
-          <Route path="events" element={<Placeholder name="Events" />} />
-          <Route path="apps" element={<Placeholder name="Apps" />} />
-          <Route path="cyberhounds" element={<Placeholder name="Cyberhounds" />} />
-          <Route path="about" element={<Placeholder name="About" />} />
-          <Route path="resources" element={<Placeholder name="Resources" />} />
-          <Route path="news" element={<Placeholder name="News" />} />
-          <Route path="join" element={<Placeholder name="Join" />} />
+          <Route index element={<Home />} />
+          <Route path="events" element={<Events />} />
+          <Route path="apps" element={<Apps />} />
+          <Route path="cyberhounds" element={<Cyberhounds />} />
+          <Route path="about" element={<About />} />
+          <Route path="resources" element={<Resources />} />
+          <Route path="news" element={<News />} />
+          <Route path="news/:slug" element={<NewsArticle />} />
+          <Route path="join" element={<Join />} />
           <Route path="styleguide" element={<Styleguide />} />
-          <Route path="*" element={<Placeholder name="404" />} />
+          <Route path="*" element={<NotFound />} />
         </Route>
       </Routes>
     </Suspense>

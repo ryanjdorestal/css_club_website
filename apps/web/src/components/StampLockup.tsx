@@ -3,7 +3,6 @@ import { brand } from "@brand/brand.config";
 /** The circular stamp lockup (footer mark; jj_01 old header). Cube center,
     college name on the top arc, club name on the bottom arc. */
 export function StampLockup({ size = 120 }: { size?: number }) {
-  const r = 44;
   return (
     <svg width={size} height={size} viewBox="0 0 120 120" role="img" aria-label={`${brand.college} — ${brand.name} stamp`}>
       <defs>

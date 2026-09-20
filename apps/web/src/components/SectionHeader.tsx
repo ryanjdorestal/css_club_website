@@ -1,4 +1,3 @@
-import { MonoLabel } from "./MonoLabel";
 
 /** Numbered section header with a mono kicker — `// FALL 2026 · 06 EVENTS`
     (jj_04 numbered index, jj_06 CATCH type scale). */

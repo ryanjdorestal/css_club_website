@@ -169,6 +169,15 @@ def parse_events(name: str, semester: str):
 def extract_events():
     spring, un1 = parse_events("events.html", "Spring 2025")
     fall, un2 = parse_events("previous_events.html", "Fall 2024")
+    # Source-repo bug: First_General_Meeting.png actually contains the Sep-25
+    # Intro-to-AI flyer and AI_Part_1.png the Sep-18 First General Meeting flyer.
+    # Verified by eye against the artwork's own printed dates; swap them back.
+    by_title = {e["title"]: e for e in fall}
+    fgm = by_title.get("First General Meeting")
+    ai1 = next((e for e in fall if "Part 1" in e["title"] and "Intelligence" in e["title"]), None)
+    if fgm and ai1 and fgm.get("flyer_src") and ai1.get("flyer_src"):
+        fgm["flyer"], ai1["flyer"] = ai1["flyer"], fgm["flyer"]
+        fgm["flyer_src"], ai1["flyer_src"] = ai1["flyer_src"], fgm["flyer_src"]
     write_json(
         "events.json",
         {

@@ -73,8 +73,8 @@
           "time": "1:40 PM - 2:55 PM",
           "room": null,
           "status": "past",
-          "flyer": "img/events/first-general-meeting.webp",
-          "flyer_src": "images/First_General_Meeting.png"
+          "flyer": "img/events/ai-part-1.webp",
+          "flyer_src": "images/AI_Part_1.png"
         },
         {
           "title": "Introduction to Artificial Intelligence (ChatGPT) - Part 1",
@@ -84,8 +84,8 @@
           "time": "1:40 PM - 2:55 PM",
           "room": null,
           "status": "past",
-          "flyer": "img/events/ai-part-1.webp",
-          "flyer_src": "images/AI_Part_1.png"
+          "flyer": "img/events/first-general-meeting.webp",
+          "flyer_src": "images/First_General_Meeting.png"
         },
         {
           "title": "Movie Day - Halloween Special",

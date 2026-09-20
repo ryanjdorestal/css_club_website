@@ -1,0 +1,12 @@
+OK   /
+OK   /about
+OK   /apps
+OK   /cyberhounds
+OK   /events
+OK   /join
+OK   /news
+OK   /news/grad-school-events
+OK   /resources
+OK   /styleguide
+
+all 10 internal routes resolve

@@ -22,10 +22,9 @@
     "noUnusedParameters": true,
     "erasableSyntaxOnly": true,
     "noFallthroughCasesInSwitch": true,
-    "baseUrl": ".",
     "paths": {
       "@/*": [
-        "src/*"
+        "./src/*"
       ],
       "@brand/*": [
         "../../brand/*"
@@ -36,7 +35,8 @@
       "@content/*": [
         "../../content/*"
       ]
-    }
+    },
+    "resolveJsonModule": true
   },
   "include": [
     "src",
