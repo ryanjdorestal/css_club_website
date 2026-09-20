@@ -18,6 +18,8 @@ export default function Join() {
     <main>
       <PageHero
         kicker="JOIN · FREE · OPEN TO ALL MAJORS"
+        cubeFace="blue"
+        cubeGlow="#1E80F0"
         lines={[{ text: "Join", stencil: true }, { text: "the society.", className: "text-(--accent-fg)", outline: true }]}
         dek="Joining is free and open to every John Jay student, any major. Fill the onboarding form, hop into the Discord, and show up — that's the entire process."
         right={

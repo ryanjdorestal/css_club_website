@@ -1,0 +1,36 @@
+/              display  { Unbounded:25 }
+/              mid      { Unbounded:27, JetBrains Mono:6, Space Grotesk:50, VT323:1 }
+/              micro    { JetBrains Mono:340 }
+/              OK
+/events        display  { Unbounded:17 }
+/events        mid      { Unbounded:30, JetBrains Mono:7, Space Grotesk:31, VT323:1 }
+/events        micro    { JetBrains Mono:327 }
+/events        OK
+/apps          display  { Unbounded:9 }
+/apps          mid      { Unbounded:20, JetBrains Mono:7, Space Grotesk:28, VT323:1 }
+/apps          micro    { JetBrains Mono:186 }
+/apps          OK
+/cyberhounds   display  { Unbounded:19 }
+/cyberhounds   mid      { Unbounded:16, JetBrains Mono:7, Space Grotesk:24, VT323:1 }
+/cyberhounds   micro    { JetBrains Mono:123 }
+/cyberhounds   OK
+/about         display  { Unbounded:15 }
+/about         mid      { Unbounded:20, JetBrains Mono:7, Space Grotesk:31, VT323:1 }
+/about         micro    { JetBrains Mono:172 }
+/about         OK
+/resources     display  { Unbounded:10 }
+/resources     mid      { Unbounded:18, JetBrains Mono:7, Space Grotesk:31, VT323:1 }
+/resources     micro    { JetBrains Mono:147 }
+/resources     OK
+/news          display  { Unbounded:4 }
+/news          mid      { Unbounded:15, JetBrains Mono:7, Space Grotesk:20, VT323:1 }
+/news          micro    { JetBrains Mono:85 }
+/news          OK
+/join          display  { Unbounded:7 }
+/join          mid      { Unbounded:16, JetBrains Mono:6, Space Grotesk:38, VT323:1 }
+/join          micro    { JetBrains Mono:151 }
+/join          OK
+/styleguide    display  { Unbounded:16 }
+/styleguide    mid      { Unbounded:14, JetBrains Mono:6, Space Grotesk:27, VT323:1 }
+/styleguide    micro    { JetBrains Mono:245 }
+/styleguide    OK

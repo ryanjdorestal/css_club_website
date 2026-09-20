@@ -49,6 +49,7 @@ export default function Resources() {
     <main>
       <PageHero
         kicker="RESOURCES · CURATED BY BOARDS PAST AND PRESENT"
+        cubeFace="threeQuarter"
         lines={[{ text: "Resources.", stencil: true }]}
         dek="Learning paths, internship boards, John Jay tech programs and tutoring. Spot a dead link? Tell the board on Discord — every link still needs its click-test (the list is from 2021-2025)."
         stats={[

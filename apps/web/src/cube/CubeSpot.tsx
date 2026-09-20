@@ -1,29 +1,58 @@
-import { Link } from "react-router-dom";
+import { Suspense, lazy, useEffect, useRef, useState } from "react";
 
-/** Home hero cube slot. Phase 4 swaps the PNG for the R3F canvas; the PNG stays
-    as the eager fallback either way. Faces map to sections (cube-as-nav). */
-export function CubeSpot() {
+const CubeSpotCanvas = lazy(() => import("./CubeSpotCanvas"));
+
+/** The 3D cube as a placeable object (run 4: every hero, poster band, footer).
+    Interactive (drag-rotate, click a face → route), lazy, in-view mounted,
+    PNG fallback for loading / reduced-motion / mobile-poster slots. */
+export function CubeSpot({
+  size = 360,
+  face = "threeQuarter",
+  glow,
+  interactive = true,
+  className = "",
+}: {
+  size?: number;
+  face?: "red" | "green" | "blue" | "threeQuarter" | "edge";
+  glow?: string;
+  interactive?: boolean;
+  className?: string;
+}) {
+  const ref = useRef<HTMLDivElement>(null);
+  const [ok, setOk] = useState(false);
+  const [visible, setVisible] = useState(false);
+  useEffect(() => {
+    const rm = window.matchMedia("(prefers-reduced-motion: reduce)");
+    const update = () => setOk(!rm.matches);
+    update();
+    rm.addEventListener("change", update);
+    return () => rm.removeEventListener("change", update);
+  }, []);
+  useEffect(() => {
+    if (!ref.current) return;
+    const io = new IntersectionObserver(([e]) => setVisible(e.isIntersecting), { rootMargin: "160px" });
+    io.observe(ref.current);
+    return () => io.disconnect();
+  }, []);
+  const fallback = (
+    <img
+      src="/cube/hero_840.webp"
+      alt="The CSS cube — red C for Events, green S for Apps, blue S for Join"
+      width={size}
+      height={size * 0.875}
+      style={{ width: size, height: "auto" }}
+      className="select-none"
+    />
+  );
   return (
-    <div className="relative flex flex-col items-center gap-4">
-      <img
-        src="/cube/hero_840.webp"
-        alt="The CSS cube — red C for Events, green S for Apps, blue S for Join"
-        className="w-[min(76vw,420px)] drop-shadow-[0_0_60px_rgba(110,210,230,0.25)]"
-        fetchPriority="high"
-        width={420}
-        height={368}
-      />
-      <div className="flex gap-5">
-        <Link to="/events" className="mono-label text-muted hover:text-ink transition-colors">
-          <span style={{ color: "var(--color-cube-red)" }}>■</span> C · Events
-        </Link>
-        <Link to="/apps" className="mono-label text-muted hover:text-ink transition-colors">
-          <span style={{ color: "var(--color-cube-green)" }}>■</span> S · Apps
-        </Link>
-        <Link to="/join" className="mono-label text-muted hover:text-ink transition-colors">
-          <span style={{ color: "var(--color-cube-blue)" }}>■</span> S · Join
-        </Link>
-      </div>
+    <div ref={ref} className={`relative ${className}`} style={{ width: size, height: size }}>
+      {ok && visible ? (
+        <Suspense fallback={fallback}>
+          <CubeSpotCanvas size={size} face={face} glow={glow} interactive={interactive} paused={!visible} />
+        </Suspense>
+      ) : (
+        fallback
+      )}
     </div>
   );
 }

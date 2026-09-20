@@ -126,10 +126,10 @@ No cream, no beige, no gradients as fills; glow only as bloom off the cube/teal.
 
 ## Typography
 
-> **v2 (run 3):** the faces below were replaced by the sigil-pass system — Chakra Petch
-> (display) · Michroma (wide) · Silkscreen (pixel) · Space Grotesk (body) · JetBrains Mono
-> (labels/readouts) · VT323 (rings/ticker only). Evidence: `context/22_REF_STUDY.md`;
-> spec: `context/23_TYPE_REBUILD_PROMPT.md` §2. The original run-1 spec follows for history.
+> **v3 (run 4):** ONE display face — **Unbounded 700/800/900** for everything ≥28px plus
+> buttons/logotype; Space Grotesk body; JetBrains Mono labels; VT323 rings/ticker only.
+> Chakra/Michroma/Silkscreen retired (three voices fought; Michroma 400 read thin).
+> Gate: `qa-scripts/font_audit.mjs`. Spec: `context/26` §2. Earlier specs kept for history.
 
 Old site used **Poppins** (10 declarations) and **VT323** (pixel terminal mono, 2) —
 both kept as John Jay's own choices, re-cast:

@@ -83,7 +83,7 @@ export default function Home() {
                     <Decode text="SCN_01 · JOHN_JAY_COLLEGE · CUNY · COMPUTER_SCIENCE_SOCIETY" />
                   </Label>
                 </Reveal>
-                <h1 className="t-hero" style={{ fontSize: "clamp(44px, 6.4vw, 96px)" }}>
+                <h1 className="t-hero" style={{ fontSize: "clamp(40px, 5.4vw, 82px)" }}>
                   <span className="block"><Stencil bars={[0.4, 0.64]}>DEBUG</Stencil></span>
                   <span className="block"><Outline>YOUR MIND,</Outline></span>
                   <span className="block">COMMIT TO</span>
@@ -139,7 +139,7 @@ export default function Home() {
         </div>
 
         {/* /01 ABOUT SPREAD */}
-        <CubeAnchor id="about" kf={{ x: 0.9, y: 0.24, scale: 0.4, face: "edge", glow: "#6ED2E6" }}>
+        <CubeAnchor id="about" kf={{ x: 0.9, y: 0.24, scale: 0.28, face: "edge", glow: "#6ED2E6" }}>
           <Band tone="light" accent="teal" index="01 — WHAT THE CLUB IS ABOUT" sigil={<Sg.CubeSigil size={16} />} code="ABT_01" rail="01 · HOME · 01001010 · SINCE 2020">
             <Contour opacity={0.05} />
             <div className="relative grid md:grid-cols-[5fr_7fr] gap-10 md:gap-16 items-start">
@@ -182,7 +182,7 @@ export default function Home() {
         </CubeAnchor>
 
         {/* /02 EVENTS */}
-        <CubeAnchor id="events" kf={{ x: 0.11, y: 0.52, scale: 0.66, face: "red", glow: "#CE4A4A" }}>
+        <CubeAnchor id="events" kf={{ x: 0.11, y: 0.52, scale: 0.62, face: "red", glow: "#CE4A4A" }}>
           <Band tone="dark-2" accent="red" index="02 — EVENTS" sigil={<Sg.Flag size={16} />} code="EVT_S25" rail="02 · EVENTS · 01000101 · FALL 2026">
             <div aria-hidden className="absolute -right-24 top-8 opacity-[0.06] pointer-events-none text-red">
               <Sg.CubeSigil face="r" size={420} />
@@ -234,7 +234,7 @@ export default function Home() {
         </CubeAnchor>
 
         {/* /03 APPS SPOTLIGHT */}
-        <CubeAnchor id="apps" kf={{ x: 0.88, y: 0.55, scale: 0.66, face: "green", glow: "#40A33F" }}>
+        <CubeAnchor id="apps" kf={{ x: 0.88, y: 0.55, scale: 0.62, face: "green", glow: "#40A33F" }}>
           <Band tone="tinted" accent="green" index="03 — APPS · BUILT AT JOHN JAY" sigil={<Sg.Terminal size={16} />} code="APP_REG" rail="03 · APPS · 01010011 · OPEN">
             <CubeWire opacity={0.05} width="30vw" />
             <div className="relative grid md:grid-cols-[7fr_5fr] gap-10 items-start">
@@ -329,7 +329,7 @@ export default function Home() {
         </CubeAnchor>
 
         {/* /05 CYBERHOUNDS POSTER */}
-        <CubeAnchor id="cyber" kf={{ x: 0.5, y: 0.88, scale: 0.32, face: "edge", glow: "#CE4A4A" }}>
+        <CubeAnchor id="cyber" kf={{ x: 0.5, y: 0.88, scale: 0.35, face: "edge", glow: "#CE4A4A" }}>
           <section data-tone="dark-3" data-accent="red" className="relative overflow-hidden py-[clamp(96px,12vw,160px)]">
             <Scanlines />
             <Halftone corner="100% 20%" opacity={0.08} />
@@ -339,9 +339,16 @@ export default function Home() {
                 <span className="t-micro opacity-50 tnum hidden md:block">2026</span>
               </div>
               <div className="grid md:grid-cols-[8fr_4fr] gap-10 items-center">
-                <div className="t-poster" style={{ fontSize: "clamp(64px, 11.5vw, 190px)" }}>
-                  <EdgeCrop side="left"><Decode text="CYBER" /></EdgeCrop>
-                  <span className="block text-red"><Outline>HOUNDS</Outline></span>
+                <div className="t-poster" style={{ fontSize: "clamp(60px, 10.5vw, 175px)" }}>
+                  <EdgeCrop side="right"><Decode text="CYBER" /></EdgeCrop>
+                  <EdgeCrop side="right">
+                    <span className="text-red">
+                      <span className="relative inline-block">
+                        <span aria-hidden className="t-outline absolute text-ink" style={{ left: 6, top: 6 }}>HOUNDS</span>
+                        <span className="relative">HOUNDS</span>
+                      </span>
+                    </span>
+                  </EdgeCrop>
                 </div>
                 <Sg.HoundPixel size={240} color="var(--color-red)" className="justify-self-center max-md:hidden" />
               </div>
@@ -356,7 +363,7 @@ export default function Home() {
         </CubeAnchor>
 
         {/* /06 COLLABORATE */}
-        <CubeAnchor id="join" kf={{ x: 0.13, y: 0.42, scale: 0.66, face: "blue", glow: "#1E80F0" }}>
+        <CubeAnchor id="join" kf={{ x: 0.13, y: 0.42, scale: 0.62, face: "blue", glow: "#1E80F0" }}>
           <Band tone="tinted" accent="blue" index="05 — COLLABORATE" sigil={<Sg.Lambda size={16} />} code="OPEN_SEATS" rail="05 · JOIN · 01001010 · OPEN SEATS">
             <div aria-hidden className="absolute right-[-6%] top-1/2 -translate-y-1/2 pointer-events-none hidden lg:block" style={{ color: "var(--color-cube-blue)", opacity: 0.07 }}>
               <Sg.CSSKufic size={150} />

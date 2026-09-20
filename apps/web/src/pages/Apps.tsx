@@ -7,11 +7,10 @@ import { TicketCard } from "@/components/cards/TicketCard";
 import { SpecSheet, BigStat } from "@/components/cards/SpecSheet";
 import { SlotCard } from "@/components/cards/SlotCard";
 import { IndexList } from "@/components/cards/IndexList";
-import { StatChip } from "@/components/cards/StatChip";
+import { Readout } from "@/components/cards/StatChip";
 import { Reveal } from "@/motion/Reveal";
 import { Button } from "@/components/Button";
 import { postWithFallback, type SubmitResult } from "@/lib/api";
-import { CubeSpot } from "@/cube/CubeSpot";
 import { motion } from "motion/react";
 import * as Sg from "@/sigils";
 import { Meter } from "@/components/cards/Meter";
@@ -27,14 +26,11 @@ export default function Apps() {
     <main>
       <PageHero
         kicker="APPS · BUILT AT JOHN JAY · BOARD-REVIEWED"
+        cubeFace="green"
+        cubeGlow="#40A33F"
         lines={["Apps.", { text: "Built here.", className: "text-(--accent-fg)", split: 5 }]}
         dek="The club's public register of software built by John Jay students. Submit yours below — the board reviews every entry before it ships with your name on it. Cards marked EXAMPLE show the format; they are not real apps."
-        right={
-          <div className="relative">
-            <CubeSpot />
-            <StatChip value={3} label="Review steps" style={{ position: "absolute", right: "-4%", top: "8%" }} />
-          </div>
-        }
+        right={<Readout value={3} label="review steps" />}
         stats={[
           { v: 0, l: "LIVE APPS · REAL" },
           { v: 3, l: "EXAMPLE FORMATS" },

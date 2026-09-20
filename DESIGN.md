@@ -22,15 +22,13 @@ posters (halftone, geometric type), jj_10 phone UI (technical labels), jj_12 Sup
 - Light surfaces (reading pages, OS documents): `#F5F7FA` with the section accent at 12–15% tint — exactly how the old site tinted its sections, modernized. Not cream.
 - Rule: **one accent per section.** Teal is the only color allowed everywhere.
 
-**Type — v2 (run 3, the "sigil pass"; evidence in `context/22_REF_STUDY.md`)**
-- Display: **Chakra Petch** 600/700 — squared, stencil-cut caps (H1/H2, poster words, stat numerals).
-- Wide: **Michroma** — ultra-extended wordmarks, footer brandmark, fin line, poster single words.
-- Pixel: **Silkscreen** — poster eyebrows, big counters, the 404; ≥18px only.
-- Body: **Space Grotesk** 400/500 — paragraphs, list titles, inputs.
-- Labels/readouts: **JetBrains Mono**, tracked caps 9–11px with prefix glyphs (`/01`, `//SCN_01`, `_status`, `>`, `[1]`, `●`).
+**Type — v3 (run 4: ONE heavy display face; `context/26` §2)**
+- Display: **Unbounded 700/800/900** — every headline ≥28px, poster words, stat numerals, buttons (700 @ 12–13px), nav logotype, footer brandmark line. Heavy is the point.
+- Body: **Space Grotesk** 400/500/700 — paragraphs, card titles <28px, inputs.
+- Labels/readouts: **JetBrains Mono** with prefix glyphs (`/01`, `//SCN_01`, `_status`, `>`, `[1]`, `●`).
 - Legacy pixel: **VT323** — binary rings + ticker digits only.
-- Headline treatments: stencil bars · solid+outline pair · split-fill · edge-crop · wireframe-through · decode reveal.
-- Retired: **Archivo** (too friendly/round for the register), **Poppins** (rounded geometric). **Never Inter.** All faces self-hosted via @fontsource.
+- Treatments (each H1 uses two): stencil bars (4.5% cap) · solid+outline (2px dark / 2.5px paper) · split-fill · edge-crop · wireframe-through · decode (≤600ms, fonts-ready-gated).
+- Retired across runs: Archivo, Poppins (r3), Chakra Petch, Michroma, Silkscreen (r4 — three display voices fought; Michroma's single 400 weight read thin). **Never Inter.** Self-hosted @fontsource only. `qa-scripts/font_audit.mjs` enforces the buckets.
 
 **Identity elements**: cube (`assets/brand/cs_logo_sharp.svg`, `assets/cube/cs_cube.glb`) ·
 binary rings `01001…` in VT323 on circular paths, faint, drifting (background texture; from

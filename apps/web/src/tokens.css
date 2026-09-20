@@ -22,11 +22,11 @@
   --color-cube-blue: #2058A0;
   --color-light: #F5F7FA;
   --color-seam: #1A1618;
-  --font-display: "Chakra Petch", "Rajdhani", system-ui, sans-serif;
-  --font-wide: "Michroma", "Syncopate", system-ui, sans-serif;
+  --font-display: "Unbounded", system-ui, sans-serif;
+  --font-wide: "Unbounded", system-ui, sans-serif;
   --font-body: "Space Grotesk", system-ui, sans-serif;
   --font-mono: "JetBrains Mono", ui-monospace, monospace;
-  --font-pixel: "Silkscreen", monospace;
+  --font-pixel: "Unbounded", sans-serif;  /* pixel role retired; Unbounded 900 */
   --font-legacy: "VT323", monospace;
   --radius-sm: 4px;
   --radius-md: 8px;
@@ -104,9 +104,10 @@ body {
   text-transform: uppercase;
 }
 
-/* Silkscreen pixel accents — never below 18px */
+/* pixel role retired (run 4): big counters are Unbounded 900 */
 .pixel {
-  font-family: var(--font-pixel);
+  font-family: var(--font-display);
+  font-weight: 900;
   font-size: max(18px, 1em);
 }
 /* VT323 stays only for binary rings + ticker digits */
@@ -179,6 +180,7 @@ body {
 [data-tone="light"]  { background: var(--color-paper); }
 [data-tone="light-2"]{ background: var(--color-paper-2); }
 [data-tone="tinted"] { background: color-mix(in oklab, var(--accent) 6%, var(--color-paper)); }
+[data-accent="red"][data-tone="tinted"] { background: color-mix(in oklab, var(--accent) 3%, var(--color-paper)); }
 
 /* numbers are the design */
 .tnum { font-variant-numeric: tabular-nums; }

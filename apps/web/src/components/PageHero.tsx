@@ -7,8 +7,10 @@ import { Outline } from "@/components/type/Outline";
 import { SplitFill } from "@/components/type/SplitFill";
 import { Stencil } from "@/components/type/Stencil";
 import { Label } from "@/components/type/Label";
-import { HairGrid } from "@/textures";
+import { HairGrid, CodeRain } from "@/textures";
 import { COORDS, version, buildHash } from "@/lib/readouts";
+import { CubeSpot } from "@/cube/CubeSpot";
+import { Brackets } from "@/components/frame";
 
 /** Sub-page hero v3: //kicker + Decode display stack + coord/version rails +
     stat cells (_label above value). */
@@ -19,6 +21,8 @@ export function PageHero({
   right,
   stats,
   tone = "dark",
+  cubeFace,
+  cubeGlow,
   children,
 }: {
   kicker: string;
@@ -27,6 +31,8 @@ export function PageHero({
   right?: ReactNode;
   stats?: { v: number; suffix?: string; l: string }[];
   tone?: "dark" | "dark-3";
+  cubeFace?: "red" | "green" | "blue" | "threeQuarter" | "edge";
+  cubeGlow?: string;
   children?: ReactNode;
 }) {
   return (
@@ -68,7 +74,20 @@ export function PageHero({
               </Reveal>
             )}
           </div>
-          {right && <Reveal delay={0.2}>{right}</Reveal>}
+          {(right || cubeFace) && (
+            <Reveal delay={0.2}>
+              <div className="flex flex-col items-center gap-6">
+                {cubeFace && (
+                  <div className="group relative p-4 hidden md:block">
+                    <Brackets size={14} inset={0} />
+                    <CodeRain className="opacity-70" />
+                    <CubeSpot size={360} face={cubeFace} glow={cubeGlow} />
+                  </div>
+                )}
+                {right}
+              </div>
+            </Reveal>
+          )}
         </div>
         <p className="t-micro opacity-50 tnum mt-6 text-right">VERSION {version()}-{buildHash().toUpperCase()}</p>
         {children}

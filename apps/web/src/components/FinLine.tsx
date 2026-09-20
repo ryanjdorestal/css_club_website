@@ -1,4 +1,4 @@
-/** Closing fin: END_OF_TRANSMISSION in Michroma tracked caps + VT323 whisper. */
+/** Closing fin: END_OF_TRANSMISSION in Unbounded tracked caps + VT323 whisper. */
 export function FinLine({ n = "01", binary = "01001010 01001010" }: { n?: string; binary?: string }) {
   return (
     <section data-tone="dark-3" className="py-14 text-center border-t border-line">

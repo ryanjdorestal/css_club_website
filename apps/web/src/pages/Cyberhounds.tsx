@@ -18,6 +18,8 @@ import { Decode } from "@/components/type/Decode";
 import { Label } from "@/components/type/Label";
 import { Scanlines, Halftone } from "@/textures";
 import { Shield, Chevrons, HoundPixel, Flag } from "@/sigils";
+import { Stencil } from "@/components/type/Stencil";
+import { CubeSpot } from "@/cube/CubeSpot";
 
 const doc = parseMd(cyberRaw);
 function sec(h: string): string {
@@ -54,11 +56,23 @@ export default function Cyberhounds() {
             <span className="t-micro opacity-50 tnum hidden md:block">EST. SPRING_2023</span>
           </div>
           <div className="grid md:grid-cols-[8fr_4fr] gap-10 items-center">
-            <h1 className="t-poster" style={{ fontSize: "clamp(64px, 12vw, 200px)" }}>
-              <EdgeCrop side="left"><Decode text="CYBER" /></EdgeCrop>
-              <span className="block text-red"><Outline>HOUNDS</Outline></span>
+            <h1 className="t-poster" style={{ fontSize: "clamp(60px, 11vw, 185px)" }}>
+              <EdgeCrop side="right"><Decode text="CYBER" /></EdgeCrop>
+              <EdgeCrop side="right">
+                <span className="text-red">
+                  <Stencil bars={[0.4, 0.66]} barColor="var(--color-navy-900)">
+                    <span className="relative inline-block">
+                      <span aria-hidden className="t-outline absolute text-ink" style={{ left: 6, top: 6 }}>HOUNDS</span>
+                      <span className="relative">HOUNDS</span>
+                    </span>
+                  </Stencil>
+                </span>
+              </EdgeCrop>
             </h1>
-            <DotMatrix src="/img/brand/hound_banner.png" size={46} color="var(--color-red)" className="w-full max-w-[340px] justify-self-center max-md:hidden" />
+            <div className="relative justify-self-center max-md:hidden">
+              <CubeSpot size={300} face="red" glow="#CE4A4A" />
+              <DotMatrix src="/img/brand/hound_banner.png" size={46} color="var(--color-red)" className="absolute -left-16 -bottom-10 w-[240px]" />
+            </div>
           </div>
           <p className="t-label raise !tracking-[0.22em] mt-10">
             STAY SHARP. CAPTURE THE FLAG. FOLLOW PROTOCOL.

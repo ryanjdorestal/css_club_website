@@ -26,6 +26,8 @@ export default function Events() {
     <main>
       <PageHero
         kicker="EVENTS · THE MANIFEST"
+        cubeFace="red"
+        cubeGlow="#CE4A4A"
         lines={["Events."]}
         dek="Workshops, general meetings, career prep and panels — every semester ships a new slate. Below: the archive as migrated from the old site, plus the workshop repos that never stopped existing."
         right={

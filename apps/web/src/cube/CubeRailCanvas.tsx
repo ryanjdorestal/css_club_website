@@ -7,20 +7,7 @@ import { easing } from "maath";
 import { useNavigate } from "react-router-dom";
 import { useCubeRegistry, type CubeKeyframe, type Face } from "./CubeRailContext";
 
-const FACE_QUAT: Record<Exclude<Face, null>, THREE.Quaternion> = {
-  // face map from context/06: +Z red C · +X blue S · +Y green S
-  red: new THREE.Quaternion().setFromEuler(new THREE.Euler(0.12, -0.18, 0)),
-  blue: new THREE.Quaternion().setFromEuler(new THREE.Euler(0.12, -Math.PI / 2 - 0.18, 0)),
-  green: new THREE.Quaternion().setFromEuler(new THREE.Euler(Math.PI / 2 - 0.25, 0, 0.1)),
-  threeQuarter: new THREE.Quaternion().setFromEuler(new THREE.Euler(0.42, -0.68, 0)),
-  edge: new THREE.Quaternion().setFromEuler(new THREE.Euler(0.05, -Math.PI / 4, 0)),
-};
-
-const FACE_ROUTE: Partial<Record<Exclude<Face, null>, string>> = {
-  red: "/events",
-  green: "/apps",
-  blue: "/join",
-};
+import { FACE_QUAT, FACE_ROUTE, applyCubeMaterials } from "./cubeCommon";
 
 const DEFAULT_KF: CubeKeyframe = { x: 0.68, y: 0.5, scale: 1, face: "threeQuarter", glow: "#6ED2E6", spin: true };
 
@@ -36,23 +23,7 @@ function RailCube({ onFace }: { onFace: (f: Face, kf?: CubeKeyframe) => void }) 
   const glowColor = useRef(new THREE.Color("#6ED2E6"));
   const { viewport } = useThree();
 
-  useMemo(() => {
-    scene.traverse((o) => {
-      if (o instanceof THREE.Mesh) {
-        const base = (o.material as THREE.MeshStandardMaterial)?.color?.clone();
-        o.material =
-          o.name === "core"
-            ? new THREE.MeshStandardMaterial({ color: "#111114", roughness: 1 })
-            : new THREE.MeshPhysicalMaterial({
-                color: base,
-                roughness: 0.42,
-                metalness: 0,
-                clearcoat: 0.55,
-                clearcoatRoughness: 0.22,
-              });
-      }
-    });
-  }, [scene]);
+  useMemo(() => applyCubeMaterials(scene), [scene]);
 
   useFrame((state, dt) => {
     if (!group.current) return;
@@ -79,12 +50,12 @@ function RailCube({ onFace }: { onFace: (f: Face, kf?: CubeKeyframe) => void }) 
           kf = {
             x: (d.left + d.width / 2) / window.innerWidth,
             y: (d.top + d.height / 2) / window.innerHeight,
-            scale: 0.22,
+            scale: 0.5,
             face: "threeQuarter",
             glow: "#6ED2E6",
           };
         } else {
-          kf = { x: 0.5, y: 0.62, scale: 0.9, face: "threeQuarter", glow: "#6ED2E6" };
+          kf = { x: 0.5, y: 0.62, scale: 0.8, face: "threeQuarter", glow: "#6ED2E6" };
         }
       }
     }
@@ -96,7 +67,7 @@ function RailCube({ onFace }: { onFace: (f: Face, kf?: CubeKeyframe) => void }) 
     const wx = (kf.x - 0.5) * viewport.width;
     const wy = (0.5 - kf.y) * viewport.height;
     easing.damp3(group.current.position, [wx, wy, 0], 0.22, dt);
-    const s = kf.scale * Math.min(viewport.width, viewport.height) * 0.16;
+    const s = kf.scale * Math.min(viewport.width, viewport.height) * 0.34; // run 4: cube ≈420px at scale 1 on 1440×900
     easing.damp3(group.current.scale, [s, s, s], 0.25, dt);
     // 3. facing: slerp toward the face quaternion; idle drift on top
     const t = state.clock.elapsedTime;

@@ -21,6 +21,7 @@ export function NewsIndex() {
     <main>
       <PageHero
         kicker="NEWS · BULLETINS · ISSUE LOG"
+        cubeFace="threeQuarter"
         lines={[{ text: "News.", stencil: true }]}
         dek="Bulletins and articles. The old Blog shipped zero posts — News replaces it; board bulletins land here once the OS is live. Issue 001 is the graduate-school guide migrated from the old site."
         stats={[

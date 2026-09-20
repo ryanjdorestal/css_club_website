@@ -38,8 +38,8 @@ export function IndexRow({ index, title, dek, meta, chip, href, sigil, onClick, 
       </span>
       {sigil && <span className="shrink-0 opacity-70">{sigil}</span>}
       <div className="grow min-w-0">
-        <p className="t-h3 !font-medium leading-tight truncate">{title}</p>
-        {dek && <p className="t-micro opacity-55 mt-1 truncate normal-case tracking-[0.04em]">{dek}</p>}
+        <p className="t-h3 !font-medium leading-tight" style={{ textWrap: "balance" }}>{title}</p>
+        {dek && <p className="t-micro opacity-55 mt-1 line-clamp-2 normal-case tracking-[0.04em]">{dek}</p>}
       </div>
       {chip && <StatusChip state={chip.toLowerCase() === "live" ? "live" : chip.toLowerCase() === "planned" ? "idle" : "archived"} label={chip} />}
       {meta && <span className="t-micro opacity-50 shrink-0 hidden sm:block tnum">{meta}</span>}

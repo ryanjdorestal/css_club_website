@@ -2,11 +2,11 @@
 
 /* ---- scale ---- */
 :root {
-  --type-hero: clamp(72px, 12vw, 200px);
-  --type-poster: clamp(96px, 18vw, 320px);
-  --type-h1: clamp(48px, 7vw, 112px);
-  --type-h2: clamp(32px, 4vw, 56px);
-  --type-h3: clamp(20px, 2vw, 28px);
+  --type-hero: clamp(64px, 10.5vw, 176px);
+  --type-poster: clamp(88px, 16vw, 280px);
+  --type-h1: clamp(44px, 6.5vw, 104px);
+  --type-h2: clamp(30px, 3.8vw, 52px);
+  --type-h3: clamp(20px, 2vw, 27px);
   --type-stat: clamp(48px, 6vw, 96px);
   --type-body-lg: 18px;
   --type-body: 15px;
@@ -28,21 +28,22 @@ html { font-family: var(--font-body); font-size: var(--type-body); }
 }
 
 /* ---- role classes ---- */
-.t-hero   { font-family: var(--font-display); font-weight: 700; font-size: var(--type-hero); line-height: 0.86; letter-spacing: -0.03em; text-transform: uppercase; }
-.t-poster { font-family: var(--font-wide); font-weight: 400; font-size: var(--type-poster); line-height: 0.82; text-transform: uppercase; letter-spacing: -0.02em; }
-.t-h1     { font-family: var(--font-display); font-weight: 700; font-size: var(--type-h1); line-height: 0.9; letter-spacing: -0.02em; text-transform: uppercase; }
-.t-h2     { font-family: var(--font-display); font-weight: 600; font-size: var(--type-h2); line-height: 0.95; }
+.t-hero   { font-family: var(--font-display); font-weight: 900; font-size: var(--type-hero); line-height: 0.88; letter-spacing: -0.035em; text-transform: uppercase; }
+.t-poster { font-family: var(--font-display); font-weight: 900; font-size: var(--type-poster); line-height: 0.84; text-transform: uppercase; letter-spacing: -0.04em; }
+.t-h1     { font-family: var(--font-display); font-weight: 800; font-size: var(--type-h1); line-height: 0.9; letter-spacing: -0.03em; text-transform: uppercase; }
+.t-h2     { font-family: var(--font-display); font-weight: 800; font-size: var(--type-h2); line-height: 0.95; letter-spacing: -0.02em; }
 .t-h3     { font-family: var(--font-body); font-weight: 500; font-size: var(--type-h3); line-height: 1.15; }
-.t-wide   { font-family: var(--font-wide); font-weight: 400; text-transform: uppercase; }
-.t-stat   { font-family: var(--font-display); font-weight: 700; font-size: var(--type-stat); line-height: 1; }
-.t-stat .unit { font-size: 0.35em; vertical-align: 0.9em; letter-spacing: 0.06em; }
+.t-wide   { font-family: var(--font-display); font-weight: 900; text-transform: uppercase; }
+.t-stat   { font-family: var(--font-display); font-weight: 800; font-size: var(--type-stat); line-height: 1; }
+.t-stat .unit { font-size: 0.35em; vertical-align: 0.9em; letter-spacing: 0.06em; font-weight: 600; }
 .t-label  { font-family: var(--font-mono); font-size: var(--type-label); line-height: 1; letter-spacing: 0.14em; text-transform: uppercase; }
 .t-micro  { font-family: var(--font-mono); font-size: var(--type-micro); line-height: 1; letter-spacing: 0.12em; text-transform: uppercase; }
-.t-pixel  { font-family: var(--font-pixel); font-size: var(--type-pixel); line-height: 1; text-transform: uppercase; }
+.t-pixel  { font-family: var(--font-display); font-weight: 900; font-size: var(--type-pixel); line-height: 1; text-transform: uppercase; }
 
 /* labels sit at 55% on dark / 60% on paper; the prefix glyph at 100% in accent */
 [data-tone="dark"] .t-label, [data-tone="dark-2"] .t-label, [data-tone="dark-3"] .t-label { opacity: 0.55; }
-[data-tone="light"] .t-label, [data-tone="light-2"] .t-label, [data-tone="tinted"] .t-label { opacity: 0.6; }
+[data-tone="light"] .t-label, [data-tone="light-2"] .t-label, [data-tone="tinted"] .t-label { opacity: 0.65; }
+[data-tone="light"] .t-micro, [data-tone="light-2"] .t-micro, [data-tone="tinted"] .t-micro { opacity: 0.65; font-size: 10px; }
 .t-label .pfx, .t-micro .pfx { opacity: 1; color: var(--accent-ink); }
 .t-label.raise, .t-micro.raise { opacity: 1; }
 
@@ -50,7 +51,10 @@ html { font-family: var(--font-body); font-size: var(--type-body); }
 .t-outline {
   color: inherit;
   -webkit-text-fill-color: transparent;
-  -webkit-text-stroke: 1.25px currentColor;
+  -webkit-text-stroke: 2px currentColor;
+}
+[data-tone="light"] .t-outline, [data-tone="light-2"] .t-outline, [data-tone="tinted"] .t-outline {
+  -webkit-text-stroke-width: 2.5px;
 }
 
 /* status-bar caret blink */

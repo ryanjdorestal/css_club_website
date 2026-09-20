@@ -16,7 +16,6 @@ import { IndexList } from "@/components/cards/IndexList";
 import { MonoLabel } from "@/components/MonoLabel";
 import { SplitLines } from "@/motion/SplitLines";
 import { Reveal, RevealGroup, RevealItem } from "@/motion/Reveal";
-import { CubeSpot } from "@/cube/CubeSpot";
 import { brand } from "@brand/brand.config";
 import * as Sg from "@/sigils";
 
@@ -44,9 +43,9 @@ export default function About() {
     <main>
       <PageHero
         kicker="ABOUT · WHO WE ARE · WHAT WE DO"
+        cubeFace="threeQuarter"
         lines={[{ text: "Who", stencil: true }, { text: "we are.", outline: true }]}
         dek={who.slice(0, 260) + "…"}
-        right={<CubeSpot />}
         stats={[
           { v: board.terms.reduce((a, t) => a + t.members.length, 0), l: "OFFICERS · ALL TERMS" },
           { v: board.terms.length, l: "BOARDS ON RECORD" },

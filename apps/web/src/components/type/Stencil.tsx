@@ -28,7 +28,7 @@ export function Stencil({
           viewport={{ once: true, margin: "-8% 0px" }}
           transition={{ duration: 0.5, delay: 0.15 + i * 0.08, ease: [0.22, 1, 0.36, 1] }}
           className="absolute left-[-2%] right-[-2%] origin-left"
-          style={{ top: `${b * 100}%`, height: "0.035em", background: barColor }}
+          style={{ top: `${b * 100}%`, height: "0.045em", background: barColor }}
         />
       ))}
     </span>

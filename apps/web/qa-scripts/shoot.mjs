@@ -18,6 +18,7 @@ for (const w of [1440, 390]) {
   const p = await browser.newPage({ viewport: { width: w, height: 900 } });
   await p.goto(`http://localhost:5173${page_}`, { waitUntil: "networkidle" });
   await p.waitForTimeout(1800);
+  await p.waitForFunction(() => ![...document.querySelectorAll('[aria-label]')].some((el) => el.textContent && el.getAttribute('data-decode-done') === null && el.className.includes && false), {}, { timeout: 2000 }).catch(() => {});
   // force all reveals: scroll through, then back
   await p.evaluate(async () => {
     for (let y = 0; y <= document.body.scrollHeight; y += 600) {

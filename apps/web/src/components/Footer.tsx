@@ -1,11 +1,13 @@
 import { useRef } from "react";
 import { Link } from "react-router-dom";
-import { motion, useScroll, useTransform, useReducedMotion } from "motion/react";
+import { useScroll, useReducedMotion } from "motion/react";
 import { brand } from "@brand/brand.config";
 import links from "@data/links.json";
 import pkg from "../../package.json";
-import { StampLockup } from "./StampLockup";
 import { BinaryRings } from "./BinaryRings";
+import { HoundGlaze } from "./HoundGlaze";
+import { CubeSpot } from "@/cube/CubeSpot";
+import { useLocation } from "react-router-dom";
 import { useLenis } from "@/motion/LenisProvider";
 import { CSSKufic } from "@/sigils";
 import { buildHash, buildTime } from "@/lib/readouts";
@@ -33,11 +35,11 @@ const CONNECT = [
     bottom rail → giant cropped brandmark with the JJ shield + CSS stamp. */
 export function Footer() {
   const ref = useRef<HTMLElement>(null);
+  const { pathname } = useLocation();
+  const isHome = pathname === "/";
   const lenis = useLenis();
   const reduced = useReducedMotion();
   const { scrollYProgress } = useScroll({ target: ref, offset: ["start end", "end end"] });
-  const wmY = useTransform(scrollYProgress, [0, 1], [80, 0]);
-  const wmOpacity = useTransform(scrollYProgress, [0, 1], [0.035, 0.075]);
 
   return (
     <footer
@@ -53,18 +55,19 @@ export function Footer() {
       </div>
 
       {/* 1 — grid */}
-      <div className="relative max-w-[1280px] mx-auto px-5 md:px-10 pt-24 pb-14 grid gap-12 md:grid-cols-2 lg:grid-cols-4">
+      <div className="relative max-w-[1280px] mx-auto px-5 md:px-10 pt-24 pb-14 grid gap-12 md:grid-cols-2 lg:grid-cols-[1.5fr_1fr_1fr_1fr]">
         <div>
-          <div className="relative flex items-center gap-4">
+          <div className="relative flex items-center gap-6">
             <CSSKufic size={72} className="absolute -left-4 -top-6 opacity-[0.05] pointer-events-none" />
-            <StampLockup size={116} />
-            <img src="/img/brand/jj_shield.png" alt="John Jay College of Criminal Justice" className="w-16 h-16" />
+            <div id="footer-cube-dock" className="w-[180px] h-[180px] shrink-0 -ml-4">
+              {!isHome && <CubeSpot size={180} face="threeQuarter" interactive />}
+            </div>
+            <span aria-hidden className="w-px h-16 bg-line shrink-0" />
+            <img src="/img/brand/jj_logo_white.png" alt="John Jay College of Criminal Justice" className="h-[64px] w-auto shrink-0" />
           </div>
-          <div id="footer-cube-dock" className="mt-4 w-14 h-14">
-            <img src={brand.logos.svg} alt="" className="w-14 h-14 md:opacity-0" />
-          </div>
-          <p className="t-micro raise text-teal mt-5 tracking-[0.18em] leading-[1.8] max-w-[280px]">
-            JJ · CSS · {brand.taglines.primary.toUpperCase()}
+          <p className="t-micro raise mt-4 opacity-70">JOHN_JAY_COLLEGE · CUNY</p>
+          <p className="mt-3 max-w-[300px] text-teal" style={{ fontFamily: "var(--font-display)", fontWeight: 800, fontSize: 18, lineHeight: 1.25 }}>
+            {brand.taglines.primary.toUpperCase()}
           </p>
         </div>
         <nav aria-label="Footer navigation">
@@ -72,7 +75,7 @@ export function Footer() {
           <ul className="space-y-2.5">
             {NAVIGATE.map((l) => (
               <li key={l.to}>
-                <Link to={l.to} className="u-draw text-sm text-muted hover:text-ink transition-colors">
+                <Link to={l.to} className="u-draw text-[16px] font-medium text-ink/85 hover:text-ink transition-colors">
                   {l.label}
                 </Link>
               </li>
@@ -84,7 +87,7 @@ export function Footer() {
           <ul className="space-y-2.5">
             {CONNECT.map((l) => (
               <li key={l.label} className="flex items-baseline justify-between gap-3">
-                <a href={l.href} target="_blank" rel="noreferrer noopener" className="u-draw text-sm text-muted hover:text-ink transition-colors">
+                <a href={l.href} target="_blank" rel="noreferrer noopener" className="u-draw text-[16px] font-medium text-ink/85 hover:text-ink transition-colors">
                   {l.label}
                 </a>
                 <span className="mono-label text-muted/50 truncate">{l.domain}</span>
@@ -94,7 +97,7 @@ export function Footer() {
         </div>
         <div>
           <p className="t-micro raise text-(--accent-ink) mb-4">_meta</p>
-          <ul className="space-y-2.5 text-sm text-muted">
+          <ul className="space-y-2.5 text-[15px] text-ink/75">
             <li>Built with React · Python · Supabase</li>
             <li>
               <a href={brand.githubOrg ?? links.github} target="_blank" rel="noreferrer noopener" className="u-draw hover:text-ink">
@@ -115,21 +118,14 @@ export function Footer() {
       {/* 2 — divider + CTA */}
       <div className="relative border-t border-line">
         <div className="max-w-[1280px] mx-auto px-5 md:px-10 py-10 flex flex-col md:flex-row md:items-center gap-6 justify-between">
-          <p className="font-display font-black uppercase text-[clamp(28px,3.2vw,44px)] leading-none" style={{ fontStretch: "115%" }}>
-            Ready to commit?
-          </p>
-          <div className="flex flex-wrap gap-3">
-            <Link
-              to="/join"
-              className="inline-flex items-center gap-2 px-6 py-3 rounded-(--radius-sm) bg-teal text-navy-900 font-semibold text-sm hover:brightness-110 transition-all"
-            >
-              Join the Society
+          <p className="t-h1 !text-[clamp(28px,3.6vw,52px)]">READY TO COMMIT?</p>
+          <div className="flex flex-wrap gap-3 items-stretch">
+            <Link to="/join" className="group inline-flex items-stretch" aria-label="Join the Society">
+              <span className="flex items-center px-6 py-3 bg-teal text-navy-900 t-label raise !opacity-100 font-display font-bold">JOIN_THE_SOCIETY</span>
+              <span className="flex items-center justify-center w-10 bg-teal text-navy-900 border-l border-navy-900/25 transition-transform duration-200 group-hover:translate-x-1">↗</span>
             </Link>
-            <Link
-              to="/apps"
-              className="inline-flex items-center gap-2 px-6 py-3 rounded-(--radius-sm) border border-teal text-teal text-sm hover:bg-teal/10 transition-colors"
-            >
-              Submit an app
+            <Link to="/apps" className="group inline-flex items-center gap-2 border border-teal text-teal px-6 py-3 t-label raise hover:bg-teal/10 transition-colors">
+              <span className="transition-transform duration-200 group-hover:-translate-x-0.5">[</span>SUBMIT_AN_APP<span className="transition-transform duration-200 group-hover:translate-x-0.5">]</span>
             </Link>
           </div>
         </div>
@@ -138,6 +134,7 @@ export function Footer() {
       {/* 3 — bottom rail */}
       <div className="relative border-t border-line">
         <div className="max-w-[1280px] mx-auto px-5 md:px-10 py-5 flex flex-wrap items-center gap-x-6 gap-y-2">
+          <span className="font-display font-black text-[24px] leading-none tracking-[-0.02em]">CSS · JOHN JAY</span>
           <span className="t-micro opacity-60">© {new Date().getFullYear()} JOHN_JAY_COMPUTER_SCIENCE_SOCIETY</span>
           <span className="t-micro opacity-40">HANDED_TO_THE_BOARD</span>
           <span className="t-micro opacity-40 tnum">V{pkg.version}</span>
@@ -150,23 +147,8 @@ export function Footer() {
         </div>
       </div>
 
-      {/* 4 — giant cropped brandmark */}
-      <div aria-hidden className="relative overflow-hidden select-none" style={{ marginBottom: "-0.30em" }}>
-        <motion.div
-          style={reduced ? { opacity: 0.07 } : { y: wmY, opacity: wmOpacity }}
-          className="whitespace-nowrap t-wide text-ink leading-[0.86]"
-        >
-          <span className="block max-md:hidden" style={{ fontSize: "clamp(80px, 13.5vw, 210px)", letterSpacing: "-0.02em", marginInlineStart: "-0.06em" }}>
-            Computer Science
-          </span>
-          <span className="block max-md:hidden" style={{ fontSize: "clamp(80px, 13.5vw, 210px)", letterSpacing: "-0.02em", marginInlineStart: "-0.06em" }}>
-            Society
-          </span>
-          <span className="hidden max-md:block" style={{ fontSize: "22vw", marginInlineStart: "-0.06em" }}>Computer</span>
-          <span className="hidden max-md:block" style={{ fontSize: "22vw", marginInlineStart: "-0.06em" }}>Science</span>
-          <span className="hidden max-md:block" style={{ fontSize: "22vw", marginInlineStart: "-0.06em" }}>Society</span>
-        </motion.div>
-      </div>
+      {/* 4 — the Bloodhound glaze (run 4: replaces the wordmark) */}
+      <HoundGlaze progress={scrollYProgress} />
     </footer>
   );
 }
