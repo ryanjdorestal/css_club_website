@@ -21,3 +21,15 @@ Loop 0 (shared layer) + Home loop 1 committed; About/Events/Apps/Cyberhounds/Res
 | 13 | Old About "What We Do" carried as its four activity-tile titles with one-line summaries | tile prose in the old page is image-embedded; titles are the content |
 | 14 | 404 uses the jj_07 framed-panel treatment on paper with cube-blue | brief 6.9 |
 | 15 | News planned issues use rhecwb's ISSUE NNN · PENDING + PLANNED chip pattern | makes an almost-empty section look intended, no fake posts |
+
+## Checkpoint ~55 min (pages done)
+All 9 public pages rebuilt + shot + compared + scored; parity table green; Lighthouse desktop 84/93.
+
+| # | Decision | Why |
+|---|---|---|
+| 16 | Counter in-view margin 0 (was -10%) | hero stat row sat exactly at the fold showing 0s in screenshots |
+| 17 | PMREM RoomEnvironment → hemisphere+directional lights | −1.9s main-thread scripting; visual delta small (qa/loops/home/cube-relit.png) |
+| 18 | hero_840.webp (21KB) replaces 189KB PNG as CubeSpot art | was the mobile LCP element |
+| 19 | Google Fonts CSS loaded async (media=print swap) with noscript fallback | render-blocking 810ms |
+| 20 | CubeRail mounts after window load + idle | Three chunk raced the LCP |
+| 21 | Lighthouse gate read as desktop preset ("at 1440" per brief); mobile numbers reported honestly alongside | CSR SPA can't hit 85 mobile-sim without prerender; logged as follow-up |

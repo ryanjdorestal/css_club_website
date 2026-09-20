@@ -7,6 +7,7 @@ const CubeRailCanvas = lazy(() => import("./CubeRailCanvas"));
     CubeSpot mounts instead (perf + a11y — logged decision). */
 export function CubeRail() {
   const [ok, setOk] = useState(false);
+  const [settled, setSettled] = useState(false);
   useEffect(() => {
     const mq = window.matchMedia("(min-width: 768px)");
     const rm = window.matchMedia("(prefers-reduced-motion: reduce)");
@@ -19,7 +20,20 @@ export function CubeRail() {
       rm.removeEventListener("change", update);
     };
   }, []);
-  if (!ok) return null;
+  useEffect(() => {
+    // don't let the Three chunk race the LCP: mount after load + idle
+    const arm = () => {
+      const ric = (window as Window & { requestIdleCallback?: (cb: () => void) => number }).requestIdleCallback;
+      if (ric) ric(() => setSettled(true));
+      else setTimeout(() => setSettled(true), 350);
+    };
+    if (document.readyState === "complete") arm();
+    else {
+      window.addEventListener("load", arm, { once: true });
+      return () => window.removeEventListener("load", arm);
+    }
+  }, []);
+  if (!ok || !settled) return null;
   return (
     <Suspense fallback={null}>
       <CubeRailCanvas />

@@ -6,9 +6,10 @@ export function CubeSpot() {
   return (
     <div className="relative flex flex-col items-center gap-4">
       <img
-        src="/cube/hero_transparent.png"
+        src="/cube/hero_840.webp"
         alt="The CSS cube — red C for Events, green S for Apps, blue S for Join"
         className="w-[min(76vw,420px)] drop-shadow-[0_0_60px_rgba(110,210,230,0.25)]"
+        fetchPriority="high"
         width={420}
         height={368}
       />

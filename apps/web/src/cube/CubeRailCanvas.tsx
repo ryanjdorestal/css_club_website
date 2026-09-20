@@ -3,7 +3,6 @@ import { Canvas, useFrame, useThree } from "@react-three/fiber";
 import { useGLTF } from "@react-three/drei";
 import { EffectComposer, Bloom } from "@react-three/postprocessing";
 import * as THREE from "three";
-import { RoomEnvironment } from "three/examples/jsm/environments/RoomEnvironment.js";
 import { easing } from "maath";
 import { useNavigate } from "react-router-dom";
 import { useCubeRegistry, type CubeKeyframe, type Face } from "./CubeRailContext";
@@ -24,16 +23,6 @@ const FACE_ROUTE: Partial<Record<Exclude<Face, null>, string>> = {
 };
 
 const DEFAULT_KF: CubeKeyframe = { x: 0.68, y: 0.5, scale: 1, face: "threeQuarter", glow: "#6ED2E6", spin: true };
-
-function Env() {
-  const { gl, scene } = useThree();
-  useMemo(() => {
-    const pmrem = new THREE.PMREMGenerator(gl);
-    scene.environment = pmrem.fromScene(new RoomEnvironment(), 0.04).texture;
-    scene.environmentIntensity = 0.32;
-  }, [gl, scene]);
-  return null;
-}
 
 function RailCube({ onFace }: { onFace: (f: Face, kf?: CubeKeyframe) => void }) {
   const reg = useCubeRegistry();
@@ -172,10 +161,11 @@ export default function CubeRailCanvas() {
         eventSource={document.body}
         style={{ pointerEvents: "none" }}
       >
-        <Env />
-        <directionalLight position={[-1.5, 4.5, 3.5]} intensity={1.0} />
-        <directionalLight position={[4, 1.5, -2]} intensity={0.45} />
-        <ambientLight intensity={0.15} />
+        {/* PMREM RoomEnvironment dropped for TBT (run-2 log): lights approximate it */}
+        <hemisphereLight args={["#dfe8f2", "#1a2c44", 0.55]} />
+        <directionalLight position={[-1.5, 4.5, 3.5]} intensity={1.35} />
+        <directionalLight position={[4, 1.5, -2]} intensity={0.6} />
+        <ambientLight intensity={0.22} />
         <RailCube onFace={(f, kf) => { setFace(f); if (kf) setPos({ x: kf.x, y: kf.y }); }} />
         <EffectComposer>
           <Bloom intensity={0.6} luminanceThreshold={0.8} luminanceSmoothing={0.3} mipmapBlur />

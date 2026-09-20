@@ -12,7 +12,7 @@ export function Counter({
   className?: string;
 }) {
   const ref = useRef<HTMLSpanElement>(null);
-  const inView = useInView(ref, { once: true, margin: "-10% 0px" });
+  const inView = useInView(ref, { once: true, margin: "0px" });
   const reduced = useReducedMotion();
   const [display, setDisplay] = useState(reduced ? value : 0);
   useEffect(() => {
