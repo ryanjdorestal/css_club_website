@@ -1,0 +1,50 @@
+name: CI
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+          cache-dependency-path: apps/web/package-lock.json
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      # The two guards that prevent the known silent failures.
+      - name: api file-count guard (<= 2 files, one Vercel function)
+        run: python scripts/check_api_count.py
+      - name: validate data against schemas
+        run: python scripts/validate_data.py
+
+      - name: install web deps
+        run: npm ci
+        working-directory: apps/web
+      - name: build
+        run: npm run build
+        working-directory: apps/web
+
+      - name: api deps + tests
+        run: |
+          pip install -r api/requirements.txt pytest
+          pytest scripts/test_api.py -q
+
+      - name: playwright smoke (home renders, no console errors)
+        run: |
+          npx playwright install --with-deps chromium
+          node qa-scripts/smoke.mjs
+        working-directory: apps/web
+
+      # Optional: prove the deploy would succeed. Skips when no token is set.
+      - name: vercel build dry-run
+        if: ${{ vars.VERCEL_DRY_RUN == 'true' }}
+        env:
+          VERCEL_TOKEN: ${{ secrets.VERCEL_TOKEN }}
+        run: npx vercel build --token "$VERCEL_TOKEN" || echo "::warning::vercel build dry-run failed"

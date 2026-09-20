@@ -1,0 +1,22 @@
+name: post-deploy-smoke
+# The check rhecwb didn't have: after a deploy, the live /api/health must
+# report the commit that was just pushed. A stale deploy fails LOUDLY.
+on:
+  deployment_status:
+
+jobs:
+  verify:
+    if: github.event.deployment_status.state == 'success'
+    runs-on: ubuntu-latest
+    steps:
+      - name: compare deployed sha to pushed sha
+        run: |
+          URL="${{ github.event.deployment_status.environment_url }}"
+          echo "deployment url: $URL"
+          sleep 15
+          DEPLOYED=$(curl -fsS "$URL/api/health" | python3 -c "import sys,json;print(json.load(sys.stdin)['sha'])")
+          echo "deployed sha: $DEPLOYED / pushed sha: ${{ github.sha }}"
+          if [ "$DEPLOYED" != "${{ github.sha }}" ] && [ "$DEPLOYED" != "dev" ]; then
+            echo "::error::STALE DEPLOY — live API reports $DEPLOYED but the push was ${{ github.sha }}"
+            exit 1
+          fi

@@ -32,3 +32,7 @@ Decisions made without asking, per the 120-minute rule. One line of reason each.
 | 26 | 4 | Bloodhound drawn friendlier than the banner's fierce game-day pose | A snarling assistant reads wrong at 32px; beanie/ears/jowls/navy-teal all kept from the banner. |
 | 27 | 4 | Chat treats a 404 on GET /api/chat as offline and answers from the bundled KB | Correct until phase 5 ships the endpoint; the same path is the production offline behavior. |
 | 28 | 4 | Scroll-explode cube animation deferred | Time-box; idle rotation + parallax + face hover/click (the "minimum" line) are in. |
+| 29 | 5 | App submissions go to their own `app_submissions` table, separate from the public `apps` records | Queue vs showcase are different lifecycles (submitted→approved copies into apps); mirrors rhecwb's onboarding-queue pattern. |
+| 30 | 5 | Tests live in scripts/test_api.py, run against the app via TestClient | api/ must stay at 2 files (CI-enforced). |
+| 31 | 5 | RLS: anon reads public rows only; no anon writes; service key (API) is sole writer until Supabase Auth lands with the OS | Smallest safe surface for launch. |
+| 32 | 5 | CI runs Playwright smoke against the built dist with a 30-line static server | No preview-server dependency in CI; tests exactly what Vercel serves. |

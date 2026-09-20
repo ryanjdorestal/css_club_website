@@ -1,0 +1,20 @@
+name: keepalive
+# Pings the API (which touches Supabase) every 3 days so the free project
+# never hits the 7-day inactivity pause. Requires the SITE_URL repo variable.
+on:
+  schedule:
+    - cron: "17 6 */3 * *"
+  workflow_dispatch:
+
+jobs:
+  ping:
+    runs-on: ubuntu-latest
+    steps:
+      - name: ping /api/health
+        run: |
+          if [ -z "${{ vars.SITE_URL }}" ]; then
+            echo "::warning::SITE_URL variable not set — skipping"
+            exit 0
+          fi
+          curl -fsS "${{ vars.SITE_URL }}/api/health" | tee health.json
+          grep -q '"ok":true' health.json
