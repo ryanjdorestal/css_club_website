@@ -38,8 +38,8 @@ export function NewsIndex() {
                 href: `/news/${p.slug}`,
               };
             }),
-            { index: "002", title: "Fall 2026 kickoff bulletin", dek: "Pending — written by the board in the OS", meta: "PLANNED", chip: "PLANNED" },
-            { index: "003", title: "Cyberhounds season recap", dek: "Pending — after the first NCL bracket", meta: "PLANNED", chip: "PLANNED" },
+            { index: "002", title: "Fall 2026 kickoff bulletin", dek: "Pending — written by the board in the OS", chip: "PLANNED" },
+            { index: "003", title: "Cyberhounds season recap", dek: "Pending — after the first NCL bracket", chip: "PLANNED" },
           ]}
         />
       </Band>

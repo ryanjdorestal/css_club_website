@@ -84,7 +84,7 @@ export default function Home() {
                   as="h1"
                   lines={["Debug", "your mind,", "commit to", { text: "growth.", className: "text-teal" }]}
                   className="font-display font-black uppercase tracking-[-0.02em] leading-[0.9]"
-                  lineClass="text-[clamp(48px,6.8vw,104px)]"
+                  lineClass="text-[clamp(44px,6.3vw,94px)]"
                 />
                 <Reveal delay={0.3}>
                   <p className="text-[16px] text-muted leading-relaxed max-w-[52ch] mt-5">{heroDek}</p>
