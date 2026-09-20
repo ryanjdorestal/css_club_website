@@ -20,3 +20,4 @@ apps/web/dist/
 # playwright
 apps/web/test-results/
 apps/web/playwright-report/
+qa/_review/
