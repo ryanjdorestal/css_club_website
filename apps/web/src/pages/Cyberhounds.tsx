@@ -55,7 +55,7 @@ export default function Cyberhounds() {
             <Label pfx="//">CTF_01 · SUB-CLUB · JOHN_JAY_CTF_TEAM</Label>
             <span className="t-micro opacity-50 tnum hidden md:block">EST. SPRING_2023</span>
           </div>
-          <div className="grid md:grid-cols-[8fr_4fr] gap-10 items-center">
+          <div className="grid md:grid-cols-[7fr_5fr] gap-8 items-center">
             <h1 className="t-poster" style={{ fontSize: "clamp(60px, 11vw, 185px)" }}>
               <EdgeCrop side="right"><Decode text="CYBER" /></EdgeCrop>
               <EdgeCrop side="right">
@@ -69,9 +69,9 @@ export default function Cyberhounds() {
                 </span>
               </EdgeCrop>
             </h1>
-            <div className="relative justify-self-center max-md:hidden">
-              <CubeSpot size={300} face="red" glow="#CE4A4A" />
-              <DotMatrix src="/img/brand/hound_banner.png" size={46} color="var(--color-red)" className="absolute -left-16 -bottom-10 w-[240px]" />
+            <div className="relative flex items-center justify-end max-md:hidden">
+              <DotMatrix src="/img/brand/hound_banner.png" size={46} color="var(--color-red)" className="relative z-10 w-[260px] -mr-10 shrink-0" />
+              <CubeSpot size={280} face="red" glow="#CE4A4A" className="shrink-0" />
             </div>
           </div>
           <p className="t-label raise !tracking-[0.22em] mt-10">

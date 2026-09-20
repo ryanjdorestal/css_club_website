@@ -104,10 +104,11 @@ export default function Home() {
                 <Brackets size={14} inset={0} />
                 <div className="absolute inset-0"><BinaryRings opacity={0.08} /></div>
                 <Reveal delay={0.55}>
-                  <Readout value={counts.workshops} suffix="+" label="workshops run" style={{ position: "absolute", left: "56%", top: "9%", width: "max-content" }} />
+                  {/* outside the frame: may cross the bracket line, never the mesh */}
+                  <Readout value={counts.workshops} suffix="+" label="workshops run" style={{ position: "absolute", right: 0, top: 30, transform: "translateY(-100%)", width: "max-content" }} />
                 </Reveal>
                 <Reveal delay={0.7}>
-                  <Readout value={counts.terms} label="boards since 2020" style={{ position: "absolute", left: "68%", top: "76%", width: "max-content" }} />
+                  <Readout value={counts.terms} label="boards since 2020" style={{ position: "absolute", left: -16, bottom: 56, transform: "translateX(-100%)", width: "max-content" }} />
                 </Reveal>
                 <span className="absolute bottom-3 left-3 t-micro opacity-55">_object CS_CUBE.GLB · DRAG-FREE · CLICK_A_FACE</span>
               </div>
