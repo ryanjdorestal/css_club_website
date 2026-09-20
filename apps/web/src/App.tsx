@@ -13,6 +13,10 @@ const Resources = lazy(() => import("@/pages/Resources"));
 const Join = lazy(() => import("@/pages/Join"));
 const NotFound = lazy(() => import("@/pages/NotFound"));
 const Styleguide = lazy(() => import("@/pages/Styleguide"));
+const OsLayout = lazy(() => import("@/os/OsLayout"));
+const OsLogin = lazy(() => import("@/os/OsLogin"));
+const OsToday = lazy(() => import("@/os/OsToday"));
+const OsQueue = lazy(() => import("@/os/OsQueue"));
 const News = lazy(() =>
   import("@/pages/News").then((m) => ({ default: m.NewsIndex })),
 );
@@ -51,6 +55,11 @@ export default function App() {
   return (
     <Suspense fallback={null}>
       <Routes>
+        <Route path="os/login" element={<OsLogin />} />
+        <Route path="os" element={<OsLayout />}>
+          <Route index element={<OsToday />} />
+          <Route path="queue" element={<OsQueue />} />
+        </Route>
         <Route element={<Layout />}>
           <Route index element={<Home />} />
           <Route path="events" element={<Events />} />

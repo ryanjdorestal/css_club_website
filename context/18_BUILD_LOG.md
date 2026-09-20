@@ -36,3 +36,5 @@ Decisions made without asking, per the 120-minute rule. One line of reason each.
 | 30 | 5 | Tests live in scripts/test_api.py, run against the app via TestClient | api/ must stay at 2 files (CI-enforced). |
 | 31 | 5 | RLS: anon reads public rows only; no anon writes; service key (API) is sole writer until Supabase Auth lands with the OS | Smallest safe surface for launch. |
 | 32 | 5 | CI runs Playwright smoke against the built dist with a 30-line static server | No preview-server dependency in CI; tests exactly what Vercel serves. |
+| 33 | 6 | OS shell ships login (labeled LOCAL DEV role picker), Today, Queue; the rest of the RHEC OS spine is listed as "Planned" in the sidebar | Phase-6 minimum line; being explicit about what exists beats stub pages. |
+| 34 | 6 | OS queue reads the browser inbox only; no /api/inbox endpoint | A public endpoint over .cache/inbox would leak PII with no auth to gate it; the Supabase queue arrives with Auth. |
