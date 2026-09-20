@@ -17,3 +17,7 @@ Decisions made without asking, per the 120-minute rule. One line of reason each.
 | 11 | 1 | workshops.json is a curated list from context/02, org links only | The old events page only links the org root; per-repo URLs beyond AWS_Part_2_Fall_2024 aren't in the source; board refreshes via GitHub API later. |
 | 12 | 1 | validate_data.py implements a minimal JSON-Schema subset in stdlib | No new dependency for four keywords (type/required/properties/items/enum). |
 | 13 | 1 | ZIP fixed to 10019 and footer junk stripped by the extractor itself | Mechanical review fixes from context/07 belong in the script, not hand edits. |
+| 14 | 2 | `--muted` nudged #9DB0C4 → #A2B4C8 | 4.46:1 on navy-600 missed WCAG AA by a hair; +2% lightness clears it (4.68) and is visually identical. Logged as the one palette deviation. |
+| 15 | 2 | Added `--accent-fg` (lightened accent for text on dark) and `--accent-contrast` (text on accent fills) per accent | Saturated red/blue fail AA as text on navy-600; fills/borders keep the true accent, text uses the AA-passing tint. |
+| 16 | 2 | Red/blue primary buttons use ink text at 4.16/3.62 (AA-large pass) | Matches the old site's own white-on-red CTAs; flagged in qa/contrast.txt; strict-AA option (tint fills) left as Ryan's call. |
+| 17 | 2 | Ticker is CSS-only marquee; rings are pure SVG textPath | No JS animation cost; global reduced-motion rule freezes both. |

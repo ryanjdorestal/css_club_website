@@ -11,7 +11,7 @@
   --color-navy-600: #1E4664;
   --color-navy-500: #305484;
   --color-ink: #F4F7FB;
-  --color-muted: #9DB0C4;
+  --color-muted: #A2B4C8; /* DESIGN.md says #9DB0C4; nudged +2% lightness to clear WCAG AA (4.68:1) on navy-600 */
   --color-line: #2A4460;
   --color-teal: #6ED2E6;
   --color-red: #CE4A4A;
@@ -34,22 +34,33 @@
 }
 
 /* Section accent — set per route on a wrapper as data-accent="red|green|blue".
-   Teal is the only color allowed everywhere. */
+   Teal is the only color allowed everywhere.
+   --accent          fills, borders, tints (the section color itself)
+   --accent-fg       the accent as TEXT on dark navy (lightened to clear WCAG AA)
+   --accent-contrast text color on top of an --accent fill (buttons) */
 :root,
 [data-accent="teal"] {
   --accent: var(--color-teal);
+  --accent-fg: var(--color-teal);
+  --accent-contrast: var(--color-navy-900);
   --accent-tint: color-mix(in srgb, var(--color-teal) 14%, var(--color-light));
 }
 [data-accent="red"] {
   --accent: var(--color-red);
+  --accent-fg: #EAA3A3;
+  --accent-contrast: var(--color-ink);
   --accent-tint: color-mix(in srgb, var(--color-red) 13%, var(--color-light));
 }
 [data-accent="green"] {
   --accent: var(--color-green);
+  --accent-fg: #6FC46E;
+  --accent-contrast: var(--color-navy-900);
   --accent-tint: color-mix(in srgb, var(--color-green) 13%, var(--color-light));
 }
 [data-accent="blue"] {
   --accent: var(--color-blue);
+  --accent-fg: #7FB4F7;
+  --accent-contrast: var(--color-ink);
   --accent-tint: color-mix(in srgb, var(--color-blue) 13%, var(--color-light));
 }
 
@@ -105,4 +116,21 @@ body {
     transition-duration: 0.01ms !important;
     scroll-behavior: auto !important;
   }
+}
+
+/* Component animations */
+@keyframes ticker-scroll {
+  from { transform: translateX(0); }
+  to { transform: translateX(-50%); }
+}
+.animate-ticker {
+  animation: ticker-scroll 40s linear infinite;
+}
+
+@keyframes ring-rotate {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
+.animate-ring {
+  animation: ring-rotate 120s linear infinite;
 }

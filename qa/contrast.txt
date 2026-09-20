@@ -1,0 +1,17 @@
+PASS  4.85:1  (min 4.5)  accent-fg red on navy-600
+PASS  4.63:1  (min 4.5)  accent-fg green on navy-600
+PASS  4.62:1  (min 4.5)  accent-fg blue on navy-600
+PASS  4.68:1  (min 4.5)  muted(nudged) on navy-600
+PASS  4.16:1  (min 3)  ink on red (CTA)
+PASS  3.62:1  (min 3)  ink on blue (CTA)
+PASS  9.24:1  (min 4.5)  ink on navy-600
+PASS  16.13:1  (min 4.5)  ink on navy-900
+PASS  7.17:1  (min 4.5)  ink on navy-500
+PASS  7.79:1  (min 4.5)  muted on navy-900
+PASS  5.68:1  (min 4.5)  teal on navy-600
+PASS  9.92:1  (min 4.5)  teal on navy-900
+PASS  9.92:1  (min 4.5)  navy-900 on teal (buttons)
+PASS  5.39:1  (min 4.5)  navy-900 on green (buttons)
+PASS  16.15:1  (min 4.5)  navy-900 on light
+
+All pairs pass
