@@ -41,6 +41,7 @@
 :root,
 [data-accent="teal"] {
   --accent: var(--color-teal);
+  --accent-ink: var(--color-teal);
   --accent-fg: var(--color-teal);
   --accent-contrast: var(--color-navy-900);
   --accent-tint: color-mix(in srgb, var(--color-teal) 14%, var(--color-light));
@@ -133,4 +134,79 @@ body {
 }
 .animate-ring {
   animation: ring-rotate 120s linear infinite;
+}
+
+/* ============ run 2: paper surfaces, type scale, motion utilities ============ */
+@theme {
+  --color-paper: #F5F7FA;
+  --color-paper-2: #E9EFF5;
+  --color-ink-on-paper: #0C183C;
+  --color-muted-on-paper: #4E6480;
+  --color-hairline: #C9D4E0;
+  --text-display-xl: clamp(64px, 11vw, 176px);
+  --text-display-lg: clamp(40px, 6vw, 96px);
+  --text-display-md: clamp(28px, 3.2vw, 44px);
+  --text-body-lg: 18px;
+  --text-body: 16px;
+  --text-label: 11px;
+}
+
+/* Band tones — set as data-tone on <Band>; children read the right ink colors */
+[data-tone="light"], [data-tone="light-2"], [data-tone="tinted"] {
+  color: var(--color-ink-on-paper);
+  --accent-ink: var(--accent);
+  --tone-muted: var(--color-muted-on-paper);
+  --tone-line: var(--color-hairline);
+  --tone-ink: var(--color-ink-on-paper);
+}
+[data-tone="dark"], [data-tone="dark-2"], [data-tone="dark-3"] {
+  color: var(--color-ink);
+  --accent-ink: var(--accent-fg);
+  --tone-muted: var(--color-muted);
+  --tone-line: var(--color-line);
+  --tone-ink: var(--color-ink);
+}
+[data-tone="dark"]   { background: var(--color-navy-600); }
+[data-tone="dark-2"] { background: var(--color-navy-700); }
+[data-tone="dark-3"] { background: var(--color-navy-900); }
+[data-tone="light"]  { background: var(--color-paper); }
+[data-tone="light-2"]{ background: var(--color-paper-2); }
+[data-tone="tinted"] { background: color-mix(in oklab, var(--accent) 6%, var(--color-paper)); }
+
+/* numbers are the design */
+.tnum { font-variant-numeric: tabular-nums; }
+
+/* underline that draws in from the left */
+.u-draw {
+  background-image: linear-gradient(currentColor, currentColor);
+  background-size: 0% 1px;
+  background-position: 0 100%;
+  background-repeat: no-repeat;
+  transition: background-size 0.35s cubic-bezier(0.22, 1, 0.36, 1);
+}
+.u-draw:hover { background-size: 100% 1px; }
+
+/* true infinite marquee (two copies of the strip) */
+@keyframes marquee-x { from { transform: translateX(0); } to { transform: translateX(-50%); } }
+.marquee-track { animation: marquee-x 40s linear infinite; }
+.marquee-track:hover { animation-play-state: paused; }
+
+/* card hover lift */
+.lift { transition: transform 0.35s cubic-bezier(0.22,1,0.36,1), box-shadow 0.35s; }
+.lift:hover { transform: translateY(-4px); box-shadow: 0 24px 48px -24px color-mix(in srgb, var(--color-navy-900) 60%, transparent); }
+
+/* button: fill slides off to reveal outline */
+.btn-slide { position: relative; overflow: hidden; isolation: isolate; }
+.btn-slide::before {
+  content: ""; position: absolute; inset: 0; background: var(--accent);
+  z-index: -1; transition: transform 0.4s cubic-bezier(0.22,1,0.36,1);
+}
+.btn-slide:hover::before { transform: translateY(100%); }
+.btn-slide { border: 1px solid var(--accent); }
+.btn-slide:hover { color: var(--accent-fg); }
+
+/* corner notches for TicketCard */
+.notch {
+  clip-path: polygon(10px 0, calc(100% - 10px) 0, 100% 10px, 100% calc(100% - 10px),
+    calc(100% - 10px) 100%, 10px 100%, 0 calc(100% - 10px), 0 10px);
 }

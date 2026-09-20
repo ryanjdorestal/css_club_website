@@ -1,9 +1,11 @@
-import { useState } from "react";
-import { Link, NavLink } from "react-router-dom";
-import { Menu, X } from "lucide-react";
+import { useEffect, useRef, useState } from "react";
+import { Link, NavLink, useLocation } from "react-router-dom";
+import { AnimatePresence, motion } from "motion/react";
+import { Menu } from "lucide-react";
 import { brand } from "@brand/brand.config";
+import { NavOverlay } from "./NavOverlay";
 
-const LINKS: { to: string; label: string }[] = [
+const LINKS = [
   { to: "/events", label: "Events" },
   { to: "/apps", label: "Apps" },
   { to: "/cyberhounds", label: "Cyberhounds" },
@@ -12,66 +14,102 @@ const LINKS: { to: string; label: string }[] = [
   { to: "/news", label: "News" },
 ];
 
-/** The one nav. Section accent comes from the route wrapper's data-accent,
-    so the active-link underline is always the section's own color. */
+/** Morph nav: transparent at top → compact blurred bar after 24px; hides on
+    scroll-down past 400, reveals on scroll-up. Active underline animates
+    between items (layoutId). */
 export function Nav() {
+  const [scrolled, setScrolled] = useState(false);
+  const [hidden, setHidden] = useState(false);
   const [open, setOpen] = useState(false);
-  const linkClass = ({ isActive }: { isActive: boolean }) =>
-    `mono-label transition-colors py-1.5 border-b-2 ${
-      isActive
-        ? "text-ink border-(--accent)"
-        : "text-muted border-transparent hover:text-ink"
-    }`;
+  const lastY = useRef(0);
+  const ticking = useRef(false);
+  const { pathname } = useLocation();
+
+  useEffect(() => {
+    const onScroll = () => {
+      if (ticking.current) return;
+      ticking.current = true;
+      requestAnimationFrame(() => {
+        const y = window.scrollY;
+        setScrolled(y > 24);
+        setHidden(y > 400 && y > lastY.current);
+        lastY.current = y;
+        ticking.current = false;
+      });
+    };
+    window.addEventListener("scroll", onScroll, { passive: true });
+    onScroll();
+    return () => window.removeEventListener("scroll", onScroll);
+  }, []);
+
   return (
-    <nav className="sticky top-0 z-40 bg-navy-900/95 border-b border-line">
-      <div className="max-w-6xl mx-auto flex items-center gap-6 px-5 h-16">
-        <Link to="/" className="flex items-center gap-3 shrink-0" onClick={() => setOpen(false)}>
-          <img src={brand.logos.svg} alt="" className="w-8 h-8" />
-          <span
-            className="font-display font-extrabold uppercase text-sm leading-tight hidden sm:block"
-            style={{ fontStretch: "115%" }}
-          >
-            {brand.name}
-            <span className="block mono-label text-muted normal-case">{brand.collegeShort}</span>
-          </span>
-        </Link>
-        <div className="hidden md:flex items-center gap-5 ml-auto">
-          {LINKS.map((l) => (
-            <NavLink key={l.to} to={l.to} className={linkClass}>
-              {l.label}
-            </NavLink>
-          ))}
-          <NavLink
-            to="/join"
-            className="mono-label bg-(--accent) text-(--accent-contrast) font-semibold px-4 py-2 rounded-(--radius-sm) hover:brightness-110 transition-all"
-          >
-            Join
-          </NavLink>
-        </div>
-        <button
-          className="md:hidden ml-auto text-ink p-2"
-          aria-label={open ? "Close menu" : "Open menu"}
-          onClick={() => setOpen(!open)}
+    <>
+      <motion.nav
+        data-scrolled={scrolled || undefined}
+        animate={{ y: hidden && !open ? "-100%" : "0%" }}
+        transition={{ duration: 0.35, ease: [0.22, 1, 0.36, 1] }}
+        className={`fixed top-0 left-0 right-0 z-50 transition-[background,border,height] duration-300 ${
+          scrolled ? "border-b border-line" : "border-b border-transparent"
+        }`}
+        style={{
+          background: scrolled ? "color-mix(in srgb, var(--color-navy-900) 70%, transparent)" : "transparent",
+          backdropFilter: scrolled ? "blur(12px)" : "none",
+          WebkitBackdropFilter: scrolled ? "blur(12px)" : "none",
+        }}
+      >
+        <div
+          className={`max-w-[1440px] mx-auto flex items-center gap-6 px-5 md:px-10 transition-[height] duration-300 ${
+            scrolled ? "h-14" : "h-[72px]"
+          }`}
         >
-          {open ? <X size={22} /> : <Menu size={22} />}
-        </button>
-      </div>
-      {open && (
-        <div className="md:hidden border-t border-line bg-navy-900 px-5 py-4 flex flex-col gap-4">
-          {LINKS.map((l) => (
-            <NavLink key={l.to} to={l.to} className={linkClass} onClick={() => setOpen(false)}>
-              {l.label}
-            </NavLink>
-          ))}
-          <NavLink
-            to="/join"
-            onClick={() => setOpen(false)}
-            className="mono-label bg-(--accent) text-(--accent-contrast) font-semibold px-4 py-2.5 rounded-(--radius-sm) text-center"
-          >
-            Join
-          </NavLink>
+          <Link to="/" className="flex items-center gap-2.5 shrink-0" onClick={() => setOpen(false)}>
+            <motion.img
+              src={brand.logos.svg}
+              alt=""
+              animate={{ scale: scrolled ? 0.85 : 1 }}
+              className="w-7 h-7"
+            />
+            <span className="font-display font-extrabold uppercase text-base leading-none" style={{ fontStretch: "118%" }}>
+              CSS
+            </span>
+            <span className="mono-label text-muted hidden sm:block">John Jay</span>
+          </Link>
+          <div className="hidden lg:flex items-center gap-7 mx-auto">
+            {LINKS.map((l) => (
+              <NavLink key={l.to} to={l.to} className="relative py-2 text-sm font-medium text-muted hover:text-ink transition-colors">
+                {({ isActive }) => (
+                  <>
+                    <span className={isActive ? "text-ink" : ""}>{l.label}</span>
+                    {isActive && (
+                      <motion.span
+                        layoutId="nav-underline"
+                        className="absolute left-0 right-0 -bottom-px h-[2px] bg-(--accent)"
+                        transition={{ duration: 0.35, ease: [0.22, 1, 0.36, 1] }}
+                      />
+                    )}
+                  </>
+                )}
+              </NavLink>
+            ))}
+          </div>
+          <div className="flex items-center gap-3 ml-auto lg:ml-0">
+            <Link
+              to="/join"
+              className="hidden sm:inline-flex mono-label bg-(--accent) text-(--accent-contrast) font-semibold px-4 py-2 rounded-(--radius-sm) hover:brightness-110 transition-all"
+            >
+              Join
+            </Link>
+            <button
+              className="lg:hidden text-ink p-2 cursor-pointer"
+              aria-label="Open menu"
+              onClick={() => setOpen(true)}
+            >
+              <Menu size={22} />
+            </button>
+          </div>
         </div>
-      )}
-    </nav>
+      </motion.nav>
+      <AnimatePresence>{open && <NavOverlay key={pathname} onClose={() => setOpen(false)} />}</AnimatePresence>
+    </>
   );
 }

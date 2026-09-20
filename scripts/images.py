@@ -50,8 +50,13 @@ def main() -> None:
                 if src.exists():
                     convert(src, PUB / "events" / f"{kebab(name)}.webp", 1600)
 
-    # club photos referenced by the old index/about copy — keep the good ones
-    for name in ["club2.jpg", "clubPhoto.png", "clubPhoto2.png", "cyberhounds-header.png"]:
+    # club photos referenced by the old index/about pages — the gallery + spreads
+    for name in [
+        "club2.jpg", "cyberhounds-header.png",
+        "Intro_Cyb_Group_pic.png", "invol_fair.png",
+        "involvement_fair_fall_2022.jpg", "shirt_event.png",
+        "cybersecurity.jpeg", "languages2.jpg", "leetcode.png", "discord.png",
+    ]:
         src = SRC / name
         if src.exists():
             used.add(name)

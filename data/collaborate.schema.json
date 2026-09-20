@@ -1,0 +1,8 @@
+{
+  "type": "object",
+  "required": ["openings", "committees"],
+  "properties": {
+    "openings": { "type": "array", "items": { "type": "object", "required": ["role"] } },
+    "committees": { "type": "array", "items": { "type": "string" } }
+  }
+}

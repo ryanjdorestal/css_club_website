@@ -445,6 +445,39 @@ def seed_apps():
     )
 
 
+def extract_collaborate():
+    """Openings / committees / project-ideas / suggestions from collaborate.html
+    (run 2: the Join + Home collaborate sections render these lists)."""
+    raw = (SRC / "collaborate.html").read_text(errors="replace")
+    doc = BeautifulSoup(raw, "html.parser")
+    text = doc.get_text("\n")
+    roles = re.findall(r"([A-Z][A-Za-z ]+?)\s*\(Open\)", text)
+    # committees are the h2/h3 headings ending in "Openings"
+    committees = [
+        clean(h.get_text(" ")).replace(" Openings", "")
+        for h in doc.find_all(["h1", "h2", "h3"])
+        if "Openings" in h.get_text()
+    ]
+    def para_after(heading):
+        for h in doc.find_all(["h1", "h2", "h3"]):
+            if heading.lower() in h.get_text().lower():
+                nxt = h.find_next("p")
+                if nxt:
+                    return clean(nxt.get_text(" "))
+        return ""
+    write_json(
+        "collaborate.json",
+        {
+            "source": "jjcss/CSS_Website@a8fca55 collaborate.html",
+            "note": "Stale term labels dropped per context/07; roles kept as evergreen openings.",
+            "openings": [{"role": r, "status": "open"} for r in roles],
+            "committees": [c for c in committees if "Executive" not in c],
+            "project_ideas": para_after("Share Your Project Ideas"),
+            "suggestions": para_after("Club Suggestions"),
+        },
+    )
+
+
 if __name__ == "__main__":
     terms = extract_board()
     events = extract_events()
@@ -452,6 +485,7 @@ if __name__ == "__main__":
     extract_links()
     extract_copy()
     extract_workshops()
+    extract_collaborate()
     seed_apps()
     n_members = sum(len(t["members"]) for t in terms)
     print(

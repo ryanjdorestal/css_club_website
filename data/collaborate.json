@@ -1,0 +1,57 @@
+{
+  "source": "jjcss/CSS_Website@a8fca55 collaborate.html",
+  "note": "Stale term labels dropped per context/07; roles kept as evergreen openings.",
+  "openings": [
+    {
+      "role": "President",
+      "status": "open"
+    },
+    {
+      "role": "Vice President",
+      "status": "open"
+    },
+    {
+      "role": "Treasurer",
+      "status": "open"
+    },
+    {
+      "role": "Secretary",
+      "status": "open"
+    },
+    {
+      "role": "Assistant Vice President",
+      "status": "open"
+    },
+    {
+      "role": "Assistant Secretary",
+      "status": "open"
+    },
+    {
+      "role": "Assistant Treasurer",
+      "status": "open"
+    },
+    {
+      "role": "Web Developer",
+      "status": "open"
+    },
+    {
+      "role": "Data Analyst",
+      "status": "open"
+    },
+    {
+      "role": "Journalist",
+      "status": "open"
+    },
+    {
+      "role": "Photographer",
+      "status": "open"
+    }
+  ],
+  "committees": [
+    "Web Application Committee",
+    "Analytics Committee",
+    "Public Relations Committee"
+  ],
+  "project_ideas": "If you have any ideas for a collaborative project, please let us know. We will share it with the community and invite others to join you on the project.",
+  "suggestions": "Let us know if you have any suggestions, comments, or concerns. Your feedback is valuable and gives us the ability to improve the club."
+}
