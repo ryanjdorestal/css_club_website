@@ -35,7 +35,7 @@ function Env() {
   return null;
 }
 
-function RailCube({ onFace }: { onFace: (f: Face) => void }) {
+function RailCube({ onFace }: { onFace: (f: Face, kf?: CubeKeyframe) => void }) {
   const reg = useCubeRegistry();
   const { scene } = useGLTF("/cube/cs_cube.glb");
   const group = useRef<THREE.Group>(null);
@@ -79,9 +79,29 @@ function RailCube({ onFace }: { onFace: (f: Face) => void }) {
         }
       }
     }
+    // the shared footer isn't inside the provider — dock the cube on the stamp
+    const foot = document.getElementById("site-footer");
+    if (foot) {
+      const r = foot.getBoundingClientRect();
+      if (r.top <= vhMid) {
+        const dock = document.getElementById("footer-cube-dock");
+        if (dock) {
+          const d = dock.getBoundingClientRect();
+          kf = {
+            x: (d.left + d.width / 2) / window.innerWidth,
+            y: (d.top + d.height / 2) / window.innerHeight,
+            scale: 0.22,
+            face: "threeQuarter",
+            glow: "#6ED2E6",
+          };
+        } else {
+          kf = { x: 0.5, y: 0.62, scale: 0.9, face: "threeQuarter", glow: "#6ED2E6" };
+        }
+      }
+    }
     if (active.current !== kf) {
       active.current = kf;
-      onFace(kf.face);
+      onFace(kf.face, kf);
     }
     // 2. damp position/scale toward the keyframe (λ≈5 → ~150ms trail)
     const wx = (kf.x - 0.5) * viewport.width;
@@ -124,14 +144,14 @@ function RailCube({ onFace }: { onFace: (f: Face) => void }) {
     >
       <primitive object={scene} />
       {/* teal/accent rim: slightly larger back-side shell, additive */}
-      <mesh ref={rim} scale={1.045}>
+      <mesh ref={rim} scale={1.028}>
         <boxGeometry args={[1.02, 1.02, 1.02]} />
         <meshBasicMaterial
           ref={rimMat}
           color="#6ED2E6"
           side={THREE.BackSide}
           transparent
-          opacity={0.22}
+          opacity={0.1}
           blending={THREE.AdditiveBlending}
           depthWrite={false}
         />
@@ -142,6 +162,7 @@ function RailCube({ onFace }: { onFace: (f: Face) => void }) {
 
 export default function CubeRailCanvas() {
   const [face, setFace] = useState<Face>("threeQuarter");
+  const [pos, setPos] = useState<{ x: number; y: number }>({ x: 0.68, y: 0.47 });
   return (
     <div className="fixed inset-0 z-30 pointer-events-none" aria-hidden>
       <Canvas
@@ -155,15 +176,15 @@ export default function CubeRailCanvas() {
         <directionalLight position={[-1.5, 4.5, 3.5]} intensity={1.0} />
         <directionalLight position={[4, 1.5, -2]} intensity={0.45} />
         <ambientLight intensity={0.15} />
-        <RailCube onFace={setFace} />
+        <RailCube onFace={(f, kf) => { setFace(f); if (kf) setPos({ x: kf.x, y: kf.y }); }} />
         <EffectComposer>
           <Bloom intensity={0.6} luminanceThreshold={0.8} luminanceSmoothing={0.3} mipmapBlur />
         </EffectComposer>
       </Canvas>
       {face && FACE_LABEL[face] && (
         <span
-          className="mono-label text-teal absolute transition-opacity duration-500"
-          style={{ left: "50%", bottom: "6%", transform: "translateX(-50%)" }}
+          className="mono-label text-teal absolute transition-all duration-700"
+          style={{ left: `${pos.x * 100}%`, top: `calc(${pos.y * 100}% + 13vh)`, transform: "translateX(-50%)" }}
         >
           {FACE_LABEL[face]}
         </span>

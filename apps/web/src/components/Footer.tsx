@@ -58,7 +58,7 @@ export function Footer() {
             <img src="/img/brand/jj_shield.png" alt="John Jay College of Criminal Justice" className="w-16 h-16" />
           </div>
           <div id="footer-cube-dock" className="mt-4 w-14 h-14">
-            <img src={brand.logos.svg} alt="" className="w-14 h-14" />
+            <img src={brand.logos.svg} alt="" className="w-14 h-14 md:opacity-0" />
           </div>
           <p className="pixel text-teal text-2xl mt-4 max-w-[240px] leading-tight">
             {brand.taglines.primary}
