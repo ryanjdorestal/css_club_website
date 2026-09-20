@@ -1,0 +1,10 @@
+{
+  "type": "object",
+  "required": ["org", "workshops"],
+  "properties": {
+    "workshops": {
+      "type": "array",
+      "items": { "type": "object", "required": ["name", "repo"] }
+    }
+  }
+}

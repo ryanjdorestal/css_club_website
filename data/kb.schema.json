@@ -1,0 +1,18 @@
+{
+  "type": "object",
+  "required": ["version", "fallback", "entries"],
+  "properties": {
+    "fallback": { "type": "object", "required": ["answer", "emote"] },
+    "entries": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["id", "keywords", "answer", "emote"],
+        "properties": {
+          "keywords": { "type": "array", "items": { "type": "string" } },
+          "emote": { "enum": ["idle", "thinking", "happy", "confused", "sleeping", "alert"] }
+        }
+      }
+    }
+  }
+}

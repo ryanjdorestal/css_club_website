@@ -1,0 +1,71 @@
+{
+  "source": "jjcss org repos (context/02); refresh via GitHub API",
+  "org": "https://github.com/jjcss",
+  "workshops": [
+    {
+      "name": "AWS Part 2 (Fall 2024)",
+      "repo": "https://github.com/jjcss/AWS_Part_2_Fall_2024",
+      "topic": "Cloud"
+    },
+    {
+      "name": "Ethical Hacking",
+      "repo": "https://github.com/jjcss",
+      "topic": "Security"
+    },
+    {
+      "name": "Security Engineering",
+      "repo": "https://github.com/jjcss",
+      "topic": "Security"
+    },
+    {
+      "name": "Python x Cybersecurity",
+      "repo": "https://github.com/jjcss",
+      "topic": "Security"
+    },
+    {
+      "name": "React Fullstack",
+      "repo": "https://github.com/jjcss",
+      "topic": "Web"
+    },
+    {
+      "name": "Networking Basics",
+      "repo": "https://github.com/jjcss",
+      "topic": "Systems"
+    },
+    {
+      "name": "Git / GitHub",
+      "repo": "https://github.com/jjcss",
+      "topic": "Tools"
+    },
+    {
+      "name": "iOS Development",
+      "repo": "https://github.com/jjcss",
+      "topic": "Mobile"
+    },
+    {
+      "name": "JavaScript",
+      "repo": "https://github.com/jjcss",
+      "topic": "Web"
+    },
+    {
+      "name": "HTML / CSS",
+      "repo": "https://github.com/jjcss",
+      "topic": "Web"
+    },
+    {
+      "name": "Technical Interview Prep (series)",
+      "repo": "https://github.com/jjcss",
+      "topic": "Career"
+    },
+    {
+      "name": "Career Prep",
+      "repo": "https://github.com/jjcss",
+      "topic": "Career"
+    },
+    {
+      "name": "CompTIA Security+ Bootcamp",
+      "repo": "https://github.com/jjcss/jjcss.github.io",
+      "topic": "Security"
+    }
+  ]
+}

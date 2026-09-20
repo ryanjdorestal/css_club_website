@@ -1,0 +1,19 @@
+{
+  "type": "object",
+  "required": ["apps"],
+  "properties": {
+    "apps": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["id", "type", "title", "platform", "status", "visibility"],
+        "properties": {
+          "type": { "enum": ["app-record"] },
+          "status": { "enum": ["example", "submitted", "approved", "live", "archived"] },
+          "visibility": { "enum": ["public", "private"] },
+          "platform": { "type": "array", "items": { "enum": ["web", "ios", "android", "desktop", "cli"] } }
+        }
+      }
+    }
+  }
+}

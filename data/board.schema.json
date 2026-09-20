@@ -1,0 +1,29 @@
+{
+  "type": "object",
+  "required": ["source", "terms"],
+  "properties": {
+    "terms": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["term", "members"],
+        "properties": {
+          "term": { "type": "string" },
+          "members": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "required": ["name", "role", "group"],
+              "properties": {
+                "name": { "type": "string" },
+                "role": { "type": "string" },
+                "bio": { "type": "string" },
+                "photo": { "type": ["string", "null"] }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}

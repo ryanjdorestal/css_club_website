@@ -1,0 +1,149 @@
+{
+  "source": "jjcss/CSS_Website@a8fca55 events.html + previous_events.html",
+  "note": "No future events at migration time; the OS/board adds the current semester.",
+  "semesters": [
+    {
+      "semester": "Spring 2025",
+      "events": [
+        {
+          "title": "First General Meeting",
+          "semester": "Spring 2025",
+          "summary": "Join us for our First General Meeting of the Spring 2025 semester! Learn about upcoming events, networking opportunities, and more.",
+          "date": "Thursday, February 20th, 2025",
+          "time": "1:40 PM - 2:55 PM",
+          "room": "1.114 - New Building",
+          "status": "past",
+          "flyer": "img/events/first-general-meeting-spring-2025.webp",
+          "flyer_src": "images/First General Meeting - Spring 2025.png"
+        },
+        {
+          "title": "Career Workshop",
+          "semester": "Spring 2025",
+          "summary": "Whether you're applying for your first internship or a full-time role, this session will provide valuable insights and strategies to navigate the hiring process effectively.",
+          "date": "Thursday, March 6th, 2025",
+          "time": "1:40 PM - 2:55 PM",
+          "room": "1.114 - New Building",
+          "status": "past",
+          "flyer": "img/events/career-workshop.webp",
+          "flyer_src": "images/Career_Workshop.png"
+        },
+        {
+          "title": "Alumni Panel",
+          "semester": "Spring 2025",
+          "summary": "Hear from John Jay Alumni and their experiences! Build your network and learn about career paths from those who were once in your shoes.",
+          "date": "Thursday, April 3rd, 2025",
+          "time": "1:40 PM - 2:55 PM",
+          "room": "1.114 - New Building",
+          "status": "past",
+          "flyer": "img/events/alumni-panel-spring-2025.webp",
+          "flyer_src": "images/Alumni Panel - Spring 2025.png"
+        },
+        {
+          "title": "Cybersecurity Essentials",
+          "semester": "Spring 2025",
+          "summary": "Gain insight into the world of cybersecurity analysis through hands-on training!",
+          "date": "Wednesday, April 23rd, 2025",
+          "time": "1:40 PM - 2:55 PM",
+          "room": null,
+          "status": "unknown",
+          "flyer": "img/events/cybersecurity-spring-2025-1.webp",
+          "flyer_src": "images/Cybersecurity - Spring 2025 (1).png"
+        },
+        {
+          "title": "Final General Meeting",
+          "semester": "Spring 2025",
+          "summary": "Join us for our last meeting of the year! Celebrate the end of finals, grab some merch, and connect with fellow club members.",
+          "date": "Thursday, May 8th, 2025",
+          "time": "1:40 PM - 2:55 PM",
+          "room": "1.114 - New Building",
+          "status": "unknown",
+          "flyer": "img/events/final-general-meeting-spring-2025.webp",
+          "flyer_src": "images/Final General Meeting - Spring 2025.png"
+        }
+      ]
+    },
+    {
+      "semester": "Fall 2024",
+      "events": [
+        {
+          "title": "First General Meeting",
+          "semester": "Fall 2024",
+          "summary": "The club’s first general meeting where plans and upcoming events of the Fall semester will be discussed.",
+          "date": "Wednesday, September 18th 2024",
+          "time": "1:40 PM - 2:55 PM",
+          "room": null,
+          "status": "past",
+          "flyer": "img/events/first-general-meeting.webp",
+          "flyer_src": "images/First_General_Meeting.png"
+        },
+        {
+          "title": "Introduction to Artificial Intelligence (ChatGPT) - Part 1",
+          "semester": "Fall 2024",
+          "summary": "The club’s first general meeting where plans and upcoming events of the Fall semester will be discussed.",
+          "date": "Wednesday, September 25th 2024",
+          "time": "1:40 PM - 2:55 PM",
+          "room": null,
+          "status": "past",
+          "flyer": "img/events/ai-part-1.webp",
+          "flyer_src": "images/AI_Part_1.png"
+        },
+        {
+          "title": "Movie Day - Halloween Special",
+          "semester": "Fall 2024",
+          "summary": "Join the Computer Science Society for a Halloween-themed movie day featuring \"Friday the 13th\". Come and enjoy a spooky afternoon with refreshments and treats for everyone!",
+          "date": "Wednesday, October 30th 2024",
+          "time": null,
+          "room": null,
+          "status": "past",
+          "flyer": "img/events/movie-day.webp",
+          "flyer_src": "images/Movie_Day.png"
+        },
+        {
+          "title": "Hands on with Artificial Intelligence (ChatGPT) - Part 2",
+          "semester": "Fall 2024",
+          "summary": "Students will learn how to use ChatGPT’s API to build their own chat bot, as well as other use cases. This is part 2 of a 2 part series.",
+          "date": "Wednesday, October 30th 2024",
+          "time": "1:40 PM - 2:55 PM",
+          "room": "1.114 - New Building",
+          "status": "past",
+          "flyer": "img/events/ai-part-2.webp",
+          "flyer_src": "images/AI_Part_2.png"
+        },
+        {
+          "title": "Introduction to AWS - Part 1",
+          "semester": "Fall 2024",
+          "summary": "Students will learn about AWS, a cloud computing service provided by Amazon and learn about its use case, and its importance in the current Software Engineering field. They will also learn about other AWS services like S3 Buckets, SQS, SNS, and Lambda functions. This will be the first part of a 2 part series.",
+          "date": "Wednesday, November 13th 2024",
+          "time": "1:40 PM - 2:55 PM",
+          "room": "1.114 - New Building",
+          "status": "past",
+          "flyer": "img/events/aws-part-1.webp",
+          "flyer_src": "images/AWS Part 1.png"
+        },
+        {
+          "title": "Hands on with AWS - Part 2",
+          "semester": "Fall 2024",
+          "summary": "Students will learn how to implement AWS services like S3 Buckets, SQS, Lambda Functions, SNS, and possibly a PostgresQL database with Python, which is a high-level programming language (or React) This will be the second part of a 2 part series.",
+          "date": "Wednesday, December 4th 2024",
+          "time": "1:40 PM - 2:55 PM",
+          "room": "1.114 - New Building",
+          "status": "past",
+          "flyer": "img/events/aws-part-2.webp",
+          "flyer_src": "images/AWS Part 2.png"
+        },
+        {
+          "title": "Final General Meeting",
+          "semester": "Fall 2024",
+          "summary": "The club’s last general meeting where we send off any graduating seniors, give out merch and celebrate the end of finals!",
+          "date": "Wednesday, December 11th 2024",
+          "time": "1:40 PM - 2:55 PM",
+          "room": "1.114 - New Building",
+          "status": "past",
+          "flyer": "img/events/css-final-general-meeting.webp",
+          "flyer_src": "images/CSS_Final_General_Meeting.png"
+        }
+      ]
+    }
+  ],
+  "unmatched_flyers": []
+}

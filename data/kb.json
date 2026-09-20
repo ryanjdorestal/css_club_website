@@ -1,0 +1,315 @@
+{
+  "version": 1,
+  "generated_by": "scripts/build_kb.py",
+  "note": "Public-safe entries only. Never board/operator internals.",
+  "fallback": {
+    "answer": "I'm not sure about that one — try asking about events, joining, apps, Cyberhounds, or resources.",
+    "suggestions": [
+      "What events are coming up?",
+      "How do I join?",
+      "What is Cyberhounds?"
+    ],
+    "emote": "confused"
+  },
+  "entries": [
+    {
+      "id": "join",
+      "keywords": [
+        "join",
+        "membership",
+        "member",
+        "sign up",
+        "signup",
+        "register",
+        "how do i join",
+        "become"
+      ],
+      "pages": [
+        "/join"
+      ],
+      "answer": "Joining is free and open to every John Jay student, any major. Head to the Join page, fill the onboarding form, and hop into the Discord — that's where day-to-day club life happens.",
+      "suggestions": [
+        "What events are coming up?",
+        "What is Cyberhounds?",
+        "How do I submit an app?"
+      ],
+      "citations": [
+        {
+          "label": "Join",
+          "href": "/join"
+        }
+      ],
+      "emote": "happy"
+    },
+    {
+      "id": "discord",
+      "keywords": [
+        "discord",
+        "server",
+        "chat",
+        "community",
+        "channel"
+      ],
+      "pages": [
+        "/join"
+      ],
+      "answer": "The club Discord is where announcements, study sessions, and CTF practice live. The invite link is on the Join page.",
+      "suggestions": [
+        "How do I join the club?",
+        "What is Cyberhounds?"
+      ],
+      "citations": [
+        {
+          "label": "Join",
+          "href": "/join"
+        }
+      ],
+      "emote": "happy"
+    },
+    {
+      "id": "events",
+      "keywords": [
+        "event",
+        "events",
+        "meeting",
+        "workshop",
+        "calendar",
+        "when",
+        "schedule",
+        "general meeting"
+      ],
+      "pages": [
+        "/events"
+      ],
+      "answer": "Events run every semester — general meetings, workshops (Python, AWS, AI, cybersecurity), career prep and alumni panels. The Events page lists the current semester and the archive.",
+      "suggestions": [
+        "Where are meetings held?",
+        "What workshops have you run?"
+      ],
+      "citations": [
+        {
+          "label": "Events",
+          "href": "/events"
+        }
+      ],
+      "emote": "happy"
+    },
+    {
+      "id": "apps",
+      "keywords": [
+        "app",
+        "apps",
+        "submit",
+        "project",
+        "showcase",
+        "built",
+        "publish"
+      ],
+      "pages": [
+        "/apps"
+      ],
+      "answer": "Apps is the club's showcase of student-built software. Built something? Submit it from the Apps page — the board reviews it and it goes live with your name on it.",
+      "suggestions": [
+        "How do I join?",
+        "What stack should I use?"
+      ],
+      "citations": [
+        {
+          "label": "Apps",
+          "href": "/apps"
+        }
+      ],
+      "emote": "happy"
+    },
+    {
+      "id": "cyberhounds",
+      "keywords": [
+        "cyberhounds",
+        "ctf",
+        "capture the flag",
+        "hacking",
+        "security",
+        "competition",
+        "picoctf",
+        "ncl"
+      ],
+      "pages": [
+        "/cyberhounds"
+      ],
+      "answer": "Cyberhounds is the club's CTF team — Capture The Flag competitions covering OSINT, web exploitation, cryptography and more. They compete in leagues like Cyber Skyline NCL, AngstromCTF and San Diego CTF. ",
+      "suggestions": [
+        "How do I join Cyberhounds?",
+        "What events are coming up?"
+      ],
+      "citations": [
+        {
+          "label": "Cyberhounds",
+          "href": "/cyberhounds"
+        }
+      ],
+      "emote": "happy"
+    },
+    {
+      "id": "resources",
+      "keywords": [
+        "resource",
+        "resources",
+        "learn",
+        "tutorial",
+        "internship",
+        "tutoring",
+        "study",
+        "course",
+        "codepath",
+        "leetcode"
+      ],
+      "pages": [
+        "/resources"
+      ],
+      "answer": "The Resources page collects 24 curated links — learning paths, internship boards, John Jay programs (Tech Talent Pipeline, MSRC tutoring, PRISM) and more, grouped by topic.",
+      "suggestions": [
+        "What events are coming up?",
+        "How do I join?"
+      ],
+      "citations": [
+        {
+          "label": "Resources",
+          "href": "/resources"
+        }
+      ],
+      "emote": "happy"
+    },
+    {
+      "id": "board",
+      "keywords": [
+        "board",
+        "president",
+        "officers",
+        "leadership",
+        "who runs",
+        "eboard",
+        "executive"
+      ],
+      "pages": [
+        "/about"
+      ],
+      "answer": "The most recent recorded board (Fall 2024 - Spring 2025): Leandro Gamarra (President); Perla Dahan (Vice-President); Javaughn Lindsay (Secretary); Brian De Los Santos (Treasurer); Elena Robin (Assistant VP); Michell Argus (Assistant Secretary). The full roster and alumni boards back to Fall 2020 are on the About page.",
+      "suggestions": [
+        "What does the club do?",
+        "How do I join the board?"
+      ],
+      "citations": [
+        {
+          "label": "About",
+          "href": "/about"
+        }
+      ],
+      "emote": "happy"
+    },
+    {
+      "id": "about",
+      "keywords": [
+        "about",
+        "what is",
+        "club",
+        "css",
+        "computer science society",
+        "mission",
+        "who are"
+      ],
+      "pages": [
+        "/about"
+      ],
+      "answer": "Let's grow together! The Computer Science Society (CSS) Club is dedicated to promoting the STEM field, specifically computer science, technology, and mathematics, because changing the world for the better all begins with how to utilize technology. We work to provide resources for any student, alumni, and professionals regardless of an individual's degree of knowledge or commitment in the field of…",
+      "suggestions": [
+        "How do I join?",
+        "What events are coming up?"
+      ],
+      "citations": [
+        {
+          "label": "About",
+          "href": "/about"
+        }
+      ],
+      "emote": "happy"
+    },
+    {
+      "id": "contact",
+      "keywords": [
+        "contact",
+        "email",
+        "reach",
+        "instagram",
+        "youtube",
+        "linkedin",
+        "social"
+      ],
+      "pages": [],
+      "answer": "Email the club at computersocjjay@gmail.com, or find CSS on Instagram, LinkedIn, YouTube and GitHub — all links are in the footer.",
+      "suggestions": [
+        "How do I join?"
+      ],
+      "citations": [
+        {
+          "label": "Join",
+          "href": "/join"
+        }
+      ],
+      "emote": "happy"
+    },
+    {
+      "id": "location",
+      "keywords": [
+        "where",
+        "room",
+        "location",
+        "address",
+        "campus",
+        "building"
+      ],
+      "pages": [
+        "/events"
+      ],
+      "answer": "CSS is at John Jay College, 524 W 59th St, New York, NY 10019. Meeting rooms change per event — each event card lists its room (hybrid options included).",
+      "suggestions": [
+        "What events are coming up?"
+      ],
+      "citations": [
+        {
+          "label": "Events",
+          "href": "/events"
+        }
+      ],
+      "emote": "happy"
+    },
+    {
+      "id": "workshops",
+      "keywords": [
+        "workshop",
+        "python",
+        "aws",
+        "react",
+        "ios",
+        "javascript",
+        "git",
+        "github",
+        "previous workshops"
+      ],
+      "pages": [
+        "/events"
+      ],
+      "answer": "Past workshops live as repos on the club GitHub (github.com/jjcss): Python, AWS, React fullstack, iOS, Git/GitHub, ethical hacking, interview prep and more. The Events page links them under Previous Workshops.",
+      "suggestions": [
+        "What events are coming up?",
+        "How do I join?"
+      ],
+      "citations": [
+        {
+          "label": "Events",
+          "href": "/events"
+        }
+      ],
+      "emote": "happy"
+    }
+  ]
+}

@@ -1,0 +1,8 @@
+{
+  "type": "object",
+  "required": ["website", "email", "discord", "github", "join_form", "verified"],
+  "properties": {
+    "email": { "type": "string" },
+    "verified": { "type": "boolean" }
+  }
+}

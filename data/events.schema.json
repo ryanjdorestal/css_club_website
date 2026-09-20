@@ -1,0 +1,29 @@
+{
+  "type": "object",
+  "required": ["source", "semesters"],
+  "properties": {
+    "semesters": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["semester", "events"],
+        "properties": {
+          "semester": { "type": "string" },
+          "events": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "required": ["title", "semester"],
+              "properties": {
+                "title": { "type": "string" },
+                "date": { "type": ["string", "null"] },
+                "flyer": { "type": ["string", "null"] },
+                "status": { "type": "string" }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}

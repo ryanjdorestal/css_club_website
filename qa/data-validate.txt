@@ -1,0 +1,9 @@
+OK   apps.json
+OK   board.json
+OK   events.json
+OK   kb.json
+OK   links.json
+OK   resources.json
+OK   workshops.json
+
+7/7 schemas pass
