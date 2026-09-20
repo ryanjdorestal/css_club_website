@@ -9,7 +9,6 @@ import appsData from "@data/apps.json";
 import links from "@data/links.json";
 import collaborate from "@data/collaborate.json";
 import homeRaw from "@content/home.md?raw";
-import aboutRaw from "@content/about.md?raw";
 import { parseMd } from "@/lib/md";
 import { Band } from "@/components/Band";
 import { Marquee } from "@/components/Marquee";
@@ -33,7 +32,6 @@ import { CubeRailProvider, CubeAnchor } from "@/cube/CubeRailContext";
 import { CubeSpot } from "@/cube/CubeSpot";
 
 const home = parseMd(homeRaw);
-const about = parseMd(aboutRaw);
 
 function bandCopy(title: string): string {
   const i = home.blocks.findIndex((b) => b.type === "h2" && b.text === title);

@@ -1,127 +1,187 @@
 import { useState } from "react";
+import { ArrowUpRight } from "lucide-react";
 import aboutRaw from "@content/about.md?raw";
 import board from "@data/board.json";
+import links from "@data/links.json";
 import { parseMd } from "@/lib/md";
-import { Section } from "@/components/Section";
-import { SectionHeader } from "@/components/SectionHeader";
+import { Band } from "@/components/Band";
+import { PageHero } from "@/components/PageHero";
+import { PosterBand } from "@/components/PosterBand";
+import { FinLine } from "@/components/FinLine";
+import { PhotoFrame } from "@/components/PhotoFrame";
+import { Pullquote } from "@/components/Pullquote";
+import { Watermark } from "@/components/Watermark";
+import { TicketCard } from "@/components/cards/TicketCard";
+import { IndexList } from "@/components/cards/IndexList";
 import { MonoLabel } from "@/components/MonoLabel";
-import { PixelDivider } from "@/components/PixelDivider";
+import { SplitLines } from "@/motion/SplitLines";
+import { Reveal, RevealGroup, RevealItem } from "@/motion/Reveal";
+import { CubeSpot } from "@/cube/CubeSpot";
+import { brand } from "@brand/brand.config";
 
 const doc = parseMd(aboutRaw);
 
-type Member = (typeof board.terms)[number]["members"][number];
-
-function MemberCard({ m }: { m: Member }) {
-  return (
-    <article className="border border-line rounded-(--radius-md) overflow-hidden bg-navy-500/30">
-      {m.photo && (
-        <img
-          src={`/${m.photo}`}
-          alt={m.name}
-          loading="lazy"
-          className="w-full aspect-square object-cover object-top border-b border-line bg-navy-800"
-        />
-      )}
-      <div className="p-4">
-        <h3 className="font-display font-bold text-base leading-tight">{m.name}</h3>
-        <MonoLabel accent>{m.role}</MonoLabel>
-        {m.bio && <p className="text-xs text-muted leading-relaxed mt-2 line-clamp-4">{m.bio}</p>}
-      </div>
-    </article>
-  );
+function sectionText(h: string): string {
+  const i = doc.blocks.findIndex((b) => b.type === "h2" && b.text.toLowerCase().includes(h.toLowerCase()));
+  return i >= 0 && doc.blocks[i + 1]?.type === "p" ? doc.blocks[i + 1].text : "";
 }
 
-/** /about — blue. Copy + current roster + alumni boards (collapsible by term). */
+// the old About's four "What We Do" activity tiles, carried verbatim
+const ACTIVITIES = [
+  { t: "Explore Cybersecurity", d: "Workshops and hands-on labs across security topics — the club's home turf." },
+  { t: "Learn New Languages", d: "Python, JavaScript, Swift, C++ — semester workshops for every level." },
+  { t: "Find The Best Resources", d: "A curated library: classes at John Jay, internships, tutoring, roadmaps." },
+  { t: "Conquer LeetCode", d: "Technical-interview prep sessions and practice together, not alone." },
+];
+
+const [current, ...alumni] = board.terms;
+
 export default function About() {
-  const [openTerms, setOpenTerms] = useState<Record<string, boolean>>({});
-  const [current, ...alumni] = board.terms;
-  const sections: { h: string; ps: string[] }[] = [];
-  for (const b of doc.blocks) {
-    if (b.type === "h2") sections.push({ h: b.text, ps: [] });
-    else if (sections.length) sections[sections.length - 1].ps.push(b.text);
-  }
-  // the old site published the same paragraph under two headings; keep the first
-  const seen = new Set<string>();
-  for (const s of sections) {
-    s.ps = s.ps.filter((p) => {
-      const key = p.slice(0, 80);
-      if (seen.has(key)) return false;
-      seen.add(key);
-      return true;
-    });
-  }
+  const [open, setOpen] = useState<string | null>(null);
+  const who = sectionText("grow together") || sectionText("Who We Are");
   return (
     <main>
-      <Section accent="blue">
-        <SectionHeader index="01" title="About" kicker="Who we are · What we do" as="h1" />
-        <div className="grid gap-8 md:grid-cols-2 max-w-5xl">
-          {sections
-            .filter((s) => s.ps.length > 0 && s.ps.join("").length > 40)
-            .slice(0, 4)
-            .map((s, i) => (
-              <div key={s.h} className="border-l-2 border-(--accent) pl-5">
-                <MonoLabel accent>{"//"} 0{i + 2}</MonoLabel>
-                <h2 className="font-display font-bold uppercase text-xl mt-1 mb-2" style={{ fontStretch: "112%" }}>
-                  {s.h}
-                </h2>
-                {s.ps.map((p, j) => (
-                  <p key={j} className="text-sm text-muted leading-relaxed mb-2">
-                    {p}
-                  </p>
-                ))}
+      <PageHero
+        kicker="ABOUT · WHO WE ARE · WHAT WE DO"
+        lines={["Who", "we are."]}
+        dek={who.slice(0, 260) + "…"}
+        right={<CubeSpot />}
+        stats={[
+          { v: board.terms.reduce((a, t) => a + t.members.length, 0), l: "OFFICERS · ALL TERMS" },
+          { v: board.terms.length, l: "BOARDS ON RECORD" },
+          { v: 6, l: "YEARS AT JOHN JAY" },
+          { v: 4, l: "COMMITTEES" },
+        ]}
+      />
+
+      {/* 2 — Let's grow together (spread) */}
+      <Band tone="light" accent="teal" index="01 — LET'S GROW TOGETHER" rail="01 · ABOUT · 01000001 · 2020 →">
+        <div className="grid md:grid-cols-[5fr_7fr] gap-10 md:gap-16 items-start">
+          <Reveal>
+            <PhotoFrame
+              src="/img/photos/involvement-fair-fall-2022.webp"
+              alt="CSS table at the involvement fair"
+              caption="INVOLVEMENT FAIR · FALL 2022"
+              tag="VISUAL · 01 / CLUB"
+              meta="FRAME · 001"
+            />
+          </Reveal>
+          <div>
+            <SplitLines
+              as="h2"
+              lines={["The club shines when", "everyone shines."]}
+              className="font-display font-black tracking-tight leading-[0.95] mb-6"
+              lineClass="text-[clamp(32px,4.4vw,64px)]"
+            />
+            <Reveal>
+              <p className="text-[16px] leading-relaxed max-w-[60ch]" style={{ color: "var(--tone-muted)" }}>{who}</p>
+            </Reveal>
+            <Reveal delay={0.1}>
+              <div className="mt-8">
+                <Pullquote cite="— the About page, kept verbatim">Let's grow together!</Pullquote>
               </div>
-            ))}
-        </div>
-      </Section>
-      {current && (
-        <Section accent="blue" className="pt-0">
-          <PixelDivider className="mb-10" />
-          <div className="flex items-baseline gap-4 mb-6 border-b border-line pb-3">
-            <span className="pixel text-(--accent-fg) text-3xl">05</span>
-            <h2 className="font-display font-bold uppercase text-2xl" style={{ fontStretch: "112%" }}>
-              The board
-            </h2>
-            <MonoLabel>{current.term} · most recent on record</MonoLabel>
+            </Reveal>
           </div>
-          <div className="grid gap-5 grid-cols-2 sm:grid-cols-3 lg:grid-cols-4">
-            {current.members.map((m) => (
-              <MemberCard key={m.name} m={m} />
-            ))}
-          </div>
-        </Section>
-      )}
-      <Section accent="blue" className="pt-0">
-        <div className="flex items-baseline gap-4 mb-6 border-b border-line pb-3">
-          <span className="pixel text-(--accent-fg) text-3xl">06</span>
-          <h2 className="font-display font-bold uppercase text-2xl" style={{ fontStretch: "112%" }}>
-            Alumni boards
-          </h2>
-          <MonoLabel>Fall 2020 → · the inheritance</MonoLabel>
         </div>
-        <div className="flex flex-col gap-3">
+      </Band>
+
+      {/* 3 — What We Do During The Semester */}
+      <Band tone="dark-2" accent="red" index="02 — WHAT WE DO DURING THE SEMESTER" rail="02 · SEMESTER · 01010111 · WEEKLY">
+        <Watermark src={brand.logos.svg} side="left" width="34vw" opacity={0.05} />
+        <IndexList
+          rows={ACTIVITIES.map((a, i) => ({
+            index: String(i + 1).padStart(2, "0"),
+            title: a.t,
+            dek: a.d,
+            meta: "EVERY TERM",
+            href: "/events",
+          }))}
+        />
+      </Band>
+
+      {/* 4 — Discussion With Your Peers */}
+      <Band tone="tinted" accent="blue" index="03 — DISCUSSION WITH YOUR PEERS" rail="03 · DISCORD · 01000100 · EST. 2021">
+        <div className="grid md:grid-cols-[7fr_5fr] gap-10 items-center">
+          <div>
+            <SplitLines
+              as="h2"
+              lines={["The server is the", "clubhouse."]}
+              className="font-display font-black tracking-tight leading-[0.95] mb-5"
+              lineClass="text-[clamp(32px,4.4vw,64px)]"
+            />
+            <Reveal>
+              <p className="text-[16px] leading-relaxed max-w-[56ch]" style={{ color: "var(--tone-muted)" }}>
+                {sectionText("Discussion")}
+              </p>
+            </Reveal>
+          </div>
+          <Reveal delay={0.1}>
+            <TicketCard
+              model="DSC-2021"
+              title="CSS @ JJAY · Discord"
+              rows={[
+                { k: "ESTABLISHED", v: "FEB 2021" },
+                { k: "INVITE", v: "discord.gg — click below" },
+                { k: "STATUS", v: "CLICK-TEST PENDING" },
+              ]}
+              footer={
+                <a href={links.discord} target="_blank" rel="noreferrer noopener" className="inline-flex items-center gap-2 px-5 py-2.5 rounded-(--radius-sm) bg-(--accent) text-(--accent-contrast) text-sm font-semibold hover:brightness-110 transition-all">
+                  Join the Discord <ArrowUpRight size={14} />
+                </a>
+              }
+            />
+          </Reveal>
+        </div>
+      </Band>
+
+      {/* 5 — The Board + term history */}
+      <Band tone="light-2" accent="green" index="04 — THE BOARD" title={`${current.term.toUpperCase()} · MOST RECENT ON RECORD`} rail="04 · BOARD · 01000010 · INHERITANCE">
+        <RevealGroup className="grid grid-cols-2 md:grid-cols-4 gap-5 mb-14">
+          {current.members.slice(0, 8).map((m) => (
+            <RevealItem key={m.name}>
+              <figure className="border border-(--tone-line) bg-paper p-2">
+                {m.photo && (
+                  <img src={`/${m.photo}`} alt={m.name} loading="lazy" className="w-full aspect-square object-cover object-top" />
+                )}
+                <figcaption className="pt-2 px-1 pb-1">
+                  <p className="font-display font-bold text-sm leading-tight" style={{ fontStretch: "108%" }}>{m.name}</p>
+                  <MonoLabel className="!text-(--accent)">{m.role}</MonoLabel>
+                </figcaption>
+              </figure>
+            </RevealItem>
+          ))}
+        </RevealGroup>
+        <p className="mono-label mb-4" style={{ color: "var(--tone-muted)" }}>TERM HISTORY · FALL 2020 → · THE INHERITANCE</p>
+        <div className="border-t border-(--tone-line)">
           {alumni.map((t) => (
-            <div key={t.term} className="border border-line rounded-(--radius-md)">
+            <div key={t.term} className="border-b border-(--tone-line)">
               <button
-                onClick={() => setOpenTerms((s) => ({ ...s, [t.term]: !s[t.term] }))}
-                className="w-full flex items-center justify-between px-5 py-3.5 cursor-pointer"
-                aria-expanded={!!openTerms[t.term]}
+                onClick={() => setOpen(open === t.term ? null : t.term)}
+                aria-expanded={open === t.term}
+                className="w-full flex items-center gap-6 py-4 cursor-pointer group"
               >
-                <span className="font-display font-bold uppercase text-sm" style={{ fontStretch: "110%" }}>
-                  {t.term}
-                </span>
-                <MonoLabel>{t.members.length} members {openTerms[t.term] ? "−" : "+"}</MonoLabel>
+                <span className="mono-label text-(--accent-ink) w-8 text-left">{open === t.term ? "−" : "+"}</span>
+                <span className="font-display font-bold text-lg" style={{ fontStretch: "108%" }}>{t.term}</span>
+                <span className="mono-label ml-auto" style={{ color: "var(--tone-muted)" }}>{t.members.length} MEMBERS</span>
               </button>
-              {openTerms[t.term] && (
-                <div className="grid gap-5 grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 p-5 border-t border-line">
+              {open === t.term && (
+                <div className="grid grid-cols-2 md:grid-cols-5 gap-4 pb-6">
                   {t.members.map((m) => (
-                    <MemberCard key={m.name} m={m} />
+                    <div key={m.name} className="border border-(--tone-line) bg-paper p-3">
+                      <p className="font-display font-bold text-sm leading-tight" style={{ fontStretch: "108%" }}>{m.name}</p>
+                      <MonoLabel className="!text-(--accent)">{m.role}</MonoLabel>
+                      {m.bio && <p className="text-xs mt-2 line-clamp-3" style={{ color: "var(--tone-muted)" }}>{m.bio}</p>}
+                    </div>
                   ))}
                 </div>
               )}
             </div>
           ))}
         </div>
-      </Section>
+      </Band>
+
+      <PosterBand accent="teal" meta="// THE BANNER SAYS IT" lines={["Debug your mind.", { text: "Commit to growth.", className: "text-teal" }]} />
+      <FinLine n="02" />
     </main>
   );
 }

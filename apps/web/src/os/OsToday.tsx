@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import events from "@data/events.json";
 import board from "@data/board.json";
 import { MonoLabel } from "@/components/MonoLabel";
-import { StatTile } from "@/components/StatTile";
+import { BigStat } from "@/components/cards/SpecSheet";
 import { readInbox } from "./inbox";
 
 /** /os — Today. Honest numbers only: local queue, API status, data snapshot. */
@@ -31,10 +31,16 @@ export default function OsToday() {
       <h1 className="font-display font-black uppercase text-3xl mt-1 mb-8" style={{ fontStretch: "115%" }}>
         Operations
       </h1>
-      <div className="grid sm:grid-cols-3 border border-line rounded-(--radius-md) mb-8">
-        <StatTile value={String(inbox.length)} label="In this browser's queue" />
-        <StatTile value={api === "checking" ? "…" : api} label="Python API" />
-        <StatTile value={dbState} label="Supabase" hint={dbState === "skipped" ? "Tier 1 — not configured" : undefined} />
+      <div data-tone="dark-3" className="grid sm:grid-cols-3 gap-px bg-line border border-line mb-8">
+        <div className="bg-navy-900"><BigStat value={inbox.length} label="IN THIS BROWSER'S QUEUE" /></div>
+        <div className="bg-navy-900 px-5 py-4">
+          <span className="font-display font-black text-[clamp(28px,3vw,44px)] leading-none text-teal" style={{ fontStretch: "115%" }}>{api === "checking" ? "…" : api.toUpperCase()}</span>
+          <p className="mono-label opacity-60 mt-1.5">PYTHON API</p>
+        </div>
+        <div className="bg-navy-900 px-5 py-4">
+          <span className="font-display font-black text-[clamp(28px,3vw,44px)] leading-none text-teal" style={{ fontStretch: "115%" }}>{dbState.toUpperCase()}</span>
+          <p className="mono-label opacity-60 mt-1.5">SUPABASE{dbState === "skipped" ? " · TIER 1 — NOT CONFIGURED" : ""}</p>
+        </div>
       </div>
       <div className="grid md:grid-cols-2 gap-4">
         <section className="border border-line rounded-(--radius-md) p-5">
