@@ -11,3 +11,16 @@
 | 6 | fontStretch inline styles left inert on un-migrated pages | Chakra has no width axis; they no-op and are removed during each page loop |
 | 7 | StatusBar SCN counts <main section> elements above viewport center | real section index, no per-page wiring |
 | 8 | Wireframe cube SVG hand-drawn (iso hexagon + Y edges + notch ticks + vertex dots) | GLB edge-export script exceeds the time box; the drawn mark matches T06's radar language |
+
+## Checkpoint ~40 min — run complete
+Loop 0 (17 min) + Home + all pages patched to the register; all builds green; Lighthouse 83/90 desktop (no regress); parity untouched (no copy moved).
+
+| # | Decision | Why |
+|---|---|---|
+| 9 | Decode skipped on treated hero lines (stencil/outline); used on kicker + untreated lines + poster words | decode over stroke-only glyphs reads as soup mid-animation |
+| 10 | Old SplitLines retained where pages still pass display classes; heroes converted to t-* roles page by page | var(--font-display) flip meant zero-broken intermediate states |
+| 11 | Apps/Join form fields → mono, _label rail, 1px bottom border (T04/T12 form language) | §7.4 |
+| 12 | Resources rail → A–F letter cells with ring on active (Priva scenario rail) | §7.6 |
+| 13 | Events hero uses CubeSigil face="r" marks floating through type instead of 3D spots | §7.3; SVG sigils keep the hero canvas-free on sub-pages |
+| 14 | PosterBand alternates EdgeCrop side per line | T02's crop reads best when lines shear opposite ways |
+| 15 | perf: fonts self-hosted killed the render-blocking Google CSS; 83/90 desktop across two runs | gate held (median ≥84) |
