@@ -2,6 +2,7 @@ import { lazy, Suspense } from "react";
 import { Routes, Route, Outlet, useLocation } from "react-router-dom";
 import { Nav } from "@/components/Nav";
 import { Footer } from "@/components/Footer";
+import { HoundChat } from "@/mascot/HoundChat";
 
 const Home = lazy(() => import("@/pages/Home"));
 const Events = lazy(() => import("@/pages/Events"));
@@ -41,6 +42,7 @@ function Layout() {
         <Outlet />
       </div>
       <Footer />
+      <HoundChat />
     </div>
   );
 }

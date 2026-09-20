@@ -10,6 +10,7 @@ import { Ticker } from "@/components/Ticker";
 import { StampLockup } from "@/components/StampLockup";
 import { brand } from "@brand/brand.config";
 import { BinaryRings } from "@/components/BinaryRings";
+import { Bloodhound } from "@/mascot/Bloodhound";
 
 const ACCENTS = ["red", "green", "blue"] as const;
 
@@ -34,6 +35,21 @@ export default function Styleguide() {
             <div className="w-14 h-14 rounded-(--radius-sm) bg-blue border border-line" />
           </div>
           <p className="pixel text-teal text-2xl">{brand.taglines.primary}</p>
+        </div>
+      </Section>
+      <Section accent="teal" className="pt-0">
+        <MonoLabel accent>{"//"} The Hound · six emotes · idle / thinking / happy / confused / sleeping / alert</MonoLabel>
+        <div className="flex flex-wrap gap-6 mt-4 items-end">
+          {(["idle", "thinking", "happy", "confused", "sleeping", "alert"] as const).map((e) => (
+            <div key={e} className="flex flex-col items-center gap-2">
+              <Bloodhound emote={e} size={128} />
+              <MonoLabel>{e}</MonoLabel>
+            </div>
+          ))}
+          <div className="flex flex-col items-center gap-2">
+            <Bloodhound emote="idle" size={32} />
+            <MonoLabel>32px launcher</MonoLabel>
+          </div>
         </div>
       </Section>
       <Ticker items={[brand.taglines.ticker]} />

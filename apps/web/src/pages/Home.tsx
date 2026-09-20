@@ -15,7 +15,7 @@ import { Ticker } from "@/components/Ticker";
 import { BinaryRings } from "@/components/BinaryRings";
 import { CornerBrackets } from "@/components/CornerBrackets";
 import { PixelDivider } from "@/components/PixelDivider";
-import { CubeSpot } from "@/cube/CubeSpot";
+import { CubeHero } from "@/cube/CubeHero";
 
 const home = parseMd(homeRaw);
 const heroCopy = home.blocks.find((b) => b.type === "p")?.text ?? "";
@@ -87,7 +87,7 @@ export default function Home() {
               </ButtonLink>
             </div>
           </div>
-          <CubeSpot />
+          <CubeHero />
         </div>
         {/* Status strip — jj_11 stat tiles; every number is derived from data */}
         <div className="border-t border-line bg-navy-700/60">

@@ -27,3 +27,8 @@ Decisions made without asking, per the 120-minute rule. One line of reason each.
 | 21 | 3 | About page dedupes identical paragraphs (old site published the same copy under two headings) | Content bug carried in source; display-level dedupe keeps content/ faithful to the extraction. |
 | 22 | 3 | Forms fall back to a localStorage inbox with an honest "saved on this device" message | Tier-1: no dead forms; API lands in phase 5. |
 | 23 | 3 | News uses the light blue-tinted surface; every other public page stays dark | DESIGN.md: light surfaces are deliberate per-page choices; News is the reading page. |
+| 24 | 4 | Cube env-light uses three's RoomEnvironment via PMREM, not drei's <Environment> presets | drei presets fetch HDRs from a CDN — breaks Tier-1 offline; RoomEnvironment is bundled. |
+| 25 | 4 | Cube mounts only when visible + motion allowed; error boundary falls back to the PNG | Tier 1: the hero can never break; reduced-motion gets the static image per DESIGN.md. |
+| 26 | 4 | Bloodhound drawn friendlier than the banner's fierce game-day pose | A snarling assistant reads wrong at 32px; beanie/ears/jowls/navy-teal all kept from the banner. |
+| 27 | 4 | Chat treats a 404 on GET /api/chat as offline and answers from the bundled KB | Correct until phase 5 ships the endpoint; the same path is the production offline behavior. |
+| 28 | 4 | Scroll-explode cube animation deferred | Time-box; idle rotation + parallax + face hover/click (the "minimum" line) are in. |
