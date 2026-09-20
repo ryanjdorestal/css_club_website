@@ -1,6 +1,6 @@
 import type { ReactNode } from "react";
 
-/** JetBrains Mono, uppercase, 11px, 0.08em — the spec-sheet label (jj_10, jj_11). */
+/** Legacy shim — run-3 label style; prefer <Label> with a prefix glyph. */
 export function MonoLabel({
   children,
   accent = false,
@@ -11,9 +11,7 @@ export function MonoLabel({
   className?: string;
 }) {
   return (
-    <span
-      className={`mono-label ${accent ? "text-(--accent-fg)" : "text-muted"} ${className}`}
-    >
+    <span className={`t-label ${accent ? "raise text-(--accent-ink)" : ""} ${className}`}>
       {children}
     </span>
   );

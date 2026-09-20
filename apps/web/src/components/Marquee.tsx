@@ -1,22 +1,21 @@
-/** True infinite marquee (two copies, translateX(-50%)). Replaces Ticker. */
+/** Ticker: mono caps, // separators, ▮ block glyphs. */
 export function Marquee({ items }: { items: string[] }) {
   const strip = (
     <>
       {items.map((t, i) => (
-        <span key={i} className="flex items-center gap-8 shrink-0">
-          <span className="font-display font-bold uppercase text-sm tracking-wide opacity-80" style={{ fontStretch: "115%" }}>
-            {t}
-          </span>
-          <span className="text-(--accent-fg)">✦</span>
+        <span key={i} className="flex items-center gap-6 shrink-0">
+          <span className="t-label raise !tracking-[0.14em]">{t.toUpperCase()}</span>
+          <span aria-hidden className="text-(--accent-fg) text-[10px]">▮</span>
+          <span aria-hidden className="t-micro opacity-40">{"//"}</span>
         </span>
       ))}
     </>
   );
   return (
-    <div aria-hidden data-tone="dark-2" className="overflow-hidden border-y border-line py-3.5 select-none">
-      <div className="marquee-track flex gap-8 w-max">
-        <div className="flex gap-8 shrink-0">{strip}</div>
-        <div className="flex gap-8 shrink-0">{strip}</div>
+    <div aria-hidden data-tone="dark-2" className="overflow-hidden border-y border-line py-2.5 select-none">
+      <div className="marquee-track flex gap-6 w-max">
+        <div className="flex gap-6 shrink-0">{strip}</div>
+        <div className="flex gap-6 shrink-0">{strip}</div>
       </div>
     </div>
   );

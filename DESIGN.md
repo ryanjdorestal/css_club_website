@@ -22,12 +22,15 @@ posters (halftone, geometric type), jj_10 phone UI (technical labels), jj_12 Sup
 - Light surfaces (reading pages, OS documents): `#F5F7FA` with the section accent at 12–15% tint — exactly how the old site tinted its sections, modernized. Not cream.
 - Rule: **one accent per section.** Teal is the only color allowed everywhere.
 
-**Type**
-- Display: **Archivo** (variable; use expanded widths for hero/section titles — the CATCH/TRA look)
-- Body: **Poppins** (the old site's typeface — continuity; text weights only, never for display)
-- Labels/metadata: **JetBrains Mono**, uppercase, 11px, 0.08em tracking. Numbers are the design.
-- Accent mono: **VT323** (the old site's pixel-terminal font) — only at large sizes: the binary rings, ticker digits, big counters, the 404. Never below 20px.
-- **Never Inter.**
+**Type — v2 (run 3, the "sigil pass"; evidence in `context/22_REF_STUDY.md`)**
+- Display: **Chakra Petch** 600/700 — squared, stencil-cut caps (H1/H2, poster words, stat numerals).
+- Wide: **Michroma** — ultra-extended wordmarks, footer brandmark, fin line, poster single words.
+- Pixel: **Silkscreen** — poster eyebrows, big counters, the 404; ≥18px only.
+- Body: **Space Grotesk** 400/500 — paragraphs, list titles, inputs.
+- Labels/readouts: **JetBrains Mono**, tracked caps 9–11px with prefix glyphs (`/01`, `//SCN_01`, `_status`, `>`, `[1]`, `●`).
+- Legacy pixel: **VT323** — binary rings + ticker digits only.
+- Headline treatments: stencil bars · solid+outline pair · split-fill · edge-crop · wireframe-through · decode reveal.
+- Retired: **Archivo** (too friendly/round for the register), **Poppins** (rounded geometric). **Never Inter.** All faces self-hosted via @fontsource.
 
 **Identity elements**: cube (`assets/brand/cs_logo_sharp.svg`, `assets/cube/cs_cube.glb`) ·
 binary rings `01001…` in VT323 on circular paths, faint, drifting (background texture; from

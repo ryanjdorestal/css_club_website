@@ -7,6 +7,8 @@ import pkg from "../../package.json";
 import { StampLockup } from "./StampLockup";
 import { BinaryRings } from "./BinaryRings";
 import { useLenis } from "@/motion/LenisProvider";
+import { CSSKufic } from "@/sigils";
+import { buildHash, buildTime } from "@/lib/readouts";
 
 const NAVIGATE = [
   { to: "/", label: "Home" },
@@ -53,19 +55,20 @@ export function Footer() {
       {/* 1 — grid */}
       <div className="relative max-w-[1280px] mx-auto px-5 md:px-10 pt-24 pb-14 grid gap-12 md:grid-cols-2 lg:grid-cols-4">
         <div>
-          <div className="flex items-center gap-4">
+          <div className="relative flex items-center gap-4">
+            <CSSKufic size={72} className="absolute -left-4 -top-6 opacity-[0.05] pointer-events-none" />
             <StampLockup size={116} />
             <img src="/img/brand/jj_shield.png" alt="John Jay College of Criminal Justice" className="w-16 h-16" />
           </div>
           <div id="footer-cube-dock" className="mt-4 w-14 h-14">
             <img src={brand.logos.svg} alt="" className="w-14 h-14 md:opacity-0" />
           </div>
-          <p className="pixel text-teal text-2xl mt-4 max-w-[240px] leading-tight">
-            {brand.taglines.primary}
+          <p className="t-micro raise text-teal mt-5 tracking-[0.18em] leading-[1.8] max-w-[280px]">
+            JJ · CSS · {brand.taglines.primary.toUpperCase()}
           </p>
         </div>
         <nav aria-label="Footer navigation">
-          <p className="mono-label text-(--accent-ink) mb-4">{"//"} NAVIGATE</p>
+          <p className="t-micro raise text-(--accent-ink) mb-4">_navigate</p>
           <ul className="space-y-2.5">
             {NAVIGATE.map((l) => (
               <li key={l.to}>
@@ -77,7 +80,7 @@ export function Footer() {
           </ul>
         </nav>
         <div>
-          <p className="mono-label text-(--accent-ink) mb-4">{"//"} CONNECT</p>
+          <p className="t-micro raise text-(--accent-ink) mb-4">_connect</p>
           <ul className="space-y-2.5">
             {CONNECT.map((l) => (
               <li key={l.label} className="flex items-baseline justify-between gap-3">
@@ -90,7 +93,7 @@ export function Footer() {
           </ul>
         </div>
         <div>
-          <p className="mono-label text-(--accent-ink) mb-4">{"//"} META</p>
+          <p className="t-micro raise text-(--accent-ink) mb-4">_meta</p>
           <ul className="space-y-2.5 text-sm text-muted">
             <li>Built with React · Python · Supabase</li>
             <li>
@@ -98,10 +101,11 @@ export function Footer() {
                 Source ↗ github.com/jjcss
               </a>
             </li>
-            <li className="mono-label">MIT · content from CSS_Website@{brand.source.commit}</li>
+            <li className="t-micro opacity-70">MIT · CONTENT FROM CSS_WEBSITE@{brand.source.commit.toUpperCase()}</li>
+            <li className="t-micro opacity-70 tnum">BUILD {buildHash().toUpperCase()} · {buildTime()}</li>
             <li>
-              <Link to="/os/login" className="mono-label text-muted/60 hover:text-teal transition-colors">
-                OS login →
+              <Link to="/os/login" className="t-micro opacity-50 hover:opacity-100 hover:text-teal transition-all">
+                OS_LOGIN →
               </Link>
             </li>
           </ul>
@@ -134,14 +138,14 @@ export function Footer() {
       {/* 3 — bottom rail */}
       <div className="relative border-t border-line">
         <div className="max-w-[1280px] mx-auto px-5 md:px-10 py-5 flex flex-wrap items-center gap-x-6 gap-y-2">
-          <span className="mono-label text-muted">© {new Date().getFullYear()} John Jay Computer Science Society</span>
-          <span className="mono-label text-muted/60">Handed to the board</span>
-          <span className="mono-label text-muted/60">v{pkg.version}</span>
+          <span className="t-micro opacity-60">© {new Date().getFullYear()} JOHN_JAY_COMPUTER_SCIENCE_SOCIETY</span>
+          <span className="t-micro opacity-40">HANDED_TO_THE_BOARD</span>
+          <span className="t-micro opacity-40 tnum">V{pkg.version}</span>
           <button
             onClick={() => (lenis ? lenis.scrollTo(0) : window.scrollTo({ top: 0, behavior: reduced ? "auto" : "smooth" }))}
-            className="mono-label text-teal hover:underline ml-auto cursor-pointer"
+            className="t-micro raise text-teal hover:underline ml-auto cursor-pointer"
           >
-            Back to top ↑
+            BACK_TO_TOP ↑
           </button>
         </div>
       </div>
@@ -150,17 +154,17 @@ export function Footer() {
       <div aria-hidden className="relative overflow-hidden select-none" style={{ marginBottom: "-0.30em" }}>
         <motion.div
           style={reduced ? { opacity: 0.07 } : { y: wmY, opacity: wmOpacity }}
-          className="whitespace-nowrap text-center font-display font-black uppercase text-ink leading-[0.82]"
+          className="whitespace-nowrap t-wide text-ink leading-[0.86]"
         >
-          <span className="block max-md:hidden" style={{ fontSize: "clamp(96px, 17.5vw, 260px)", letterSpacing: "-0.04em" }}>
+          <span className="block max-md:hidden" style={{ fontSize: "clamp(80px, 13.5vw, 210px)", letterSpacing: "-0.02em", marginInlineStart: "-0.06em" }}>
             Computer Science
           </span>
-          <span className="block max-md:hidden" style={{ fontSize: "clamp(96px, 17.5vw, 260px)", letterSpacing: "-0.04em" }}>
+          <span className="block max-md:hidden" style={{ fontSize: "clamp(80px, 13.5vw, 210px)", letterSpacing: "-0.02em", marginInlineStart: "-0.06em" }}>
             Society
           </span>
-          <span className="hidden max-md:block" style={{ fontSize: "26vw", letterSpacing: "-0.04em" }}>Computer</span>
-          <span className="hidden max-md:block" style={{ fontSize: "26vw", letterSpacing: "-0.04em" }}>Science</span>
-          <span className="hidden max-md:block" style={{ fontSize: "26vw", letterSpacing: "-0.04em" }}>Society</span>
+          <span className="hidden max-md:block" style={{ fontSize: "22vw", marginInlineStart: "-0.06em" }}>Computer</span>
+          <span className="hidden max-md:block" style={{ fontSize: "22vw", marginInlineStart: "-0.06em" }}>Science</span>
+          <span className="hidden max-md:block" style={{ fontSize: "22vw", marginInlineStart: "-0.06em" }}>Society</span>
         </motion.div>
       </div>
     </footer>

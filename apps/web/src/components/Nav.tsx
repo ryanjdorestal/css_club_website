@@ -2,28 +2,35 @@ import { useEffect, useRef, useState } from "react";
 import { Link, NavLink, useLocation } from "react-router-dom";
 import { AnimatePresence, motion } from "motion/react";
 import { Menu } from "lucide-react";
-import { brand } from "@brand/brand.config";
 import { NavOverlay } from "./NavOverlay";
+import { CubeSigil } from "@/sigils";
+import { nyTime, useApiState } from "@/lib/readouts";
 
 const LINKS = [
-  { to: "/events", label: "Events" },
-  { to: "/apps", label: "Apps" },
-  { to: "/cyberhounds", label: "Cyberhounds" },
-  { to: "/about", label: "About" },
-  { to: "/resources", label: "Resources" },
-  { to: "/news", label: "News" },
+  { to: "/events", label: "EVENTS" },
+  { to: "/apps", label: "APPS" },
+  { to: "/cyberhounds", label: "CYBERHOUNDS" },
+  { to: "/about", label: "ABOUT" },
+  { to: "/resources", label: "RESOURCES" },
+  { to: "/news", label: "NEWS" },
 ];
 
-/** Morph nav: transparent at top → compact blurred bar after 24px; hides on
-    scroll-down past 400, reveals on scroll-up. Active underline animates
-    between items (layoutId). */
+/** Nav v2 (§5c): CubeSigil + CSS wide logotype + //JOHN_JAY; mono links with
+    / separators; > prefix on active; SYS.TIME + ● LIVE readouts; Block CTA. */
 export function Nav() {
   const [scrolled, setScrolled] = useState(false);
   const [hidden, setHidden] = useState(false);
   const [open, setOpen] = useState(false);
+  const [time, setTime] = useState(nyTime());
+  const api = useApiState();
   const lastY = useRef(0);
   const ticking = useRef(false);
   const { pathname } = useLocation();
+
+  useEffect(() => {
+    const iv = setInterval(() => setTime(nyTime()), 1000);
+    return () => clearInterval(iv);
+  }, []);
 
   useEffect(() => {
     const onScroll = () => {
@@ -48,62 +55,49 @@ export function Nav() {
         data-scrolled={scrolled || undefined}
         animate={{ y: hidden && !open ? "-100%" : "0%" }}
         transition={{ duration: 0.35, ease: [0.22, 1, 0.36, 1] }}
-        className={`fixed top-0 left-0 right-0 z-50 transition-[background,border,height] duration-300 ${
-          scrolled ? "border-b border-line" : "border-b border-transparent"
-        }`}
+        className={`fixed top-0 left-0 right-0 z-50 transition-[background,border,height] duration-300 ${scrolled ? "border-b border-line" : "border-b border-transparent"}`}
         style={{
-          background: scrolled ? "color-mix(in srgb, var(--color-navy-900) 70%, transparent)" : "transparent",
+          background: scrolled ? "color-mix(in srgb, var(--color-navy-900) 72%, transparent)" : "transparent",
           backdropFilter: scrolled ? "blur(12px)" : "none",
           WebkitBackdropFilter: scrolled ? "blur(12px)" : "none",
         }}
       >
-        <div
-          className={`max-w-[1440px] mx-auto flex items-center gap-6 px-5 md:px-10 transition-[height] duration-300 ${
-            scrolled ? "h-14" : "h-[72px]"
-          }`}
-        >
+        <div className={`max-w-[1440px] mx-auto flex items-center gap-5 px-5 md:px-10 transition-[height] duration-300 ${scrolled ? "h-14" : "h-[72px]"}`}>
           <Link to="/" className="flex items-center gap-2.5 shrink-0" onClick={() => setOpen(false)}>
-            <motion.img
-              src={brand.logos.svg}
-              alt=""
-              animate={{ scale: scrolled ? 0.85 : 1 }}
-              className="w-7 h-7"
-            />
-            <span className="font-display font-extrabold uppercase text-base leading-none" style={{ fontStretch: "118%" }}>
-              CSS
-            </span>
-            <span className="mono-label text-muted hidden sm:block">John Jay</span>
+            <motion.span animate={{ scale: scrolled ? 0.85 : 1 }} className="text-ink">
+              <CubeSigil size={20} />
+            </motion.span>
+            <span className="t-wide text-[14px] leading-none">CSS</span>
+            <span className="t-micro opacity-55 hidden sm:block">{"//"}JOHN_JAY</span>
           </Link>
-          <div className="hidden lg:flex items-center gap-7 mx-auto">
-            {LINKS.map((l) => (
-              <NavLink key={l.to} to={l.to} className="relative py-2 text-sm font-medium text-muted hover:text-ink transition-colors">
-                {({ isActive }) => (
-                  <>
-                    <span className={isActive ? "text-ink" : ""}>{l.label}</span>
-                    {isActive && (
-                      <motion.span
-                        layoutId="nav-underline"
-                        className="absolute left-0 right-0 -bottom-px h-[2px] bg-(--accent)"
-                        transition={{ duration: 0.35, ease: [0.22, 1, 0.36, 1] }}
-                      />
-                    )}
-                  </>
-                )}
-              </NavLink>
+          <div className="hidden lg:flex items-center mx-auto">
+            {LINKS.map((l, i) => (
+              <span key={l.to} className="flex items-center">
+                {i > 0 && <span aria-hidden className="t-micro opacity-30 px-2.5">/</span>}
+                <NavLink to={l.to} className="relative py-2 t-label !tracking-[0.12em] !text-[12px] hover:!opacity-100 transition-opacity">
+                  {({ isActive }) => (
+                    <>
+                      {isActive && <span className="pfx mr-1">&gt;</span>}
+                      <span className={isActive ? "raise" : ""}>{l.label}</span>
+                      {isActive && (
+                        <motion.span layoutId="nav-underline" className="absolute left-0 right-0 -bottom-px h-[2px] bg-(--accent)" transition={{ duration: 0.35, ease: [0.22, 1, 0.36, 1] }} />
+                      )}
+                    </>
+                  )}
+                </NavLink>
+              </span>
             ))}
           </div>
-          <div className="flex items-center gap-3 ml-auto lg:ml-0">
-            <Link
-              to="/join"
-              className="hidden sm:inline-flex mono-label bg-(--accent) text-(--accent-contrast) font-semibold px-4 py-2 rounded-(--radius-sm) hover:brightness-110 transition-all"
-            >
-              Join
+          <div className="flex items-center gap-4 ml-auto lg:ml-0">
+            <span className="t-micro raise tnum hidden xl:block opacity-70">SYS.TIME {time.hms} {time.utc}</span>
+            <span className={`t-micro raise hidden md:block ${api.live ? "text-teal" : "opacity-50"}`}>
+              {api.live === null ? "○ --" : api.live ? "● LIVE" : "○ OFFLINE"}
+            </span>
+            <Link to="/join" className="hidden sm:inline-flex items-stretch t-micro raise font-semibold" aria-label="Join">
+              <span className="flex items-center px-3.5 py-2 bg-(--accent) text-(--accent-contrast)">JOIN</span>
+              <span className="flex items-center justify-center w-7 bg-(--accent) text-(--accent-contrast) border-l border-navy-900/25">↗</span>
             </Link>
-            <button
-              className="lg:hidden text-ink p-2 cursor-pointer"
-              aria-label="Open menu"
-              onClick={() => setOpen(true)}
-            >
+            <button className="lg:hidden text-ink p-2 cursor-pointer" aria-label="Open menu" onClick={() => setOpen(true)}>
               <Menu size={22} />
             </button>
           </div>

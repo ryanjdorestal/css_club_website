@@ -22,10 +22,12 @@
   --color-cube-blue: #2058A0;
   --color-light: #F5F7FA;
   --color-seam: #1A1618;
-  --font-display: "Archivo", system-ui, sans-serif;
-  --font-body: "Poppins", system-ui, sans-serif;
+  --font-display: "Chakra Petch", "Rajdhani", system-ui, sans-serif;
+  --font-wide: "Michroma", "Syncopate", system-ui, sans-serif;
+  --font-body: "Space Grotesk", system-ui, sans-serif;
   --font-mono: "JetBrains Mono", ui-monospace, monospace;
-  --font-pixel: "VT323", monospace;
+  --font-pixel: "Silkscreen", monospace;
+  --font-legacy: "VT323", monospace;
   --radius-sm: 4px;
   --radius-md: 8px;
   --radius-lg: 14px;
@@ -102,9 +104,14 @@ body {
   text-transform: uppercase;
 }
 
-/* VT323 only at >= 20px */
+/* Silkscreen pixel accents — never below 18px */
 .pixel {
   font-family: var(--font-pixel);
+  font-size: max(18px, 1em);
+}
+/* VT323 stays only for binary rings + ticker digits */
+.pixel-legacy {
+  font-family: var(--font-legacy);
   font-size: max(20px, 1em);
 }
 

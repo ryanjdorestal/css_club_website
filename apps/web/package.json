@@ -12,6 +12,13 @@
     "compare": "node qa-scripts/compare.mjs"
   },
   "dependencies": {
+    "@fontsource/chakra-petch": "^5.3.0",
+    "@fontsource/jetbrains-mono": "^5.3.0",
+    "@fontsource/michroma": "^5.3.0",
+    "@fontsource/silkscreen": "^5.3.0",
+    "@fontsource/space-grotesk": "^5.3.0",
+    "@fontsource/syncopate": "^5.3.0",
+    "@fontsource/vt323": "^5.3.0",
     "@react-three/drei": "^10.7.8",
     "@react-three/fiber": "^9.7.0",
     "@react-three/postprocessing": "^3.1.1",

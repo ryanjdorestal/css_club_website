@@ -1,28 +1,39 @@
+import type { CSSProperties } from "react";
 import { Counter } from "@/motion/Counter";
+import { Brackets } from "../frame";
+import { Meter } from "./Meter";
 
-/** jj_03 floating stat chip — absolutely positioned over art by the caller. */
-export function StatChip({
+/** Readout — HUD box (T06): 1px border, brackets, micro label, display value. */
+export function Readout({
   value,
   suffix = "",
   label,
+  meter,
   className = "",
   style,
 }: {
   value: number;
   suffix?: string;
   label: string;
+  meter?: number;
   className?: string;
-  style?: React.CSSProperties;
+  style?: CSSProperties;
 }) {
   return (
     <div
-      className={`rounded-(--radius-md) border border-ink/15 bg-navy-900/55 px-4 py-2.5 shadow-xl ${className}`}
-      style={{ backdropFilter: "blur(10px)", WebkitBackdropFilter: "blur(10px)", ...style }}
+      className={`group relative border border-ink/20 bg-navy-900/55 px-4 py-2.5 ${className}`}
+      style={{ backdropFilter: "blur(8px)", WebkitBackdropFilter: "blur(8px)", ...style }}
     >
-      <span className="font-display font-black text-2xl text-ink leading-none" style={{ fontStretch: "115%" }}>
-        <Counter value={value} suffix={suffix} />
+      <Brackets size={8} inset={-1} />
+      <span className="t-stat !text-[26px] text-ink block">
+        <Counter value={value} />
+        {suffix && <span className="unit">{suffix}</span>}
       </span>
-      <p className="mono-label text-muted mt-0.5">{label}</p>
+      <p className="t-micro text-muted mt-1">_{label.toLowerCase().replace(/\s+/g, "_")}</p>
+      {meter !== undefined && <Meter label="" value={meter} className="mt-1.5 w-[120px]" />}
     </div>
   );
 }
+
+/** Back-compat alias (Home uses StatChip). */
+export const StatChip = Readout;

@@ -2,24 +2,46 @@ import type { ComponentProps, ReactNode } from "react";
 import { Link } from "react-router-dom";
 
 type Variant = "primary" | "ghost";
+/** Two shapes only (§5b): Block = flat accent fill + square end-cap holding ↗;
+    Bracket = 1px outline, mono [ LABEL_TEXT ]. Zero radius, no pills. */
 
-const styles: Record<Variant, string> = {
-  // primary = section accent; ghost = teal outline (DESIGN.md)
-  primary:
-    "bg-(--accent) text-(--accent-contrast) font-semibold hover:brightness-110 border border-transparent",
-  ghost:
-    "border border-teal text-teal hover:bg-teal/10",
-};
+function blockClasses() {
+  return "group inline-flex items-stretch t-label raise font-display font-semibold uppercase tracking-[0.08em] text-[13px]";
+}
 
-const base =
-  "inline-flex items-center justify-center gap-2 px-5 py-2.5 rounded-(--radius-sm) font-body text-sm transition-all duration-150 cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed";
+function BlockInner({ children }: { children: ReactNode }) {
+  return (
+    <>
+      <span className="flex items-center px-5 py-3 bg-(--accent) text-(--accent-contrast)">{children}</span>
+      <span className="flex items-center justify-center w-10 bg-(--accent) text-(--accent-contrast) border-l border-navy-900/25 transition-transform duration-200 group-hover:translate-x-1">
+        ↗
+      </span>
+    </>
+  );
+}
 
-export function Button({
-  variant = "primary",
-  className = "",
-  ...props
-}: { variant?: Variant } & ComponentProps<"button">) {
-  return <button className={`${base} ${styles[variant]} ${className}`} {...props} />;
+function bracketClasses() {
+  return "group inline-flex items-center gap-2 border border-(--accent) text-(--accent-ink) px-5 py-3 t-label raise transition-colors duration-200 hover:bg-(--accent)/10";
+}
+
+function toLabel(children: ReactNode): string {
+  return String(children).toUpperCase().replace(/\s+/g, "_");
+}
+
+export function Button({ variant = "primary", className = "", children, ...props }: { variant?: Variant } & ComponentProps<"button">) {
+  if (variant === "primary")
+    return (
+      <button className={`${blockClasses()} cursor-pointer disabled:opacity-50 ${className}`} {...props}>
+        <BlockInner>{children}</BlockInner>
+      </button>
+    );
+  return (
+    <button className={`${bracketClasses()} cursor-pointer disabled:opacity-50 ${className}`} {...props}>
+      <span className="transition-transform duration-200 group-hover:-translate-x-0.5">[</span>
+      {toLabel(children)}
+      <span className="transition-transform duration-200 group-hover:translate-x-0.5">]</span>
+    </button>
+  );
 }
 
 export function ButtonLink({
@@ -35,21 +57,26 @@ export function ButtonLink({
   className?: string;
   children: ReactNode;
 }) {
-  if (external) {
+  const inner =
+    variant === "primary" ? (
+      <BlockInner>{children}</BlockInner>
+    ) : (
+      <>
+        <span className="transition-transform duration-200 group-hover:-translate-x-0.5">[</span>
+        {toLabel(children)}
+        <span className="transition-transform duration-200 group-hover:translate-x-0.5">]</span>
+      </>
+    );
+  const cls = `${variant === "primary" ? blockClasses() : bracketClasses()} ${className}`;
+  if (external)
     return (
-      <a
-        href={to}
-        target="_blank"
-        rel="noreferrer noopener"
-        className={`${base} ${styles[variant]} ${className}`}
-      >
-        {children}
+      <a href={to} target="_blank" rel="noreferrer noopener" className={cls}>
+        {inner}
       </a>
     );
-  }
   return (
-    <Link to={to} className={`${base} ${styles[variant]} ${className}`}>
-      {children}
+    <Link to={to} className={cls}>
+      {inner}
     </Link>
   );
 }

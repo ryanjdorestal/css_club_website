@@ -1,19 +1,23 @@
 import { Link } from "react-router-dom";
 import { ArrowUpRight } from "lucide-react";
+import type { ReactNode } from "react";
 import { RevealGroup, RevealItem } from "@/motion/Reveal";
+import { StatusChip } from "./StatusChip";
 
 export type IndexRowData = {
-  index?: string;       // "01"
+  index?: string;
   title: string;
   dek?: string;
-  meta?: string;        // right-side mono (date, domain, count)
-  chip?: string;        // status chip
+  meta?: string;
+  chip?: string;
   href?: string;
+  sigil?: ReactNode;
   onClick?: () => void;
+  bracket?: boolean;   // [n] style index
 };
 
-/** rhecwb bulletin / jj_04: hairline rows `01 — Title — dek — meta — ↗`.
-    Hover translates the row 8px and brightens the arrow. */
+/** T04 /03 SELECTED WORK rows: /01 · sigil · title · dek · ↗.
+    Hover: bg +3%, arrow becomes → OPEN_. */
 export function IndexList({ rows, className = "" }: { rows: IndexRowData[]; className?: string }) {
   return (
     <RevealGroup className={`border-t border-(--tone-line) ${className}`}>
@@ -26,32 +30,26 @@ export function IndexList({ rows, className = "" }: { rows: IndexRowData[]; clas
   );
 }
 
-export function IndexRow({ index, title, dek, meta, chip, href, onClick }: IndexRowData) {
+export function IndexRow({ index, title, dek, meta, chip, href, sigil, onClick, bracket }: IndexRowData) {
   const body = (
-    <div className="group flex items-center gap-4 md:gap-6 py-4 border-b border-(--tone-line) transition-transform duration-300 hover:translate-x-2 cursor-pointer">
-      <span className="mono-label text-(--accent-ink) shrink-0 w-8">{index}</span>
+    <div className="group relative flex items-center gap-4 md:gap-5 py-3.5 border-b border-(--tone-line) transition-colors duration-200 hover:bg-current/[0.03] cursor-pointer px-1">
+      <span className="t-label raise text-(--accent-ink) shrink-0 w-10 tnum">
+        {bracket ? `[${index}]` : `/${index}`}
+      </span>
+      {sigil && <span className="shrink-0 opacity-70">{sigil}</span>}
       <div className="grow min-w-0">
-        <p className="font-display font-bold text-base md:text-lg leading-tight" style={{ fontStretch: "108%" }}>
-          {title}
-        </p>
-        {dek && <p className="text-sm opacity-60 mt-0.5 line-clamp-1">{dek}</p>}
+        <p className="t-h3 !font-medium leading-tight truncate">{title}</p>
+        {dek && <p className="t-micro opacity-55 mt-1 truncate normal-case tracking-[0.04em]">{dek}</p>}
       </div>
-      {chip && (
-        <span className="mono-label border border-(--accent) text-(--accent-ink) rounded-full px-2.5 py-1 shrink-0">
-          {chip}
-        </span>
-      )}
-      {meta && <span className="mono-label opacity-50 shrink-0 hidden sm:block">{meta}</span>}
-      <ArrowUpRight size={16} className="shrink-0 opacity-40 transition-all duration-300 group-hover:opacity-100 group-hover:translate-x-1 group-hover:-translate-y-1" />
+      {chip && <StatusChip state={chip.toLowerCase() === "live" ? "live" : chip.toLowerCase() === "planned" ? "idle" : "archived"} label={chip} />}
+      {meta && <span className="t-micro opacity-50 shrink-0 hidden sm:block tnum">{meta}</span>}
+      <span className="shrink-0 w-14 text-right">
+        <ArrowUpRight size={14} className="inline opacity-40 group-hover:hidden" />
+        <span className="hidden group-hover:inline t-micro raise text-(--accent-ink)">→ OPEN_</span>
+      </span>
     </div>
   );
-  if (href?.startsWith("http")) {
-    return (
-      <a href={href} target="_blank" rel="noreferrer noopener" className="block">
-        {body}
-      </a>
-    );
-  }
+  if (href?.startsWith("http")) return <a href={href} target="_blank" rel="noreferrer noopener" className="block">{body}</a>;
   if (href) return <Link to={href} className="block">{body}</Link>;
   return <div onClick={onClick}>{body}</div>;
 }

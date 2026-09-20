@@ -6,6 +6,9 @@ import { Footer } from "@/components/Footer";
 import { HoundChat } from "@/mascot/HoundChat";
 import { LenisProvider } from "@/motion/LenisProvider";
 import { ProgressBar } from "@/motion/ProgressBar";
+import { StatusBar } from "@/components/StatusBar";
+import { ApiStateContext, type ApiState } from "@/lib/readouts";
+import { useEffect, useState } from "react";
 
 const Home = lazy(() => import("@/pages/Home"));
 const Events = lazy(() => import("@/pages/Events"));
@@ -38,7 +41,16 @@ function Layout() {
   const { pathname } = useLocation();
   const accent =
     Object.entries(ACCENT_BY_PATH).find(([p]) => pathname.startsWith(p))?.[1] ?? "teal";
+  const [api, setApi] = useState<ApiState>({ live: null, ms: null });
+  useEffect(() => {
+    const t0 = performance.now();
+    fetch("/api/health", { signal: AbortSignal.timeout(3000) })
+      .then((r) => (r.ok ? r.json() : Promise.reject()))
+      .then(() => setApi({ live: true, ms: Math.round(performance.now() - t0) }))
+      .catch(() => setApi({ live: false, ms: null }));
+  }, []);
   return (
+    <ApiStateContext.Provider value={api}>
     <div data-accent={accent} className="min-h-dvh flex flex-col bg-navy-600">
       <ProgressBar />
       <Nav />
@@ -56,7 +68,9 @@ function Layout() {
         </motion.div>
       </AnimatePresence>
       <HoundChat />
+      <StatusBar />
     </div>
+    </ApiStateContext.Provider>
   );
 }
 
