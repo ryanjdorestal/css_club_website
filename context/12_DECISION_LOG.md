@@ -82,3 +82,11 @@ Format: **Decision** — who — rationale. "Claude" = Cowork session; "Ryan" = 
 44. **Keep everything the old site had (revamped) + add what rhecwb had that JJ lacked** — Ryan.
 45. **MCPs dropped** — Ryan. Hand-match `jj_inspo` typography and components.
 46. **Build in Claude Code, 2 hours autonomous, no questions; all laptop resources usable; all context lives in the project folder** — Ryan → `15_EXECUTION_PLAN.md`, `16_RESOURCES_ON_LAPTOP.md`, `17_MASCOT_AND_CHATBOT.md`, `KICKOFF_PROMPT.md` — Claude.
+
+### T20 (after run 1)
+47. **Run 1's visual layer rejected** — Ryan — "no animation, not the modern look of the inspo folder, cards don't match, no white cutoff, no rhecwb-style footer, cube doesn't follow the page, old sections dropped." Systems (API, data, CI, cube, mascot, OS) kept.
+48. **Run 2 = UI/UX rebuild as a continuous loop** (plan → build → shoot → compare sheet → 12-line rubric → fix, ≤5 iterations/page, 150 min, no questions) — Claude → `context/19_UI_REBUILD_PROMPT.md`.
+49. **rhecwb home render committed as the composition benchmark** (`assets/refs/rhecwb/`) — structure only; colors stay John Jay's — Claude.
+50. **Cube becomes a fixed, scroll-path-following rail on Home** with per-section keyframes and face-toward-section facing; static spots on other pages and on mobile — Claude, from Ryan's "the 3D logo should follow a path through the page".
+51. **Footer = rhecwb anatomy** (grid → divider/CTA → rail → giant cropped "COMPUTER SCIENCE / SOCIETY" brandmark at 6%) with the JJ shield + CSS stamp lockup — Ryan.
+52. **Old-site parity table is a ship gate** (28 rows) — Claude, from Ryan's "you removed good sections without replacing them".

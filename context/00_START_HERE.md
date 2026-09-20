@@ -39,7 +39,10 @@ rhecwb's; John Jay's own palette. **Build authorized** (T18) — see 15.
 | 15 | EXECUTION_PLAN | The phased 2-hour autonomous build with verification per phase |
 | 16 | RESOURCES_ON_LAPTOP | What on Ryan's Mac the build may read (rhecwb, skills, inspo, portfolio) |
 | 17 | MASCOT_AND_CHATBOT | The Bloodhound mascot spec + the keyless Python chatbot |
-| 18 | BUILD_LOG | (created by the build) decisions made without asking |
+| 18 | BUILD_LOG | (created by run 1) decisions made without asking |
+| 19 | UI_REBUILD_PROMPT | **Run 2.** The loop-structured UI/UX rebuild brief: why run 1 looked generic, refs with what-to-take per image, rhythm/anatomy rules, motion spec, scroll-path cube, page-by-page movements, footer, nav, parity table, 12-line rubric |
+| 20 | REF_NOTES | (created by run 2) one line per ref image |
+| 21 | RUN2_LOG | (created by run 2) decisions + checkpoint scores |
 
 ## Assets in `../assets/`
 
@@ -48,6 +51,7 @@ brand/    cs_logo_sharp.svg (vector, use this), cs_logo_3000.png, cs_logo_1024.p
 source/   pre_upscale_cs_jj.png (Ryan's original 494x418 cutout), the Pixlr screenshot
 cube/     cs_cube.glb, build_cube.py, viewer.html, package.json, README.md, renders/
 refs/     old-site/ (rendered screenshots of jjaycss.tech pages)
+          rhecwb/ (full-page render of rhecwb home at 1440 — composition benchmark only)
           jj_inspo/ (the 12 John Jay design refs, downscaled)
           supavoxel/ (the AI-generated 3D attempt, for comparison)
           club/ (YouTube banner, GitHub org, Discord pin screenshots)

@@ -1,6 +1,10 @@
 # jjay_css — John Jay Computer Science Society: site + internal platform
 
-**Status: BUILD AUTHORIZED under `context/15_EXECUTION_PLAN.md`.** Ryan's instruction:
+**Status: RUN 1 DONE (systems green, look rejected). RUN 2 = UI/UX REBUILD under `context/19_UI_REBUILD_PROMPT.md`.**
+Run 2 replaces the visual layer of every public page using a build→screenshot→compare→score loop
+against `assets/refs/jj_inspo/` and `assets/refs/rhecwb/home_1440.png` (composition benchmark, not colors).
+
+**Status (run 1): BUILD AUTHORIZED under `context/15_EXECUTION_PLAN.md`.** Ryan's instruction:
 run autonomously for **2 hours** without asking questions; decide, log, continue. All
 prior decisions, analysis, references and assets are in `context/` and `assets/`.
 
@@ -15,6 +19,7 @@ New Supabase project, Vercel hosting, Python API, React front end, John Jay's ow
 ## Reading order (do this first, every session)
 
 1. `DESIGN.md` — the look. Non-negotiable. John Jay's own palette/type; NOT rhecwb's.
+1b. **`context/19_UI_REBUILD_PROMPT.md` — the run-2 loop: composition, motion, cube path, footer, parity table, rubric.**
 2. `context/15_EXECUTION_PLAN.md` — the phased 2-hour plan with verification per phase.
 3. `context/05_DESIGN_SYSTEM.md` — full design spec, refs by filename, tokens.
 4. `context/08_SITE_STRUCTURE.md` — routes, OS, data model, repo layout.
