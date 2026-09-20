@@ -1,5 +1,4 @@
 import { useState } from "react";
-import { ArrowUpRight } from "lucide-react";
 import appsData from "@data/apps.json";
 import { Band } from "@/components/Band";
 import { PageHero } from "@/components/PageHero";
@@ -14,6 +13,9 @@ import { Button } from "@/components/Button";
 import { postWithFallback, type SubmitResult } from "@/lib/api";
 import { CubeSpot } from "@/cube/CubeSpot";
 import { motion } from "motion/react";
+import * as Sg from "@/sigils";
+import { Meter } from "@/components/cards/Meter";
+
 
 const PLATFORMS = ["all", "web", "ios", "android", "desktop", "cli"] as const;
 const featured = appsData.apps[0];
@@ -25,7 +27,7 @@ export default function Apps() {
     <main>
       <PageHero
         kicker="APPS · BUILT AT JOHN JAY · BOARD-REVIEWED"
-        lines={["Apps.", { text: "Built here.", className: "text-(--accent-fg)" }]}
+        lines={["Apps.", { text: "Built here.", className: "text-(--accent-fg)", split: 5 }]}
         dek="The club's public register of software built by John Jay students. Submit yours below — the board reviews every entry before it ships with your name on it. Cards marked EXAMPLE show the format; they are not real apps."
         right={
           <div className="relative">
@@ -42,7 +44,7 @@ export default function Apps() {
       />
 
       {/* 2 — Featured spec sheet */}
-      <Band tone="tinted" accent="green" index="01 — THE FORMAT · SPEC SHEET" rail="01 · APPS · 01000001 · SUBMIT">
+      <Band tone="tinted" accent="green" index="01 — THE FORMAT · SPEC SHEET" sigil={<Sg.Terminal size={16} />} code="FORMAT" rail="01 · APPS · 01000001 · SUBMIT">
         <div className="grid md:grid-cols-[7fr_5fr] gap-10 items-start">
           <Reveal>
             <SpecSheet
@@ -63,27 +65,31 @@ export default function Apps() {
             <p className="mono-label mb-3">HOW REVIEW WORKS</p>
             <IndexList
               rows={[
-                { title: "Submit the form", dek: "Title, platform, summary, link — two minutes", meta: "STEP 1" },
-                { title: "Board reviews it", dek: "Fit + a working link; feedback by email", meta: "STEP 2" },
-                { title: "It goes live", dek: "Published to this page with your byline", meta: "STEP 3" },
+                { index: "1", bracket: true, title: "Submit the form", dek: "Title, platform, summary, link — two minutes", sigil: <Sg.Terminal size={14} /> },
+                { index: "2", bracket: true, title: "Board reviews it", dek: "Fit + a working link; feedback by email", sigil: <Sg.Eye size={14} /> },
+                { index: "3", bracket: true, title: "It goes live", dek: "Published to this page with your byline", sigil: <Sg.Tick size={14} /> },
               ]}
             />
+            <Meter label="pipeline" value={0} max={3} className="mt-5" />
           </div>
         </div>
       </Band>
 
       {/* 3 — Directory with filter */}
-      <Band tone="dark-2" accent="green" index="02 — DIRECTORY" rail="02 · REGISTER · 01000100 · OPEN">
+      <Band tone="dark-2" accent="green" index="02 — DIRECTORY" sigil={<Sg.Node size={16} />} code="DIR" rail="02 · REGISTER · 01000100 · OPEN">
         <div className="flex flex-wrap gap-2 mb-8">
           {PLATFORMS.map((p) => (
             <button
               key={p}
               onClick={() => setPlatform(p)}
-              className={`mono-label px-3.5 py-1.5 rounded-full border transition-colors cursor-pointer ${
-                platform === p ? "border-(--accent) text-(--accent-fg) bg-(--accent)/10" : "border-line text-muted hover:text-ink"
+              className={`t-micro raise px-3 py-1.5 border transition-colors cursor-pointer ${
+                platform === p
+                  ? "border-(--accent) text-(--accent-fg) bg-(--accent)/10"
+                  : "border-line text-muted hover:text-ink"
               }`}
+              style={platform === p ? {} : { backgroundImage: "repeating-linear-gradient(-45deg, currentColor 0 1px, transparent 1px 8px)", backgroundBlendMode: "overlay" }}
             >
-              {p}
+              {p.toUpperCase()}
             </button>
           ))}
         </div>
@@ -128,9 +134,9 @@ function SubmitBand() {
     setBusy(false);
   }
   const field =
-    "w-full bg-white border border-(--tone-line) rounded-(--radius-sm) px-3 py-2.5 text-sm text-ink-on-paper placeholder:text-muted-on-paper/50 focus:border-(--accent) outline-none";
+    "w-full bg-transparent border-0 border-b border-(--tone-line) px-1 py-2.5 font-mono text-sm text-ink-on-paper placeholder:text-muted-on-paper/40 focus:border-(--accent) outline-none";
   return (
-    <Band tone="light" accent="green" index="03 — SUBMIT YOUR APP" rail="03 · FORM · 01010011 · TIER-1 SAFE">
+    <Band tone="light" accent="green" index="03 — SUBMIT YOUR APP" sigil={<Sg.ArrowSq size={16} />} code="INTAKE" rail="03 · FORM · 01010011 · TIER-1 SAFE">
       <div className="max-w-[760px]">
         {result?.ok ? (
           <Reveal>
@@ -148,7 +154,7 @@ function SubmitBand() {
         ) : (
           <form onSubmit={onSubmit} className="border border-(--tone-line)">
             {[
-              { k: "APP TITLE *", el: <input required name="title" className={field} placeholder="Campus Room Finder" /> },
+              { k: "_APP_TITLE *", el: <input required name="title" className={field} placeholder="Campus Room Finder" /> },
               { k: "YOUR NAME *", el: <input required name="author" className={field} placeholder="Jay Bloodhound" /> },
               { k: "EMAIL *", el: <input required type="email" name="email" className={field} placeholder="you@jjay.cuny.edu" /> },
               { k: "PLATFORMS", el: <input name="platform" className={field} placeholder="web, ios" /> },
@@ -161,8 +167,8 @@ function SubmitBand() {
               </label>
             ))}
             <div className="px-5 py-4">
-              <Button type="submit" disabled={busy}>
-                {busy ? "Submitting…" : "Submit for review"} <ArrowUpRight size={15} />
+              <Button type="submit" variant="ghost" disabled={busy}>
+                {busy ? "submitting" : ">_submit_app"}
               </Button>
             </div>
           </form>

@@ -7,7 +7,10 @@ import { FinLine } from "@/components/FinLine";
 import { IndexList } from "@/components/cards/IndexList";
 import { Pullquote } from "@/components/Pullquote";
 import { Reveal } from "@/motion/Reveal";
-import { MonoLabel } from "@/components/MonoLabel";
+import * as Sg from "@/sigils";
+import { Registration } from "@/components/frame";
+import { Contour } from "@/textures";
+import { Label } from "@/components/type/Label";
 
 const POSTS = [{ slug: "grad-school-events", raw: gradRaw, issue: "001", date: "MIGRATED · 2023" }];
 
@@ -18,14 +21,14 @@ export function NewsIndex() {
     <main>
       <PageHero
         kicker="NEWS · BULLETINS · ISSUE LOG"
-        lines={["News."]}
+        lines={[{ text: "News.", stencil: true }]}
         dek="Bulletins and articles. The old Blog shipped zero posts — News replaces it; board bulletins land here once the OS is live. Issue 001 is the graduate-school guide migrated from the old site."
         stats={[
           { v: 1, l: "ISSUES PUBLISHED" },
           { v: 0, l: "OLD BLOG POSTS (REALLY)" },
         ]}
       />
-      <Band tone="light" accent="blue" index="01 — ISSUE LOG" rail="01 · NEWS · 01001110 · LOG">
+      <Band tone="light" accent="blue" index="01 — ISSUE LOG" sigil={<Sg.Eye size={16} />} code="ISSUES" rail="01 · NEWS · 01001110 · LOG">
         <IndexList
           rows={[
             ...POSTS.map((p) => {
@@ -64,17 +67,24 @@ export function NewsArticle() {
   const doc = parseMd(post.raw);
   return (
     <main>
-      <section data-tone="light" data-accent="blue" className="pt-[120px] pb-20">
-        <article className="max-w-[720px] mx-auto px-5">
+      <section data-tone="light" data-accent="blue" className="relative pt-[120px] pb-20">
+        <Registration />
+        <Contour opacity={0.04} />
+        <article className="relative max-w-[720px] mx-auto px-5">
           <Reveal y={10}>
-            <div className="flex items-center gap-4 mb-8">
-              <MonoLabel className="!text-(--accent)">ISSUE {post.issue}</MonoLabel>
+            <div className="flex items-center gap-4 mb-6">
+              <Label pfx="/" className="raise text-(--accent)">ISSUE_{post.issue}</Label>
               <span className="h-px grow bg-(--tone-line)" />
-              <span className="mono-label" style={{ color: "var(--tone-muted)" }}>{post.date}</span>
+              <span className="t-micro opacity-55 tnum">{post.date}</span>
+            </div>
+            <div className="flex gap-6 mb-8">
+              <span className="t-micro opacity-55">_author THE_BOARD</span>
+              <span className="t-micro opacity-55">_kind ARTICLE</span>
+              <span className="t-micro opacity-55 tnum">_read_time 4_MIN</span>
             </div>
           </Reveal>
           <Reveal>
-            <h1 className="font-display font-black text-[clamp(28px,4vw,48px)] leading-[1.05] tracking-tight mb-10">
+            <h1 className="t-h1 !normal-case !text-[clamp(28px,4vw,48px)] !leading-[1.02] mb-10">
               {doc.meta.title}
             </h1>
           </Reveal>

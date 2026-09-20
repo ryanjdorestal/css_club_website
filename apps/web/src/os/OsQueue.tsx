@@ -30,7 +30,7 @@ export default function OsQueue() {
             <article key={item.ts + i} className="border border-line rounded-(--radius-md) p-5">
               <div className="flex items-center justify-between gap-3 mb-3">
                 <MonoLabel accent>
-                  {item.path.includes("onboarding") ? "ONBOARDING" : "APP SUBMISSION"} · {new Date(item.ts).toLocaleString()}
+                  SUB-{new Date(item.ts).getFullYear()}-{String(i + 1).padStart(2, "0")} · {item.path.includes("onboarding") ? "ONBOARDING" : "APP_SUBMISSION"} · {new Date(item.ts).toLocaleString()}
                 </MonoLabel>
                 <button
                   onClick={() => setItems(removeInboxItem(i))}

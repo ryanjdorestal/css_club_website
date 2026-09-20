@@ -1,22 +1,27 @@
 import { Link } from "react-router-dom";
 import { BinaryRings } from "@/components/BinaryRings";
+import { CSSKufic } from "@/sigils";
+import { Brackets } from "@/components/frame";
+import { Decode } from "@/components/type/Decode";
 
-/** 404 — jj_07 blue geometric panel + VT323. */
+/** 404 — Silkscreen at poster scale, Kufic behind, viewport brackets. */
 export default function NotFound() {
   return (
     <main data-accent="blue" data-tone="light" className="relative grow flex items-center justify-center overflow-hidden py-32 bg-paper">
+      <Brackets size={22} inset={16} accent={false} className="!fixed z-10 opacity-60 text-navy-900" />
       <div className="absolute inset-0 text-navy-900"><BinaryRings opacity={0.05} /></div>
-      <div className="relative border-2 border-cube-blue p-10 md:p-16 text-center bg-paper max-w-[520px] mx-5">
-        <span className="absolute -inset-2 border border-cube-blue/30 pointer-events-none" />
-        <p aria-hidden className="font-display font-black text-cube-blue leading-[0.8] select-none" style={{ fontSize: "clamp(96px,20vw,200px)", fontStretch: "118%" }}>
+      <div aria-hidden className="absolute pointer-events-none opacity-[0.07]" style={{ color: "var(--color-cube-blue)" }}>
+        <CSSKufic size={200} />
+      </div>
+      <div className="relative text-center px-5">
+        <p className="t-pixel text-cube-blue leading-[0.85] select-none" style={{ fontSize: "clamp(110px, 22vw, 300px)" }}>
           404
         </p>
-        <p className="pixel text-navy-900 text-2xl mt-4">ROUTE NOT FOUND · 0100</p>
+        <p className="t-label raise text-navy-900 mt-6 tnum"><Decode text="ROUTE_NOT_FOUND · 0X194" /></p>
         <p className="text-sm mt-3" style={{ color: "var(--color-muted-on-paper)" }}>
           The bloodhound sniffed everywhere. This path doesn't exist.
         </p>
-        <Link to="/" className="mono-label text-cube-blue u-draw inline-block mt-8">← BACK HOME</Link>
-        <span className="absolute bottom-2 left-3 mono-label text-cube-blue/50">JJ_07 · TROUBLE PANEL</span>
+        <Link to="/" className="t-label raise text-cube-blue u-draw inline-block mt-8">[ ← RETURN_HOME ]</Link>
       </div>
     </main>
   );

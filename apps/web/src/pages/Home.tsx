@@ -1,8 +1,6 @@
 import { Link } from "react-router-dom";
 import { brand } from "@brand/brand.config";
 import events from "@data/events.json";
-import board from "@data/board.json";
-import workshops from "@data/workshops.json";
 import resources from "@data/resources.json";
 import appsData from "@data/apps.json";
 import links from "@data/links.json";

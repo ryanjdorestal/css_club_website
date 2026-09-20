@@ -18,6 +18,7 @@ import { SplitLines } from "@/motion/SplitLines";
 import { Reveal, RevealGroup, RevealItem } from "@/motion/Reveal";
 import { CubeSpot } from "@/cube/CubeSpot";
 import { brand } from "@brand/brand.config";
+import * as Sg from "@/sigils";
 
 const doc = parseMd(aboutRaw);
 
@@ -43,7 +44,7 @@ export default function About() {
     <main>
       <PageHero
         kicker="ABOUT · WHO WE ARE · WHAT WE DO"
-        lines={["Who", "we are."]}
+        lines={[{ text: "Who", stencil: true }, { text: "we are.", outline: true }]}
         dek={who.slice(0, 260) + "…"}
         right={<CubeSpot />}
         stats={[
@@ -55,7 +56,7 @@ export default function About() {
       />
 
       {/* 2 — Let's grow together (spread) */}
-      <Band tone="light" accent="teal" index="01 — LET'S GROW TOGETHER" rail="01 · ABOUT · 01000001 · 2020 →">
+      <Band tone="light" accent="teal" index="01 — LET'S GROW TOGETHER" sigil={<Sg.Star4 size={16} />} code="ABT_01" rail="01 · ABOUT · 01000001 · 2020 →">
         <div className="grid md:grid-cols-[5fr_7fr] gap-10 md:gap-16 items-start">
           <Reveal>
             <PhotoFrame
@@ -86,21 +87,23 @@ export default function About() {
       </Band>
 
       {/* 3 — What We Do During The Semester */}
-      <Band tone="dark-2" accent="red" index="02 — WHAT WE DO DURING THE SEMESTER" rail="02 · SEMESTER · 01010111 · WEEKLY">
+      <Band tone="dark-2" accent="red" index="02 — WHAT WE DO DURING THE SEMESTER" sigil={<Sg.Chevrons size={16} />} code="SEMESTER" rail="02 · SEMESTER · 01010111 · WEEKLY">
         <Watermark src={brand.logos.svg} side="left" width="34vw" opacity={0.05} />
         <IndexList
           rows={ACTIVITIES.map((a, i) => ({
-            index: String(i + 1).padStart(2, "0"),
+            index: String(i + 1),
+            bracket: true,
             title: a.t,
             dek: a.d,
-            meta: "EVERY TERM",
+            meta: "EVERY_TERM",
             href: "/events",
+            sigil: [<Sg.Shield key="s" size={14} />, <Sg.Lambda key="l" size={14} />, <Sg.Node key="n" size={14} />, <Sg.Terminal key="t" size={14} />][i],
           }))}
         />
       </Band>
 
       {/* 4 — Discussion With Your Peers */}
-      <Band tone="tinted" accent="blue" index="03 — DISCUSSION WITH YOUR PEERS" rail="03 · DISCORD · 01000100 · EST. 2021">
+      <Band tone="tinted" accent="blue" index="03 — DISCUSSION WITH YOUR PEERS" sigil={<Sg.Terminal size={16} />} code="DSC_2021" rail="03 · DISCORD · 01000100 · EST. 2021">
         <div className="grid md:grid-cols-[7fr_5fr] gap-10 items-center">
           <div>
             <SplitLines
@@ -135,17 +138,21 @@ export default function About() {
       </Band>
 
       {/* 5 — The Board + term history */}
-      <Band tone="light-2" accent="green" index="04 — THE BOARD" title={`${current.term.toUpperCase()} · MOST RECENT ON RECORD`} rail="04 · BOARD · 01000010 · INHERITANCE">
+      <Band tone="light-2" accent="green" sigil={<Sg.Eye size={16} />} code="INHERITANCE" index="04 — THE BOARD" title={`${current.term.toUpperCase()} · MOST RECENT ON RECORD`} rail="04 · BOARD · 01000010 · INHERITANCE">
         <RevealGroup className="grid grid-cols-2 md:grid-cols-4 gap-5 mb-14">
           {current.members.slice(0, 8).map((m) => (
             <RevealItem key={m.name}>
               <figure className="border border-(--tone-line) bg-paper p-2">
+                <div className="flex items-center justify-between pb-1.5 px-1">
+                  <span className="t-micro opacity-55">BRD-F24-{String(current.members.indexOf(m) + 1).padStart(2, "0")}</span>
+                  <span aria-hidden className="w-1.5 h-1.5 bg-(--accent)" />
+                </div>
                 {m.photo && (
                   <img src={`/${m.photo}`} alt={m.name} loading="lazy" className="w-full aspect-square object-cover object-top" />
                 )}
                 <figcaption className="pt-2 px-1 pb-1">
-                  <p className="font-display font-bold text-sm leading-tight" style={{ fontStretch: "108%" }}>{m.name}</p>
-                  <MonoLabel className="!text-(--accent)">{m.role}</MonoLabel>
+                  <p className="t-h3 !text-[14px] !font-medium leading-tight">{m.name}</p>
+                  <p className="t-micro raise text-(--accent) mt-1">_role {m.role.toUpperCase()}</p>
                 </figcaption>
               </figure>
             </RevealItem>
@@ -180,7 +187,7 @@ export default function About() {
         </div>
       </Band>
 
-      <PosterBand accent="teal" meta="// THE BANNER SAYS IT" lines={["Debug your mind.", { text: "Commit to growth.", className: "text-teal" }]} />
+      <PosterBand accent="teal" meta="// THE BANNER SAYS IT" lines={["Debug your mind.", { text: "Commit to growth.", className: "text-teal", outline: true }]} />
       <FinLine n="02" />
     </main>
   );

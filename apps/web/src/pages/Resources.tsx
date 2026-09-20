@@ -9,6 +9,8 @@ import { IndexList } from "@/components/cards/IndexList";
 import { SpecSheet } from "@/components/cards/SpecSheet";
 import { Reveal } from "@/motion/Reveal";
 import { ArrowUpRight } from "lucide-react";
+import * as Sg from "@/sigils";
+import { StatusChip } from "@/components/cards/StatusChip";
 
 const KITS = [
   {
@@ -47,7 +49,7 @@ export default function Resources() {
     <main>
       <PageHero
         kicker="RESOURCES · CURATED BY BOARDS PAST AND PRESENT"
-        lines={["Resources."]}
+        lines={[{ text: "Resources.", stencil: true }]}
         dek="Learning paths, internship boards, John Jay tech programs and tutoring. Spot a dead link? Tell the board on Discord — every link still needs its click-test (the list is from 2021-2025)."
         stats={[
           { v: resources.count, l: "LINKS · CURATED" },
@@ -58,28 +60,36 @@ export default function Resources() {
       />
 
       {/* 2 — sticky category index + list */}
-      <Band tone="light" accent="teal" index="01 — THE INDEX" rail="01 · LINKS · 01010010 · CLICK-TEST DUE">
+      <Band tone="light" accent="teal" index="01 — THE INDEX" sigil={<Sg.Node size={16} />} code="LINK_DB" rail="01 · LINKS · 01010010 · CLICK-TEST DUE">
         <div className="grid md:grid-cols-[260px_1fr] gap-10 items-start">
-          <nav className="md:sticky md:top-24 flex md:flex-col flex-wrap gap-1">
+          <nav className="md:sticky md:top-24 flex md:flex-col flex-wrap gap-1.5">
             {resources.groups.map((grp, i) => (
               <button
                 key={grp.group}
                 onClick={() => setActive(i)}
-                className={`mono-label text-left px-3 py-2 border-l-2 transition-colors cursor-pointer ${
-                  i === active
-                    ? "border-(--accent) text-(--accent-ink) bg-(--accent)/5"
-                    : "border-transparent hover:border-(--tone-line)"
-                }`}
-                style={i === active ? {} : { color: "var(--tone-muted)" }}
+                className="group flex items-center gap-3 text-left cursor-pointer py-1"
               >
-                {String(i + 1).padStart(2, "0")} — {grp.group.toUpperCase()}
+                <span
+                  className={`t-label raise w-8 h-8 shrink-0 flex items-center justify-center transition-all ${
+                    i === active ? "border border-(--accent) text-(--accent-ink)" : "text-current opacity-40 group-hover:opacity-80"
+                  }`}
+                  style={i === active ? { boxShadow: "0 0 0 3px color-mix(in srgb, var(--accent) 18%, transparent)" } : {}}
+                >
+                  {String.fromCharCode(65 + i)}
+                </span>
+                <span className={`t-micro ${i === active ? "raise text-(--accent-ink)" : "opacity-55"}`}>
+                  {grp.group.toUpperCase().replace(/ /g, "_")}
+                </span>
               </button>
             ))}
           </nav>
           <div>
-            <div className="flex items-baseline justify-between border-b border-(--tone-line) pb-3 mb-2">
-              <h2 className="font-display font-black uppercase text-2xl" style={{ fontStretch: "112%" }}>{g.group}</h2>
-              <span className="mono-label" style={{ color: "var(--tone-muted)" }}>{g.links.length} LINKS · STATUS: UNVERIFIED</span>
+            <div className="flex items-center justify-between border-b border-(--tone-line) pb-3 mb-2 gap-4">
+              <h2 className="t-h2 uppercase">{g.group}</h2>
+              <span className="flex items-center gap-3">
+                <span className="t-micro opacity-55 tnum">{g.links.length} LINKS</span>
+                <StatusChip state="idle" label="CLICK-TEST_DUE" />
+              </span>
             </div>
             <IndexList
               key={g.group}
@@ -96,7 +106,7 @@ export default function Resources() {
       </Band>
 
       {/* 3 — starter kits */}
-      <Band tone="dark-2" accent="teal" index="02 — STARTER KITS" rail="02 · KITS · 01001011 · THREE PATHS">
+      <Band tone="dark-2" accent="teal" index="02 — STARTER KITS" sigil={<Sg.Lambda size={16} />} code="KITS" rail="02 · KITS · 01001011 · THREE PATHS">
         <div className="grid md:grid-cols-3 gap-6">
           {KITS.map((kit) => (
             <Reveal key={kit.tag}>
@@ -111,7 +121,7 @@ export default function Resources() {
         </Reveal>
       </Band>
 
-      <PosterBand accent="teal" meta="// THE OLD SITE SAID IT BEST" lines={["Not sure where", { text: "to start? Here.", className: "text-teal" }]} />
+      <PosterBand accent="teal" meta="// THE OLD SITE SAID IT BEST" lines={["Not sure where", { text: "to start? Here.", className: "text-teal", outline: true }]} />
       <FinLine n="06" />
     </main>
   );

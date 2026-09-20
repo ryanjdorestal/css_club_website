@@ -1,5 +1,4 @@
 import type { ReactNode } from "react";
-import { EdgeCrop } from "../type/EdgeCrop";
 import { Halftone } from "@/textures";
 
 /** T09/S12 poster: one wide word EdgeCropped, 3-corner label rail, halftone

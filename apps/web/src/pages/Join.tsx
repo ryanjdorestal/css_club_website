@@ -8,6 +8,8 @@ import { FinLine } from "@/components/FinLine";
 import { IndexList } from "@/components/cards/IndexList";
 import { TicketCard } from "@/components/cards/TicketCard";
 import { Reveal } from "@/motion/Reveal";
+import * as Sg from "@/sigils";
+import { Tag } from "@/components/cards/Tag";
 import { Button } from "@/components/Button";
 import { postWithFallback, type SubmitResult } from "@/lib/api";
 
@@ -16,14 +18,12 @@ export default function Join() {
     <main>
       <PageHero
         kicker="JOIN · FREE · OPEN TO ALL MAJORS"
-        lines={["Join", { text: "the society.", className: "text-(--accent-fg)" }]}
+        lines={[{ text: "Join", stencil: true }, { text: "the society.", className: "text-(--accent-fg)", outline: true }]}
         dek="Joining is free and open to every John Jay student, any major. Fill the onboarding form, hop into the Discord, and show up — that's the entire process."
         right={
-          <div aria-hidden className="relative border border-line p-6 hidden md:block">
-            <span className="font-display font-black uppercase leading-[0.8] text-cube-blue block" style={{ fontSize: 96, fontStretch: "118%", opacity: 0.85 }}>
-              C<br />S<br />S
-            </span>
-            <span className="mono-label text-muted absolute bottom-2 right-3">JJ_07 · MOTIF</span>
+          <div aria-hidden className="relative border border-line p-8 hidden md:block" style={{ color: "var(--color-cube-blue)" }}>
+            <Sg.CSSKufic size={54} />
+            <span className="t-micro text-muted absolute bottom-2 right-3">JJ_07 · SQUARE_KUFIC</span>
           </div>
         }
         stats={[
@@ -35,7 +35,7 @@ export default function Join() {
       />
 
       {/* 2 — why join */}
-      <Band tone="tinted" accent="blue" index="01 — WHY JOIN" rail="01 · JOIN · 01001010 · ALL MAJORS">
+      <Band tone="tinted" accent="blue" index="01 — WHY JOIN" sigil={<Sg.Star4 size={16} />} code="WHY" rail="01 · JOIN · 01001010 · ALL MAJORS">
         <div className="grid md:grid-cols-3 gap-6">
           {[
             { tag: "COMMUNITY", copy: "A society of like-minded people who are eager to connect — study sessions, movie days, merch days, and a Discord that never sleeps." },
@@ -44,7 +44,7 @@ export default function Join() {
           ].map((c) => (
             <Reveal key={c.tag}>
               <div className="border border-(--tone-line) p-6 h-full">
-                <span className="mono-label bg-(--accent) text-(--accent-contrast) px-2 py-1">{c.tag}</span>
+                <Tag>{c.tag}</Tag>
                 <p className="text-sm leading-relaxed mt-4" style={{ color: "var(--tone-muted)" }}>{c.copy}</p>
               </div>
             </Reveal>
@@ -53,18 +53,21 @@ export default function Join() {
       </Band>
 
       {/* 3 — openings/committees/ideas/suggestions (full lists) */}
-      <Band tone="dark-2" accent="blue" index="02 — OPEN SEATS · FROM THE OLD COLLABORATE PAGE" rail="02 · SEATS · 01001111 · OPEN">
-        <div className="grid md:grid-cols-2 gap-x-12 gap-y-10">
+      <Band tone="dark-2" accent="blue" index="02 — OPEN SEATS · FROM THE OLD COLLABORATE PAGE" sigil={<Sg.Lambda size={16} />} code="SEATS" rail="02 · SEATS · 01001111 · OPEN">
+        <div aria-hidden className="absolute right-[-10%] top-1/2 -translate-y-1/2 pointer-events-none opacity-[0.08] hidden xl:block" style={{ color: "var(--color-cube-blue)" }}>
+          <Sg.CSSKufic size={170} />
+        </div>
+        <div className="relative grid md:grid-cols-2 gap-x-12 gap-y-10">
           <div>
-            <p className="mono-label mb-3"><span className="bg-(--accent) text-(--accent-contrast) px-2 py-1">EXECUTIVE OPENINGS</span></p>
-            <IndexList rows={collaborate.openings.map((o) => ({ title: o.role, meta: "OPEN · APPLY BELOW" }))} />
+            <Tag className="mb-3">EXECUTIVE_OPENINGS</Tag>
+            <IndexList rows={collaborate.openings.map((o, i) => ({ index: String(i + 1), bracket: true, title: o.role, meta: "OPEN" }))} />
           </div>
           <div>
-            <p className="mono-label mb-3"><span className="bg-(--accent) text-(--accent-contrast) px-2 py-1">COMMITTEES</span></p>
-            <IndexList rows={collaborate.committees.map((c) => ({ title: c, meta: "JOIN" }))} />
-            <p className="mono-label mb-3 mt-8"><span className="bg-(--accent) text-(--accent-contrast) px-2 py-1">PROJECT IDEAS</span></p>
+            <Tag className="mb-3">COMMITTEES</Tag>
+            <IndexList rows={collaborate.committees.map((c, i) => ({ index: String(i + 1), bracket: true, title: c, meta: "JOIN" }))} />
+            <Tag className="mb-3 mt-8">PROJECT_IDEAS</Tag>
             <p className="text-sm text-muted leading-relaxed">{collaborate.project_ideas}</p>
-            <p className="mono-label mb-3 mt-6"><span className="bg-(--accent) text-(--accent-contrast) px-2 py-1">SUGGESTIONS</span></p>
+            <Tag className="mb-3 mt-6">SUGGESTIONS</Tag>
             <p className="text-sm text-muted leading-relaxed">{collaborate.suggestions}</p>
           </div>
         </div>
@@ -87,9 +90,9 @@ function OnboardBand() {
     setBusy(false);
   }
   const field =
-    "w-full bg-white border border-(--tone-line) rounded-(--radius-sm) px-3 py-2.5 text-sm text-ink-on-paper placeholder:text-muted-on-paper/50 focus:border-(--accent) outline-none";
+    "w-full bg-transparent border-0 border-b border-(--tone-line) px-1 py-2.5 font-mono text-sm text-ink-on-paper placeholder:text-muted-on-paper/40 focus:border-(--accent) outline-none";
   return (
-    <Band tone="light" accent="blue" index="03 — ONBOARDING" rail="03 · FORM · 01000110 · TIER-1 SAFE">
+    <Band tone="light" accent="blue" index="03 — ONBOARDING" sigil={<Sg.ArrowSq size={16} />} code="INTAKE" rail="03 · FORM · 01000110 · TIER-1 SAFE">
       <div className="grid lg:grid-cols-[7fr_5fr] gap-10 items-start">
         {result?.ok ? (
           <Reveal>
@@ -119,8 +122,8 @@ function OnboardBand() {
               </label>
             ))}
             <div className="px-5 py-4">
-              <Button type="submit" disabled={busy}>
-                {busy ? "Submitting…" : "Join the club"} <ArrowUpRight size={15} />
+              <Button type="submit" variant="ghost" disabled={busy}>
+                {busy ? "submitting" : ">_join_the_society"}
               </Button>
             </div>
           </form>

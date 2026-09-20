@@ -1,5 +1,5 @@
 /** §5a corner treatments: chamfer, brackets, registration, perforation, tab. */
-import type { CSSProperties, ReactNode } from "react";
+import type { CSSProperties } from "react";
 
 /** One 45° cut + optional accent stub bar inside the notch (T05). Apply the
     returned style to the card; render <ChamferStub/> inside it. */

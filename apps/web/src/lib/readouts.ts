@@ -42,12 +42,7 @@ export function hexId(str: string): string {
 export function nyTime(): { hms: string; utc: string } {
   const now = new Date();
   const hms = now.toLocaleTimeString("en-GB", { timeZone: "America/New_York", hour12: false });
-  // UTC offset for New York right now (-4 EDT / -5 EST)
-  const off = -new Date(now.toLocaleString("en-US", { timeZone: "America/New_York" })).getTimezoneOffset() === 0
-    ? "" : "";
-  const jan = new Date(now.getFullYear(), 0, 1);
-  const isDst = now.getTimezoneOffset() < jan.getTimezoneOffset() ? true : undefined;
-  // simplest robust: compute NY offset via Intl
+  // NY offset via Intl (UTC-4 EDT / UTC-5 EST)
   const fmt = new Intl.DateTimeFormat("en-US", { timeZone: "America/New_York", timeZoneName: "shortOffset" });
   const tz = fmt.formatToParts(now).find((p) => p.type === "timeZoneName")?.value ?? "GMT-4";
   return { hms, utc: tz.replace("GMT", "UTC") };
