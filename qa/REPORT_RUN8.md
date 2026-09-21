@@ -1,6 +1,6 @@
 # REPORT_RUN8 — OS entrance · inheritance spine · skills-driven verification · slim repo
 
-2026-09-21, 00:49 → see the log for the close. Brief: `docs/archive/context/35_RUN8_PROMPT.md`.
+2026-09-21, 00:49 → 02:23 (94 of 150 min). Brief: `docs/archive/context/35_RUN8_PROMPT.md`.
 Log with every decision: `docs/archive/context/36_RUN8_LOG.md`.
 
 ## What changed
@@ -66,11 +66,18 @@ Shots: `qa/loops/run8/pub-*-1440.png` (untracked after §5; regenerate with `mak
 | `make smoke` | OS gate 12/12 · functional 9/9 |
 | `make links` | 86 links, 0 dead |
 | ui-preservation | only the nav button + animations + contrast tokens differ |
-| newcomer test (`make install` → `make dev` → a page) | see log |
-| tracked size | see the slim-repo table |
+| newcomer test | `make install` 4 s (warm caches; cold flow 53 s in run 7) → `make dev` → Home renders |
+| tracked size | 13.6 MB (≤ 15 MB) |
 
 ## Slim repo
-(filled in §5 — see the log)
+| | Before | After |
+|---|---|---|
+| Tracked working tree | 105.7 MB · 635 files | **13.6 MB · 466 files** |
+| `qa/loops` | 104 screenshots tracked | only `parity.md` (shots regenerate: `make shots`, `make smoke`) |
+| `assets/refs` | 67 files, 50 MB | moved to `~/Desktop/jjay_css_refs/`; `assets/refs/README.md` says where and what |
+| `__pycache__` | 0 tracked | 0, and ignored |
+| `git gc --prune=now && git fsck` | — | clean |
+| `.git` | 338 MB | 331 MB — history still carries the old refs/shots; `git filter-repo` before the transfer is Ryan's call |
 
 ## Left for Ryan
 - Mobile Lighthouse 60: prerender or lazy R3F (`docs/LATER.md`).

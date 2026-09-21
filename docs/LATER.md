@@ -30,3 +30,7 @@ Each line: what · why not now · what it would take.
 - **Bust v7** · the pitbull reads a touch bear-cub from the front · split skull
   and cheek masses; see `assets/hound3d/README.md`.
 - **TODO markers in code** · none allowed; anything deferred goes on this list.
+- **History rewrite before the transfer** · the working tree is 13.6 MB tracked but
+  `.git` is ~330 MB from the reference screenshots that lived in `assets/refs/` and
+  `qa/loops/` until run 8 · `git filter-repo --path assets/refs --path qa/loops --invert-paths`
+  on a fresh clone, then push to the new `jjcss` repo — a one-way step, Ryan's call.

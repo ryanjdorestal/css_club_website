@@ -28,3 +28,9 @@ os_gate.mjs: 12/12 (anonymous → login + reason + next; guest → NOT_ON_ROSTER
 
 ## §4 done (02:20 — 70 min)
 `docs/SKILLS_ADOPTED.md`: 63 skills decided (adopt 14 · adapt 14 · skip 35). Counts: pa11y 79→0 · axe 233→0 · stylelint 2→0 · markdownlint 20→0 · tokens 21→0 · repo audit 6→0 · lychee 86 links 1→0 dead · gitleaks 0/38 commits · html-validate 0 · Lighthouse 97/60 (recorded). `scripts/functional_smoke.mjs` 9/9 (step 8 found the status bar covering sign-out — fixed) · `os_gate.mjs` 12/12 · `make check` green (ruff · prettier · stylelint · markdownlint · oxlint · mypy · tsc · pytest 49 · vitest 19 · audits · guards · validators · ts-prune · depcheck). CI: `make check` + commitlint + html-validate + build + render smoke; new `functional` job = `make smoke`. ui-preservation: heights identical on Home/Projects/News/About; 0.26–1.70 % pixels differ (nav button, cube/marquee animation, label contrast tokens) — `qa/REPORT_RUN8.md`.
+
+## §5 done (02:23 — 3 min)
+Untracked `qa/loops` (kept `parity.md`) and `assets/refs` → `~/Desktop/jjay_css_refs/` (README left behind; links in DESIGN.md, CLAUDE.md, docs/archive, `scripts/collect_type_refs.mjs` rewritten to `../jjay_css_refs/`). No `__pycache__` was tracked. `git gc --prune=now` + `git fsck`: clean. Tracked working tree **105.7 MB → 13.6 MB** (635 → 466 files). `.git` stays 331 MB because history still holds the old refs/shots — a `git filter-repo` before the transfer is Ryan's call (`docs/LATER.md`). `make check` green on the slimmed tree. Commit `chore: slim repo for clone`.
+
+## Close (02:23 — 94 min of 150)
+Newcomer test: `make install` 4 s with warm caches (run 7 measured the cold flow at 53 s); `make dev` already up — web 200, api ok. Gate table in `qa/REPORT_RUN8.md`. Local tables and inbox reset. Dev servers left running (web :5173, api :8000).
