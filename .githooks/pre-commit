@@ -1,0 +1,5 @@
+#!/usr/bin/env bash
+# pre-commit: the fast subset of `make check`. Install with: make hooks
+set -e
+.venv/bin/ruff check api scripts
+cd apps/web && npx tsc --noEmit -p tsconfig.app.json && npx vitest run --silent

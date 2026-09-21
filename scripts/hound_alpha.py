@@ -13,6 +13,7 @@ mask — should be ≈ the navy, not white).
 Usage:  .venv/bin/python scripts/hound_alpha.py
 """
 from pathlib import Path
+
 import numpy as np
 from PIL import Image, ImageDraw, ImageFilter
 

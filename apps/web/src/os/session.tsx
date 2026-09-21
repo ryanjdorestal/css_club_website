@@ -7,8 +7,8 @@ import { createContext, useCallback, useContext, useEffect, useMemo, useState, t
 import { createClient, type SupabaseClient } from "@supabase/supabase-js";
 
 export type Role = "guest" | "officer" | "admin";
-export type Actor = { email: string; role: Role; name: string; profile_id: string | null; term: string | null; source: string };
-export type Mode = "supabase" | "local" | "unconfigured";
+type Actor = { email: string; role: Role; name: string; profile_id: string | null; term: string | null; source: string };
+type Mode = "supabase" | "local" | "unconfigured";
 
 const URL = import.meta.env.VITE_SUPABASE_URL as string | undefined;
 const ANON = import.meta.env.VITE_SUPABASE_ANON_KEY as string | undefined;

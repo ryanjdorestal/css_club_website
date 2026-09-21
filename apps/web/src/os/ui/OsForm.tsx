@@ -16,7 +16,7 @@ export type Field = {
   placeholder?: string;
   rows?: number;
 };
-export type Values = Record<string, unknown>;
+type Values = Record<string, unknown>;
 
 const input =
   "w-full bg-transparent border-0 border-b border-line px-1 py-2 font-mono text-[13px] text-ink placeholder:text-muted/40 focus:border-teal outline-none";

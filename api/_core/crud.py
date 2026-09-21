@@ -3,7 +3,8 @@ Collection. Module routers build on it and add their specific actions
 (publish, decide, import…). Every write: validate → authorize → write (DB or
 local+inbox) → audit → return the row. Used by every routers/*.py."""
 
-from typing import Any, Callable, Type
+from collections.abc import Callable
+from typing import Any
 
 from fastapi import APIRouter, Depends, HTTPException, Request
 from pydantic import BaseModel
@@ -21,7 +22,7 @@ def clean(model: BaseModel) -> dict[str, Any]:
 def make_router(
     prefix: str,
     col: Collection,
-    model_in: Type[BaseModel],
+    model_in: type[BaseModel],
     *,
     read_role: str = "officer",
     write_role: str = "officer",

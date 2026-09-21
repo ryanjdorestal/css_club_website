@@ -3,7 +3,7 @@ import { SectionIndex } from "./SectionIndex";
 import { VerticalRail } from "./VerticalRail";
 import { Registration } from "./frame";
 
-export type Tone = "dark" | "dark-2" | "dark-3" | "light" | "light-2" | "tinted";
+type Tone = "dark" | "dark-2" | "dark-3" | "light" | "light-2" | "tinted";
 
 /** A page movement. Bands alternate dark/light with HARD edges — the edge is
     the design (no gradients between bands). Replaces run 1's Section. */

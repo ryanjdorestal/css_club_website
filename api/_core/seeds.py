@@ -24,7 +24,7 @@ def term_id(label: str) -> str:
 
 # ----------------------------------------------------------------- terms
 def terms() -> Rows:
-    rows = tier1.read_json("terms.json", {"terms": []}).get("terms", [])
+    rows: Rows = tier1.read_json("terms.json", {"terms": []}).get("terms", [])
     if rows:
         return rows
     board = tier1.read_json("board.json", {"terms": []})
@@ -49,7 +49,8 @@ def board_profiles() -> Rows:
 
 # -------------------------------------------------------------- projects
 def projects() -> Rows:
-    return tier1.read_json("projects.json", {"projects": []}).get("projects", [])
+    rows: Rows = tier1.read_json("projects.json", {"projects": []}).get("projects", [])
+    return rows
 
 
 def project_submissions() -> Rows:
@@ -58,7 +59,8 @@ def project_submissions() -> Rows:
 
 # ----------------------------------------------------------------- posts
 def posts() -> Rows:
-    return tier1.read_json("posts.json", {"posts": []}).get("posts", [])
+    rows: Rows = tier1.read_json("posts.json", {"posts": []}).get("posts", [])
+    return rows
 
 
 # ---------------------------------------------------------------- events

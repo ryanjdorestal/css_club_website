@@ -5,7 +5,7 @@
     Projects, Home. */
 import { useEffect, useState } from "react";
 
-export type ApiSource = "static" | "local" | "db" | "loading";
+type ApiSource = "static" | "local" | "db" | "loading";
 
 export function useApi<T>(path: string, fallback: T, enabled = true): { data: T; source: ApiSource } {
   const [state, setState] = useState<{ data: T; source: ApiSource }>({ data: fallback, source: enabled ? "loading" : "static" });

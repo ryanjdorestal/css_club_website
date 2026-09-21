@@ -29,7 +29,6 @@ export const counts = {
   semesters: board.terms.length * 2,
 };
 
-export const scn = (n: number) => `SCN: ${String(n).padStart(4, "0")}`;
 export const node = () => "NODE: JJ_CSS_01";
 
 /** 0x + first 6 hex of a stable FNV hash. */

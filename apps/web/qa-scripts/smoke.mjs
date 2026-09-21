@@ -1,33 +1,24 @@
-// CI smoke: serve the built dist, load home, fail on console/page errors.
+// Playwright smoke (CI): every public route renders with no console errors, in Tier 1.
+// Starts vite preview on the built dist; the API is not required (fallbacks answer).
 import { chromium } from "@playwright/test";
-import { createServer } from "node:http";
-import { readFileSync, existsSync } from "node:fs";
-import { join, extname } from "node:path";
-
-const MIME = { ".html": "text/html", ".js": "text/javascript", ".css": "text/css", ".svg": "image/svg+xml", ".png": "image/png", ".webp": "image/webp", ".glb": "model/gltf-binary", ".json": "application/json" };
-const server = createServer((req, res) => {
-  let p = join("dist", req.url.split("?")[0]);
-  if (!existsSync(p) || p === "dist/") p = "dist/index.html";
-  try {
-    res.setHeader("content-type", MIME[extname(p)] ?? "application/octet-stream");
-    res.end(readFileSync(p));
-  } catch {
-    res.statusCode = 404;
-    res.end();
-  }
-}).listen(4173);
-
+import { spawn } from "node:child_process";
+const ROUTES = ["/", "/events", "/projects", "/apps", "/cyberhounds", "/about", "/resources", "/news", "/news/grad-school-events", "/join", "/os/login", "/nope-404"];
+const server = spawn("npx", ["vite", "preview", "--port", "4173", "--strictPort"], { stdio: "ignore" });
+await new Promise((r) => setTimeout(r, 2500));
 const browser = await chromium.launch();
-const page = await browser.newPage();
+const page = await browser.newPage({ viewport: { width: 1280, height: 800 } });
 const errors = [];
-page.on("pageerror", (e) => errors.push(e.message));
-await page.goto("http://localhost:4173/", { waitUntil: "networkidle" });
-const title = await page.title();
-const hasHero = await page.evaluate(() => document.body.innerText.includes("Computer"));
-await browser.close();
-server.close();
-if (!hasHero || errors.length) {
-  console.error("SMOKE FAIL", { title, hasHero, errors });
-  process.exit(1);
+page.on("pageerror", (e) => errors.push(`pageerror: ${e.message}`));
+page.on("console", (m) => m.type() === "error" && !m.text().includes("/api/") && errors.push(`console: ${m.text().slice(0, 160)}`));
+let failed = 0;
+for (const route of ROUTES) {
+  const res = await page.goto(`http://localhost:4173${route}`, { waitUntil: "domcontentloaded" });
+  await page.waitForTimeout(600);
+  const ok = res && res.status() === 200 && (await page.locator("#root *").count()) > 0;
+  console.log(`${ok ? "ok  " : "FAIL"} ${route}`);
+  if (!ok) failed++;
 }
-console.log("smoke ok:", title);
+await browser.close();
+server.kill();
+if (errors.length) { console.log(errors.join("\n")); }
+process.exit(failed || errors.length ? 1 : 0);

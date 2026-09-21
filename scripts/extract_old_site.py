@@ -335,7 +335,6 @@ def extract_copy():
     md("cyberhounds.md", "\n\n".join(dedup))
 
     grad = soup("graduate-events.html")
-    title_el = grad.select_one("h1") or grad.select_one(".header-title")
     body = []
     for el in grad.select("h2, h3, p"):
         t = clean(el.get_text(" "))

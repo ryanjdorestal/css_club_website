@@ -16,6 +16,7 @@ import { Meter } from "@/components/cards/Meter";
 import { Reveal } from "@/motion/Reveal";
 import { Button } from "@/components/Button";
 import { postWithFallback, type SubmitResult } from "@/lib/api";
+import type { ProjectSubmit } from "@/lib/api.types";
 import { useApi } from "@/lib/useApi";
 import { brand } from "@brand/brand.config";
 import * as Sg from "@/sigils";
@@ -152,8 +153,13 @@ function SubmitBand() {
   async function onSubmit(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
     setBusy(true);
-    const data = Object.fromEntries(new FormData(e.currentTarget).entries());
-    setResult(await postWithFallback("/api/projects/submit", { ...data, platform: String(data.platform ?? "").split(",").map((s) => s.trim()).filter(Boolean) }));
+    const data = Object.fromEntries(new FormData(e.currentTarget).entries()) as Record<string, string>;
+    const payload: ProjectSubmit = {
+      title: data.title, author: data.author, email: data.email, summary: data.summary, link: data.link || null,
+      kind: (data.kind as ProjectSubmit["kind"]) ?? "app",
+      platform: (data.platform ?? "").split(",").map((s) => s.trim()).filter(Boolean),
+    };
+    setResult(await postWithFallback("/api/projects/submit", payload));
     setBusy(false);
   }
   const field = "w-full bg-transparent border-0 border-b border-(--tone-line) px-1 py-2.5 font-mono text-sm text-ink-on-paper placeholder:text-muted-on-paper/40 focus:border-(--accent) outline-none";

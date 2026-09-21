@@ -1,0 +1,27 @@
+# LATER.md — deferred on purpose (needs an account, a key, or a decision)
+
+Each line: what · why not now · what it would take.
+
+- **Discord sync** (member list, announcement feed) · needs a bot token = a key
+  the club must own and rotate · a Discord app under the club account, a
+  `DISCORD_BOT_TOKEN` env in Vercel, a `/api/os/members/sync` endpoint.
+- **Analytics on Today** (page views) · every provider needs an account; the
+  numbers here are the club's own data · Vercel Analytics toggle (no code) or a
+  self-hosted counter.
+- **Email from the OS** (to members, to submitters) · needs a mail provider key
+  · Resend/Postmark under the club Gmail, one `send()` in `_core`.
+- **Rich screenshots / gallery on Projects** · uploads exist (≤ 2 MB, resized);
+  a gallery needs a cropper and an ordering UI · extend `Upload` + `screenshots[]`.
+- **Prerender for mobile Lighthouse** · a CSR SPA pays its JS on slow 4G · a
+  `vite-plugin-prerender` pass or moving public pages to static HTML at build.
+- **Vercel build dry-run in CI** · needs `VERCEL_TOKEN` · set the secret +
+  `VERCEL_DRY_RUN=true` (already wired in `ci.yml`).
+- **Cube head-turn on scroll for the Cyberhound** · nice-to-have · share the
+  rail's scroll progress with `CyberhoundSpot`.
+- **Link-rot service** · "Check all links" is a manual HEAD/GET · a scheduled
+  workflow that calls it with a service token.
+- **Clickable fin lines** · the `> next:` line is decorative · make the fin a
+  `Link` with the same typing on hover.
+- **Bust v7** · the pitbull reads a touch bear-cub from the front · split skull
+  and cheek masses; see `assets/hound3d/README.md`.
+- **TODO markers in code** · none allowed; anything deferred goes on this list.

@@ -10,8 +10,9 @@ import hashlib
 import hmac
 import json
 import time
+from collections.abc import Callable
 from dataclasses import asdict, dataclass
-from typing import Any, Callable
+from typing import Any
 
 from fastapi import HTTPException, Request
 
@@ -56,7 +57,7 @@ def verify_jwt(token: str, secret: str) -> dict[str, Any] | None:
         claims = json.loads(_b64url_decode(p))
         if claims.get("exp", 0) < time.time():
             return None
-        return claims
+        return dict(claims)
     except Exception:
         return None
 

@@ -23,7 +23,6 @@ def first_words(text: str, n: int) -> str:
 
 def main() -> None:
     links = json.loads((DATA / "links.json").read_text())
-    events = json.loads((DATA / "events.json").read_text())
     board = json.loads((DATA / "board.json").read_text())
     resources = json.loads((DATA / "resources.json").read_text())
     about_md = (ROOT / "content" / "about.md").read_text()

@@ -24,3 +24,6 @@ qa/_review/
 
 # OS Tier-1 local tables (never committed; scripts/snapshot.py refreshes the committed JSON)
 data/*.local.json
+
+# QA loop history (kept locally, not committed)
+qa/archive/

@@ -65,7 +65,8 @@ def test_jwt_roundtrip(monkeypatch: pytest.MonkeyPatch) -> None:
     h = b64(json.dumps({"alg": "HS256", "typ": "JWT"}).encode())
     p = b64(json.dumps({"email": "x@y.edu", "exp": time.time() + 60}).encode())
     sig = b64(hmac.new(b"s3cret", f"{h}.{p}".encode(), hashlib.sha256).digest())
-    assert verify_jwt(f"{h}.{p}.{sig}", "s3cret")["email"] == "x@y.edu"
+    claims = verify_jwt(f"{h}.{p}.{sig}", "s3cret")
+    assert claims is not None and claims["email"] == "x@y.edu"
     assert verify_jwt(f"{h}.{p}.{sig}", "wrong") is None
 
 
@@ -100,7 +101,7 @@ def test_apps_submit_redirects(client: TestClient) -> None:
 def submit(client: TestClient) -> str:
     r = client.post("/api/projects/submit", json={"title": "T", "author": "A", "email": "a@b.edu", "summary": "s", "platform": "web"})
     assert r.status_code == 200 and r.json()["stored"] == "local"
-    return r.json()["id"]
+    return str(r.json()["id"])
 
 
 def test_project_flow(client: TestClient) -> None:
@@ -163,7 +164,7 @@ def test_resource_crud(client: TestClient) -> None:
     r = client.post("/api/os/resources", json={"group": "General Knowledge", "title": "New", "url": "https://example.org"}, headers=OFFICER).json()
     rid = r["row"]["id"]
     assert client.patch(f"/api/os/resources/{rid}", json={"group": "General Knowledge", "title": "Renamed", "url": "https://example.org"}, headers=OFFICER).json()["row"]["title"] == "Renamed"
-    assert any(l["title"] == "Renamed" for g in client.get("/api/resources").json()["groups"] for l in g["links"])
+    assert any(ln["title"] == "Renamed" for g in client.get("/api/resources").json()["groups"] for ln in g["links"])
     assert client.delete(f"/api/os/resources/{rid}", headers=OFFICER).json()["ok"]
 
 

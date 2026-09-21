@@ -4,7 +4,7 @@ import type { ReactNode } from "react";
 import { RevealGroup, RevealItem } from "@/motion/Reveal";
 import { StatusChip } from "./StatusChip";
 
-export type IndexRowData = {
+type IndexRowData = {
   index?: string;
   title: string;
   dek?: string;
@@ -30,7 +30,7 @@ export function IndexList({ rows, className = "" }: { rows: IndexRowData[]; clas
   );
 }
 
-export function IndexRow({ index, title, dek, meta, chip, href, sigil, onClick, bracket }: IndexRowData) {
+function IndexRow({ index, title, dek, meta, chip, href, sigil, onClick, bracket }: IndexRowData) {
   const body = (
     <div className="group relative flex items-center gap-4 md:gap-5 py-3.5 border-b border-(--tone-line) transition-colors duration-200 hover:bg-current/[0.03] cursor-pointer px-1">
       <span className="t-label raise text-(--accent-ink) shrink-0 w-10 tnum">

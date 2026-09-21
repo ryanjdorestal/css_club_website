@@ -28,8 +28,8 @@ r: APIRouter = make_router("/os/members", C.members, MemberIn, filters=("status"
                            transitions="members", prepare=prepare)
 
 
-def parse_csv(text: str) -> list[dict[str, str]]:
-    rows = []
+def parse_csv(text: str) -> list[dict[str, Any]]:
+    rows: list[dict[str, Any]] = []
     for raw in csv.DictReader(io.StringIO(text.strip())):
         row = {(k or "").strip().lower(): (v or "").strip() for k, v in raw.items()}
         name = row.get("display_name") or row.get("name") or row.get("username") or ""

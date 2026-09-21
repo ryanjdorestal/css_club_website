@@ -15,6 +15,7 @@ from ..auth import Actor, require_role
 from ..crud import make_router
 from ..models import PostIn
 
+
 def slugify(s: str) -> str:
     return re.sub(r"[^a-z0-9]+", "-", s.lower()).strip("-")[:80]
 

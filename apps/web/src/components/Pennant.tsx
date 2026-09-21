@@ -17,7 +17,7 @@ const INSET = "M14 14H586V594L300 758L14 594Z";
 const HEAD_PLACE = "translate(120,70.9) scale(0.21065)";
 const EASE = [0.22, 1, 0.36, 1] as const;
 
-export function PennantMark({ className = "" }: { className?: string }) {
+function PennantMark({ className = "" }: { className?: string }) {
   const ref = useRef<SVGSVGElement>(null);
   const inView = useInView(ref, { once: true, margin: "-10% 0px" });
   const reduced = useReducedMotion();

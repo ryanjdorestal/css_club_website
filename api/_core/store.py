@@ -6,9 +6,10 @@ from __future__ import annotations
 
 import time
 import uuid
-from typing import Any, Callable
+from collections.abc import Callable
+from typing import Any
 
-from . import audit, db, tier1
+from . import audit, config, db, tier1
 
 Rows = list[dict[str, Any]]
 Seed = Callable[[], Rows]
@@ -35,19 +36,19 @@ class Collection:
     def list(self, **filters: Any) -> Rows:
         """Rows matching every equality filter (None values are ignored)."""
         active = {k: v for k, v in filters.items() if v is not None and v != ""}
-        rows = db.select(self.table, {k: f"eq.{v}" for k, v in active.items()}) if db.config.supabase_configured() else None
+        rows = db.select(self.table, {k: f"eq.{v}" for k, v in active.items()}) if config.supabase_configured() else None
         if rows is None:
             rows = [r for r in self._local() if all(r.get(k) == v for k, v in active.items())]
         return rows
 
     def get(self, row_id: str) -> dict[str, Any] | None:
-        rows = db.select(self.table, {self.id_field: f"eq.{row_id}"}) if db.config.supabase_configured() else None
+        rows = db.select(self.table, {self.id_field: f"eq.{row_id}"}) if config.supabase_configured() else None
         if rows is None:
             rows = [r for r in self._local() if str(r.get(self.id_field)) == str(row_id)]
         return rows[0] if rows else None
 
     def source(self) -> str:
-        return "db" if db.config.supabase_configured() and db.reachable() else "local"
+        return "db" if config.supabase_configured() and db.reachable() else "local"
 
     # ----------------------------------------------------------- writes
     def create(self, row: dict[str, Any], actor: str, client_id: str | None = None) -> dict[str, Any]:

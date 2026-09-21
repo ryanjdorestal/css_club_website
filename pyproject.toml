@@ -1,0 +1,29 @@
+[tool.ruff]
+line-length = 200  # dense one-line dict rows are the house style; functions stay ≤ 60 lines
+target-version = "py312"
+src = ["api", "scripts"]
+
+[tool.ruff.lint]
+select = ["E", "F", "I", "UP", "B"]
+ignore = ["B008"]  # FastAPI's Depends(...) in defaults is the framework idiom
+
+[tool.ruff.lint.per-file-ignores]
+"scripts/extract_old_site.py" = ["E501"]  # migration script: long source strings
+"scripts/build_kb.py" = ["E501"]
+"scripts/images.py" = ["E501"]
+"scripts/test_api.py" = ["E501"]
+
+[tool.ruff.lint.isort]
+known-first-party = ["_core"]
+
+[tool.mypy]
+strict = true
+ignore_missing_imports = true
+files = ["api/_core", "api/index.py", "scripts/snapshot.py", "scripts/bootstrap_admin.py", "scripts/check_api_count.py"]
+mypy_path = "api"
+explicit_package_bases = true
+
+[tool.pytest.ini_options]
+testpaths = ["api/_core/tests"]
+addopts = "-q -p no:cacheprovider"
+filterwarnings = ["ignore::DeprecationWarning"]

@@ -1,50 +1,57 @@
 name: CI
 on:
   push:
-    branches: [main]
+    branches: [main, master]
   pull_request:
 
 jobs:
-  build:
+  check:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-node@v4
         with:
-          node-version: 22
+          node-version-file: .nvmrc
           cache: npm
           cache-dependency-path: apps/web/package-lock.json
       - uses: actions/setup-python@v5
         with:
-          python-version: "3.12"
+          python-version-file: .python-version
 
-      # The two guards that prevent the known silent failures.
-      - name: api file-count guard (<= 2 files, one Vercel function)
-        run: python scripts/check_api_count.py
-      - name: validate data against schemas
-        run: python scripts/validate_data.py
-
-      - name: install web deps
-        run: npm ci
-        working-directory: apps/web
-      - name: build
-        run: npm run build
-        working-directory: apps/web
-
-      - name: api deps + tests
+      - name: install
         run: |
-          pip install -r api/requirements.txt pytest
-          pytest scripts/test_api.py -q
+          npm ci --prefix apps/web
+          python -m venv .venv && .venv/bin/pip install -q -r api/requirements.txt ruff mypy pytest
 
-      - name: playwright smoke (home renders, no console errors)
+      # The guards that prevent the known silent failures, then everything `make check` runs.
+      - name: one-function guard + data schemas
+        run: |
+          .venv/bin/python scripts/check_api_count.py
+          .venv/bin/python scripts/validate_data.py
+      - name: lint + types (ruff, mypy --strict, oxlint, tsc)
+        run: make lint types
+      - name: tests (pytest + vitest)
+        run: make test
+      - name: dead code + deps (ts-prune, depcheck)
+        run: |
+          cd apps/web && npm run prune && npm run depcheck
+      - name: generated types are current
+        run: |
+          .venv/bin/python scripts/gen_types.py
+          git diff --exit-code apps/web/src/lib/api.types.ts
+      - name: build
+        run: npm run build --prefix apps/web
+      - name: playwright smoke (every route renders, Tier 1)
         run: |
           npx playwright install --with-deps chromium
           node qa-scripts/smoke.mjs
         working-directory: apps/web
 
       # Optional: prove the deploy would succeed. Skips when no token is set.
-      - name: vercel build dry-run
+      - name: vercel build dry-run (one function in the output)
         if: ${{ vars.VERCEL_DRY_RUN == 'true' }}
         env:
           VERCEL_TOKEN: ${{ secrets.VERCEL_TOKEN }}
-        run: npx vercel build --token "$VERCEL_TOKEN" || echo "::warning::vercel build dry-run failed"
+        run: |
+          npx vercel build --token "$VERCEL_TOKEN" || { echo "::warning::vercel build dry-run failed"; exit 0; }
+          n=$(find .vercel/output/functions -maxdepth 1 -name '*.func' | wc -l); echo "functions: $n"; [ "$n" -le 1 ]

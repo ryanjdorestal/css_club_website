@@ -9,15 +9,14 @@
     "lint": "oxlint",
     "preview": "vite preview",
     "shoot": "node qa-scripts/shoot.mjs",
-    "compare": "node qa-scripts/compare.mjs"
+    "test": "vitest run",
+    "typecheck": "tsc --noEmit -p tsconfig.app.json",
+    "prune": "ts-prune -p tsconfig.app.json --ignore \"sigils/index|textures/index|frame/index|brand.config|api.types\" --error",
+    "depcheck": "depcheck"
   },
   "dependencies": {
-    "@fontsource/chakra-petch": "^5.3.0",
     "@fontsource/jetbrains-mono": "^5.3.0",
-    "@fontsource/michroma": "^5.3.0",
-    "@fontsource/silkscreen": "^5.3.0",
     "@fontsource/space-grotesk": "^5.3.0",
-    "@fontsource/syncopate": "^5.3.0",
     "@fontsource/unbounded": "^5.3.0",
     "@fontsource/vt323": "^5.3.0",
     "@react-three/drei": "^10.7.8",

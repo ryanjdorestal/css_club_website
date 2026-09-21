@@ -40,7 +40,7 @@ export default function OsAudit() {
 
   async function replay() {
     setBusy(true);
-    const r = await act<{ replayed: number; failed: string[]; error?: string }>("/api/os/inbox/replay", { body: {} });
+    const r = await act<{ ok?: boolean; replayed: number; failed: string[]; error?: string }>("/api/os/inbox/replay", { body: {} });
     say(r.ok && r.data.ok !== false, r.data.error ? `Not replayed: ${r.data.error}` : `Replayed ${r.data.replayed ?? 0}; ${(r.data.failed ?? []).length} failed.`);
     setBusy(false);
     await inbox.reload();

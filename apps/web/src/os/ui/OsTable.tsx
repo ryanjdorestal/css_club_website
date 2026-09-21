@@ -2,7 +2,7 @@
     Columns declare a key or a render; nothing else. Used by every list page. */
 import type { ReactNode } from "react";
 
-export type Col<T> = { key: string; label: string; render?: (row: T) => ReactNode; width?: string; mono?: boolean };
+type Col<T> = { key: string; label: string; render?: (row: T) => ReactNode; width?: string; mono?: boolean };
 export type Row = Record<string, unknown>;
 
 export function OsTable<T extends Row>({

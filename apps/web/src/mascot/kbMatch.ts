@@ -2,7 +2,7 @@
     (the widget answers from the bundled KB; the site never shows a dead chat). */
 import kb from "@data/kb.json";
 
-export type ChatAnswer = {
+type ChatAnswer = {
   answer: string;
   suggestions: string[];
   citations: { label: string; href: string }[];

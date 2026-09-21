@@ -1,6 +1,6 @@
 import type { ReactNode } from "react";
 
-export type LabelPrefix = "/" | "//" | "_" | ">" | "●" | "○" | "↗" | "→" | "↳" | "[" | "X_" | "Y_" | "+";
+type LabelPrefix = "/" | "//" | "_" | ">" | "●" | "○" | "↗" | "→" | "↳" | "[" | "X_" | "Y_" | "+";
 
 /** §2d label grammar: prefix + text [+ value], mono, tracked caps, tabular.
     Separators inside are · and / only. */

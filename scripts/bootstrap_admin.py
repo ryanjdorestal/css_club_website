@@ -33,7 +33,7 @@ if __name__ == "__main__":
         sys.exit("no current term — add one to data/terms.json first")
     existing = [r for r in C.board.list(term=term) if str(r.get("email", "")).lower() == a.email.lower()]
     if existing:
-        row = C.board.patch(str(existing[0]["id"]), {"active": True, "os_role": "admin"}, actor=f"bootstrap:{a.email}")
+        row = C.board.patch(str(existing[0]["id"]), {"active": True, "os_role": "admin"}, actor=f"bootstrap:{a.email}") or existing[0]
         print(f"updated {row['id']}: active admin on {term}")
     else:
         row = C.board.create({"id": f"{term}/{slug(a.name)}", "term": term, "name": a.name, "role_title": a.role, "group_label": "Executive Board Members",

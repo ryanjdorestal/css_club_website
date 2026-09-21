@@ -8,6 +8,7 @@ from typing import Any, Literal
 
 from pydantic import BaseModel, Field, field_validator
 
+
 class MemberIn(BaseModel):
     display_name: str = Field(min_length=1, max_length=120)
     discord_handle: str | None = Field(default=None, max_length=80)

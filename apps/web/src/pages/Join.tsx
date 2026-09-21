@@ -12,6 +12,7 @@ import * as Sg from "@/sigils";
 import { Tag } from "@/components/cards/Tag";
 import { Button } from "@/components/Button";
 import { postWithFallback, type SubmitResult } from "@/lib/api";
+import type { OnboardingSubmit } from "@/lib/api.types";
 
 export default function Join() {
   return (
@@ -88,7 +89,9 @@ function OnboardBand() {
   async function onSubmit(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
     setBusy(true);
-    setResult(await postWithFallback("/api/onboarding/submit", Object.fromEntries(new FormData(e.currentTarget).entries())));
+    const data = Object.fromEntries(new FormData(e.currentTarget).entries()) as Record<string, string>;
+    const payload: OnboardingSubmit = { name: data.name, email: data.email, major: data.major || null, class_year: data.class_year || null, interests: data.interests || null, discord_handle: data.discord_handle || null };
+    setResult(await postWithFallback("/api/onboarding/submit", payload));
     setBusy(false);
   }
   const field =

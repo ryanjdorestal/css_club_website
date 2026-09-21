@@ -1,7 +1,7 @@
 /** Tiny markdown loader for content/*.md — frontmatter + ##-heading blocks.
     Our migrated copy only uses headings and paragraphs; no dependency needed. */
 
-export type MdDoc = {
+type MdDoc = {
   meta: Record<string, string>;
   blocks: { type: "h2" | "p"; text: string }[];
 };

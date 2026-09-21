@@ -36,4 +36,3 @@ export function Readout({
 }
 
 /** Back-compat alias (Home uses StatChip). */
-export const StatChip = Readout;

@@ -39,7 +39,7 @@ export function OsPage({
 }
 
 /** RHEC pattern: name the actual boundary and the actual reason, no hedging. */
-export function NotHere({ items }: { items: string[] }) {
+function NotHere({ items }: { items: string[] }) {
   return (
     <section className="mt-12 border-t border-line pt-5 max-w-[760px]">
       <MonoLabel>What is not here, and why</MonoLabel>

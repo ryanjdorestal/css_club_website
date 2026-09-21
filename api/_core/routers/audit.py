@@ -6,7 +6,7 @@ from typing import Any
 
 from fastapi import APIRouter, Depends, Request
 
-from .. import audit, db, tier1
+from .. import audit, config, db, tier1
 from .. import collections as C
 from ..auth import Actor, require_role
 from ..models import ReplayIn
@@ -24,14 +24,14 @@ def records(request: Request, actor: Actor = Depends(require_role("officer"))) -
 @r.get("/inbox")
 def inbox(actor: Actor = Depends(require_role("officer"))) -> dict[str, Any]:
     items = tier1.inbox_items()
-    return {"ok": True, "rows": items, "count": len(items), "db": db.config.supabase_configured() and db.reachable()}
+    return {"ok": True, "rows": items, "count": len(items), "db": config.supabase_configured() and db.reachable()}
 
 
 @r.post("/inbox/replay")
 def replay(body: ReplayIn, actor: Actor = Depends(require_role("admin"))) -> dict[str, Any]:
     """Post each inbox line to Supabase (upsert by id → idempotent). Lines that
     land are removed from the inbox; the rest stay for next time."""
-    if not (db.config.supabase_configured() and db.reachable()):
+    if not (config.supabase_configured() and db.reachable()):
         return {"ok": False, "error": "supabase not reachable", "replayed": 0}
     wanted = set(body.client_ids or [])
     replayed, failed = 0, []

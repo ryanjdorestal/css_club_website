@@ -69,7 +69,7 @@ def platform_status(actor: Actor = Depends(require_role("officer"))) -> dict[str
     checks.append(chip("idle" if stale else "live", "DEPLOY", f"deployed {deployed[:7]} · repo {repo}", "RUNBOOK · Deploy stale"))
     snap = tier1.read_json("snapshot.json", {})
     checks.append(chip("live" if snap.get("generated_at") else "idle", "SNAPSHOT", f"last {snap.get('generated_at') or 'never — run scripts/snapshot.py'}", "RUNBOOK · Restore from snapshot"))
-    checked = [x.get("last_checked") for x in C.links.list() + C.resources.list() if x.get("last_checked")]
+    checked = [float(x["last_checked"]) for x in C.links.list() + C.resources.list() if x.get("last_checked")]
     age = (time.time() - max(checked)) / 86400 if checked else None
     checks.append(chip("live" if age is not None and age < 90 else "idle", "LINK_CHECK", f"{age:.0f} d ago" if age is not None else "never", "/os/resources → Check all links"))
     n_up = sum(1 for _ in config.UPLOADS.glob("*")) if config.UPLOADS.exists() else 0

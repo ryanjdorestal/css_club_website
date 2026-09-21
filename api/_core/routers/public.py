@@ -112,7 +112,7 @@ def onboarding_submit(body: OnboardingSubmit, request: Request) -> Any:
     row = {"full_name": body.name, "email": body.email, "major": body.major or "", "class_year": body.class_year or "",
            "interests": body.interests or "", "discord_handle": body.discord_handle or "", "status": "new", "source": "site-join-form"}
     saved = C.onboarding.create(row, actor="public")
-    member = {"display_name": body.name, "discord_handle": body.discord_handle or "", "school_email": body.email,
+    member: dict[str, Any] = {"display_name": body.name, "discord_handle": body.discord_handle or "", "school_email": body.email,
               "status": "interested", "joined_term": (C.terms.list(is_current=True) or [{}])[0].get("id"), "tags": [], "notes": "", "source": "form"}
     C.members.create(member, actor="public")
     return {"ok": True, "stored": "db" if C.onboarding.source() == "db" else "local", "id": saved.get("id")}
@@ -177,7 +177,7 @@ def events() -> dict[str, Any]:
             "time": e.get("time_label", ""), "room": e.get("location", ""), "status": e.get("when", "past"),
             "flyer": e.get("flyer_path", ""), "rsvp_url": e.get("rsvp_url", ""), "id": e.get("id"),
         })
-    semesters = [{"semester": s, "events": evs} for s, evs in by_sem.items()]
+    semesters: list[dict[str, Any]] = [{"semester": s, "events": evs} for s, evs in by_sem.items()]
     semesters.sort(key=lambda s: s["semester"], reverse=True)
     return {"ok": True, "source": _source(C.events), "semesters": semesters}
 
@@ -206,8 +206,8 @@ def resources() -> dict[str, Any]:
     for row in sorted(rows, key=lambda x: (x.get("group", ""), x.get("sort", 0))):
         groups.setdefault(row["group"], []).append({"title": row["title"], "url": row["url"], "description": row.get("description", ""),
                                                     "dead": row.get("dead", False), "id": row.get("id")})
-    order = [g["group"] for g in tier1.read_json("resources.json", {"groups": []})["groups"]]
-    names = sorted(groups, key=lambda g: order.index(g) if g in order else 99)
+    order: list[str] = [g["group"] for g in tier1.read_json("resources.json", {"groups": []})["groups"]]
+    names = sorted(groups, key=lambda g: (order.index(g) if g in order else 99, g))
     return {"ok": True, "source": _source(C.resources), "count": len(rows), "groups": [{"group": g, "links": groups[g]} for g in names]}
 
 
