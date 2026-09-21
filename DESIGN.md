@@ -17,8 +17,10 @@ posters (halftone, geometric type), jj_10 phone UI (technical labels), jj_12 Sup
 - Ink `#F4F7FB` · muted `#9DB0C4` · line `#2A4460`
 - **Teal glow** `#6ED2E6` (the ring around the logo in the banner) — links, focus rings, cube bloom, the "live" dot
 - **Section accents = the old site's own trio** (they used these as 15% tints):
-  red `#CE4A4A` = Events + Cyberhounds · green `#40A33F` = Apps · blue `#1E80F0` = Join/community
+  red `#B3202A` = Events + Cyberhounds (run 5: dark modern red, tuned to the blues — `#CE4A4A` read orange on navy) · green `#40A33F` = Apps · blue `#1E80F0` = Join/community
+  - Red family: `--color-red #B3202A` the accent (fills, rims, poster words) · `--color-red-hi #E0242C` emissive / hover / eye slits / stencil ghost only · `--color-red-deep #7A1119` poster-band fills, chamfer stubs, hound rim shadow. Red is never body text on navy (2.6:1 on navy-900) — red *text* uses `--accent-fg #EE9A9E`.
 - Cube colors (only on the cube and its 3D-derived marks): red `#D82028` · green `#70B840` · blue `#2058A0`
+- **Mascots**: the official John Jay Bloodhound (`assets/brand/jj_bloodhound.webp`, John Jay's mark, board-owned) sits full-colour, right-anchored and cropped in the footer — no glaze, fade or tint. The **Cyberhound** (`assets/hound3d/`, black body + red rim, from the Cyberhounds logo) is the CTF sub-club's mark: the 3D bust in the Cyberhounds hero, the 16×16 `HoundPixel` everywhere else.
 - Light surfaces (reading pages, OS documents): `#F5F7FA` with the section accent at 12–15% tint — exactly how the old site tinted its sections, modernized. Not cream.
 - Rule: **one accent per section.** Teal is the only color allowed everywhere.
 

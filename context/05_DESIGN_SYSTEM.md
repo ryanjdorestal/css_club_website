@@ -113,7 +113,9 @@ exactly that mapping.
 --muted     #9DB0C4
 --line      #2A4460
 --teal      #6ED2E6   links, focus, "live" dot, cube bloom — the only color allowed everywhere
---red       #CE4A4A   Events, Cyberhounds (old-site primary)
+--red       #B3202A   Events, Cyberhounds — run 5: dark modern red (old-site #CE4A4A read orange on navy)
+--red-hi    #E0242C   emissive / hover / eye slits / stencil ghost only
+--red-deep  #7A1119   poster-band fills, chamfer stubs, hound rim shadow
 --green     #40A33F   Apps
 --blue      #1E80F0   Join / community
 --cube-red  #D82028 · --cube-green #70B840 · --cube-blue #2058A0   (cube + 3D-derived marks only)
@@ -201,7 +203,7 @@ have to be redone.
   --color-navy-600: #1E4664; --color-navy-500: #305484;
   --color-ink: #F4F7FB; --color-muted: #9DB0C4; --color-line: #2A4460;
   --color-teal: #6ED2E6;
-  --color-red: #CE4A4A; --color-green: #40A33F; --color-blue: #1E80F0;
+  --color-red: #B3202A; --color-red-hi: #E0242C; --color-red-deep: #7A1119; --color-green: #40A33F; --color-blue: #1E80F0;
   --color-cube-red: #D82028; --color-cube-green: #70B840; --color-cube-blue: #2058A0;
   --color-light: #F5F7FA; --color-seam: #1A1618;
   --font-display: "Archivo", system-ui, sans-serif;

@@ -24,11 +24,14 @@ set_circular_segments(int(os.environ.get("SEG", 28)))
 # ---------- PROPORTIONS (world units; see docstring) ----------
 HEAD_W, HEAD_H, HEAD_D, HEAD_R = 1.08, 0.74, 0.86, 0.22
 HEAD_C = (0.0, 1.14, 0.12)            # head centre
-CHEEK_SCALE, CHEEK_Y, CHEEK_SIG = 1.12, -0.10, 0.20
+CHEEK_SCALE, CHEEK_Y, CHEEK_SIG = 1.14, -0.12, 0.20
+SKULL_TAPER = 0.10                    # x narrows by this fraction at the top of the head (trapezoid front)
+FURROW_W, FURROW_D, FURROW_LEN = 0.03, 0.02, 0.30   # median furrow down the forehead
 CHEEK_BULGE_R, CHEEK_BULGE = 0.19, (0.43, -0.12, 0.14)   # jaw-muscle spheres, head-local   # widen x at head-local y=-0.1
 BROW_CUT_DEG, BROW_CUT_Y, BROW_CUT_Z = 30.0, 0.33, 0.26   # forehead slopes back from the brow
 
-MUZ_W, MUZ_H, MUZ_D, MUZ_R = 0.74, 0.46, 0.46, 0.17
+MUZ_W, MUZ_H, MUZ_D, MUZ_R = 0.76, 0.46, 0.46, 0.17
+JOWL_FLARE = 0.10                     # muzzle x widens by this fraction toward its bottom (hanging jowls)
 JAW_W, JAW_H, JAW_D, JAW_R, JAW_DY = 0.60, 0.20, 0.44, 0.09, -0.22   # closed lower jaw under the muzzle
 MUZ_DY, MUZ_OVERLAP = -0.12, 0.26      # muzzle centre below head centre; how far it sinks into the head
 
@@ -36,16 +39,16 @@ NOSE_W, NOSE_H, NOSE_D, NOSE_R = 0.24, 0.13, 0.12, 0.045   # nose pad (rounded b
 JOWL_DEPTH, JOWL_T, JOWL_ANGLE, JOWL_LEN = 0.035, 0.028, 40.0, 0.24
 PHILTRUM_LEN = 0.12
 
-EYE_W, EYE_H, EYE_D, EYE_TILT = 0.25, 0.062, 0.08, 12.0
+EYE_W, EYE_H, EYE_D, EYE_TILT = 0.26, 0.07, 0.08, 12.0
 EYE_X, EYE_DY = 0.27, 0.11             # ± x, y above head centre
-EYE_STRIP = (0.23, 0.046, 0.02)
+EYE_STRIP = (0.24, 0.054, 0.02)
 
 BROW_W, BROW_H, BROW_D, BROW_R, BROW_TILT, BROW_PROUD = 0.38, 0.085, 0.22, 0.035, 14.0, 0.035   # two angled brow bars (inner ends lower = frown)
 BROW_X, BROW_DY = 0.26, 0.09   # per side; above the eye
 
 EAR_H, EAR_BASE_W, EAR_BASE_D, EAR_X, EAR_TILT = 0.19, 0.30, 0.20, 0.40, 26.0
 EAR_TIP_R = 0.035
-EAR_Z, EAR_SINK = -0.02, 0.08
+EAR_Z, EAR_SINK = -0.06, 0.08
 
 NECK_H, NECK_R_LOW, NECK_R_HIGH, NECK_XSCALE, NECK_LEAN = 0.50, 0.52, 0.40, 1.20, 0.12
 NECK_Y0 = 0.45
@@ -100,6 +103,8 @@ def cheeks(v):
     v = v.copy()
     g = np.exp(-((v[:, 1] - CHEEK_Y) / CHEEK_SIG) ** 2)
     v[:, 0] *= 1 + (CHEEK_SCALE - 1) * g
+    t = np.clip(v[:, 1] / (HEAD_H / 2), 0, 1)           # 0 at centre, 1 at the crown
+    v[:, 0] *= 1 - SKULL_TAPER * t
     return v
 head = warp_xyz(head, cheeks)
 # forehead: slice the top-front corner with a plane leaning back (the pitbull "stop")
@@ -112,7 +117,12 @@ head = head.translate([hx, hy, hz])
 head_front = hz + HEAD_D / 2                       # z of the flat front plane
 # muzzle
 muz_c = (0.0, hy + MUZ_DY, head_front - MUZ_OVERLAP + MUZ_D / 2)
-muzzle = rbox(MUZ_W, MUZ_H, MUZ_D, MUZ_R).translate(list(muz_c))
+def jowls(v):
+    v = v.copy()
+    t = np.clip(-v[:, 1] / (MUZ_H / 2), 0, 1)            # 0 at centre, 1 at the muzzle bottom
+    v[:, 0] *= 1 + JOWL_FLARE * t
+    return v
+muzzle = warp_xyz(rbox(MUZ_W, MUZ_H, MUZ_D, MUZ_R), jowls).translate(list(muz_c))
 muz_tip = muz_c[2] + MUZ_D / 2
 # lower jaw (closed mouth) under the muzzle
 jaw = rbox(JAW_W, JAW_H, JAW_D, JAW_R).translate([0, muz_c[1] + JAW_DY, muz_tip - JAW_D / 2 - 0.03])
@@ -150,6 +160,9 @@ for s in (1, -1):
     lip = Manifold.cube([JOWL_LEN, JOWL_T, JOWL_DEPTH * 2], True)
     lip = lip.translate([JOWL_LEN / 2, 0, 0]).rotate([0, 0, -JOWL_ANGLE if s > 0 else 180 + JOWL_ANGLE])
     cuts.append(lip.translate([0, nose_c[1] - NOSE_H / 2 - PHILTRUM_LEN, muz_tip]))
+# median furrow: a thin groove up the forehead from between the brows
+furrow = Manifold.cube([FURROW_W, FURROW_LEN, FURROW_D * 2], True).rotate([-BROW_CUT_DEG * 0.5, 0, 0]).translate([0, eye_y + BROW_DY + 0.05 + FURROW_LEN / 2, head_front - 0.06])
+cuts.append(furrow)
 for c in cuts:
     head = head - c
 

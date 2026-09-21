@@ -18,7 +18,6 @@ import { Label } from "@/components/type/Label";
 import { Scanlines, Halftone } from "@/textures";
 import { Chevrons, HoundPixel } from "@/sigils";
 import { Brackets } from "@/components/frame";
-import { brand } from "@brand/brand.config";
 import { Stencil } from "@/components/type/Stencil";
 import { CyberhoundSpot } from "@/mascot/CyberhoundSpot";
 
@@ -81,6 +80,7 @@ export default function Cyberhounds() {
               <HoundPixel size={260} className="absolute left-[-40px] bottom-[-12px] z-10 drop-shadow-[0_0_24px_rgba(179,32,42,0.35)]" />
             </div>
           </div>
+          <HoundPixel size={120} className="md:hidden mt-8" />
           <p className="t-label raise !tracking-[0.22em] mt-10">
             STAY SHARP. CAPTURE THE FLAG. FOLLOW PROTOCOL.
           </p>

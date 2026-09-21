@@ -84,7 +84,7 @@ export default function Styleguide() {
             </div>
             <div className="mt-6 flex items-end gap-8">
               <S.CSSKufic size={64} className="text-teal" />
-              <S.HoundPixel size={64} color="var(--color-red)" />
+              <S.HoundPixel size={64} />
             </div>
           </div>
         </div>
