@@ -79,7 +79,7 @@ export function PageHero({
             </h1>
             {dek && (
               <Reveal delay={0.25}>
-                <p className="text-[15px] text-muted leading-[1.6] max-w-[58ch] mt-6">{dek}</p>
+                <p className="t-dek text-muted mt-6">{dek}</p>
               </Reveal>
             )}
           </div>

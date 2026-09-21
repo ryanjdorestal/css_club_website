@@ -2,8 +2,8 @@
 
 /* ---- scale ---- */
 :root {
-  --type-hero: clamp(64px, 10.5vw, 176px);
-  --type-poster: clamp(88px, 16vw, 280px);
+  --type-hero: clamp(56px, 9.5vw, 160px); /* v4: the S01 words are narrower than Unbounded; 3 lines at 1440 */
+  --type-poster: clamp(80px, 15vw, 260px);
   --type-h1: clamp(44px, 6.5vw, 104px);
   --type-h2: clamp(30px, 3.8vw, 52px);
   --type-h3: clamp(20px, 2vw, 27px);
@@ -118,6 +118,45 @@ kbd {
   font-size: var(--type-pixel);
   line-height: 1;
   text-transform: uppercase;
+}
+
+/* ---- type v4 (run 9): the S01 body-mono register + the OS realm ---- */
+/* deks, protocol lines, ticker, fin lines: the S01 body look (caps, wide mono, +.04em) — never for
+   paragraphs over 3 lines (those stay Space Grotesk sentence-case) */
+.t-dek {
+  font-family: var(--font-mono-display);
+  font-size: clamp(15px, 1.1vw, 18px);
+  line-height: 1.5;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  max-width: 64ch;
+}
+.t-mono-display {
+  font-family: var(--font-mono-display);
+  font-feature-settings:
+    "zero" 1,
+    "tnum" 1;
+  font-variant-numeric: tabular-nums slashed-zero;
+}
+/* OS page titles, the login headline, empty-state words — never under 20 px (VT323 rule) */
+.t-os-display {
+  font-family: var(--font-os-display);
+  font-weight: 400;
+  line-height: 0.9;
+  text-transform: uppercase;
+  letter-spacing: 0.01em;
+  font-size: max(20px, 1em);
+}
+/* OS numerals: rounded mono, tabular, slashed zero (R9_06's 1.8 · 24 · 1.592) */
+.t-kpi {
+  font-family: var(--font-mono-display);
+  font-weight: 700;
+  line-height: 0.9;
+  letter-spacing: -0.02em;
+  font-feature-settings:
+    "zero" 1,
+    "tnum" 1;
+  font-variant-numeric: tabular-nums slashed-zero;
 }
 
 /* labels sit at 55% on dark / 60% on paper; the prefix glyph at 100% in accent */

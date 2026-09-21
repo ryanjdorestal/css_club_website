@@ -120,7 +120,7 @@ export function FinLine({ n = "01", next = "/", binary = "01001010 01001010" }: 
           animate={inView ? { scaleX: 1 } : { scaleX: 0 }}
           transition={draw}
         />
-        <span aria-hidden className="t-wide text-[12px] tracking-[0.3em] text-muted whitespace-nowrap">
+        <span aria-hidden className="t-mono-display uppercase text-[13px] tracking-[0.28em] text-muted whitespace-nowrap">
           <Slot text={lines[0].text} shown={out[0]} caret={cursor === 0} blink={false} />
         </span>
         <motion.span

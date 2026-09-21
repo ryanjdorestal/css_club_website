@@ -24,6 +24,7 @@ import { DotGrid, HairGrid, Contour, Halftone, Hatch, Scanlines, CodeRain } from
 import * as S from "@/sigils";
 import { COORDS, hexId, version, buildHash } from "@/lib/readouts";
 import { Brackets, Registration, Perforation, Tab, chamferStyle, ChamferStub } from "@/components/frame";
+import { S01Word } from "@/type/glyphs/S01Word";
 
 const rows = [
   { k: "PLATFORM", v: "web · ios" },
@@ -35,6 +36,59 @@ const rows = [
 export default function Styleguide() {
   return (
     <main className="pt-[72px]">
+      {/* ---- TYPE v4 (run 9): the S01 alphabet, the mono-display face, the OS face ---- */}
+      <Band tone="dark-3" accent="teal" index="00 — TYPE V4 · S01" code="TYPE_V4" sigil={<S.CubeSigil size={16} />} rail="00 · TYPE_V4 · 01010011 · S01">
+        <HairGrid />
+        <Label pfx="//" className="block mb-6">
+          S01_ALPHABET · DRAWN, NOT TYPED · STROKE 12% CAP · MATCH SHEET qa/loops/run9/type_match_*.png
+        </Label>
+        <div className="space-y-4" style={{ fontSize: "clamp(34px, 5vw, 76px)" }}>
+          <p>
+            <S01Word>ABCDEFGHIJKLM</S01Word>
+          </p>
+          <p>
+            <S01Word>NOPQRSTUVWXYZ</S01Word>
+          </p>
+          <p className="text-teal">
+            <S01Word>0123456789 .,:/-_'!&</S01Word>
+          </p>
+        </div>
+        <div className="mt-10 grid md:grid-cols-2 gap-8 items-end">
+          <div style={{ fontSize: "clamp(40px, 6vw, 96px)" }}>
+            <p>
+              <S01Word bars={[0.4, 0.64]}>DEBUG</S01Word>
+            </p>
+            <p>
+              <S01Word outlineFrom={0}>YOUR MIND,</S01Word>
+            </p>
+            <p>
+              <S01Word>COMMIT TO</S01Word>
+            </p>
+            <p className="text-teal">
+              <S01Word outlineFrom={3}>GROWTH.</S01Word>
+            </p>
+          </div>
+          <div>
+            <p className="t-label">
+              <span className="pfx">//</span> BEFORE · UNBOUNDED 900 (H1/H2 keep it)
+            </p>
+            <p className="t-hero mt-2" style={{ fontSize: "clamp(34px, 4.6vw, 72px)" }}>
+              DEBUG
+              <br />
+              <Outline>YOUR MIND,</Outline>
+            </p>
+            <p className="t-label mt-8">
+              <span className="pfx">//</span> MONO_DISPLAY · SPACE MONO (IoU .327 vs JETBRAINS .246)
+            </p>
+            <p className="t-dek mt-2 max-w-[44ch]">Brutal and relentless, the dek line is set in the S01 body mono: caps, +.04em, 15–18 px.</p>
+            <p className="t-label mt-8">
+              <span className="pfx">//</span> OS_DISPLAY · VT323 (IoU .451 vs T03)
+            </p>
+            <p className="t-os-display mt-2 text-[44px]">BOARD ACCESS</p>
+          </div>
+        </div>
+      </Band>
+
       {/* ---- SPECIMEN: faces + treatments (vs T01/T02/T06/T07) ---- */}
       <Band tone="dark" accent="teal" index="00 — TYPE SPECIMEN" code="SPEC_V2" sigil={<S.CubeSigil size={16} />} rail="00 · SPECIMEN · 01010100 · V2">
         <HairGrid />

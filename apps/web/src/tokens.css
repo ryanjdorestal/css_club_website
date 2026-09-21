@@ -24,12 +24,18 @@
   --color-cube-blue: #2058a0;
   --color-light: #f5f7fa;
   --color-seam: #1a1618;
+  /* type v4 (run 9): two realms, one audit. Public: Unbounded for H1/H2 (hero + poster words are
+     the drawn S01 alphabet, type/glyphs/), Space Mono for deks · ticker · protocol · fin · readouts
+     (labels ≥ 12 px), JetBrains Mono for code · tables · labels < 12 px. OS: VT323 for page titles
+     and the login headline (T03 match), Space Mono numerals. */
   --font-display: "Unbounded", system-ui, sans-serif;
   --font-wide: "Unbounded", system-ui, sans-serif;
   --font-body: "Space Grotesk", system-ui, sans-serif;
+  --font-mono-display: "Space Mono", "JetBrains Mono", ui-monospace, monospace;
   --font-mono: "JetBrains Mono", ui-monospace, monospace;
-  --font-pixel: "Unbounded", sans-serif; /* pixel role retired; Unbounded 900 */
+  --font-pixel: "Unbounded", sans-serif; /* pixel role retired (run 4); Unbounded 900 */
   --font-legacy: "VT323", monospace;
+  --font-os-display: "VT323", "JetBrains Mono", monospace;
   --radius-sm: 4px;
   --radius-md: 8px;
   --radius-lg: 14px;

@@ -1,10 +1,10 @@
-/** Ticker: mono caps, // separators, ▮ block glyphs. */
+/** Ticker: mono-display caps (type v4: Space Mono, 12 px), // separators, ▮ block glyphs. */
 export function Marquee({ items }: { items: string[] }) {
   const strip = (
     <>
       {items.map((t, i) => (
         <span key={i} className="flex items-center gap-6 shrink-0">
-          <span className="t-label raise !tracking-[0.14em]">{t.toUpperCase()}</span>
+          <span className="t-label raise t-mono-display !text-[12px] !tracking-[0.12em]">{t.toUpperCase()}</span>
           <span aria-hidden className="t-micro raise text-(--accent-fg)">
             ▮
           </span>

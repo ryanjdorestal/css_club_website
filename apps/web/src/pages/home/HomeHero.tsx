@@ -4,10 +4,8 @@ import { BinaryRings } from "@/components/BinaryRings";
 import { Readout } from "@/components/cards/StatChip";
 import { ButtonLink } from "@/components/Button";
 import { Label } from "@/components/type/Label";
-import { Stencil } from "@/components/type/Stencil";
-import { Outline } from "@/components/type/Outline";
-import { SplitFill } from "@/components/type/SplitFill";
 import { Decode } from "@/components/type/Decode";
+import { S01Word } from "@/type/glyphs/S01Word";
 import { Brackets } from "@/components/frame";
 import { HairGrid, CodeRain } from "@/textures";
 import { Reveal } from "@/motion/Reveal";
@@ -52,19 +50,23 @@ export function HomeHero() {
                   <Decode text="SCN_01 · JOHN_JAY_COLLEGE · CUNY · COMPUTER_SCIENCE_SOCIETY" />
                 </Label>
               </Reveal>
-              <h1 className="t-hero" style={{ fontSize: "clamp(40px, 5.4vw, 82px)" }}>
+              {/* type v4: the S01 alphabet (drawn) — stencil · outline · solid · split-fill, as before */}
+              <h1 className="t-hero leading-[0.95]" style={{ fontSize: "clamp(44px, 6.4vw, 96px)" }}>
                 <span className="block">
-                  <Stencil bars={[0.4, 0.64]}>DEBUG</Stencil>
+                  <S01Word bars={[0.4, 0.64]}>DEBUG</S01Word>
                 </span>
                 <span className="block">
-                  <Outline>YOUR MIND,</Outline>
+                  <S01Word outlineFrom={0}>YOUR MIND,</S01Word>
                 </span>
-                <span className="block">COMMIT TO</span>
+                <span className="block">
+                  <S01Word>COMMIT TO</S01Word>
+                </span>
                 <span className="block text-teal">
-                  <SplitFill word="GROWTH." at={3} />
+                  <S01Word outlineFrom={3}>GROWTH.</S01Word>
                 </span>
               </h1>
               <Reveal delay={0.3}>
+                {/* > 3 lines → stays body sentence-case (type v4 rule); PageHero deks (1–2 lines) take .t-dek */}
                 <p className="text-[15px] text-muted leading-[1.6] max-w-[52ch] mt-5">{heroDek}</p>
               </Reveal>
               <Reveal delay={0.4}>
