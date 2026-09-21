@@ -20,7 +20,7 @@ PORT_WEB=5173; PORT_API=8000
 # free ports if a dev pair is already running on this machine
 lsof -tiTCP:$PORT_WEB -sTCP:LISTEN | xargs -r kill 2>/dev/null || true
 lsof -tiTCP:$PORT_API -sTCP:LISTEN | xargs -r kill 2>/dev/null || true
-( make dev > "$TMP/dev.log" 2>&1 & ); DEVPID=$!
+( make dev > "$TMP/dev.log" 2>&1 & )
 for i in $(seq 1 60); do curl -fsS "http://localhost:$PORT_API/api/health" >/dev/null 2>&1 && curl -fsS "http://localhost:$PORT_WEB/" >/dev/null 2>&1 && break; sleep 1; done
 curl -fsS "http://localhost:$PORT_API/api/health" | grep -q '"ok":true' && step "api up" || { echo "API did not start"; cat "$TMP/dev.log" | tail -20; exit 1; }
 curl -fsS "http://localhost:$PORT_WEB/" | grep -qi '<div id="root"' && step "web up (/)"

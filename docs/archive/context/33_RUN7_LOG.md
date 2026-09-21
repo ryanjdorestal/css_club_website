@@ -34,3 +34,6 @@ All 11 modules shipped (no cut). scripts/snapshot.py (write · --check · --rest
 
 ## Phase C (real clock 23:47 → 00:06 — 19 min)
 `make check` green: ruff · mypy --strict · oxlint · tsc · pytest 44 · vitest 19 · api-count · schemas · ts-prune 0 · depcheck 0. Dead code removed (CornerBrackets, PixelDivider, SectionHeader, scn, StatChip alias, 4 retired font deps, 14 module-internal exports un-exported). README/ARCHITECTURE/CONTRIBUTING/SETUP + docs/{RUNBOOK,HANDOFF,DECISIONS,LATER,INDEX.json}; 17 folder READMEs; context/ → docs/archive/context/; CLAUDE.md rewritten to the current state; Makefile (install/dev/check/test/snapshot/hooks); CI rewritten; gen_types.py; newcomer_test.sh. Lighthouse desktop (prod dist): Home 97, Projects 94.
+
+## Run complete (real clock 00:12 — 59 min of 210)
+Newcomer test from a fresh clone: 53 s (gate ≤ 600 s), README steps only. Five commits + this one, never pushed. Rubric: every module ≥ 4 (qa/REPORT_RUN7.md). Not done: no Supabase project was provisioned (SETUP.md is the board's), so the online path is exercised by shape (db.py) not against a live database — logged honestly in the report.

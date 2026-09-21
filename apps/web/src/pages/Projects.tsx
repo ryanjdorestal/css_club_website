@@ -22,18 +22,9 @@ import { brand } from "@brand/brand.config";
 import * as Sg from "@/sigils";
 
 type Project = {
-  id: string;
-  kind: string;
-  title: string;
-  summary?: string;
-  platform?: string[];
-  stack?: string[];
-  links?: Record<string, string>;
-  benefits_jj?: string;
-  authors?: { name: string; handle?: string; term?: string }[];
-  featured?: boolean;
-  example?: boolean;
-  term?: string;
+  id: string; kind: string; title: string; summary?: string; platform?: string[]; stack?: string[];
+  links?: Record<string, string>; benefits_jj?: string; authors?: { name: string; handle?: string; term?: string }[];
+  featured?: boolean; example?: boolean; term?: string;
 };
 const KINDS = ["app", "project", "research", "tool"] as const;
 const SLOTS = [
