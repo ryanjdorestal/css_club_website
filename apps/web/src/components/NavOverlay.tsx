@@ -14,6 +14,7 @@ const ROUTES = [
   { to: "/resources", label: "RESOURCES" },
   { to: "/news", label: "NEWS" },
   { to: "/join", label: "JOIN" },
+  { to: "/os/login", label: "CSS_OS · BOARD LOGIN" },
 ];
 
 /** Mobile overlay: display routes with Decode reveal, /0N indices, Kufic watermark. */

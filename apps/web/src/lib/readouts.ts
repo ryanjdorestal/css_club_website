@@ -29,7 +29,7 @@ export const counts = {
   semesters: board.terms.length * 2,
 };
 
-export const node = () => "NODE: JJ_CSS_01";
+export const node = (pathname = "") => (pathname.startsWith("/os") ? "NODE: JJ_CSS_OS" : "NODE: JJ_CSS_01");
 
 /** 0x + first 6 hex of a stable FNV hash. */
 export function hexId(str: string): string {

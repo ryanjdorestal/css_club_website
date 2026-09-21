@@ -5,6 +5,7 @@ import { Menu } from "lucide-react";
 import { NavOverlay } from "./NavOverlay";
 import { CubeSigil } from "@/sigils";
 import { nyTime, useApiState } from "@/lib/readouts";
+import { useWhoami } from "@/os/session";
 
 const LINKS = [
   { to: "/events", label: "EVENTS" },
@@ -23,6 +24,7 @@ export function Nav() {
   const [open, setOpen] = useState(false);
   const [time, setTime] = useState(nyTime());
   const api = useApiState();
+  const me = useWhoami();
   const lastY = useRef(0);
   const ticking = useRef(false);
   const { pathname } = useLocation();
@@ -93,6 +95,17 @@ export function Nav() {
             <span className={`t-micro raise hidden md:block ${api.live ? "text-teal" : "opacity-50"}`}>
               {api.live === null ? "○ --" : api.live ? "● LIVE" : "○ OFFLINE"}
             </span>
+            <Link
+              to={me ? "/os" : "/os/login"}
+              className="hidden sm:inline-flex items-center gap-1.5 t-micro raise border border-(--accent) text-(--accent-fg) px-3 py-2 hover:bg-(--accent)/10 transition-colors"
+              aria-label={me ? "Open CSS OS" : "CSS OS — board login"}
+              data-testid="nav-os"
+            >
+              <span aria-hidden>[</span>
+              <span>CSS_OS{me ? ` · ${(me.name || me.email).split(/[ @]/)[0].toUpperCase()}` : ""}</span>
+              <span className="hidden xl:inline">{me ? "" : " · BOARD"}</span>
+              <span aria-hidden>]</span>
+            </Link>
             <Link to="/join" className="hidden sm:inline-flex items-stretch t-micro raise font-semibold" aria-label="Join">
               <span className="flex items-center px-3.5 py-2 bg-(--accent) text-(--accent-contrast)">JOIN</span>
               <span className="flex items-center justify-center w-7 bg-(--accent) text-(--accent-contrast) border-l border-navy-900/25">↗</span>

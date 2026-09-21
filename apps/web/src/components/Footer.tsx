@@ -108,8 +108,8 @@ export function Footer() {
             <li className="t-micro opacity-70">MIT · CONTENT FROM CSS_WEBSITE@{brand.source.commit.toUpperCase()}</li>
             <li className="t-micro opacity-70 tnum">BUILD {buildHash().toUpperCase()} · {buildTime()}</li>
             <li>
-              <Link to="/os/login" className="t-micro opacity-50 hover:opacity-100 hover:text-teal transition-all">
-                OS_LOGIN →
+              <Link to="/os/login" className="t-micro text-teal hover:underline">
+                CSS_OS · BOARD LOGIN →
               </Link>
             </li>
           </ul>

@@ -1,11 +1,13 @@
 /** /os shell: left rail (mono nav with /01…) + content column. Guests are
     sent to /os/login; admin-only items are hidden for officers (the API
     enforces the real gate). No cube canvas here — perf. */
-import { useEffect } from "react";
-import { Link, NavLink, Outlet, useNavigate } from "react-router-dom";
+import { useEffect, useRef } from "react";
+import { Link, NavLink, Outlet, useLocation, useNavigate } from "react-router-dom";
 import { brand } from "@brand/brand.config";
 import { MonoLabel } from "@/components/MonoLabel";
-import { OsSessionProvider, useSession } from "./session";
+import { OsSessionProvider, reasonFor, useSession } from "./session";
+import { StatusBar } from "@/components/StatusBar";
+import { ApiStateContext } from "@/lib/readouts";
 
 export const OS_MODULES = [
   { to: "/os", label: "Today", end: true },
@@ -22,10 +24,14 @@ export const OS_MODULES = [
 
 function Shell() {
   const navigate = useNavigate();
+  const { pathname, search } = useLocation();
   const { actor, mode, loading, logout } = useSession();
+  const bounced = useRef(false);
   useEffect(() => {
-    if (!loading && (!actor || actor.role === "guest")) navigate("/os/login", { replace: true });
-  }, [actor, loading, navigate]);
+    if (bounced.current || loading || (actor && actor.role !== "guest") || pathname.startsWith("/os/login")) return;
+    bounced.current = true;
+    navigate(`/os/login?next=${encodeURIComponent(pathname + search)}&reason=${reasonFor(actor)}`, { replace: true });
+  }, [actor, loading, navigate, pathname, search]);
   if (loading || !actor || actor.role === "guest") return null;
   return (
     <div data-accent="teal" className="min-h-dvh flex flex-col md:flex-row bg-navy-900 text-ink">
@@ -65,9 +71,12 @@ function Shell() {
           </button>
         </div>
       </aside>
-      <main className="grow p-5 md:p-8 overflow-x-hidden min-w-0">
+      <main className="grow p-5 md:p-8 pb-12 overflow-x-hidden min-w-0">
         <Outlet />
       </main>
+      <ApiStateContext.Provider value={{ live: true, ms: null }}>
+        <StatusBar />
+      </ApiStateContext.Provider>
     </div>
   );
 }

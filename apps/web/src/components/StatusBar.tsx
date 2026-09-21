@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import { useLocation } from "react-router-dom";
 import { nyTime, node, useApiState } from "@/lib/readouts";
 
 /** T04 bottom status bar: fixed 28px mono-micro cells. Hidden < 768px.
@@ -7,6 +8,7 @@ export function StatusBar() {
   const [time, setTime] = useState(nyTime());
   const [scnN, setScnN] = useState(1);
   const api = useApiState();
+  const { pathname } = useLocation();
 
   useEffect(() => {
     const iv = setInterval(() => setTime(nyTime()), 1000);
@@ -52,7 +54,7 @@ export function StatusBar() {
         <span className="text-(--accent-fg)">&gt; ACCESS GRANTED<span className="caret-blink">_</span></span>
       </Cell>
       <Cell><span className="tnum">SCN: {String(scnN).padStart(4, "0")}</span></Cell>
-      <Cell>{node()}</Cell>
+      <Cell>{node(pathname)}</Cell>
       <Cell><span className="tnum">SYS.TIME {time.hms} {time.utc}</span></Cell>
     </div>
   );

@@ -1,102 +1,151 @@
-/** /os/login — Supabase email OTP / magic link when configured; the
-    LOCAL_DEV role picker otherwise (never in production builds). A login
-    only succeeds if the email is on the current term's roster — the API
-    decides; this screen just reports what /api/whoami said. */
+/** /os/login — the board gate. Left: who this is for and how access works.
+    Right: the email login (Supabase OTP / magic link). A non-roster email
+    gets the same "link sent" message (the API audits a login_denied row
+    instead). LOCAL_DEV role picker sits BELOW the real form, dev builds only.
+    ?reason= shows why /os bounced; ?next= is where to go after. */
 import { useEffect, useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate, useSearchParams } from "react-router-dom";
 import { brand } from "@brand/brand.config";
 import { MonoLabel } from "@/components/MonoLabel";
 import { BinaryRings } from "@/components/BinaryRings";
 import { Button } from "@/components/Button";
-import { OsSessionProvider, useSession, type Role } from "./session";
+import { Brackets } from "@/components/frame";
+import { Stencil } from "@/components/type/Stencil";
+import { Outline } from "@/components/type/Outline";
+import { Label } from "@/components/type/Label";
+import { StatusBar } from "@/components/StatusBar";
+import { ApiStateContext } from "@/lib/readouts";
+import { OsSessionProvider, useSession, type Role, type Reason } from "./session";
 
+const REASON: Record<Reason, string> = {
+  not_signed_in: "○ NOT_SIGNED_IN",
+  not_on_roster: "○ NOT_ON_ROSTER",
+  session_expired: "○ SESSION_EXPIRED",
+};
 const input = "w-full bg-transparent border-0 border-b border-line px-1 py-2.5 font-mono text-sm text-ink placeholder:text-muted/40 focus:border-teal outline-none";
+const MODULES = "posts, projects, events, resources, members, the board roster and the inheritance spine";
 
-function LoginCard() {
+function Gate() {
   const navigate = useNavigate();
+  const [params] = useSearchParams();
+  const next = params.get("next") || "/os";
+  const reason = (params.get("reason") as Reason | null) ?? null;
   const { actor, mode, loading, loginLocal, sendMagicLink, verifyOtp, refresh } = useSession();
   const [email, setEmail] = useState("");
   const [code, setCode] = useState("");
   const [sent, setSent] = useState(false);
-  const [msg, setMsg] = useState<string | null>(null);
+  const [cooldown, setCooldown] = useState(0);
   const [busy, setBusy] = useState(false);
+  const [msg, setMsg] = useState<string | null>(null);
+
   useEffect(() => {
-    if (!loading && actor && actor.role !== "guest") navigate("/os", { replace: true });
-  }, [actor, loading, navigate]);
+    if (!loading && actor && actor.role !== "guest") navigate(next.startsWith("/os") ? next : "/os", { replace: true });
+  }, [actor, loading, navigate, next]);
+  useEffect(() => {
+    if (cooldown <= 0) return;
+    const t = setTimeout(() => setCooldown((c) => c - 1), 1000);
+    return () => clearTimeout(t);
+  }, [cooldown]);
+
+  const onRoster = actor?.role === "guest" && !!actor.email;
+  const shownReason = onRoster ? "not_on_roster" : reason;
+
+  async function submit(e: React.FormEvent) {
+    e.preventDefault();
+    setBusy(true);
+    setMsg(null);
+    if (!sent) {
+      const err = await sendMagicLink(email.trim());
+      // never reveal roster membership: the message is identical for every email
+      if (err && !/rate|429/i.test(err)) setMsg(err);
+      setSent(true);
+      setCooldown(60);
+    } else {
+      const err = await verifyOtp(email.trim(), code.trim());
+      if (err) setMsg(err);
+      else await refresh();
+    }
+    setBusy(false);
+  }
 
   return (
-    <div className="relative w-[min(92vw,440px)] border border-line bg-navy-800 p-8">
-      <div className="flex items-center gap-3 mb-6">
-        <img src={brand.logos.svg} alt="" className="w-9 h-9" />
-        <div>
-          <p className="font-display font-extrabold uppercase text-sm">{brand.shortName} OS</p>
-          <MonoLabel>{brand.name} · board platform</MonoLabel>
-        </div>
+    <div className="relative max-w-[1180px] w-[92vw] grid lg:grid-cols-[6fr_5fr] gap-10 lg:gap-16 items-center">
+      {/* left — who this is for */}
+      <div>
+        <Label pfx="//">CSS_OS · {brand.shortName}_BOARD_PLATFORM</Label>
+        <h1 className="t-h1 !text-[clamp(44px,7vw,96px)] !leading-[0.92] mt-4">
+          <span className="block"><Stencil bars={[0.5]} barColor="var(--color-navy-900)">BOARD</Stencil></span>
+          <span className="block"><Outline>ACCESS.</Outline></span>
+        </h1>
+        <p className="text-[16px] leading-relaxed text-muted max-w-[52ch] mt-6">
+          For the current {brand.name} board only. CSS OS is where the board writes {MODULES} — everything the public site
+          shows, plus what the next board needs to know. Access is granted by the roster: if you're on the board and can't
+          get in, the president or webmaster adds your school email on <span className="text-ink">/os/board</span>.
+        </p>
+        {shownReason && (
+          <p className="mt-6 inline-flex items-center gap-3">
+            <span className="t-micro raise border border-(--color-red-hi)/60 text-(--color-red-hi) px-2.5 py-1" data-testid="reason-chip">{REASON[shownReason]}</span>
+            {shownReason === "not_on_roster" && <span className="t-micro opacity-70">{actor?.email} is signed in but not an active officer this term — ask the president.</span>}
+          </p>
+        )}
+        <p className="t-micro opacity-40 mt-8">Every change made in the OS is audited. <Link to="/" className="text-teal u-draw">← back to the site</Link></p>
       </div>
 
-      {mode === "supabase" && (
-        <form
-          onSubmit={async (e) => {
-            e.preventDefault();
-            setBusy(true);
-            setMsg(null);
-            if (!sent) {
-              const err = await sendMagicLink(email.trim());
-              setMsg(err ?? "Check your inbox — a 6-digit code and a magic link are on the way.");
-              if (!err) setSent(true);
-            } else {
-              const err = await verifyOtp(email.trim(), code.trim());
-              if (err) setMsg(err);
-              else {
-                await refresh();
-                setMsg("Signed in — checking the roster…");
-              }
-            }
-            setBusy(false);
-          }}
-        >
-          <label className="block mb-4">
-            <span className="mono-label text-muted">CLUB / SCHOOL EMAIL</span>
-            <input className={input} type="email" required value={email} onChange={(e) => setEmail(e.target.value)} placeholder="you@jjay.cuny.edu" disabled={sent} />
-          </label>
-          {sent && (
-            <label className="block mb-4">
-              <span className="mono-label text-muted">6-DIGIT CODE (or click the link)</span>
-              <input className={input} inputMode="numeric" value={code} onChange={(e) => setCode(e.target.value)} placeholder="123456" />
-            </label>
+      {/* right — the gate */}
+      <div className="relative">
+        <div className="group relative border border-line bg-navy-800/60 p-6 md:p-8">
+          <Brackets size={16} inset={-1} />
+          {mode === "supabase" && (
+            <form onSubmit={submit} data-testid="login-form">
+              <MonoLabel accent>_school_email</MonoLabel>
+              <input className={input} type="email" required autoComplete="email" value={email} onChange={(e) => setEmail(e.target.value)} placeholder="you@jjay.cuny.edu" disabled={sent} aria-label="School email" />
+              {sent && (
+                <label className="block mt-5">
+                  <MonoLabel accent>_6_digit_code (or click the link in the email)</MonoLabel>
+                  <input className={input} inputMode="numeric" value={code} onChange={(e) => setCode(e.target.value)} placeholder="123456" aria-label="Login code" />
+                </label>
+              )}
+              <div className="mt-6 flex items-center gap-4 flex-wrap">
+                <Button type="submit" variant="ghost" disabled={busy}>{busy ? "…" : sent ? ">_VERIFY_CODE" : ">_SEND_LOGIN_LINK"}</Button>
+                {sent && (
+                  <button type="button" disabled={cooldown > 0} onClick={() => { setSent(false); setCode(""); }} className="t-micro text-muted hover:text-ink disabled:opacity-40 cursor-pointer">
+                    resend{cooldown > 0 ? ` in ${cooldown}s` : ""}
+                  </button>
+                )}
+              </div>
+              {sent && !msg && <p className="t-micro text-teal mt-5" data-testid="link-sent">&gt; LINK_SENT · CHECK_YOUR_INBOX</p>}
+              {msg && <p className="t-micro text-(--color-red-hi) mt-5">{msg}</p>}
+            </form>
           )}
-          <Button type="submit" variant="ghost" disabled={busy}>
-            {busy ? "…" : sent ? ">_verify_code" : ">_send_magic_link"}
-          </Button>
-          {actor?.role === "guest" && actor.email && <p className="t-micro text-(--color-red-hi) mt-4">{actor.email} is signed in but not on this term's roster. Ask an admin to add you on /os/board.</p>}
-        </form>
-      )}
-
-      {mode === "local" && (
-        <>
-          <div className="border border-teal/40 bg-teal/5 px-3 py-2 mb-5">
-            <MonoLabel accent>LOCAL_DEV — no auth configured</MonoLabel>
-            <p className="text-xs text-muted mt-1 leading-relaxed">Pick a role to explore the OS. Real login (email code) turns on with the Supabase env vars — see SETUP.md. This picker never ships in production builds.</p>
-          </div>
-          <div className="grid gap-2">
-            {(["officer", "admin"] as Role[]).map((r) => (
-              <button key={r} onClick={() => void loginLocal(r).then(() => navigate("/os"))} className="mono-label text-left px-4 py-3 border border-line text-muted hover:text-ink hover:border-teal transition-colors cursor-pointer">
-                → {r}
-              </button>
-            ))}
-          </div>
-        </>
-      )}
-
-      {mode === "unconfigured" && (
-        <div className="border border-line px-3 py-3">
-          <MonoLabel accent>OS NOT CONFIGURED</MonoLabel>
-          <p className="text-xs text-muted mt-1 leading-relaxed">This deployment has no Supabase Auth env vars, so there is no way to sign in. The public site works regardless. SETUP.md §2 turns this on.</p>
+          {mode === "unconfigured" && (
+            <div>
+              <MonoLabel accent>OS NOT CONFIGURED</MonoLabel>
+              <p className="text-[13px] text-muted mt-2 leading-relaxed">This deployment has no Supabase Auth env vars, so there is no way to sign in yet. The public site works regardless. SETUP.md turns this on in 8 steps.</p>
+            </div>
+          )}
+          {mode === "local" && (
+            <div>
+              <MonoLabel accent>_school_email</MonoLabel>
+              <input className={input} type="email" placeholder="you@jjay.cuny.edu" disabled aria-label="School email (disabled: no auth configured)" />
+              <p className="t-micro opacity-50 mt-3">Email login turns on with the Supabase env vars (SETUP.md). In this dev build use the LOCAL_DEV panel below.</p>
+            </div>
+          )}
         </div>
-      )}
 
-      {msg && <p className="t-micro text-teal mt-4">{msg}</p>}
-      <p className="t-micro opacity-40 mt-6">Board members only. Everything you change here is audited.</p>
+        {mode === "local" && !import.meta.env.PROD && (
+          <div className="mt-4 border border-teal/40 bg-teal/5 p-5" data-testid="local-dev">
+            <MonoLabel accent>LOCAL_DEV — no auth configured · dev build only</MonoLabel>
+            <p className="t-micro opacity-60 mt-1">Pick a role to explore the OS. This panel never ships in production.</p>
+            <div className="flex gap-2 mt-3">
+              {(["officer", "admin"] as Role[]).map((r) => (
+                <button key={r} data-testid={`local-${r}`} onClick={() => void loginLocal(r).then(() => navigate(next.startsWith("/os") ? next : "/os"))} className="mono-label px-4 py-2.5 border border-line text-muted hover:text-ink hover:border-teal transition-colors cursor-pointer">
+                  → {r}
+                </button>
+              ))}
+            </div>
+          </div>
+        )}
+      </div>
     </div>
   );
 }
@@ -104,10 +153,13 @@ function LoginCard() {
 export default function OsLogin() {
   return (
     <OsSessionProvider>
-      <main data-accent="teal" className="relative min-h-dvh flex items-center justify-center bg-navy-900 overflow-hidden text-ink">
-        <BinaryRings opacity={0.06} />
-        <LoginCard />
-      </main>
+      <ApiStateContext.Provider value={{ live: true, ms: null }}>
+        <main data-accent="teal" data-tone="dark-3" className="relative min-h-dvh flex items-center justify-center bg-navy-900 overflow-hidden text-ink py-24">
+          <BinaryRings opacity={0.05} />
+          <Gate />
+          <StatusBar />
+        </main>
+      </ApiStateContext.Provider>
     </OsSessionProvider>
   );
 }

@@ -7,7 +7,7 @@ import { createContext, useCallback, useContext, useEffect, useMemo, useState, t
 import { createClient, type SupabaseClient } from "@supabase/supabase-js";
 
 export type Role = "guest" | "officer" | "admin";
-type Actor = { email: string; role: Role; name: string; profile_id: string | null; term: string | null; source: string };
+export type Actor = { email: string; role: Role; name: string; profile_id: string | null; term: string | null; source: string };
 type Mode = "supabase" | "local" | "unconfigured";
 
 const URL = import.meta.env.VITE_SUPABASE_URL as string | undefined;
@@ -21,12 +21,47 @@ function client(): SupabaseClient | null {
 }
 
 /** Module-level credentials so osFetch works outside React. */
-const creds: { token: string | null; localRole: string | null } = { token: null, localRole: null };
+const creds: { token: string | null; localRole: string | null; attempt: boolean } = { token: null, localRole: null, attempt: false };
+
+/** Load whatever credentials this browser already holds (no network). */
+export async function initCreds(): Promise<void> {
+  const sb = client();
+  if (sb) {
+    const { data } = await sb.auth.getSession();
+    creds.token = data.session?.access_token ?? null;
+  } else if (!import.meta.env.PROD) {
+    creds.localRole = sessionStorage.getItem(LOCAL_KEY);
+  }
+}
+
+/** Why /os bounced — shown as a chip on /os/login. */
+export type Reason = "not_signed_in" | "not_on_roster" | "session_expired";
+export function reasonFor(actor: Actor | null): Reason {
+  if (actor && actor.role === "guest" && actor.email) return "not_on_roster";
+  if (creds.token && (!actor || !actor.email)) return "session_expired";
+  return "not_signed_in";
+}
+
+/** Public pages: who is signed in, if anyone (one request; never blocks rendering). */
+export function useWhoami(): Actor | null {
+  const [actor, setActor] = useState<Actor | null>(null);
+  useEffect(() => {
+    let alive = true;
+    void initCreds().then(() => osFetch<Actor & { ok: boolean }>("/api/whoami")).then((r) => alive && r.ok && r.data.role !== "guest" && setActor(r.data));
+    return () => {
+      alive = false;
+    };
+  }, []);
+  return actor;
+}
 
 export function osHeaders(): Record<string, string> {
-  if (creds.token) return { Authorization: `Bearer ${creds.token}` };
-  if (creds.localRole) return { "X-Local-Role": creds.localRole };
-  return {};
+  const h: Record<string, string> = {};
+  if (creds.attempt) h["X-Login-Attempt"] = "1";
+  creds.attempt = false;
+  if (creds.token) h.Authorization = `Bearer ${creds.token}`;
+  else if (creds.localRole) h["X-Local-Role"] = creds.localRole;
+  return h;
 }
 
 /** The one OS request helper: JSON in/out, auth headers, errors as values. */
@@ -109,6 +144,7 @@ export function OsSessionProvider({ children }: { children: ReactNode }) {
       verifyOtp: async (email, token) => {
         if (!sb) return "auth not configured";
         const { error } = await sb.auth.verifyOtp({ email, token, type: "email" });
+        creds.attempt = true; // the next /api/whoami is a login attempt → the API audits a denial
         return error?.message ?? null;
       },
       logout: async () => {

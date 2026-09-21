@@ -14,7 +14,7 @@ from fastapi import APIRouter, Request
 from fastapi.responses import JSONResponse, RedirectResponse
 
 from .. import collections as C
-from .. import config, db, tier1
+from .. import audit, config, db, tier1
 from ..auth import whoami
 from ..models import ChatIn, OnboardingSubmit, ProjectSubmit
 
@@ -54,6 +54,8 @@ def health() -> dict[str, Any]:
 @r.get("/whoami")
 def whoami_route(request: Request) -> dict[str, Any]:
     actor = whoami(request)
+    if actor.role == "guest" and actor.email and request.headers.get("x-login-attempt"):
+        audit.record(actor.email, "login_denied", "board_profiles", None, note="signed in, but not an active officer on the current term")
     return {"ok": True, **actor.dict(), "local_dev": config.local_dev_allowed(), "auth_configured": bool(config.SUPABASE_JWT_SECRET)}
 
 
