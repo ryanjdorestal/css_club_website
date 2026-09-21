@@ -1,0 +1,26 @@
+name: Good first issue
+description: A beginner-sized task with the file, what "done" looks like, and the command that proves it
+labels: [good first issue, help wanted]
+body:
+  - type: markdown
+    attributes:
+      value: "Maintainers use this to seed tasks a first-year can finish in an afternoon. Every field is required because the point is that the contributor never has to guess."
+  - type: input
+    attributes: { label: The file to open, placeholder: "apps/web/src/os/OsEvents.tsx" }
+    validations: { required: true }
+  - type: textarea
+    attributes: { label: What to change, description: "Two to five sentences a beginner can follow, naming the function or component" }
+    validations: { required: true }
+  - type: textarea
+    attributes: { label: What done looks like, description: "Observable in the browser or in a test" }
+    validations: { required: true }
+  - type: input
+    attributes: { label: The command that proves it, placeholder: "make check && make smoke" }
+    validations: { required: true }
+  - type: input
+    attributes: { label: Pattern to copy, description: "A place in the repo that already does something similar", placeholder: "os/OsBoard.tsx::moveSeat" }
+  - type: dropdown
+    attributes:
+      label: Size
+      options: [S — an afternoon, M — a weekend]
+    validations: { required: true }

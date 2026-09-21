@@ -1,20 +1,27 @@
 ## What changed
-<!-- 1–3 sentences. The why matters more than the what. -->
 
-## Type
-- [ ] Public site (content / UI)
-- [ ] CSS OS (a module)
-- [ ] Inheritance record (content/inheritance/)
-- [ ] API (api/_core)
-- [ ] Data / schema (data/, supabase/)
-- [ ] Tooling / CI
+<!-- One to three sentences. -->
+
+## Why
+
+<!-- The problem or the issue: "Closes #12". -->
 
 ## How I verified it
-- [ ] `make check` green (lint · types · tests · guards · validators)
-- [ ] `make a11y` unchanged or improved (pa11y + axe)
-- [ ] `node scripts/functional_smoke.mjs` passes (if the OS or the public data path changed)
-- [ ] Manual a11y checklist run for UI changes (docs/SKILLS_ADOPTED.md → checklist)
-- [ ] No secrets in the diff (gitleaks runs in CI too)
+
+- [ ] `make check` green (lint · types · tests · guards · validators · migrations · assets · duplication)
+- [ ] UI change: `make a11y` unchanged or better, and screenshots below (before / after, desktop + 390 px)
+- [ ] OS or API write change: `make smoke` (12/12 + 9/9) and `make sim` (25/25)
+- [ ] Something that could be broken on purpose: a case in `scripts/board_break.mjs`
+- [ ] No secrets in the diff (`gitleaks protect --staged`; CI scans the history too)
+
+## Which gate covers it
+
+<!-- The test, sim step, break case or audit that would fail if this change regressed. "None yet" is an honest answer that starts a conversation. -->
+
+## Docs updated?
+
+- [ ] Yes: <!-- which file --> · [ ] Not needed, because <!-- why -->
 
 ## Screenshots (UI changes)
+
 <!-- before / after -->

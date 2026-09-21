@@ -1,0 +1,25 @@
+name: Content change (board members)
+description: Words, links, images or data on the public site — no code needed
+labels: [content, board-task]
+body:
+  - type: markdown
+    attributes:
+      value: "Most content changes can be made in CSS OS without an issue (posts, events, workshops, resources, board, site settings — `docs/handoff/06_HOW_THE_BOARD_USES_IT.md`). Use this when it needs a code or data change, or you are not sure."
+  - type: textarea
+    attributes:
+      {
+        label: What should change,
+        description: "The current text/link/image and what it should become",
+        placeholder: "The About page says 'Founded 2019'; it should say 2020.",
+      }
+    validations: { required: true }
+  - type: input
+    attributes: { label: Where it appears, placeholder: "/about, the History band" }
+    validations: { required: true }
+  - type: input
+    attributes: { label: Who approves it, description: "The officer who signs off (role is fine)", placeholder: "President" }
+    validations: { required: true }
+  - type: input
+    attributes: { label: By when }
+  - type: textarea
+    attributes: { label: Source, description: "Where the correct information comes from — a link, a record on /os/inheritance, a meeting date" }

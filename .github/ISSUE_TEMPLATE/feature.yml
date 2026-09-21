@@ -1,15 +1,24 @@
 name: Feature
-description: Something the site or CSS OS should do
-labels: [feature]
+description: Something the site or the OS should do that it does not
+labels: [needs-design]
 body:
   - type: textarea
-    attributes: { label: The problem, description: "Who needs this and what they do today instead" }
+    attributes: { label: The problem, description: "What a student or board member cannot do today, in their words" }
     validations: { required: true }
   - type: textarea
-    attributes: { label: Proposed change }
+    attributes: { label: The smallest version, description: "What would be enough for this semester" }
+    validations: { required: true }
+  - type: dropdown
+    attributes:
+      label: Where
+      options: [Public site, CSS OS, API, Infra / CI, Docs]
+    validations: { required: true }
   - type: checkboxes
     attributes:
-      {
-        label: Constraints (see docs/DECISIONS.md),
-        options: [{ label: "Needs no API key, no LLM, no third-party account" }, { label: "Works in Tier 1 (no Supabase)" }],
-      }
+      label: Constraints (read docs/DECISIONS.md)
+      options:
+        - label: It needs no API key, no paid service and no LLM
+        - label: It keeps working in Tier 1 (no Supabase)
+        - label: It follows DESIGN.md (one accent per section, tokens only)
+  - type: textarea
+    attributes: { label: Where to start, description: "Files or endpoints, if you know them (docs/handoff/08_ROADMAP.md has many)" }

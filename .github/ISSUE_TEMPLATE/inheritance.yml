@@ -1,0 +1,28 @@
+name: Inheritance record needed
+description: Something the next board needs written down (a decision, a contact, a lesson, a handoff)
+labels: [board-task]
+body:
+  - type: markdown
+    attributes:
+      value: "Records are written on /os/inheritance (docs/handoff/07_INHERITANCE.md). Use this to ask an officer to write one, or to flag one that is missing or wrong. Never put a credential, a private phone number or a private email here."
+  - type: dropdown
+    attributes:
+      label: Record type
+      options: [handoff, decision, contact, lesson, project, event, minutes, roster]
+    validations: { required: true }
+  - type: input
+    attributes: { label: Term, placeholder: "F26" }
+    validations: { required: true }
+  - type: input
+    attributes: { label: Who should write it, description: "A role, not an email", placeholder: "Treasurer" }
+    validations: { required: true }
+  - type: textarea
+    attributes:
+      {
+        label: What it must cover,
+        description: "The questions the next board will ask",
+        placeholder: "Where the budget sheet is; how reimbursements work; who at Student Activities to email",
+      }
+    validations: { required: true }
+  - type: input
+    attributes: { label: By when }

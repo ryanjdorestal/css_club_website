@@ -3,10 +3,25 @@ description: Something on the site or in CSS OS is broken
 labels: [bug]
 body:
   - type: input
-    attributes: { label: Where, description: "URL or OS page", placeholder: "/os/projects" }
+    attributes: { label: Route, description: "The URL or OS page where it happened", placeholder: "/os/projects" }
     validations: { required: true }
   - type: textarea
-    attributes: { label: What happened, description: "What you did, what you expected, what you saw" }
+    attributes:
+      { label: What you did, description: "Step by step, as a list", placeholder: "1. Opened /os/events\n2. Clicked + NEW EVENT\n3. Saved with an empty date" }
+    validations: { required: true }
+  - type: textarea
+    attributes: { label: What you expected }
+    validations: { required: true }
+  - type: textarea
+    attributes: { label: What actually happened, description: "The exact message if there was one; a screenshot helps" }
     validations: { required: true }
   - type: input
-    attributes: { label: Browser / device }
+    attributes: { label: Browser and device, placeholder: "Safari 26 on macOS · Chrome on Android" }
+  - type: textarea
+    attributes: { label: make check output, description: "Developers only — paste the failing lines if you ran it", render: shell }
+  - type: checkboxes
+    attributes:
+      label: Where it runs
+      options:
+        - label: Locally (`make dev`, Tier 1)
+        - label: The live site

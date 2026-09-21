@@ -42,3 +42,13 @@ Started 18:06 (2026-09-21). Prompt: `docs/archive/prompts/KICKOFF_PROMPT_RUN11_S
   `scripts/check_migrations.py` (sqlparse, in `scripts/requirements-dev.txt`) and `scripts/check_assets.mjs` in
   `make check` — 38 findings fixed (10 `<img>` tags, the PNG logo → WebP); `docs/HOSTING_LIMITS.md`,
   `docs/ENVIRONMENT.md`, `.env.example`. pytest 146.
+- **18:35** C done: `docs/handoff/` 00–09 + `FIRST_WEEK.md` (every "works" names its gate), `docs/OWNERSHIP.md`
+  (nine rows = the nine rows of the `/os/system` sheet), `docs/TERM_CHECKLIST.md`, `docs/REPO_SETTINGS.md`,
+  `docs/HANDOFF.md` trimmed to a pointer table, docs index + `docs/README.md`.
+- **18:44** D done: README (badges, two ≤ 70 KB WebP shots under `docs/img/`, the fork → PR walkthrough with what
+  each command does, the docs table, MIT + old-site notice), CONTRIBUTING rewritten around tasks (the loop, the
+  `make check` failure table, the five worked examples kept, style, tests, review process), five YAML issue
+  templates + `config.yml`, PR template (which gate covers it), `SECURITY.md`, 12 labels, **12 issues seeded**
+  (#1–#5 good first issue, each with the file, done, the proving command, a pattern to copy). Decision 7: the
+  "Events empty state → + NEW EVENT" example from the brief was already built (run 10), so the fifth good first
+  issue is per-item inbox replay instead; the three-tiles-with-"—" issue was verified against `specs.ts` first.

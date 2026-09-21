@@ -1,7 +1,42 @@
-# CONTRIBUTING.md — how to change things (one worked example each)
+# CONTRIBUTING.md — how to change things
 
-`make dev` first. `make check` before a commit. Never commit secrets or
-`data/*.local.json`. One accent per section (DESIGN.md).
+Everything here assumes `make dev` is running and `make check` is green before you start (README.md § "Run it
+in 10 minutes"). Never commit secrets or `data/*.local.json`. One accent per section (DESIGN.md).
+
+## The loop
+
+| Step   | Command / rule                                                                                                                                                                                                                 |
+| ------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| Branch | `git checkout -b <type>/<short-name>` — `feat/`, `fix/`, `docs/`, `content/`, `refactor/`, `chore/`                                                                                                                            |
+| Commit | Conventional Commits, linted by commitlint on the PR: `feat(os): …`, `fix(api): …`, `docs: …`, `content: …`, `inheritance: …`, `refactor(web): …`, `chore: …`. One change per commit; the subject says what the code does now. |
+| Check  | `make check` before every push. UI change: also `make a11y`. OS or API write change: also `make smoke` and `make sim`.                                                                                                         |
+| PR     | the template: what · why · how verified · which gate covers it · docs updated? Screenshots for UI.                                                                                                                             |
+| Review | see "The review process" below                                                                                                                                                                                                 |
+
+## What `make check` runs, and how to read each failure
+
+| Tool (in order)                         | It failed — what it means                                                                                                             | Fix                                                                      |
+| --------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------ |
+| `ruff check api scripts`                | Python lint: unused import, line > 200, function too complex (C901), too many parameters (PLR0913)                                    | `ruff check --fix` for the mechanical ones; split the function otherwise |
+| `oxlint` (apps/web)                     | TS/React lint: `max-lines-per-function` 40, `max-params` 3, `complexity` 10, `max-lines` 300, TODO without an issue link, unused vars | split the function or the file; open an issue for the TODO               |
+| `prettier --check`                      | formatting                                                                                                                            | `make format`                                                            |
+| `stylelint`                             | CSS: a literal colour or font, a bad property                                                                                         | use a token from `tokens.css`                                            |
+| `markdownlint`                          | a doc: list style, heading level, trailing space                                                                                      | the rule id is in the message; `.markdownlint.json` lists what is off    |
+| `mypy --strict`                         | a Python type hole (`Any` leak, missing return type)                                                                                  | annotate; never `# type: ignore` without a reason                        |
+| `tsc --noEmit`                          | a TypeScript error                                                                                                                    | read the first error; the rest usually follow from it                    |
+| `pytest`                                | an API test (146): the message names the request and the assertion                                                                    | run one file: `.venv/bin/python -m pytest api/_core/tests/test_x.py -q`  |
+| `vitest run`                            | a web unit test (19)                                                                                                                  | `npx vitest run --reporter verbose` in `apps/web`                        |
+| `audit:routes / images / tokens / repo` | a dead internal link, a missing image, a literal club name / hex / font in code, a stray file                                         | the report names the file:line                                           |
+| `env_validate.py`                       | Tier 2 half-configured in your shell                                                                                                  | set all five Supabase variables or none                                  |
+| `gen_api_docs.py` + `git diff`          | "docs/API.md changed — commit it"                                                                                                     | you changed an endpoint: `make api-docs`, commit the file                |
+| `check_api_count.py`                    | a second file under `api/`                                                                                                            | move it into `api/_core/`                                                |
+| `validate_data.py`                      | a `data/*.json` file breaks its schema                                                                                                | the message names the key                                                |
+| `validate_inheritance.py`               | a record under `content/inheritance/` breaks the frontmatter contract                                                                 | `docs/handoff/07_INHERITANCE.md`                                         |
+| `check_migrations.py`                   | a migration is misnumbered, empty, or drops without a `-- guard:`                                                                     | `docs/HOSTING_LIMITS.md` § 3                                             |
+| `check_assets.mjs`                      | a non-WebP/SVG or > 400 KB under `public/img`, an unreferenced file, an `<img>` without width/height/loading/decoding                 | `docs/HOSTING_LIMITS.md` § 2                                             |
+| `jscpd`                                 | duplicated code above 1.5 %                                                                                                           | extract to `os/ui/*`, `lib/*` or `_core/*` — never copy a block          |
+| `banned_names.mjs`                      | a name from the banned list (`data`, `info`, `temp`, `handleStuff`, `kb`…)                                                            | `docs/CODE_STANDARDS.md` § Naming                                        |
+| `ts-prune` / `depcheck`                 | an exported symbol nobody imports / a dependency nobody uses                                                                          | un-export it or delete it                                                |
 
 ## 1. Add a public page
 
@@ -98,28 +133,35 @@ The file lands in `content/inheritance/<term>/…` and `scripts/validate_inherit
 (the same rules the OS applies) runs in `make check`. Attach docs as links; never
 paste a credential. `content/inheritance/HOW-TO.md` has the five steps.
 
-## Style
+## Style — what a PR is reviewed against
 
-- Files ≤ 400 lines, components ≤ 200, functions ≤ 60 (Python). Pages compose;
-  logic lives in `lib/`, `_core/`.
-- A 1–3 line header comment on every file: what it is, where it's used.
-- No `any` without a comment. No run numbers or `_v2` names outside `docs/archive`.
-- Tokens only: `var(--accent)`, `brand.*` — never literal club names or hex.
+- **`docs/CODE_STANDARDS.md`** — naming, function size (≤ 40 lines), file size (≤ 300; components ≤ 200),
+  no duplication, comments only for _why_, errors raised with context, tests that read as sentences. Most of
+  it is enforced by `make check`; the rest is the PR checklist.
+- **`DESIGN.md`** — the look. Palette, type, one accent per section, no radius > 4 px, tokens only. A PR that
+  adds a hex colour, a font name or a club name literal fails `audit:tokens`.
+- A 1–3 line header comment on every file: what it is, where it is used. No run numbers or `_v2` names outside
+  `docs/archive`. No `any` without a comment.
 
-## Before you push — the gates
+## Tests — what is expected
 
-1. `make check` — what CI runs: ruff, prettier, stylelint, markdownlint, oxlint, mypy
-   --strict, tsc, pytest, vitest, the one-function guard, `validate_data`,
-   `validate_inheritance`, routes/images/tokens/repo audits, env names, `docs/API.md`
-   current, ts-prune, depcheck.
-2. `make a11y` — pa11y + axe over every route and the OS. Must stay at 0.
-3. `make smoke` — the OS gate (12) + the functional smoke (9); `make sim` — the 25-step semester
-   simulation from an empty store; `make break` — the 16-case adversarial pass. CI runs all of them
-   (`functional` job). `make restore` rolls back the last Tier-1 write; `make restore-empty` clears
-   the local store.
-4. Commit message in conventional form (`feat:`, `fix:`, `content:`, `inheritance:`,
-   `chore:`, `docs:`) — commitlint checks the pushed range.
-5. Nothing secret in the diff — `gitleaks protect --staged`; CI scans history weekly.
-6. New UI? Tick the manual keyboard/screen-reader list in `docs/SKILLS_ADOPTED.md`
-   in the PR template.
-   Each tool's origin and what it found on adoption: `docs/SKILLS_ADOPTED.md`.
+- An API endpoint: a happy path and one auth failure in `api/_core/tests/` (the `client` fixture gives a fresh
+  Tier-1 store per test; `OFFICER` / `ADMIN` headers). A new entity goes into `ENTITIES` in
+  `test_hardening.py` and gets the seven generic tests for free.
+- A helper in `apps/web/src/lib`: a vitest next to it.
+- A change to an OS flow: a step in `scripts/board_sim.mjs` if a board member would do it every term; a case in
+  `scripts/board_break.mjs` if it is a way to break things.
+- Test names read as sentences: `test_stale_write_is_409_never_a_clobber`, not `test_patch2`.
+
+## The review process
+
+- **Who:** the maintainer listed in `.github/CODEOWNERS` (Ryan today; the board's webmaster after the transfer).
+  Anyone may review; a CODEOWNER approves. A one-person board may merge its own PR after CI is green — the
+  ruleset asks for a PR and a green `check`, not a second human.
+- **What gets asked:** does `make check` pass (CI shows it); did you run the gate you named; does the change
+  keep a Tier-1 fallback; does the UI follow DESIGN.md (screenshot); is there a test; did a doc change with it;
+  is the commit message honest.
+- **How long:** first response within a week during the semester. Ping in the club Discord after a week.
+  A PR with no reply for a month is closed with a note; reopen any time.
+- **Board members** who cannot review code: open a Content or Board-task issue instead of a PR; the maintainer
+  turns it into the change.
