@@ -138,14 +138,14 @@ kbd {
     "tnum" 1;
   font-variant-numeric: tabular-nums slashed-zero;
 }
-/* OS page titles, the login headline, empty-state words — never under 20 px (VT323 rule) */
+/* OS page titles, the login headline, empty-state words — never under 20 px (VT323 rule; the
+   size is set at the call site, ≥ 20 px, and font_audit flags anything smaller) */
 .t-os-display {
   font-family: var(--font-os-display);
   font-weight: 400;
   line-height: 0.9;
   text-transform: uppercase;
   letter-spacing: 0.01em;
-  font-size: max(20px, 1em);
 }
 /* OS numerals: rounded mono, tabular, slashed zero (R9_06's 1.8 · 24 · 1.592) */
 .t-kpi {

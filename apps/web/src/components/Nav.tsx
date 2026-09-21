@@ -18,8 +18,9 @@ const LINKS = [
 
 /** Nav v2 (§5c): CubeSigil + CSS wide logotype + //JOHN_JAY; mono links with
     / separators; > prefix on active; SYS.TIME + ● LIVE readouts; Block CTA. */
-export function Nav() {
-  const [scrolled, setScrolled] = useState(false);
+export function Nav({ compact = false }: { compact?: boolean }) {
+  const [scrolledRaw, setScrolled] = useState(false);
+  const scrolled = compact || scrolledRaw; // /os/login (T03) shows the nav in its compact state
   const [hidden, setHidden] = useState(false);
   const [open, setOpen] = useState(false);
   const [time, setTime] = useState(nyTime());
