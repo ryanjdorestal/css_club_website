@@ -1,0 +1,70 @@
+<!doctype html><html><head><meta charset="utf-8">
+<style>html,body{margin:0;background:#0C183C;overflow:hidden}canvas{display:block}</style>
+<script type="importmap">{"imports":{"three":"/apps/web/node_modules/three/build/three.module.js","three/addons/":"/apps/web/node_modules/three/examples/jsm/"}}</script>
+</head><body>
+<script type="module">
+// Cyberhound reference viewer — the material/lighting recipe CyberhoundSpot.tsx uses.
+// Serve the REPO ROOT (python3 -m http.server 8787) and open
+//   /assets/hound3d/viewer.html?view=front|three|side|back&w=900&h=900
+import * as THREE from 'three';
+import { GLTFLoader } from 'three/addons/loaders/GLTFLoader.js';
+import { RoomEnvironment } from 'three/addons/environments/RoomEnvironment.js';
+import { EffectComposer } from 'three/addons/postprocessing/EffectComposer.js';
+import { RenderPass } from 'three/addons/postprocessing/RenderPass.js';
+import { UnrealBloomPass } from 'three/addons/postprocessing/UnrealBloomPass.js';
+import { OutputPass } from 'three/addons/postprocessing/OutputPass.js';
+import { LineSegments2 } from 'three/addons/lines/LineSegments2.js';
+import { LineSegmentsGeometry } from 'three/addons/lines/LineSegmentsGeometry.js';
+import { LineMaterial } from 'three/addons/lines/LineMaterial.js';
+
+const q = new URLSearchParams(location.search);
+const W = +q.get('w') || 900, H = +q.get('h') || 900;
+const RED = q.get('red') || '#B3202A', RED_HI = '#E0242C';
+const renderer = new THREE.WebGLRenderer({ antialias: true, preserveDrawingBuffer: true });
+renderer.setSize(W, H); renderer.setPixelRatio(1);
+renderer.toneMapping = THREE.NeutralToneMapping; renderer.toneMappingExposure = 0.9;
+document.body.appendChild(renderer.domElement);
+const scene = new THREE.Scene(); scene.background = new THREE.Color(q.get('bg') || '#0C183C');
+const pmrem = new THREE.PMREMGenerator(renderer);
+scene.environment = pmrem.fromScene(new RoomEnvironment(), 0.04).texture; scene.environmentIntensity = 0.35;
+const cam = new THREE.PerspectiveCamera(30, W / H, 0.1, 100);
+const views = {
+  front: [0, 1.05, 4.6], three: [2.6, 1.5, 3.9], side: [4.8, 1.0, 0.4], back: [0, 1.2, -4.6], up: [0, 3.2, 3.4], low: [1.8, 0.35, 4.2],
+};
+const v = views[q.get('view') || 'three']; cam.position.set(...v); cam.lookAt(0, 0.85, 0.1);
+scene.add(new THREE.HemisphereLight('#dfe8f2', '#1a2c44', 0.5));
+const key = new THREE.DirectionalLight('#ffffff', 1.4); key.position.set(-2, 4.5, 3.5); scene.add(key);
+const fill = new THREE.DirectionalLight('#ffffff', 0.5); fill.position.set(4, 1.5, -2); scene.add(fill);
+const rim = new THREE.DirectionalLight(RED_HI, 0.9); rim.position.set(0, 1.5, -4); scene.add(rim);
+scene.add(new THREE.AmbientLight('#ffffff', 0.18));
+
+const composer = new EffectComposer(renderer);
+composer.addPass(new RenderPass(scene, cam));
+const bloom = new UnrealBloomPass(new THREE.Vector2(W, H), 0.5, 0.4, 0.8);
+composer.addPass(bloom); composer.addPass(new OutputPass());
+
+new GLTFLoader().load(q.get('glb') || 'cyberhound.glb', (g) => {
+  const root = new THREE.Group(); root.position.y = -0.05;
+  const meshes = []; g.scene.traverse((o) => o.isMesh && meshes.push(o));
+  for (const o of meshes) {
+    const emissive = o.name === 'eyes' || o.name === 'nose';
+    if (emissive) {
+      o.material = new THREE.MeshStandardMaterial({ color: '#2a0508', emissive: RED_HI, emissiveIntensity: o.name === 'nose' ? 0.35 : 1.4, roughness: 0.4 });
+    } else {
+      o.material = new THREE.MeshStandardMaterial({ color: '#0B0B0D', roughness: 0.55, metalness: 0.15 });
+      if (!q.get('noedges')) {
+        // the logo's outline: crease lines (28°) at 1.5px + a back-face red shell scaled 1.03
+        const eg = new THREE.EdgesGeometry(o.geometry, +q.get('thr') || 28);
+        const lg = new LineSegmentsGeometry().fromEdgesGeometry(eg);
+        const lm = new LineMaterial({ color: new THREE.Color(RED), linewidth: +q.get('lw') || 1.5, resolution: new THREE.Vector2(W, H) });
+        const lines = new LineSegments2(lg, lm); o.add(lines);
+        const shell = new THREE.Mesh(o.geometry, new THREE.MeshBasicMaterial({ color: RED, side: THREE.BackSide, transparent: true, opacity: 0.9 }));
+        shell.scale.setScalar(1.03); o.add(shell);
+      }
+    }
+  }
+  root.add(g.scene); scene.add(root);
+  composer.render();
+  window.__ready = true;
+});
+</script></body></html>

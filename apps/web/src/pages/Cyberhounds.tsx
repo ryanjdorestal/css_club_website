@@ -6,7 +6,6 @@ import { Band } from "@/components/Band";
 import { PosterBand } from "@/components/PosterBand";
 import { FinLine } from "@/components/FinLine";
 import { PhotoFrame } from "@/components/PhotoFrame";
-import { DotMatrix } from "@/components/DotMatrix";
 import { PosterCard } from "@/components/cards/PosterCard";
 import { IndexList } from "@/components/cards/IndexList";
 import { TicketCard } from "@/components/cards/TicketCard";
@@ -17,9 +16,11 @@ import { EdgeCrop } from "@/components/type/EdgeCrop";
 import { Decode } from "@/components/type/Decode";
 import { Label } from "@/components/type/Label";
 import { Scanlines, Halftone } from "@/textures";
-import { Shield, Chevrons, HoundPixel, Flag } from "@/sigils";
+import { Chevrons, HoundPixel } from "@/sigils";
+import { Brackets } from "@/components/frame";
+import { brand } from "@brand/brand.config";
 import { Stencil } from "@/components/type/Stencil";
-import { CubeSpot } from "@/cube/CubeSpot";
+import { CyberhoundSpot } from "@/mascot/CyberhoundSpot";
 
 const doc = parseMd(cyberRaw);
 function sec(h: string): string {
@@ -55,8 +56,8 @@ export default function Cyberhounds() {
             <Label pfx="//">CTF_01 · SUB-CLUB · JOHN_JAY_CTF_TEAM</Label>
             <span className="t-micro opacity-50 tnum hidden md:block">EST. SPRING_2023</span>
           </div>
-          <div className="grid md:grid-cols-[7fr_5fr] gap-8 items-center">
-            <h1 className="t-poster" style={{ fontSize: "clamp(60px, 11vw, 185px)" }}>
+          <div className="grid md:grid-cols-[minmax(0,1fr)_auto] gap-8 items-center">
+            <h1 className="t-poster min-w-0" style={{ fontSize: "clamp(60px, 9.6vw, 160px)" }}>
               <EdgeCrop side="right"><Decode text="CYBER" /></EdgeCrop>
               <EdgeCrop side="right">
                 <span className="text-red">
@@ -69,9 +70,15 @@ export default function Cyberhounds() {
                 </span>
               </EdgeCrop>
             </h1>
-            <div className="relative flex items-center justify-end max-md:hidden">
-              <DotMatrix src="/img/brand/hound_banner.png" size={46} color="var(--color-red)" className="relative z-10 w-[260px] -mr-10 shrink-0" />
-              <CubeSpot size={280} face="red" glow="#CE4A4A" className="shrink-0" />
+            {/* the Cyberhound frame: the 3D pitbull bust with THE pixel hound in front-left (no cube in this hero — §4) */}
+            <div className="relative justify-self-end max-md:hidden group" style={{ width: 460, height: 460 }}>
+              <Brackets size={18} />
+              <span aria-hidden className="absolute top-3 left-4 t-micro opacity-50">HOUND_01 · BUST</span>
+              <span aria-hidden className="absolute top-3 right-4 t-micro opacity-50 tnum">380PX · GLB</span>
+              <div id="cyberhound-slot" className="absolute inset-0 flex items-center justify-center">
+                <CyberhoundSpot size={460} />
+              </div>
+              <HoundPixel size={260} className="absolute left-[-40px] bottom-[-12px] z-10 drop-shadow-[0_0_24px_rgba(179,32,42,0.35)]" />
             </div>
           </div>
           <p className="t-label raise !tracking-[0.22em] mt-10">
@@ -87,7 +94,7 @@ export default function Cyberhounds() {
       </section>
 
       {/* 2 — What is CTF (spread) */}
-      <Band tone="tinted" accent="red" index="01 — WHAT IS CTF?" sigil={<Shield size={16} />} code="CTF_INTRO" rail="01 · CTF · 01000110 · OSINT/WEB/CRYPTO">
+      <Band tone="tinted" accent="red" index="01 — WHAT IS CTF?" sigil={<HoundPixel size={16} />} code="CTF_INTRO" rail="01 · CTF · 01000110 · OSINT/WEB/CRYPTO">
         <div className="grid md:grid-cols-[6fr_6fr] gap-10 md:gap-16 items-center">
           <div>
             <h2 className="t-h1 !text-[clamp(30px,4.2vw,60px)] mb-5">
@@ -115,12 +122,12 @@ export default function Cyberhounds() {
       </Band>
 
       {/* 4 — Competitions as posters */}
-      <Band tone="light" accent="red" index="03 — COMPETITIONS" sigil={<Flag size={16} />} code="LEAGUES" rail="03 · LEAGUES · 01001100 · SEASONAL">
+      <Band tone="light" accent="red" index="03 — COMPETITIONS" sigil={<HoundPixel size={16} />} code="LEAGUES" rail="03 · LEAGUES · 01001100 · SEASONAL">
         <RevealGroup className="grid grid-cols-2 lg:grid-cols-4 gap-5">
           {COMPS.map((c) => (
             <RevealItem key={c.word}>
-              <PosterCard word={c.word} index={c.index} meta={c.meta}>
-                <span className="absolute top-1/2 left-6 mono-label text-red/60">▶ FLAG CAPTURED !</span>
+              <PosterCard word={c.word} index={c.index} meta={c.meta} mark={<HoundPixel size={48} />}>
+                <span className="absolute top-1/2 left-6 mono-label text-(--color-red-hi)/70">▶ FLAG CAPTURED !</span>
               </PosterCard>
             </RevealItem>
           ))}
@@ -161,7 +168,7 @@ export default function Cyberhounds() {
       </Band>
 
       <PosterBand accent="red" meta="// CYBERHOUNDS · JOHN JAY CTF" lines={["No flag", { text: "left behind.", className: "text-red", outline: true }]} />
-      <FinLine n="05" binary="01000110 01001100 01000001 01000111" />
+      <FinLine n="05" next="/about" binary="01000110 01001100 01000001 01000111" />
     </main>
   );
 }

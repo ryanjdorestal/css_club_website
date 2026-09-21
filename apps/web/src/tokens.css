@@ -226,3 +226,7 @@ body {
 .fin-caret { display: inline-block; margin-left: 0.15em; color: var(--color-teal); }
 @keyframes fin-blink { 0%, 49% { opacity: 1; } 50%, 100% { opacity: 0; } }
 .fin-caret-blink { animation: fin-blink 1s step-end infinite; }
+
+/* run 5: Cyberhounds hero — when the 3D bust falls back to the pixel hound, hide the
+   front-left pixel hound so the frame never shows two hounds */
+#cyberhound-slot:has([data-cyberhound="pixel"]) ~ svg { display: none; }

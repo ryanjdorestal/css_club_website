@@ -18,3 +18,6 @@ Loop 0 in: tokens (#B3202A family), FinLine typing (probe shows hack glyphs + 1 
 | 8 | PosterCard "▶ FLAG CAPTURED !" micro label → `--color-red-hi` @70 % | §6: `--color-red` fails AA at label sizes on navy (2.6:1); red-hi is 3.7:1 on navy-900 — decorative flavour text, logged as the brief asks |
 | 9 | `DotMatrix.tsx` + `public/img/brand/hound_banner.png` deleted | §4 "delete any duplicate hound rasters" — the Cyberhounds hero was the only user (the re-rasterized hound Ryan didn't want) |
 | 10 | Edges threshold 28° → 40° in CyberhoundCanvas | at 28° the hull triangulation drew stray diagonals across the forehead/cheeks at 460 px; the red rim is carried by the BackSide shell anyway; real creases (muzzle, brows, ears, slits) survive 40° |
+
+## Checkpoint 60 min (21:06)
+Loop 0 committed (cbd0111). Loop 1: build_hound.py v5 (9.2k tris, SEG 36), viewer + render harness, compare sheet vs logo/photo, CyberhoundSpot/Canvas (R3F: body #0B0B0D, 40° edges 1.5 px + 1.03 BackSide red shell, emissive slits 1.4→2.2 hover, idle ±8°/6 s, pointer-follow ±18°, breath, drag, page-local Bloom .8/.5, RoomEnvironment). Live in the Cyberhounds hero at 460 px frame (bust ≈ 380 px), pixel hound 260 px front-left; fallback = pixel hound only (front hound hidden via :has). Font audit 9/9 (qa/font-audit-run5.txt). Contrast all pass (+ INFO row).

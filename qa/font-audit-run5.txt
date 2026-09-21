@@ -1,0 +1,36 @@
+/              display  { Unbounded:26 }
+/              mid      { Unbounded:24, JetBrains Mono:6, Space Grotesk:50 }
+/              micro    { JetBrains Mono:340 }
+/              OK
+/events        display  { Unbounded:18 }
+/events        mid      { Unbounded:29, JetBrains Mono:7, Space Grotesk:31 }
+/events        micro    { JetBrains Mono:327 }
+/events        OK
+/apps          display  { Unbounded:10 }
+/apps          mid      { Unbounded:19, JetBrains Mono:7, Space Grotesk:28 }
+/apps          micro    { JetBrains Mono:186 }
+/apps          OK
+/cyberhounds   display  { Unbounded:20 }
+/cyberhounds   mid      { Unbounded:15, JetBrains Mono:7, Space Grotesk:24 }
+/cyberhounds   micro    { JetBrains Mono:125 }
+/cyberhounds   OK
+/about         display  { Unbounded:16 }
+/about         mid      { Unbounded:19, JetBrains Mono:7, Space Grotesk:31 }
+/about         micro    { JetBrains Mono:172 }
+/about         OK
+/resources     display  { Unbounded:11 }
+/resources     mid      { Unbounded:17, JetBrains Mono:7, Space Grotesk:31 }
+/resources     micro    { JetBrains Mono:147 }
+/resources     OK
+/news          display  { Unbounded:5 }
+/news          mid      { Unbounded:14, JetBrains Mono:7, Space Grotesk:20 }
+/news          micro    { JetBrains Mono:85 }
+/news          OK
+/join          display  { Unbounded:8 }
+/join          mid      { Unbounded:15, JetBrains Mono:6, Space Grotesk:38 }
+/join          micro    { JetBrains Mono:151 }
+/join          OK
+/styleguide    display  { Unbounded:17 }
+/styleguide    mid      { Unbounded:13, JetBrains Mono:6, Space Grotesk:27 }
+/styleguide    micro    { JetBrains Mono:245 }
+/styleguide    OK
