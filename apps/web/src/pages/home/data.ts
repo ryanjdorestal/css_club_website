@@ -12,7 +12,7 @@ export function bandCopy(title: string): string {
   const i = home.blocks.findIndex((b) => b.type === "h2" && b.text === title);
   return i >= 0 && home.blocks[i + 1]?.type === "p" ? home.blocks[i + 1].text : "";
 }
-export const heroDek = home.blocks.find((b) => b.type === "p")?.text ?? "";
+const heroDek = home.blocks.find((b) => b.type === "p")?.text ?? "";
 /** The hero sets the first two sentences (mock_turret: three caps lines); the full paragraph lives on /about. */
 export const heroDekShort = heroDek
   .split(/(?<=\.)\s+/)

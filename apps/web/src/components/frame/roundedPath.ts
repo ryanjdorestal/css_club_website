@@ -1,6 +1,6 @@
 /** Rounded-corner polyline → SVG path (used by FolderCard's clip-path). Each vertex is
     [x, y, radius?]; a radius turns the corner into a tangent arc; open ends stay sharp. */
-export type Pt = [number, number, number?];
+type Pt = [number, number, number?];
 
 /** Round the corners of a polyline: each vertex with a radius becomes a tangent arc
     (t = r / tan(θ/2) along both edges); open ends and radius-less vertices stay sharp. */
