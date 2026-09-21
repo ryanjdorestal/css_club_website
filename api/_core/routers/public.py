@@ -13,7 +13,7 @@ from typing import Any
 from fastapi import APIRouter, HTTPException, Request
 from fastapi.responses import JSONResponse, RedirectResponse
 
-from .. import audit, config, db, tier1
+from .. import audit, config, db, hosting, tier1
 from .. import collections as C
 from ..auth import whoami
 from ..models import ChatIn, OnboardingSubmit, ProjectSubmit
@@ -42,7 +42,6 @@ def health() -> dict[str, Any]:
     dbstate = "skipped"
     if config.supabase_configured():
         dbstate = "ok" if db.reachable() else "error"
-    keepalive = tier1.read_json("../qa/keepalive.json", {})
     snapshot = tier1.read_json("snapshot.json", {})
     counts: dict[str, int] = {}
     last_write = 0
@@ -55,7 +54,7 @@ def health() -> dict[str, Any]:
         last_write = max([last_write, *(int(r.get("updated_at") or 0) for r in rows)])
     return {
         "ok": True, "sha": config.GIT_SHA, "db": dbstate, "ts": int(time.time()),
-        "db_last_ok": db.last_ok, "keepalive": keepalive.get("last_run"), "snapshot": snapshot.get("generated_at"),
+        "db_last_ok": db.last_ok, "keepalive": hosting.keepalive_last_run(), "snapshot": snapshot.get("generated_at"),
         "inbox": tier1.inbox_count(), "tier": "db" if dbstate == "ok" else "local",
         "counts": counts, "last_write": last_write or None,
     }

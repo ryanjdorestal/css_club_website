@@ -1,41 +1,66 @@
 name: snapshot
-# Nightly: pull the published rows out of Supabase and rewrite the committed
-# Tier-1 fallback (data/*.json, content/news/*.md, content/handoffs/*.md).
-# Commits `chore(snapshot): …` only when something changed. Without the two
-# secrets it logs one line and exits 0 — nothing breaks, Tier 1 just stays as
-# committed. This is also the restore path if the database is ever lost.
+# Nightly: pull the published rows out of Supabase and rewrite the committed Tier-1 fallback
+# (data/*.json, content/news/*.md, content/inheritance/**). This is the backup (docs/HOSTING_LIMITS.md §3.3).
+#
+# It never pushes to main. `main` requires a pull request and a green `check`, so the bot commits to the
+# `snapshot` branch, opens (or refreshes) one PR, dispatches CI on it (a PR made with GITHUB_TOKEN gets no
+# automatic run) and enables auto-merge — the PR lands by itself when CI is green, once a day at most.
+# Without the two secrets it logs one line and exits 0: Tier 1 stays as committed, nothing breaks.
 on:
   schedule:
     - cron: "23 7 * * *"
   workflow_dispatch:
 
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
 permissions:
   contents: write
+  pull-requests: write
+  actions: write
 
 jobs:
   snapshot:
+    # The loop guard: a run started by a bot commit can never produce another bot commit.
+    if: github.actor != 'github-actions[bot]'
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
+        with: { ref: main }
       - uses: actions/setup-python@v5
         with:
-          python-version: "3.12"
+          python-version-file: .python-version
       - name: snapshot
+        id: snap
         env:
           SUPABASE_URL: ${{ secrets.SUPABASE_URL }}
           SUPABASE_SERVICE_KEY: ${{ secrets.SUPABASE_SERVICE_KEY }}
         run: |
           if [ -z "$SUPABASE_URL" ] || [ -z "$SUPABASE_SERVICE_KEY" ]; then
             echo "::notice::SUPABASE_URL / SUPABASE_SERVICE_KEY not set — snapshot skipped (Tier 1 stays as committed)"
-            exit 0
+            echo "changed=false" >> "$GITHUB_OUTPUT"; exit 0
           fi
           pip install -q -r api/requirements.txt
           python scripts/snapshot.py
-      - name: commit if changed
+          python scripts/validate_data.py
+          python scripts/validate_inheritance.py --quiet
+          git add data content
+          if git diff --cached --quiet; then echo "changed=false" >> "$GITHUB_OUTPUT"; else echo "changed=true" >> "$GITHUB_OUTPUT"; fi
+      - name: commit to the snapshot branch and open the PR
+        if: steps.snap.outputs.changed == 'true'
+        env:
+          GH_TOKEN: ${{ github.token }}
         run: |
           git config user.name "css-snapshot"
           git config user.email "computersocjjay@gmail.com"
-          git add data content
-          git diff --cached --quiet && echo "no changes" && exit 0
-          git commit -m "chore(snapshot): $(date -u +%F) — data + content refreshed from Supabase"
-          git push
+          git checkout -B snapshot
+          git commit -m "chore(snapshot): $(date -u +%F) — data + content refreshed from Supabase [skip ci]"
+          git push --force origin snapshot
+          if ! gh pr view snapshot --json number >/dev/null 2>&1; then
+            gh pr create --base main --head snapshot --title "chore(snapshot): $(date -u +%F)" \
+              --body "Nightly snapshot of the database into the committed Tier-1 files. Review the diff if you like; it merges itself when CI is green (docs/HOSTING_LIMITS.md §3.3)." \
+              --label infra
+          fi
+          gh workflow run ci.yml --ref snapshot
+          gh pr merge snapshot --auto --squash

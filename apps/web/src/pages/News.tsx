@@ -106,7 +106,17 @@ export function NewsArticle() {
               <span className="t-micro opacity-55 tnum">_read_time {Math.max(1, Math.round((post.body_md ?? "").split(/\s+/).length / 220))}_MIN</span>
             </div>
           </Reveal>
-          {post.cover_path && <img src={post.cover_path} alt="" className="w-full mb-8 border border-(--tone-line)" />}
+          {post.cover_path && (
+            <img
+              src={post.cover_path}
+              alt=""
+              width={1600}
+              height={900}
+              loading="eager"
+              decoding="async"
+              className="w-full h-auto mb-8 border border-(--tone-line)"
+            />
+          )}
           <Reveal>
             <h1 className="t-h1 !normal-case !text-[clamp(28px,4vw,48px)] !leading-[1.02] mb-10">{post.title}</h1>
           </Reveal>

@@ -15,6 +15,7 @@ import { StatusChip } from "@/components/cards/StatusChip";
 import { MonoLabel } from "@/components/MonoLabel";
 import { Button } from "@/components/Button";
 import { parseMd } from "@/lib/md";
+import { HostingPanel } from "./system/HostingPanel";
 
 type Check = { state: "live" | "idle" | "offline"; label: string; detail: string; fix: string };
 type Account = { name: string; owner_email: string; second_owner_email: string; last_verified: string | null };
@@ -65,6 +66,7 @@ export default function OsSystem() {
         "No automatic account transfer — moving Vercel/Supabase/GitHub to a new owner is a human step (docs/HANDOFF.md).",
         "Checks are live probes; a red chip is information, not a page you can fix here — follow the runbook line.",
         "Board knowledge (handoffs, decisions, contacts) is not here — that is /os/inheritance.",
+        "Deployments today are counted from CI runs on main (the public GitHub API, no token) — the closest free proxy for Vercel's own count, which needs a Vercel login.",
       ]}
     >
       {notice && <Notice kind={notice.kind}>{notice.text}</Notice>}
@@ -213,6 +215,8 @@ export default function OsSystem() {
           </div>
         </div>
       </section>
+
+      <HostingPanel />
     </OsPage>
   );
 }

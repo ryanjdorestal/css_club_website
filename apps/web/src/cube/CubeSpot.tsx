@@ -41,6 +41,8 @@ export function CubeSpot({
       width={size}
       height={size * 0.875}
       style={{ width: size, height: "auto" }}
+      loading="eager"
+      decoding="async"
       className="select-none"
     />
   );

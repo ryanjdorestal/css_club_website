@@ -23,6 +23,7 @@ export const brand = {
   },
   email: "computersocjjay@gmail.com",
   githubOrg: "https://github.com/jjcss",
+  repo: "ryanjdorestal/css_club_website", // owner/name — the GitHub API slug; becomes jjcss/... at handoff
   site: "https://jjaycss.tech",
 
   taglines: {

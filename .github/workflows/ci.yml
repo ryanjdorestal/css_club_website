@@ -1,8 +1,13 @@
 name: CI
 on:
   push:
-    branches: [main, master]
+    branches: [main]
   pull_request:
+  workflow_dispatch: # the snapshot workflow dispatches CI on its PR branch (GITHUB_TOKEN-made PRs get no automatic run)
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
 
 jobs:
   check:
@@ -23,7 +28,7 @@ jobs:
       - name: install
         run: |
           npm ci --prefix apps/web
-          python -m venv .venv && .venv/bin/pip install -q -r api/requirements.txt ruff mypy pytest
+          python -m venv .venv && .venv/bin/pip install -q -r api/requirements.txt -r scripts/requirements-dev.txt
 
       - name: make check (lint · format · css · md · types · tests · audit · one-function guard · validators · dead code)
         run: make check

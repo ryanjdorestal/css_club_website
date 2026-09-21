@@ -1,7 +1,14 @@
-# CODEOWNERS — who reviews what. Replace @ryanjdorestal with @jjcss/board once
-# the repo is transferred (docs/HANDOFF.md). Later patterns win.
+# CODEOWNERS — who reviews what. Later patterns win.
+# Today the repo lives under Ryan's account, so every path is his. At handoff (docs/handoff/00_START_HERE.md
+# → "Transferring the repo"): transfer the repo to the jjcss org, create the @jjcss/board and
+# @jjcss/webmaster teams, then replace @ryanjdorestal below with the commented team on each line.
 *                         @ryanjdorestal
-/content/inheritance/     @ryanjdorestal     # → @jjcss/board (president + webmaster)
-/content/ /data/          @ryanjdorestal     # → @jjcss/board
-/api/ /supabase/          @ryanjdorestal     # → @jjcss/webmaster
-/.github/ /scripts/       @ryanjdorestal     # → @jjcss/webmaster
+# *                       @jjcss/board
+/content/inheritance/     @ryanjdorestal
+# /content/inheritance/   @jjcss/board
+/content/ /data/          @ryanjdorestal
+# /content/ /data/        @jjcss/board
+/api/ /supabase/          @ryanjdorestal
+# /api/ /supabase/        @jjcss/webmaster
+/.github/ /scripts/       @ryanjdorestal
+# /.github/ /scripts/     @jjcss/webmaster

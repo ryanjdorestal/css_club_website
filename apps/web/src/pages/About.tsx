@@ -189,7 +189,17 @@ export default function About() {
                   .toUpperCase()}-${String(current.members.indexOf(m) + 1).padStart(2, "0")}`}
                 className="h-full"
               >
-                {m.photo && <img src={`/${m.photo}`} alt={m.name} loading="lazy" className="w-full aspect-square object-cover object-top" />}
+                {m.photo && (
+                  <img
+                    src={`/${m.photo}`}
+                    alt={m.name}
+                    width={400}
+                    height={400}
+                    loading="lazy"
+                    decoding="async"
+                    className="w-full aspect-square object-cover object-top"
+                  />
+                )}
                 {/* the dossier sheet (R9_05): micro caps keys over values */}
                 <dl className="mt-3 grid grid-cols-[46px_1fr] gap-x-2 gap-y-0.5">
                   <dt className="t-micro opacity-60 pt-0.5">NAME</dt>

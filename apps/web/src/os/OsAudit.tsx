@@ -9,6 +9,7 @@ import { SubjectSheet } from "./ui/SubjectSheet";
 import { OsPage, Chips, Notice, Panel, KeyVal, Empty } from "./ui/OsPage";
 import { OsTable, ago, type Row } from "./ui/OsTable";
 import { act, useNotice, useOsList } from "./ui/useOs";
+import { useToast } from "./ui/Toast";
 import { useSession } from "./session";
 import { Button } from "@/components/Button";
 import { MonoLabel } from "@/components/MonoLabel";
@@ -53,6 +54,7 @@ export default function OsAudit() {
   const inbox = useOsList("/api/os/inbox");
   const [sel, setSel] = useState<Row | null>(null);
   const { notice, say } = useNotice();
+  const { confirm, toast } = useToast();
   const [busy, setBusy] = useState(false);
   const rows = useMemo(() => records.rows.filter((r) => table === "all" || r.table_name === table), [records.rows, table]);
 
@@ -67,6 +69,21 @@ export default function OsAudit() {
     await inbox.reload();
   }
 
+  async function prune() {
+    const ok = await confirm({
+      title: "Prune audit records older than 12 months?",
+      body: "The yearly housekeeping that keeps the free database small (docs/HOSTING_LIMITS.md). The rows removed were already snapshotted into the repo; the prune itself is logged.",
+      word: "PRUNE",
+      danger: true,
+    });
+    if (!ok) return;
+    setBusy(true);
+    const r = await act<{ removed: number }>("/api/os/records/prune", { body: { months: 12 } });
+    toast(r.ok ? `Pruned ${r.data.removed} record(s) older than 12 months.` : r.msg, { kind: r.ok ? "ok" : "err" });
+    setBusy(false);
+    await records.reload();
+  }
+
   return (
     <OsPage
       dash={auditSpec(records.rows, inbox.rows, records.source !== "loading")}
@@ -76,7 +93,7 @@ export default function OsAudit() {
       actions={<Chips options={TABLES} value={table} onChange={setTable} />}
       notHere={[
         "Nothing is editable here — the log is append-only; fix data on its own page and the fix is logged too.",
-        "Retention: Supabase keeps everything; the Tier-1 local log keeps the last 2,000 records.",
+        "Retention: Supabase keeps everything until an admin prunes records older than 12 months (the button above the inbox, once a year); the Tier-1 local log keeps the last 2,000.",
         "Replay is idempotent by row id (upsert) — running it twice does not duplicate rows.",
       ]}
     >
@@ -104,11 +121,18 @@ export default function OsAudit() {
       <section className="mt-6">
         <div className="flex items-center justify-between">
           <MonoLabel accent>INBOX · {inbox.rows.length} unsynced Tier-1 write(s)</MonoLabel>
-          {actor?.role === "admin" && inbox.rows.length > 0 && (
-            <Button variant="ghost" disabled={busy} onClick={replay}>
-              {busy ? "replaying…" : "replay to DB"}
-            </Button>
-          )}
+          <span className="flex gap-2">
+            {actor?.role === "admin" && (
+              <Button variant="ghost" disabled={busy} onClick={prune} data-testid="prune">
+                prune &gt; 12 months
+              </Button>
+            )}
+            {actor?.role === "admin" && inbox.rows.length > 0 && (
+              <Button variant="ghost" disabled={busy} onClick={replay}>
+                {busy ? "replaying…" : "replay to DB"}
+              </Button>
+            )}
+          </span>
         </div>
         <div className="mt-2">
           {inbox.rows.length ? (

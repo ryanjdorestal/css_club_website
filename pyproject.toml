@@ -24,6 +24,6 @@ mypy_path = "api"
 explicit_package_bases = true
 
 [tool.pytest.ini_options]
-testpaths = ["api/_core/tests"]
+testpaths = ["api/_core/tests", "scripts/tests"]
 addopts = "-q -p no:cacheprovider"
 filterwarnings = ["ignore::DeprecationWarning"]

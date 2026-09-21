@@ -176,7 +176,15 @@ export default function Projects() {
                 }
               >
                 {p.screenshots?.[0] ? (
-                  <img src={p.screenshots[0]} alt="" loading="lazy" className="w-full aspect-[16/10] object-cover" />
+                  <img
+                    src={p.screenshots[0]}
+                    alt=""
+                    width={1600}
+                    height={1000}
+                    loading="lazy"
+                    decoding="async"
+                    className="w-full aspect-[16/10] object-cover"
+                  />
                 ) : (
                   <div className="w-full aspect-[16/10] border border-dashed border-line flex items-center justify-center t-micro opacity-50">
                     NO_SCREENSHOT

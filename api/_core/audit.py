@@ -54,3 +54,17 @@ def list_records(limit: int = 200, table: str | None = None, actor: str | None =
             rows = [r for r in rows if r.get("actor") == actor]
         rows = sorted(rows, key=lambda r: r.get("created_at", 0), reverse=True)[:limit]
     return rows
+
+
+def prune(months: int, actor_email: str) -> int:
+    """Remove audit records older than `months` (the one table that grows without bound — docs/HOSTING_LIMITS.md §3).
+    The rows removed were already snapshotted into the repo; the prune itself leaves a record."""
+    cutoff = int(time.time()) - months * 30 * 86400
+    removed = db.delete_where(TABLE, {"created_at": f"lt.{cutoff}"})
+    if removed is None:
+        rows = tier1.local_read(TABLE) or []
+        kept = [r for r in rows if int(r.get("created_at") or 0) >= cutoff]
+        removed = len(rows) - len(kept)
+        tier1.local_write(TABLE, kept)
+    record(actor_email, "prune", TABLE, None, None, {"months": months, "removed": removed})
+    return removed

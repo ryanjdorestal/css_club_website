@@ -11,7 +11,7 @@ export function Upload({ label, value, onChange }: { label: string; value: strin
     <div className="grid md:grid-cols-[170px_1fr] gap-1 md:gap-5 items-start px-4 py-3 border border-line border-b-0">
       <span className="mono-label text-muted pt-2">{label}</span>
       <div className="flex items-center gap-4 flex-wrap">
-        {value && <img src={value} alt="" className="h-14 w-auto border border-line" />}
+        {value && <img src={value} alt="" width={56} height={56} loading="lazy" decoding="async" className="h-14 w-auto border border-line" />}
         <label className="t-micro raise border border-line px-3 py-1.5 cursor-pointer hover:border-teal text-muted hover:text-ink">
           {busy ? "uploading…" : value ? "replace" : "choose file"}
           <input

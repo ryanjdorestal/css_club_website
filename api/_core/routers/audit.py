@@ -9,7 +9,7 @@ from fastapi import APIRouter, Depends, Request
 from .. import audit, config, db, tier1
 from .. import collections as C
 from ..auth import Actor, require_role
-from ..models import ReplayIn
+from ..models import PruneIn, ReplayIn
 
 r = APIRouter(prefix="/os")
 
@@ -19,6 +19,13 @@ def records(request: Request, actor: Actor = Depends(require_role("officer"))) -
     q = request.query_params
     rows = audit.list_records(limit=int(q.get("limit", "200")), table=q.get("table") or None, actor=q.get("actor") or None)
     return {"ok": True, "rows": rows, "count": len(rows)}
+
+
+@r.post("/records/prune")
+def prune(body: PruneIn, actor: Actor = Depends(require_role("admin"))) -> dict[str, Any]:
+    """Drop audit records older than N months (≥ 6) — the yearly housekeeping that keeps the free database small."""
+    removed = audit.prune(body.months, actor.email)
+    return {"ok": True, "removed": removed, "months": body.months}
 
 
 @r.get("/inbox")

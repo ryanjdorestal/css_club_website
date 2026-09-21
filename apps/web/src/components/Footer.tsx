@@ -68,7 +68,15 @@ export function Footer() {
               {!isHome && <CubeSpot size={180} face="threeQuarter" interactive />}
             </div>
             <span aria-hidden className="w-px h-16 bg-line shrink-0" />
-            <img src="/img/brand/jj_logo_white.png" alt="John Jay College of Criminal Justice" className="h-[64px] w-auto shrink-0" />
+            <img
+              src="/img/brand/jj_logo_white.webp"
+              alt="John Jay College of Criminal Justice"
+              width={89}
+              height={64}
+              loading="lazy"
+              decoding="async"
+              className="h-[64px] w-auto shrink-0"
+            />
           </div>
           <p className="t-micro raise mt-4 opacity-70">JOHN_JAY_COLLEGE · CUNY</p>
           <p className="mt-3 max-w-[300px] text-teal" style={{ fontFamily: "var(--font-display)", fontWeight: 800, fontSize: 18, lineHeight: 1.25 }}>

@@ -44,7 +44,7 @@ export function TicketCard({
       {image && (
         <div className="relative border-y border-hairline bg-navy-900 aspect-[16/9] overflow-hidden p-1.5">
           <Brackets size={10} inset={4} />
-          <img src={image} alt={imageAlt} loading="lazy" className="w-full h-full object-cover object-top" />
+          <img src={image} alt={imageAlt} width={800} height={500} loading="lazy" decoding="async" className="w-full h-full object-cover object-top" />
         </div>
       )}
       <div className="grow px-4 py-3">

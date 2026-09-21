@@ -53,8 +53,11 @@ export function DossierCard({
             <img
               src={photo.startsWith("/") || photo.startsWith("http") ? photo : `/${photo}`}
               alt=""
-              className="relative w-full h-full object-cover object-top"
+              width={400}
+              height={400}
               loading="lazy"
+              decoding="async"
+              className="relative w-full h-full object-cover object-top"
             />
           ) : (
             <span className="relative w-full h-full flex items-center justify-center t-kpi text-[22px] text-teal">{initials || "?"}</span>
@@ -93,7 +96,19 @@ export function DossierStack({ people, className = "" }: { people: { name: strin
           style={{ top: i * 26, marginLeft: i * 10, zIndex: i }}
         >
           <span className="w-6 h-6 border border-line bg-navy-800 flex items-center justify-center t-micro overflow-hidden">
-            {p.photo ? <img src={p.photo.startsWith("/") ? p.photo : `/${p.photo}`} alt="" className="w-full h-full object-cover" /> : p.name[0]?.toUpperCase()}
+            {p.photo ? (
+              <img
+                src={p.photo.startsWith("/") ? p.photo : `/${p.photo}`}
+                alt=""
+                width={40}
+                height={40}
+                loading="lazy"
+                decoding="async"
+                className="w-full h-full object-cover"
+              />
+            ) : (
+              p.name[0]?.toUpperCase()
+            )}
           </span>
           <span className="t-label raise truncate grow">{p.name}</span>
           <span className="t-micro opacity-50 tnum">{p.code}</span>

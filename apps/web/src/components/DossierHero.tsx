@@ -28,7 +28,16 @@ export function HalftoneBlock({ src, sec, className = "", style }: { src: string
   return (
     <div aria-hidden className={`absolute pointer-events-none overflow-hidden bg-navy-900 ${className}`} style={style}>
       {/* 1-bit threshold: grayscale + extreme contrast, then the accent multiplied over the white */}
-      <img src={src} alt="" className="absolute inset-0 w-full h-full object-cover" style={{ filter: "grayscale(1) contrast(900%) brightness(1.1)" }} />
+      <img
+        src={src}
+        alt=""
+        width={1600}
+        height={900}
+        loading="eager"
+        decoding="async"
+        className="absolute inset-0 w-full h-full object-cover"
+        style={{ filter: "grayscale(1) contrast(900%) brightness(1.1)" }}
+      />
       <div className="absolute inset-0 bg-(--accent) mix-blend-multiply" />
       <div
         className="absolute inset-0"

@@ -170,6 +170,10 @@ class ReplayIn(BaseModel):
     client_ids: list[str] | None = None
 
 
+class PruneIn(BaseModel):
+    months: int = Field(12, ge=6, le=120)
+
+
 # ---------------------------------------------------------- public forms
 def _email_ok(v: str) -> str:
     if "@" not in v or "." not in v.split("@")[-1]:

@@ -98,6 +98,33 @@ def delete(table: str, row_id: str, id_col: str = "id") -> bool:
         return False
 
 
+def delete_where(table: str, params: dict[str, str]) -> int | None:
+    """Bulk delete by a PostgREST filter (e.g. {"created_at": "lt.123"}); returns the number of rows removed."""
+    if not config.supabase_configured():
+        return None
+    try:
+        r = httpx.delete(_url(table), params=params, headers=_headers("return=representation"), timeout=TIMEOUT * 5)
+        if _ok(r):
+            body = r.json()
+            return len(body) if isinstance(body, list) else 0
+    except Exception:
+        pass
+    return None
+
+
+def rpc(name: str, args: dict[str, Any] | None = None) -> Any | None:
+    """Call a Postgres function exposed by PostgREST (service role only — hosting_usage())."""
+    if not config.supabase_configured():
+        return None
+    try:
+        r = httpx.post(f"{config.SUPABASE_URL}/rest/v1/rpc/{name}", json=args or {}, headers=_headers(), timeout=TIMEOUT)
+        if _ok(r):
+            return r.json()
+    except Exception:
+        pass
+    return None
+
+
 def reachable() -> bool:
     """One cheap round-trip for /api/health and the inheritance panel."""
     return select("site_settings", {"select": "key", "limit": "1"}) is not None

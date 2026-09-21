@@ -10,7 +10,7 @@ from typing import Any
 from fastapi import APIRouter, Depends
 
 from .. import collections as C
-from .. import config, db, spine, tier1
+from .. import config, db, hosting, spine, tier1
 from ..auth import Actor, current_term, require_role
 
 status_r = APIRouter(prefix="/os")
@@ -39,8 +39,8 @@ def platform_status(actor: Actor = Depends(require_role("officer"))) -> dict[str
             checks.append(chip("live" if days < 5 else "idle", "DAYS_SINCE_LAST_WRITE", f"{days:.1f} d (free tier pauses at 7 idle)", "RUNBOOK · Supabase paused"))
     else:
         checks.append(chip("offline", "SUPABASE", "not configured — Tier 1 (local JSON + inbox)", "SETUP.md §2"))
-    ka = tier1.read_json("../qa/keepalive.json", {})
-    checks.append(chip("live" if ka.get("last_run") else "idle", "KEEPALIVE", f"last run {ka.get('last_run') or 'never (workflow writes qa/keepalive.json)'}", "RUNBOOK · Keepalive"))
+    keepalive = hosting.keepalive_last_run()
+    checks.append(chip("live" if keepalive else "idle", "KEEPALIVE", f"last run {keepalive or 'never (the keepalive workflow writes site_settings.keepalive)'}", "RUNBOOK · Supabase paused"))
     deployed, repo = config.GIT_SHA, repo_sha()
     stale = deployed != "dev" and not deployed.startswith(repo) and not repo.startswith(deployed[:7])
     checks.append(chip("idle" if stale else "live", "DEPLOY", f"deployed {deployed[:7]} · repo {repo}", "RUNBOOK · Deploy stale"))
@@ -86,3 +86,26 @@ def attention(actor: Actor = Depends(require_role("officer"))) -> dict[str, Any]
     return {"ok": True, "term": term, "items": items, "officers": len(officers),
             "last_post": max((p.get("published_at") or "" for p in posts if p.get("status") == "published"), default=""),
             "next_event": next((e for e in sorted(events, key=lambda e: str(e.get("starts_at") or "")) if e.get("when") == "upcoming" and e.get("status") == "published"), None)}
+
+
+@status_r.get("/hosting")
+def hosting_panel(actor: Actor = Depends(require_role("officer"))) -> dict[str, Any]:
+    """The HOSTING panel on /os/system: free-tier limits, measured usage, and the ages a board member acts on.
+    Deployments today come from the GitHub API in the browser (no token); everything here is server-side."""
+    configured = config.supabase_configured()
+    raw = hosting.usage() if configured else hosting.local_usage()
+    report = hosting.budget(raw) if raw else None
+    last_write = 0
+    for col in C.ALL.values():
+        try:
+            last_write = max([last_write, *(int(r.get("updated_at") or 0) for r in col.list())])
+        except Exception:
+            continue
+    snap = tier1.read_json("snapshot.json", {})
+    return {
+        "ok": True, "tier": "db" if configured else "local", "limits": hosting.LIMITS, "usage": report,
+        "usage_reason": None if report else ("hosting_usage() did not answer — run supabase/migrations/0005_hosting.sql" if configured else "Tier 1: local tables"),
+        "keepalive": hosting.keepalive_last_run(), "snapshot": snap.get("generated_at"),
+        "days_since_last_write": round((time.time() - last_write) / 86400, 1) if last_write else None,
+        "warn_at_pct": int(hosting.WARN_AT * 100),
+    }

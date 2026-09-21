@@ -161,7 +161,7 @@ export function Dashboard({ spec }: { spec: Spec }) {
                   return (
                     <li key={t?.key ?? n} className="aspect-square bg-navy-900/60 overflow-hidden relative min-w-0">
                       {t?.src ? (
-                        <img src={t.src} alt="" className="w-full h-full object-cover" loading="lazy" />
+                        <img src={t.src} alt="" width={160} height={160} loading="lazy" decoding="async" className="w-full h-full object-cover" />
                       ) : (
                         <span className="absolute inset-0 flex items-center justify-center t-micro text-center px-1 opacity-70 break-words">
                           {t?.text ?? "·"}

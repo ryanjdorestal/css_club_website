@@ -50,6 +50,7 @@ One Vercel function (`api/index.py`). Public reads fall back to the committed JS
 | `POST` | `/api/os/events/{row_id}/publish` | Publish |  |
 | `POST` | `/api/os/events/{row_id}/transition` | Transition |  |
 | `POST` | `/api/os/events/{row_id}/unarchive` | Unarchive Row |  |
+| `GET` | `/api/os/hosting` | Hosting Panel | The HOSTING panel on /os/system: free-tier limits, measured usage, and the ages a board member acts on. |
 | `GET` | `/api/os/inbox` | Inbox |  |
 | `POST` | `/api/os/inbox/replay` | Replay | Post each inbox line to Supabase (upsert by id → idempotent). Lines that |
 | `GET` | `/api/os/inheritance` | Index |  |
@@ -103,6 +104,7 @@ One Vercel function (`api/index.py`). Public reads fall back to the committed JS
 | `POST` | `/api/os/projects/{row_id}/unfeature` | Unfeature |  |
 | `POST` | `/api/os/projects/{row_id}/unpublish` | Unpublish |  |
 | `GET` | `/api/os/records` | Records |  |
+| `POST` | `/api/os/records/prune` | Prune | Drop audit records older than N months (≥ 6) — the yearly housekeeping that keeps the free database small. |
 | `GET` | `/api/os/resources` | List Rows |  |
 | `POST` | `/api/os/resources` | Create Row |  |
 | `POST` | `/api/os/resources/bulk` | Bulk Paste | One URL per line (optionally `Title` then a pipe then the URL) → parsed preview rows → confirm with dry_run=false. |
