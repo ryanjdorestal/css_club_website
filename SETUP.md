@@ -1,60 +1,43 @@
-# SETUP.md — the ~10-minute human steps
+# SETUP.md — accounts and env vars (the human steps)
 
-Everything below is optional for development: `npm run dev` + `uvicorn` work with
-zero accounts (Tier 1). These steps put the site on the internet and turn on the
-database. **Use the club account (computersocjjay@gmail.com) for every service.**
+Everything below is optional for development: `make dev` works with zero
+accounts (Tier 1). These 8 steps put the site on the internet and turn on the
+database + the board login. **Use the club account (computersocjjay@gmail.com)
+for every service** and keep two owners on each (docs/HANDOFF.md).
 
-## 1. Vercel project (~4 min)
+Secrets are named here and set only in the hosts' settings — never in the repo.
 
-1. Push this repo to GitHub (Ryan's account for now; transfer to the `jjcss` org
-   once the board takes over).
-2. vercel.com → Add New Project → import the repo. Settings:
-   - **Root Directory**: repo root (leave as `.`)
-   - **Build Command**: `npm run build --prefix apps/web`
-   - **Output Directory**: `apps/web/dist`
-   - **Install Command**: `npm install --prefix apps/web`
-   - Framework preset: Other (Vite works fine under "Other" with the commands above)
-3. `vercel.json` already routes `/api/(.*)` → the one Python function and
-   everything else → the SPA. Python needs no extra config (Vercel detects
-   `api/index.py` + `api/requirements.txt`).
-4. Deploy. Check `https://<project>.vercel.app/api/health` → `{"ok":true,...}`.
+| # | Where | What |
+|---|---|---|
+| 1 | GitHub | Push the repo (Ryan's account for now; transfer to the `jjcss` org when the board takes over) |
+| 2 | Vercel | Import the repo. Root `.`, Build `npm run build --prefix apps/web`, Output `apps/web/dist`, Install `npm install --prefix apps/web`, Framework: Other. `vercel.json` routes `/api/*` to the one Python function. Deploy → `/api/health` must say `{"ok":true}` |
+| 3 | Supabase | New project (free tier). SQL Editor → run `supabase/migrations/0001_init.sql`, then `0002_os.sql` |
+| 4 | Supabase → Authentication → Providers | Enable **Email** with "Email OTP / magic link" (no password). Set the site URL to the Vercel URL and add `https://<project>.vercel.app/os` to the redirect allow-list |
+| 5 | Vercel → Settings → Environment Variables (Production) | `SUPABASE_URL` · `SUPABASE_SERVICE_KEY` (service_role — server only) · `SUPABASE_JWT_SECRET` (Settings → API → JWT Secret) · `VITE_SUPABASE_URL` · `VITE_SUPABASE_ANON_KEY` (the anon key; this one is public by design). Redeploy → `/api/health` reports `"db":"ok"` |
+| 6 | Terminal (once) | Seed the database from the committed JSON: `SUPABASE_URL=… SUPABASE_SERVICE_KEY=… .venv/bin/python scripts/snapshot.py --restore`, then add the first admin: `… scripts/bootstrap_admin.py --email you@jjay.cuny.edu --name "Your Name"` |
+| 7 | GitHub → Settings → Secrets and variables → Actions | Variable `SITE_URL` = the Vercel URL (keepalive + post-deploy smoke). Secrets `SUPABASE_URL` + `SUPABASE_SERVICE_KEY` (nightly snapshot that keeps `data/` current). Optional: `VERCEL_DRY_RUN=true` + `VERCEL_TOKEN` for the build dry-run in CI |
+| 8 | Browser | `/os/login` → your email → the 6-digit code → you are `admin`. Add the other officers on `/os/board` (their login email + ACTIVE on). Fill the ownership sheet on `/os/inheritance` |
 
-## 2. Supabase project (~4 min) — optional until the OS is used
+The storage bucket `public-media` is created by `0002_os.sql` (public read,
+API-only write). Uploads from the OS land there; in Tier 1 they land in
+`.cache/uploads/`.
 
-1. supabase.com → New project (club account, free tier).
-2. SQL Editor → paste `supabase/migrations/0001_init.sql` → Run.
-3. Vercel → Project → Settings → Environment Variables:
-   - `SUPABASE_URL` = the project URL
-   - `SUPABASE_SERVICE_KEY` = the service_role key (Production only; never in the repo)
-4. Redeploy. `/api/health` now reports `"db":"ok"`.
-
-## 3. GitHub repo settings (~2 min)
-
-1. Repo → Settings → Secrets and variables → Actions:
-   - **Variable** `SITE_URL` = `https://<project>.vercel.app` (keepalive + smoke).
-   - (Optional) **Variable** `VERCEL_DRY_RUN` = `true` + **Secret** `VERCEL_TOKEN`
-     to enable the deploy dry-run in CI.
-2. Workflows already committed: `ci.yml` (build+tests+guards on every push/PR),
-   `keepalive.yml` (pings the API every 3 days so Supabase never pauses),
-   `post-deploy-smoke.yml` (fails loudly if a deploy went stale).
-
-## 4. When the board takes over (later)
-
-- Transfer the GitHub repo to the `jjcss` org; keep ≥ 2 org owners.
-- Move the Vercel + Supabase projects to the club account if they aren't already.
-- Click-test every link in `data/links.json` + `data/resources.json`
-  (the Discord invite is from 2021!) and set `"verified": true`.
-- Replace the three example entries in `data/apps.json` with real submissions.
-- Add the Fall 2026 events to `data/events.json` (or via the OS once it ships).
+## Workflows already committed
+- `ci.yml` — guards + tests + build on every push/PR (api count, schemas, ruff/mypy, pytest, vitest, Playwright smoke)
+- `keepalive.yml` — pings `/api/health` every 3 days so the free Supabase project never pauses; records `qa/keepalive.json`
+- `snapshot.yml` — nightly `scripts/snapshot.py`; commits `chore(snapshot): …` when `data/` or `content/` changed
+- `post-deploy-smoke.yml` — fails loudly if a deploy went stale (live SHA ≠ pushed SHA)
 
 ## Local development (no accounts)
-
 ```bash
-npm install --prefix apps/web && npm run dev --prefix apps/web   # :5173
-python3 -m venv .venv && .venv/bin/pip install -r api/requirements.txt
-.venv/bin/uvicorn api.index:app --port 8000                      # :8000 (proxied)
+make dev        # web :5173 (proxies /api) + api :8000 — see README.md
+make check      # lint + types + tests + guards
 ```
-
 Regenerate migrated content: `python scripts/extract_old_site.py && python
 scripts/images.py && python scripts/build_kb.py && python scripts/validate_data.py`
 (needs `.cache/CSS_Website` — `git clone https://github.com/jjcss/CSS_Website .cache/CSS_Website`).
+
+## When the board takes over
+See docs/HANDOFF.md: transfer the repo to `jjcss` (≥ 2 org owners), move the
+Vercel + Supabase projects to the club account, point the domain, click-test
+every link on `/os/resources`, replace the three EXAMPLE projects.

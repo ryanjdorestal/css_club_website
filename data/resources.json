@@ -1,6 +1,5 @@
 {
-  "source": "jjcss/CSS_Website@a8fca55 resources.html",
-  "note": "Links carried as-published; click-test before promoting (context/07 checklist).",
+  "source": "OS snapshot",
   "count": 24,
   "groups": [
     {
@@ -9,27 +8,37 @@
         {
           "title": "Git/Github",
           "url": "https://docs.github.com/en/get-started/quickstart/git-and-github-learning-resources",
-          "description": "If you are a Computer Science major and don't know about Git and Github or if you've never used it before, then we suggest that you begin using them as soon as possible. We say this because in most tech companies, you will have to use Git and Github for big projects, with multiple developers. For those who don't know, Git is an open source version control system used to handle small or large projects. Github is a code hosting platform for version control and collaboration. Many companies, if you're applying for internships, sometimes ask for your Github link to see what projects you've worked on or are working on. Lasty, after you familiarize yourself with some of the basic Git commands, then begin using terminal and creating branches for every project you work on, no matter the size."
+          "description": "If you are a Computer Science major and don't know about Git and Github or if you've never used it before, then we suggest that you begin using them as soon as possible. We say this because in most tech companies, you will have to use Git and Github for big projects, with multiple developers. For those who don't know, Git is an open source version control system used to handle small or large projects. Github is a code hosting platform for version control and collaboration. Many companies, if you're applying for internships, sometimes ask for your Github link to see what projects you've worked on or are working on. Lasty, after you familiarize yourself with some of the basic Git commands, then begin using terminal and creating branches for every project you work on, no matter the size.",
+          "dead": false,
+          "id": "general-knowledge/git-github"
         },
         {
           "title": "Find Internships",
           "url": "https://www.wayup.com/s/internships/software/",
-          "description": "WayUp is a great platform to seek for Computer Science related internships. They also provide information on internships that are currently open. As you all know, getting an internship(s) during your college years is very important. This will enable you to possibly get a return offer once you graduate. Getting a full-time role with no prior internship experience can be a bit difficult, so preparing and getting those interviews should be something CS students should be aiming for."
+          "description": "WayUp is a great platform to seek for Computer Science related internships. They also provide information on internships that are currently open. As you all know, getting an internship(s) during your college years is very important. This will enable you to possibly get a return offer once you graduate. Getting a full-time role with no prior internship experience can be a bit difficult, so preparing and getting those interviews should be something CS students should be aiming for.",
+          "dead": false,
+          "id": "general-knowledge/find-internships"
         },
         {
           "title": "Levels Fyi",
           "url": "https://www.levels.fyi/?compare=Google,Facebook,Microsoft&track=Software%20Engineer",
-          "description": "Levels Fyi is an amazing platform to look for up to date tech salaries, ranging from internships to full-time salaries. Figuring out salaries is good to know when you get to the offer stage when applying to jobs. Knowing the average salary for someone in that position and company will be useful so you can be able to negotiate for a higher salary."
+          "description": "Levels Fyi is an amazing platform to look for up to date tech salaries, ranging from internships to full-time salaries. Figuring out salaries is good to know when you get to the offer stage when applying to jobs. Knowing the average salary for someone in that position and company will be useful so you can be able to negotiate for a higher salary.",
+          "dead": false,
+          "id": "general-knowledge/levels-fyi"
         },
         {
           "title": "Repl.it",
           "url": "https://replit.com/",
-          "description": "Repl.it is a powerful web-based platform that caters to everyone who is interested in coding. There is no cost for signing up! You have the chance to connect your work to your Github account or even share with anyone including potential employers."
+          "description": "Repl.it is a powerful web-based platform that caters to everyone who is interested in coding. There is no cost for signing up! You have the chance to connect your work to your Github account or even share with anyone including potential employers.",
+          "dead": false,
+          "id": "general-knowledge/repl-it"
         },
         {
           "title": "Glitch",
           "url": "https://glitch.com/",
-          "description": "Glitch is another powerful web-based platform but for everyone who is interested in all things related to web development or just building a website. You also have the chance to connect your work to your GitHub account or even share with anyone including potential employers. There's no cost for signing up and using it!"
+          "description": "Glitch is another powerful web-based platform but for everyone who is interested in all things related to web development or just building a website. You also have the chance to connect your work to your GitHub account or even share with anyone including potential employers. There's no cost for signing up and using it!",
+          "dead": false,
+          "id": "general-knowledge/glitch"
         }
       ]
     },
@@ -39,12 +48,16 @@
         {
           "title": "Tech Talent Pipeline",
           "url": "https://www.jjay.cuny.edu/academics/academic-departments/department-mathematics-computer-science/cuny2x-tech-nyc-tech-talent-pipeline/tech-talent-pipeline-residency-program",
-          "description": "TTP Residency is a program at John Jay for Computer Science students, in which students will be able to attend a 4-week technical bootcamp. This bootcamp consists of practicing for technical interviews, learning new programming languages like Python, React, and how to prepare for your career. Lastly, probably the most exciting part about this program, is that if you are accepted into the program and complete it, there is a high probability that you will get a chance to get an internship for a tech company in New York City, during the Summer."
+          "description": "TTP Residency is a program at John Jay for Computer Science students, in which students will be able to attend a 4-week technical bootcamp. This bootcamp consists of practicing for technical interviews, learning new programming languages like Python, React, and how to prepare for your career. Lastly, probably the most exciting part about this program, is that if you are accepted into the program and complete it, there is a high probability that you will get a chance to get an internship for a tech company in New York City, during the Summer.",
+          "dead": false,
+          "id": "john-jay-tech-programs/tech-talent-pipeline"
         },
         {
           "title": "CUNY Tech Prep",
           "url": "https://cunytechprep.org/",
-          "description": "CUNY Tech prep is for all CUNY schools. TP is a year long program for Computer Science students, where you'll learn in-demand tehcnologies, connect with professionals, and get help with landing great tech roles in New York City. This program also prepares you for interviews, behavioral and technical, and will help you build up your portfolio. Lastly, you will also have a mentor to guide you. This is a great program that you should think about applying to."
+          "description": "CUNY Tech prep is for all CUNY schools. TP is a year long program for Computer Science students, where you'll learn in-demand tehcnologies, connect with professionals, and get help with landing great tech roles in New York City. This program also prepares you for interviews, behavioral and technical, and will help you build up your portfolio. Lastly, you will also have a mentor to guide you. This is a great program that you should think about applying to.",
+          "dead": false,
+          "id": "john-jay-tech-programs/cuny-tech-prep"
         }
       ]
     },
@@ -54,12 +67,16 @@
         {
           "title": "Computer Science Lab Room (College Assistants)",
           "url": "",
-          "description": "The Computer Science department has a lab room on the sixth floor in the New Building where"
+          "description": "The Computer Science department has a lab room on the sixth floor in the New Building where",
+          "dead": false,
+          "id": "john-jay-tutoring-services/computer-science-lab-room-college-assistants"
         },
         {
           "title": "Math and Science Resource Center",
           "url": "https://www.jjay.cuny.edu/academics/academic-resources-services/tutoring-academic-support/math-science-resource-center",
-          "description": "The Math & Science Resource Center (MSRC) serves as an Academic Support and Resource center for John Jay College undergraduate students enrolled in Math, Science, and Computer Science courses. We work closely with the faculty and administration to deliver a variety of services to support student success. Learn more on what classes are"
+          "description": "The Math & Science Resource Center (MSRC) serves as an Academic Support and Resource center for John Jay College undergraduate students enrolled in Math, Science, and Computer Science courses. We work closely with the faculty and administration to deliver a variety of services to support student success. Learn more on what classes are",
+          "dead": false,
+          "id": "john-jay-tutoring-services/math-and-science-resource-center"
         }
       ]
     },
@@ -69,7 +86,9 @@
         {
           "title": "CodePath Cybersecurity",
           "url": "https://www.codepath.org/courses/cybersecurity",
-          "description": "CodePath is an organization that provides college students with FREE Computer Science related courses. One of these courses is their Cybersecurity semester long course. In this CodePath course you will explore the complex field of digital security with the Cybersecurity pathway! Learn about real-world tools and attacks, empowering you to confidently discuss the basics of different areas of cybersecurity. Next, deep-dive into the world of web application security, with hands-on practice in both exploitation techniques and strategies for protecting and hardening web applications."
+          "description": "CodePath is an organization that provides college students with FREE Computer Science related courses. One of these courses is their Cybersecurity semester long course. In this CodePath course you will explore the complex field of digital security with the Cybersecurity pathway! Learn about real-world tools and attacks, empowering you to confidently discuss the basics of different areas of cybersecurity. Next, deep-dive into the world of web application security, with hands-on practice in both exploitation techniques and strategies for protecting and hardening web applications.",
+          "dead": false,
+          "id": "cybersecurity/codepath-cybersecurity"
         }
       ]
     },
@@ -79,17 +98,23 @@
         {
           "title": "Codeacademy",
           "url": "https://www.codecademy.com/",
-          "description": "Codecademy is an American online interactive platform that offers free coding classes in 12 different programming languages including Python, Java, Go, JavaScript, Ruby, SQL, C++, C#, Swift, and Sass, as well as markup languages HTML and CSS."
+          "description": "Codecademy is an American online interactive platform that offers free coding classes in 12 different programming languages including Python, Java, Go, JavaScript, Ruby, SQL, C++, C#, Swift, and Sass, as well as markup languages HTML and CSS.",
+          "dead": false,
+          "id": "web-development/codeacademy"
         },
         {
           "title": "Full Stack Web Development",
           "url": "https://github.com/bmorelli25/Become-A-Full-Stack-Web-Developer",
-          "description": "Interested in Full Stack? Check out these 100+ free resources to get you started. These resources contain anything from learning HTML/CSS, Python, SQL, to APIs, and Node.js. This is great way to get started."
+          "description": "Interested in Full Stack? Check out these 100+ free resources to get you started. These resources contain anything from learning HTML/CSS, Python, SQL, to APIs, and Node.js. This is great way to get started.",
+          "dead": false,
+          "id": "web-development/full-stack-web-development"
         },
         {
           "title": "Design Tools",
           "url": "https://github.com/goabstract/Awesome-Design-Tools",
-          "description": "As we all know, in the Computer Science field, coding plays a huge part in the development process of a project. However, during the development process, before you begin coding, you need to have some sort of layout or template of how you'd like your project to look like and it's functionality. This is where Design Tools come into play. Check out this link to get started in designing a prototype of your project if you're interested in UI/UX design."
+          "description": "As we all know, in the Computer Science field, coding plays a huge part in the development process of a project. However, during the development process, before you begin coding, you need to have some sort of layout or template of how you'd like your project to look like and it's functionality. This is where Design Tools come into play. Check out this link to get started in designing a prototype of your project if you're interested in UI/UX design.",
+          "dead": false,
+          "id": "web-development/design-tools"
         }
       ]
     },
@@ -99,17 +124,23 @@
         {
           "title": "Leetcode",
           "url": "https://leetcode.com/",
-          "description": "If you are in the Software Engineer route, whether you'd like to work for a start-up or a FAANG company, then you should know about Leetcode. For Software Engineer positions, almost always, you will have a technical interview, where you'll be expected to solve any coding problem given to you. Usually, these coding problems can be found on Leetcode. Leetcode will help you build up that confidence you need to solve these complex problems, but you most continue practicing."
+          "description": "If you are in the Software Engineer route, whether you'd like to work for a start-up or a FAANG company, then you should know about Leetcode. For Software Engineer positions, almost always, you will have a technical interview, where you'll be expected to solve any coding problem given to you. Usually, these coding problems can be found on Leetcode. Leetcode will help you build up that confidence you need to solve these complex problems, but you most continue practicing.",
+          "dead": false,
+          "id": "software-engineering/leetcode"
         },
         {
           "title": "CodePath Tech Prep",
           "url": "https://info.codepath.org/technical-interview-prep",
-          "description": "CodePath is an organization that provides college students with FREE Computer Science related courses. One of these courses is their technical interview semester long course. CodePath offers technical interview prep courses, which are split into three sections, beginner, intermediate, and advanced. So, based on your experience solving coding problems, you can choose which course best suites you. In these courses, you will learn all there is to need to know about how to prepare for interviews and you'll learn Data Structures like Linked Lists, Arrays, Binary Trees, Hashmaps, and how to solve common algorithms. Go and apply if interested."
+          "description": "CodePath is an organization that provides college students with FREE Computer Science related courses. One of these courses is their technical interview semester long course. CodePath offers technical interview prep courses, which are split into three sections, beginner, intermediate, and advanced. So, based on your experience solving coding problems, you can choose which course best suites you. In these courses, you will learn all there is to need to know about how to prepare for interviews and you'll learn Data Structures like Linked Lists, Arrays, Binary Trees, Hashmaps, and how to solve common algorithms. Go and apply if interested.",
+          "dead": false,
+          "id": "software-engineering/codepath-tech-prep"
         },
         {
           "title": "Stack Overflow",
           "url": "https://stackoverflow.com/",
-          "description": "In the Software Engineering field, Stack Overflow will become your best friend. Just ask any Software Engineers in the field. Stack Overflow is a platform where you can ask other developers questions about your code or any bugs in your code. You can also answer other developers questions. Also, don't forget that when you go ask a question on Stack Overflow, make sure that you make your code as short as possible and that you provide a good explanation on what you're having trouble with."
+          "description": "In the Software Engineering field, Stack Overflow will become your best friend. Just ask any Software Engineers in the field. Stack Overflow is a platform where you can ask other developers questions about your code or any bugs in your code. You can also answer other developers questions. Also, don't forget that when you go ask a question on Stack Overflow, make sure that you make your code as short as possible and that you provide a good explanation on what you're having trouble with.",
+          "dead": false,
+          "id": "software-engineering/stack-overflow"
         }
       ]
     },
@@ -119,12 +150,16 @@
         {
           "title": "CodePath Android",
           "url": "https://www.codepath.org/courses/android-development",
-          "description": "CodePath is an organization that provides college students with FREE Computer Science related courses. One of these courses is their Android development semester long course. CodePath offers this course to build your own fully-functional apps with the Android pathway. Start by learning the basics of Android development including the IDEs, languages, and tools real-world android engineers use. Then learn the basics of making single-page apps that compute, list, and even query the internet for data! Next, you’ll deepen your understanding, learning about switching between screens, in-app databases, and other topics that help you build a fully-functional multi-screen app. Students who apply will be placed into the introductory-level or the intermediate-level, based on eligibility."
+          "description": "CodePath is an organization that provides college students with FREE Computer Science related courses. One of these courses is their Android development semester long course. CodePath offers this course to build your own fully-functional apps with the Android pathway. Start by learning the basics of Android development including the IDEs, languages, and tools real-world android engineers use. Then learn the basics of making single-page apps that compute, list, and even query the internet for data! Next, you’ll deepen your understanding, learning about switching between screens, in-app databases, and other topics that help you build a fully-functional multi-screen app. Students who apply will be placed into the introductory-level or the intermediate-level, based on eligibility.",
+          "dead": false,
+          "id": "android-development/codepath-android"
         },
         {
           "title": "11 Hour Android Development Youtube Course",
           "url": "https://www.youtube.com/watch?v=fis26HvvDII&ab_channel=freeCodeCamp.org",
-          "description": "Checkout this Android Development course by the youtube channel,"
+          "description": "Checkout this Android Development course by the youtube channel,",
+          "dead": false,
+          "id": "android-development/11-hour-android-development-youtube-course"
         }
       ]
     },
@@ -134,17 +169,23 @@
         {
           "title": "CodePath iOS",
           "url": "https://www.codepath.org/courses/ios-development",
-          "description": "CodePath is an organization that provides college students with FREE Computer Science related courses. One of these courses is their iOS Development course where you will experience building iOS applications from scratch using Apple's native IDE (Xcode) and programming language (Swift) in a project-based journey of iOS development. Explore your favorite apps and adopt your preferred features to build your own custom app by the end of the semester. You'll begin by creating engaging user interfaces (UIs), then connect that UI with logic and cloud-based APIs to build out anything you can imagine."
+          "description": "CodePath is an organization that provides college students with FREE Computer Science related courses. One of these courses is their iOS Development course where you will experience building iOS applications from scratch using Apple's native IDE (Xcode) and programming language (Swift) in a project-based journey of iOS development. Explore your favorite apps and adopt your preferred features to build your own custom app by the end of the semester. You'll begin by creating engaging user interfaces (UIs), then connect that UI with logic and cloud-based APIs to build out anything you can imagine.",
+          "dead": false,
+          "id": "ios-development/codepath-ios"
         },
         {
           "title": "10 Hour Swift iOS Development Youtube Course",
           "url": "https://www.youtube.com/watch?v=CwA1VWP0Ldw&ab_channel=SeanAllen",
-          "description": "Checkout this iOS Development course by the youtube channel,"
+          "description": "Checkout this iOS Development course by the youtube channel,",
+          "dead": false,
+          "id": "ios-development/10-hour-swift-ios-development-youtube-course"
         },
         {
           "title": "7 Hour React Native Development Youtube Course",
           "url": "https://www.youtube.com/watch?v=ANdSdIlgsEw&ab_channel=ProgrammingwithMash",
-          "description": "Checkout this React Native Development course by the youtube channel,"
+          "description": "Checkout this React Native Development course by the youtube channel,",
+          "dead": false,
+          "id": "ios-development/7-hour-react-native-development-youtube-course"
         }
       ]
     },
@@ -154,12 +195,16 @@
         {
           "title": "Stanford Machine Learning",
           "url": "https://www.coursera.org/learn/machine-learning",
-          "description": "Coursera offers an awesome Machine Learning course, from Stanford. If you're interested in machine learning and want to learn with the best, then this is the course for you. Machine learning is something that we see and use everyday and it's a very interesting field."
+          "description": "Coursera offers an awesome Machine Learning course, from Stanford. If you're interested in machine learning and want to learn with the best, then this is the course for you. Machine learning is something that we see and use everyday and it's a very interesting field.",
+          "dead": false,
+          "id": "data-science/stanford-machine-learning"
         },
         {
           "title": "Data Science Resources",
           "url": "https://www.dataschool.io/resources/",
-          "description": "Data School is an awesome website that contains the most relevant Data Science resources that current Data Scientists have used or are using. Some resources you will find are more Machine Learning resources, Python courses, Data Science books, etc..."
+          "description": "Data School is an awesome website that contains the most relevant Data Science resources that current Data Scientists have used or are using. Some resources you will find are more Machine Learning resources, Python courses, Data Science books, etc...",
+          "dead": false,
+          "id": "data-science/data-science-resources"
         }
       ]
     },
@@ -169,7 +214,9 @@
         {
           "title": "2 Hour UI / UX Design Youtube Course",
           "url": "https://www.youtube.com/watch?v=c9Wg6Cb_YlU&ab_channel=freeCodeCamp.org",
-          "description": "Checkout this UI / UX Design course by the youtube channel,"
+          "description": "Checkout this UI / UX Design course by the youtube channel,",
+          "dead": false,
+          "id": "ui-ux-design/2-hour-ui-ux-design-youtube-course"
         }
       ]
     }

@@ -1,0 +1,41 @@
+name: snapshot
+# Nightly: pull the published rows out of Supabase and rewrite the committed
+# Tier-1 fallback (data/*.json, content/news/*.md, content/handoffs/*.md).
+# Commits `chore(snapshot): …` only when something changed. Without the two
+# secrets it logs one line and exits 0 — nothing breaks, Tier 1 just stays as
+# committed. This is also the restore path if the database is ever lost.
+on:
+  schedule:
+    - cron: "23 7 * * *"
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  snapshot:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: snapshot
+        env:
+          SUPABASE_URL: ${{ secrets.SUPABASE_URL }}
+          SUPABASE_SERVICE_KEY: ${{ secrets.SUPABASE_SERVICE_KEY }}
+        run: |
+          if [ -z "$SUPABASE_URL" ] || [ -z "$SUPABASE_SERVICE_KEY" ]; then
+            echo "::notice::SUPABASE_URL / SUPABASE_SERVICE_KEY not set — snapshot skipped (Tier 1 stays as committed)"
+            exit 0
+          fi
+          pip install -q -r api/requirements.txt
+          python scripts/snapshot.py
+      - name: commit if changed
+        run: |
+          git config user.name "css-snapshot"
+          git config user.email "computersocjjay@gmail.com"
+          git add data content
+          git diff --cached --quiet && echo "no changes" && exit 0
+          git commit -m "chore(snapshot): $(date -u +%F) — data + content refreshed from Supabase"
+          git push

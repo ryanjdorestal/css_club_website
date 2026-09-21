@@ -2,7 +2,8 @@
 title: 3 Most Important Things to Consider Before Signing Up to Any Graduate School Event
 date: 2023-01-01
 kind: article
-source: jjcss/CSS_Website@a8fca55 graduate-events.html
+author: The Board
+slug: grad-school-events
 ---
 
 John Jay College Computer Science Society Club

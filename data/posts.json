@@ -1,5 +1,5 @@
 {
-  "note": "Published posts (the Tier-1 fallback for /news). The OS writes; scripts/snapshot.py refreshes this from Supabase.",
+  "note": "Published posts (the Tier-1 fallback for /news).",
   "posts": [
     {
       "id": "grad-school-events",

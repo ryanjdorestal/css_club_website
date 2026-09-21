@@ -1,6 +1,5 @@
 {
-  "source": "jjcss/CSS_Website@a8fca55 events.html + previous_events.html",
-  "note": "No future events at migration time; the OS/board adds the current semester.",
+  "source": "OS snapshot",
   "semesters": [
     {
       "semester": "Spring 2025",
@@ -14,7 +13,8 @@
           "room": "1.114 - New Building",
           "status": "past",
           "flyer": "img/events/first-general-meeting-spring-2025.webp",
-          "flyer_src": "images/First General Meeting - Spring 2025.png"
+          "rsvp_url": "",
+          "id": "S25/first-general-meeting"
         },
         {
           "title": "Career Workshop",
@@ -25,7 +25,8 @@
           "room": "1.114 - New Building",
           "status": "past",
           "flyer": "img/events/career-workshop.webp",
-          "flyer_src": "images/Career_Workshop.png"
+          "rsvp_url": "",
+          "id": "S25/career-workshop"
         },
         {
           "title": "Alumni Panel",
@@ -36,7 +37,8 @@
           "room": "1.114 - New Building",
           "status": "past",
           "flyer": "img/events/alumni-panel-spring-2025.webp",
-          "flyer_src": "images/Alumni Panel - Spring 2025.png"
+          "rsvp_url": "",
+          "id": "S25/alumni-panel"
         },
         {
           "title": "Cybersecurity Essentials",
@@ -47,7 +49,8 @@
           "room": null,
           "status": "unknown",
           "flyer": "img/events/cybersecurity-spring-2025-1.webp",
-          "flyer_src": "images/Cybersecurity - Spring 2025 (1).png"
+          "rsvp_url": "",
+          "id": "S25/cybersecurity-essentials"
         },
         {
           "title": "Final General Meeting",
@@ -58,7 +61,8 @@
           "room": "1.114 - New Building",
           "status": "unknown",
           "flyer": "img/events/final-general-meeting-spring-2025.webp",
-          "flyer_src": "images/Final General Meeting - Spring 2025.png"
+          "rsvp_url": "",
+          "id": "S25/final-general-meeting"
         }
       ]
     },
@@ -74,7 +78,8 @@
           "room": null,
           "status": "past",
           "flyer": "img/events/ai-part-1.webp",
-          "flyer_src": "images/AI_Part_1.png"
+          "rsvp_url": "",
+          "id": "F24/first-general-meeting"
         },
         {
           "title": "Introduction to Artificial Intelligence (ChatGPT) - Part 1",
@@ -85,7 +90,8 @@
           "room": null,
           "status": "past",
           "flyer": "img/events/first-general-meeting.webp",
-          "flyer_src": "images/First_General_Meeting.png"
+          "rsvp_url": "",
+          "id": "F24/introduction-to-artificial-intelligence-chatgpt-part-1"
         },
         {
           "title": "Movie Day - Halloween Special",
@@ -96,7 +102,8 @@
           "room": null,
           "status": "past",
           "flyer": "img/events/movie-day.webp",
-          "flyer_src": "images/Movie_Day.png"
+          "rsvp_url": "",
+          "id": "F24/movie-day-halloween-special"
         },
         {
           "title": "Hands on with Artificial Intelligence (ChatGPT) - Part 2",
@@ -107,7 +114,8 @@
           "room": "1.114 - New Building",
           "status": "past",
           "flyer": "img/events/ai-part-2.webp",
-          "flyer_src": "images/AI_Part_2.png"
+          "rsvp_url": "",
+          "id": "F24/hands-on-with-artificial-intelligence-chatgpt-part-2"
         },
         {
           "title": "Introduction to AWS - Part 1",
@@ -118,7 +126,8 @@
           "room": "1.114 - New Building",
           "status": "past",
           "flyer": "img/events/aws-part-1.webp",
-          "flyer_src": "images/AWS Part 1.png"
+          "rsvp_url": "",
+          "id": "F24/introduction-to-aws-part-1"
         },
         {
           "title": "Hands on with AWS - Part 2",
@@ -129,7 +138,8 @@
           "room": "1.114 - New Building",
           "status": "past",
           "flyer": "img/events/aws-part-2.webp",
-          "flyer_src": "images/AWS Part 2.png"
+          "rsvp_url": "",
+          "id": "F24/hands-on-with-aws-part-2"
         },
         {
           "title": "Final General Meeting",
@@ -140,10 +150,10 @@
           "room": "1.114 - New Building",
           "status": "past",
           "flyer": "img/events/css-final-general-meeting.webp",
-          "flyer_src": "images/CSS_Final_General_Meeting.png"
+          "rsvp_url": "",
+          "id": "F24/final-general-meeting"
         }
       ]
     }
-  ],
-  "unmatched_flyers": []
+  ]
 }

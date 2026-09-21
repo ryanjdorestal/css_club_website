@@ -1,15 +1,21 @@
 name: keepalive
 # Pings the API (which touches Supabase) every 3 days so the free project
-# never hits the 7-day inactivity pause. Requires the SITE_URL repo variable.
+# never hits the 7-day inactivity pause, and records the run in
+# qa/keepalive.json so /os/inheritance can show "last keepalive". Requires the
+# SITE_URL repo variable; without it the job logs a warning and exits 0.
 on:
   schedule:
     - cron: "17 6 */3 * *"
   workflow_dispatch:
 
+permissions:
+  contents: write
+
 jobs:
   ping:
     runs-on: ubuntu-latest
     steps:
+      - uses: actions/checkout@v4
       - name: ping /api/health
         run: |
           if [ -z "${{ vars.SITE_URL }}" ]; then
@@ -18,3 +24,12 @@ jobs:
           fi
           curl -fsS "${{ vars.SITE_URL }}/api/health" | tee health.json
           grep -q '"ok":true' health.json
+          printf '{"last_run": "%s", "db": %s}\n' "$(date -u +%FT%TZ)" "$(python3 -c 'import json;print(json.dumps(json.load(open("health.json")).get("db")))')" > qa/keepalive.json
+      - name: record the run
+        run: |
+          git config user.name "css-keepalive"
+          git config user.email "computersocjjay@gmail.com"
+          git add qa/keepalive.json
+          git diff --cached --quiet && exit 0
+          git commit -m "chore(keepalive): $(date -u +%F)"
+          git push
