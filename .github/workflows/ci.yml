@@ -56,7 +56,7 @@ jobs:
 
   functional:
     # A board member's day, end to end, against the dev server + API (Tier 1, no accounts):
-    # the OS gate (12 checks) and the 9-step functional smoke. All must pass.
+    # the OS gate (12 checks), the 9-step functional smoke, the 25-step board simulation and the 16-case break pass. All must pass.
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
@@ -71,6 +71,9 @@ jobs:
           (.venv/bin/uvicorn api.index:app --port 8000 &) ; (npm run dev --prefix apps/web -- --port 5173 &)
           for i in $(seq 1 60); do curl -fsS http://localhost:5173/ >/dev/null 2>&1 && curl -fsS http://localhost:8000/api/health >/dev/null 2>&1 && break; sleep 1; done
       - run: make smoke
+      # run 10: the semester simulation (25 steps, empty store) and the adversarial pass (16 cases)
+      - run: make sim
+      - run: make break
       - uses: actions/upload-artifact@v4
         if: always()
         with: { name: smoke-screenshots, path: qa/loops/smoke, retention-days: 7 }

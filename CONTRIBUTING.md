@@ -57,6 +57,29 @@ Example: `/os/sponsors`.
 4. Route in `App.tsx` under `os/`; nav entry in `os/OsLayout.tsx::OS_MODULES`.
 5. Tests (§3) and shots (`node qa-scripts/shoot_os.mjs`).
 
+## 4b. Add an entity (so it inherits every run-10 §6 behaviour automatically)
+Example: `/os/workshops` (added in run 10 exactly this way).
+1. **Model** — `api/_core/models.py`: `class WorkshopIn(WriteMeta)` — subclassing `WriteMeta` gives the
+   row `client_id` (idempotent creates) and `expected_updated_at` (409 on stale saves). Put the field
+   rules in the model (`Field(min_length, max_length, ge/le)`, `Literal[...]`); the error envelope names
+   the field for the UI.
+2. **Seed + collection** — `seeds.py::workshops()` maps `data/workshops.json`; `collections.py`
+   registers `workshops = Collection("workshops", seeds.workshops)` and adds it to `ALL`.
+3. **Router** — `routers/workshops.py`: `r = make_router("/os/workshops", C.workshops, WorkshopIn,
+   transitions="workshops")` — list/get/create/patch/delete/transition/**archive/unarchive/duplicate**
+   arrive for free; add only the entity's own actions (`publish`). Lifecycle in `lifecycle.py`.
+   Include the router in `api/index.py`. Public read in `routers/public.py`.
+4. **Migration** — `supabase/migrations/000N_<entity>.sql` (+ `client_id`, `archived_from`, `updated_at`).
+5. **Page** — `apps/web/src/os/OsWorkshops.tsx`: `useOsList` + `useEntity(base, {name, reload, publicHref,
+   deletable})` gives save (409-aware), publish/unpublish, archive/unarchive with typed confirms, duplicate,
+   delete, toasts with UNDO. Render `ListTools` (search · sort · count · CSV), `OsTable` with
+   `actions={E.actions(open, extra)}` and an `Empty` state, `OsForm` with `max`/`pattern`/`required`
+   rules and `draftKey` (⌘↵ submit, unsaved guard, draft restore) inside a `Panel` (focus-trapped, Esc).
+   Add the module to `OS_MODULES` + `SIGIL` in `OsLayout.tsx`, a route in `App.tsx`, a spec in
+   `ui/specs.ts` for the dashboard face.
+6. **Tests** — add the entity to `ENTITIES` in `api/_core/tests/test_hardening.py` (roundtrip · 422 ·
+   401 · 404 · 409 · client_id · archive/duplicate come parametrised) and a step to `scripts/board_sim.mjs`.
+
 ## 5. Write an inheritance record (board knowledge, not code)
 CSS OS → Inheritance → pick a type → the template loads → fill the header
 (title, date, owners = names or roles, status, visibility) → write → save.
@@ -77,8 +100,10 @@ paste a credential. `content/inheritance/HOW-TO.md` has the five steps.
    `validate_inheritance`, routes/images/tokens/repo audits, env names, `docs/API.md`
    current, ts-prune, depcheck.
 2. `make a11y` — pa11y + axe over every route and the OS. Must stay at 0.
-3. `make smoke` — the OS gate (12) + the functional smoke (9): a board member's day
-   against your dev server. CI runs it too (`functional` job).
+3. `make smoke` — the OS gate (12) + the functional smoke (9); `make sim` — the 25-step semester
+   simulation from an empty store; `make break` — the 16-case adversarial pass. CI runs all of them
+   (`functional` job). `make restore` rolls back the last Tier-1 write; `make restore-empty` clears
+   the local store.
 4. Commit message in conventional form (`feat:`, `fix:`, `content:`, `inheritance:`,
    `chore:`, `docs:`) — commitlint checks the pushed range.
 5. Nothing secret in the diff — `gitleaks protect --staged`; CI scans history weekly.

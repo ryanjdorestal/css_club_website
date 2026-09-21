@@ -4,6 +4,8 @@ import { AnimatePresence, motion } from "motion/react";
 import { Nav } from "@/components/Nav";
 import { Footer } from "@/components/Footer";
 import { HoundChat } from "@/mascot/HoundChat";
+import { useApi } from "@/lib/useApi";
+import siteSettingsData from "@data/site_settings.json";
 import { LenisProvider } from "@/motion/LenisProvider";
 import { ProgressBar } from "@/motion/ProgressBar";
 import { StatusBar } from "@/components/StatusBar";
@@ -58,11 +60,26 @@ function Layout() {
       .then(() => setApi({ live: true, ms: Math.round(performance.now() - t0) }))
       .catch(() => setApi({ live: false, ms: null }));
   }, []);
+  // the board's switches (run 10 §7 Site): the maintenance banner and the feature flags are honoured here, not just stored
+  const { data: settings } = useApi<{ settings: Record<string, unknown> }>("/api/site-settings", {
+    settings: siteSettingsData as unknown as Record<string, unknown>,
+  });
+  const banner = settings.settings.maintenance_banner as { on?: boolean; text?: string } | undefined;
+  const flags = settings.settings.feature_flags as { chat_enabled?: boolean } | undefined;
   return (
     <ApiStateContext.Provider value={api}>
       <div data-accent={accent} className="min-h-dvh flex flex-col bg-navy-600">
         <ProgressBar />
         <Nav />
+        {banner?.on && (
+          <p
+            role="status"
+            data-testid="maintenance-banner"
+            className="fixed top-[72px] inset-x-0 z-40 t-label raise text-center px-4 py-2 bg-(--color-red) text-ink"
+          >
+            ▲ {banner.text || "Maintenance in progress — some things may be off for a bit."}
+          </p>
+        )}
         <AnimatePresence mode="wait" initial={false}>
           <motion.div
             key={pathname}
@@ -76,7 +93,7 @@ function Layout() {
             <Footer />
           </motion.div>
         </AnimatePresence>
-        <HoundChat />
+        {flags?.chat_enabled !== false && <HoundChat />}
         <StatusBar />
       </div>
     </ApiStateContext.Provider>

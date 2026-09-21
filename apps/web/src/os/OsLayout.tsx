@@ -8,6 +8,7 @@ import { useEffect, useRef, useState } from "react";
 import { NavLink, Outlet, useLocation, useNavigate } from "react-router-dom";
 import "./os.css";
 import { OsSessionProvider, osFetch, reasonFor, useSession } from "./session";
+import { outboxRead, replayOutbox } from "./ui/useOs";
 import { StatusBar } from "@/components/StatusBar";
 import { ApiStateContext, buildHash, version } from "@/lib/readouts";
 import * as Sg from "@/sigils";
@@ -59,8 +60,10 @@ function Shell() {
     bounced.current = true;
     navigate(`/os/login?next=${encodeURIComponent(pathname + search)}&reason=${reasonFor(actor)}`, { replace: true });
   }, [actor, loading, navigate, pathname, search]);
+  const [outbox, setOutbox] = useState(() => outboxRead().length);
   useEffect(() => {
     if (!actor || actor.role === "guest") return;
+    if (outboxRead().length) void replayOutbox().then(() => setOutbox(outboxRead().length));
     void osFetch<Attention>("/api/os/attention").then((r) => r.ok && setAtt(r.data));
     void Promise.all([osFetch<{ rows: unknown[] }>("/api/os/posts"), osFetch<{ rows: unknown[] }>("/api/os/projects"), osFetch<Health>("/api/health")]).then(
       ([p, pr, h]) =>
@@ -106,6 +109,14 @@ function Shell() {
       </nav>
       <div className="grow min-w-0 flex flex-col pb-12">
         <TopStrip cells={cells} user={{ name: actor.name || actor.email || "board", role: actor.role }} admin={actor.role === "admin"} />
+        {outbox > 0 && (
+          <p className="t-micro raise text-(--color-red-hi) border-b border-(--color-red)/50 px-5 py-1.5" data-testid="outbox">
+            {outbox} WRITE{outbox > 1 ? "S" : ""} QUEUED IN THIS BROWSER · WILL_SYNC when the API answers ·{" "}
+            <button onClick={() => void replayOutbox().then(() => setOutbox(outboxRead().length))} className="underline cursor-pointer">
+              retry now
+            </button>
+          </p>
+        )}
         <main className="grow p-4 md:p-5 min-w-0">
           <Outlet />
         </main>

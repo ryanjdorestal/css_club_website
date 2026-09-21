@@ -1,0 +1,162 @@
+[
+  {
+    "key": "taglines",
+    "value": {
+      "primary": "Debug Your Mind, Commit To Growth!",
+      "ticker": "Algorithm Thinking | Dev Journeys | Tech Motivation"
+    }
+  },
+  {
+    "key": "hero_copy",
+    "value": {
+      "kicker": "CSS_01 · JOHN_JAY_COLLEGE · CUNY · COMPUTER_SCIENCE_SOCIETY",
+      "lines": [
+        "Debug",
+        "your mind,",
+        "commit to",
+        "growth."
+      ]
+    }
+  },
+  {
+    "key": "collaborate",
+    "value": {
+      "openings": [
+        {
+          "role": "President",
+          "status": "open"
+        },
+        {
+          "role": "Vice President",
+          "status": "open"
+        },
+        {
+          "role": "Treasurer",
+          "status": "open"
+        },
+        {
+          "role": "Secretary",
+          "status": "open"
+        },
+        {
+          "role": "Assistant Vice President",
+          "status": "open"
+        },
+        {
+          "role": "Assistant Secretary",
+          "status": "open"
+        },
+        {
+          "role": "Assistant Treasurer",
+          "status": "open"
+        },
+        {
+          "role": "Web Developer",
+          "status": "open"
+        },
+        {
+          "role": "Data Analyst",
+          "status": "open"
+        },
+        {
+          "role": "Journalist",
+          "status": "open"
+        },
+        {
+          "role": "Photographer",
+          "status": "open"
+        }
+      ],
+      "committees": [
+        "Web Application Committee",
+        "Analytics Committee",
+        "Public Relations Committee"
+      ],
+      "ideas": []
+    }
+  },
+  {
+    "key": "maintenance_banner",
+    "value": {
+      "on": false,
+      "text": ""
+    },
+    "updated_by": "admin@local.dev",
+    "updated_at": 1790024597
+  },
+  {
+    "key": "feature_flags",
+    "value": {
+      "projects_public": false,
+      "chat_enabled": false,
+      "ticker_items": [
+        "NEXT EVENT · FALL 2026",
+        "PROJECTS — SUBMISSIONS OPEN",
+        "CYBERHOUNDS · CTF"
+      ]
+    },
+    "updated_by": "admin@local.dev",
+    "updated_at": 1790024601
+  },
+  {
+    "key": "ownership",
+    "value": {
+      "accounts": [
+        {
+          "name": "Vercel project",
+          "owner_email": "",
+          "second_owner_email": "",
+          "last_verified": null
+        },
+        {
+          "name": "Supabase project",
+          "owner_email": "",
+          "second_owner_email": "",
+          "last_verified": null
+        },
+        {
+          "name": "GitHub repo",
+          "owner_email": "",
+          "second_owner_email": "",
+          "last_verified": null
+        },
+        {
+          "name": "Domain/DNS",
+          "owner_email": "",
+          "second_owner_email": "",
+          "last_verified": null
+        },
+        {
+          "name": "Google Form",
+          "owner_email": "",
+          "second_owner_email": "",
+          "last_verified": null
+        },
+        {
+          "name": "Discord server",
+          "owner_email": "",
+          "second_owner_email": "",
+          "last_verified": null
+        },
+        {
+          "name": "Linktree",
+          "owner_email": "",
+          "second_owner_email": "",
+          "last_verified": null
+        },
+        {
+          "name": "YouTube",
+          "owner_email": "",
+          "second_owner_email": "",
+          "last_verified": null
+        },
+        {
+          "name": "Club Gmail",
+          "owner_email": "",
+          "second_owner_email": "",
+          "last_verified": null
+        }
+      ]
+    }
+  }
+]

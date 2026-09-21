@@ -118,6 +118,7 @@ export default function OsProjects() {
         authors,
         term: v.term ?? "",
         status: "approved",
+        client_id: v.client_id,
       },
     });
     say(r.ok, r.ok ? "Added — it is in the queue as approved; publish it when ready." : r.msg);

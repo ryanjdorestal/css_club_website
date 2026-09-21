@@ -53,6 +53,7 @@ export default function OsWorkshops() {
     };
     const r = await E.save(sel === "new" ? null : String((sel as Row).id), body, overwrite);
     if (r.ok) setSel(null);
+    return r.ok;
   }
   const open = (r: Row) => {
     setMaterials(Array.isArray(r.materials) ? (r.materials as { label: string; url: string }[]) : []);

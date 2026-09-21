@@ -1,0 +1,609 @@
+[
+  {
+    "id": "F24-S25/leandro-gamarra",
+    "term": "F24-S25",
+    "name": "Leandro Gamarra",
+    "role_title": "President",
+    "group_label": "Executive Board Members",
+    "email": "",
+    "photo_path": "img/board/leandro.webp",
+    "bio": "Hello, I am currently a Masters student in Digital Forensics and Cybersecurity, and I've interned at Nextdoor, Verisk, Tech Talent Pipeline, and United Way of NYC before. I am interested in Fullstack development and Software Engineering. Welcome to the club and I hope you enjoy your stay!",
+    "socials": {
+      "linkedin": "https://www.linkedin.com/in/leandro-gamarra/",
+      "github": "https://github.com/r0m3c"
+    },
+    "sort": 0,
+    "active": false,
+    "os_role": "officer"
+  },
+  {
+    "id": "F24-S25/perla-dahan",
+    "term": "F24-S25",
+    "name": "Perla Dahan",
+    "role_title": "Vice-President",
+    "group_label": "Executive Board Members",
+    "email": "",
+    "photo_path": "img/board/perla.webp",
+    "bio": "Founder @ CUNY CS Collective | IT Intern @ Warner Bros. Discovery | Pres. & Founder @ Girls who code John Jay | VP @ JJ CSS | GFACT | GSEC | National Cyber Scholar with honors | Cybersecurity student | RTC | WiCyS | GWC",
+    "socials": {
+      "linkedin": "https://www.linkedin.com/in/perla-dahan/"
+    },
+    "sort": 1,
+    "active": false,
+    "os_role": "officer"
+  },
+  {
+    "id": "F24-S25/javaughn-lindsay",
+    "term": "F24-S25",
+    "name": "Javaughn Lindsay",
+    "role_title": "Secretary",
+    "group_label": "Executive Board Members",
+    "email": "",
+    "photo_path": "img/board/javaughn.webp",
+    "bio": "Student at John Jay College (CUNY) | Tech Talent Pipeline Fellow at NYC John Jay | Mobile Application Developer",
+    "socials": {
+      "linkedin": "https://www.linkedin.com/in/javaughn-lindsay-712940266/"
+    },
+    "sort": 2,
+    "active": false,
+    "os_role": "officer"
+  },
+  {
+    "id": "F24-S25/brian-de-los-santos",
+    "term": "F24-S25",
+    "name": "Brian De Los Santos",
+    "role_title": "Treasurer",
+    "group_label": "Executive Board Members",
+    "email": "",
+    "photo_path": "img/board/brian.webp",
+    "bio": "Hey what's up! I'm a Transfer Freshmen majoring in Computer Science and Information Security with a specific interest in Cybersecurity with hopes to work for the FBI Special Agent Cyber-Division.",
+    "socials": {
+      "linkedin": "https://www.linkedin.com/in/brian-de-los-santos-2651641bb/"
+    },
+    "sort": 3,
+    "active": false,
+    "os_role": "officer"
+  },
+  {
+    "id": "F24-S25/elena-robin",
+    "term": "F24-S25",
+    "name": "Elena Robin",
+    "role_title": "Assistant VP",
+    "group_label": "Executive Board Members",
+    "email": "",
+    "photo_path": "img/board/elena.webp",
+    "bio": "I am a computer enthusiast, I love to learn new applications, and new computer related fictions. I feel as if computers are a second language, and an extended way of communicating.",
+    "socials": null,
+    "sort": 4,
+    "active": false,
+    "os_role": "officer"
+  },
+  {
+    "id": "F24-S25/michell-argus",
+    "term": "F24-S25",
+    "name": "Michell Argus",
+    "role_title": "Assistant Secretary",
+    "group_label": "Executive Board Members",
+    "email": "",
+    "photo_path": "img/board/michell.webp",
+    "bio": "As an cyber security apprentice my goals is helping students build confidence to pursue their dreams and aspirations, to become the next generation of digital and data software experts. For example, The U.S. Department of Homeland Security AI Corps, is recruiting for student workforce members to provide Safe, Secure and Trustworthy Development use of AI following Executive Order 14110.",
+    "socials": null,
+    "sort": 5,
+    "active": false,
+    "os_role": "officer"
+  },
+  {
+    "id": "F24-S25/lucas-yao",
+    "term": "F24-S25",
+    "name": "Lucas Yao",
+    "role_title": "Web Developer",
+    "group_label": "Executive Board Members",
+    "email": "",
+    "photo_path": "img/board/lucas.webp",
+    "bio": "Hi everyone! My name is Lucas Yao, and I am a passionate full-stack web programmer with a deep interest in creating dynamic and user-friendly applications. I thrive on tackling complex coding challenges and continuously improving my skills to deliver impactful digital solutions.",
+    "socials": {
+      "linkedin": "www.linkedin.com/in/lucas-yao001"
+    },
+    "sort": 6,
+    "active": false,
+    "os_role": "officer"
+  },
+  {
+    "id": "F23-S24/i-k",
+    "term": "F23-S24",
+    "name": "I.K.",
+    "role_title": "President",
+    "group_label": "Executive Board Members",
+    "email": "",
+    "photo_path": "img/board/jjay-person.webp",
+    "bio": "I’m a Senior majoring in CSIS. I’m a cybersecurity enthusiast, I have completed internships in Cybersecurity and Software Engineering.",
+    "socials": null,
+    "sort": 0,
+    "active": false,
+    "os_role": "officer"
+  },
+  {
+    "id": "F23-S24/dinorah-garcia-vasquez",
+    "term": "F23-S24",
+    "name": "Dinorah Garcia Vasquez",
+    "role_title": "Vice-President",
+    "group_label": "Executive Board Members",
+    "email": "",
+    "photo_path": "img/board/dinorah.webp",
+    "bio": "Hi, I’m a transfer student from BMCC and I’m from the Dominican Republic. My major is CSIS and I’m interested in Cybersecurity.",
+    "socials": {
+      "linkedin": "https://www.linkedin.com/in/dinorah-garcia-vasquez-6394551ba"
+    },
+    "sort": 1,
+    "active": false,
+    "os_role": "officer"
+  },
+  {
+    "id": "F23-S24/katharine-wyant",
+    "term": "F23-S24",
+    "name": "Katharine Wyant",
+    "role_title": "Secretary",
+    "group_label": "Executive Board Members",
+    "email": "",
+    "photo_path": "img/board/katharine.webp",
+    "bio": "I am a Sophmore at John Jay and I am majoring in Computer Science and Economics. I am from Connecticut and now I’m living in Brooklyn.",
+    "socials": null,
+    "sort": 2,
+    "active": false,
+    "os_role": "officer"
+  },
+  {
+    "id": "F23-S24/hazel-ortega",
+    "term": "F23-S24",
+    "name": "Hazel Ortega",
+    "role_title": "Treasurer",
+    "group_label": "Executive Board Members",
+    "email": "",
+    "photo_path": "img/board/hazel.webp",
+    "bio": "Hi everyone! My name is Hazel Ortega, and I am the treasurer for CSS, and major is Computer Science. A tiny bit about myself, I worked for two years at LaGuardia as a teacher assistant. This summer of 2023 I taught Introduction To Coding for teenagers around 14-15 years old, and were able to create their own application using different tools and methods used while I was teaching Python. It was a fun summer. Also, my favorite food is ramen!",
+    "socials": {
+      "linkedin": "https://www.linkedin.com/in/hazelortega?miniProfileUrn=urn%3Ali%3Afs_miniProfile%3AACoAADB9jEYBNZtX71Zx_ZxUDdyS39qru9dHp0Q&lipi=urn%3Ali%3Apage%3Ad_flagship3_search_srp_all%3Ba6LBo0X5QV24ChTatcDlgA%3D%3D"
+    },
+    "sort": 3,
+    "active": false,
+    "os_role": "officer"
+  },
+  {
+    "id": "F23-S24/mario-gonzalez-soberanes",
+    "term": "F23-S24",
+    "name": "Mario Gonzalez Soberanes",
+    "role_title": "Assistant V.P.",
+    "group_label": "Executive Board Members",
+    "email": "",
+    "photo_path": "img/board/mario.webp",
+    "bio": "Hi, I'm a DACA student who transferred from QCC, and I'm from Mexico. My major is CSIS, with an interest in Cybersecurity and Software Engineering. I'm a strong advocate for Latinos in tech, and I hope to join the tech field post-graduation in Spring 2024!",
+    "socials": {
+      "linkedin": "https://www.linkedin.com/in/mario-gonzalez-soberanes/"
+    },
+    "sort": 4,
+    "active": false,
+    "os_role": "officer"
+  },
+  {
+    "id": "F23-S24/brian-de-los-santos",
+    "term": "F23-S24",
+    "name": "Brian De Los Santos",
+    "role_title": "Assistant Treasurer",
+    "group_label": "Executive Board Members",
+    "email": "",
+    "photo_path": "img/board/brian.webp",
+    "bio": "Hey what's up! I'm a Transfer Freshmen majoring in Computer Science and Information Security with a specific interest in Cybersecurity with hopes to work for the FBI Special Agent Cyber-Division.",
+    "socials": {
+      "linkedin": "https://www.linkedin.com/in/brian-de-los-santos-2651641bb/"
+    },
+    "sort": 5,
+    "active": false,
+    "os_role": "officer"
+  },
+  {
+    "id": "F23-S24/javaughn-lindsay",
+    "term": "F23-S24",
+    "name": "Javaughn Lindsay",
+    "role_title": "Assistant Secretary",
+    "group_label": "Executive Board Members",
+    "email": "",
+    "photo_path": "img/board/javaughn.webp",
+    "bio": "Student at John Jay College (CUNY) | Tech Talent Pipeline Fellow at NYC John Jay | Mobile Application Developer",
+    "socials": {
+      "linkedin": "https://www.linkedin.com/in/javaughn-lindsay-712940266/"
+    },
+    "sort": 6,
+    "active": false,
+    "os_role": "officer"
+  },
+  {
+    "id": "F23-S24/leandro-gamarra",
+    "term": "F23-S24",
+    "name": "Leandro Gamarra",
+    "role_title": "Assistant VP Deputy",
+    "group_label": "Executive Board Members",
+    "email": "",
+    "photo_path": "img/board/leandro.webp",
+    "bio": "Hi! I was the President of the club from June 2021 - June 2023. We have an amazing team here at the CSS Club. I was in charge of leading the club into new levels, like having our first CUNY-wide John Jay Hackathon, growing from 40 members to 540+ members, creating the Club's Website, and having new workshops like React, Python, Swift, MySQL, Git/GitHub, Technical Interview Prep, Javascript, Career Prep , HTML/CSS, Cybersecurity topics, and creating new Assistant Exec Positions, as well as the Web Developer, Data Analytics, Photographer, and Journalist roles. Now, I assist the club as Assistant VP Deputy.",
+    "socials": {
+      "linkedin": "https://www.linkedin.com/in/leandro-gamarra/",
+      "github": "https://github.com/r0m3c"
+    },
+    "sort": 7,
+    "active": false,
+    "os_role": "officer"
+  },
+  {
+    "id": "F22-S23/leandro-gamarra",
+    "term": "F22-S23",
+    "name": "Leandro Gamarra",
+    "role_title": "President",
+    "group_label": "Executive Board Members",
+    "email": "",
+    "photo_path": "img/board/leandro.webp",
+    "bio": "Hi! I have been the President of the club since June 2021. We have an amazing team here at the CSS Club. I was in charge of leading the club into new levels, like having our first CUNY-wide John Jay Hackathon, growing from 40 members to 540+ members, creating the Club's Website, and having new workshops like React, Python, Swift, MySQL, Git/GitHub, Technical Interview Prep, Javascript, Career Prep , HTML/CSS, Cybersecurity topics, and creating new Assistant Exec Positions, as well as the Web Developer, Data Analytics, Photographer, and Journalist roles.",
+    "socials": {
+      "linkedin": "https://www.linkedin.com/in/leandro-gamarra/",
+      "github": "https://github.com/r0m3c"
+    },
+    "sort": 0,
+    "active": false,
+    "os_role": "officer"
+  },
+  {
+    "id": "F22-S23/sam-raykhman",
+    "term": "F22-S23",
+    "name": "Sam Raykhman",
+    "role_title": "Vice-President",
+    "group_label": "Executive Board Members",
+    "email": "",
+    "photo_path": "img/board/sam.webp",
+    "bio": "Hey! I'm interested in data science / analytics. I know programming languages, like Python, SQL, and C++. I enjoy playing soccer and learning new skills. I am thrilled to join the CSS club and spread the joy of programming even more.",
+    "socials": null,
+    "sort": 1,
+    "active": false,
+    "os_role": "officer"
+  },
+  {
+    "id": "F22-S23/katharine-wyant",
+    "term": "F22-S23",
+    "name": "Katharine Wyant",
+    "role_title": "Secretary",
+    "group_label": "Executive Board Members",
+    "email": "",
+    "photo_path": "img/board/katharine.webp",
+    "bio": "I am a Sophmore at John Jay and I am majoring in Computer Science and Economics. I am from Connecticut and now I’m living in Brooklyn.",
+    "socials": null,
+    "sort": 2,
+    "active": false,
+    "os_role": "officer"
+  },
+  {
+    "id": "F22-S23/annie-he",
+    "term": "F22-S23",
+    "name": "Annie He",
+    "role_title": "Treasurer",
+    "group_label": "Executive Board Members",
+    "email": "",
+    "photo_path": "img/board/annie.webp",
+    "bio": "I’m interested in data science and programming areas and excited to meet all of you. Let’s make our semesters fun and fulfilling together!",
+    "socials": {
+      "linkedin": "https://www.linkedin.com/in/anniezhe0"
+    },
+    "sort": 3,
+    "active": false,
+    "os_role": "officer"
+  },
+  {
+    "id": "F22-S23/i-k",
+    "term": "F22-S23",
+    "name": "I.K.",
+    "role_title": "Assistant V.P.",
+    "group_label": "Executive Board Members",
+    "email": "",
+    "photo_path": "img/board/jjay-person.webp",
+    "bio": "I’m a junior majoring in CSIS and minoring in Law. I’m a cybersecurity enthusiast, but I do enjoy web development as well.",
+    "socials": null,
+    "sort": 4,
+    "active": false,
+    "os_role": "officer"
+  },
+  {
+    "id": "F22-S23/dinorah-garcia-vasquez",
+    "term": "F22-S23",
+    "name": "Dinorah Garcia Vasquez",
+    "role_title": "Assistant Secretary",
+    "group_label": "Executive Board Members",
+    "email": "",
+    "photo_path": "img/board/dinorah.webp",
+    "bio": "Hi, I’m a transfer student from BMCC and I’m from the Dominican Republic. My major is CSIS and I’m interested in Cybersecurity.",
+    "socials": {
+      "linkedin": "https://www.linkedin.com/in/dinorah-garcia-vasquez-6394551ba"
+    },
+    "sort": 5,
+    "active": false,
+    "os_role": "officer"
+  },
+  {
+    "id": "F22-S23/brian-de-los-santos",
+    "term": "F22-S23",
+    "name": "Brian De Los Santos",
+    "role_title": "Assistant Treasurer",
+    "group_label": "Executive Board Members",
+    "email": "",
+    "photo_path": "img/board/brian.webp",
+    "bio": "Hey what's up! I'm a Transfer Freshmen majoring in Computer Science and Information Security with a specific interest in Cybersecurity with hopes to work for the FBI Special Agent Cyber-Division.",
+    "socials": {
+      "linkedin": "https://www.linkedin.com/in/brian-de-los-santos-2651641bb/"
+    },
+    "sort": 6,
+    "active": false,
+    "os_role": "officer"
+  },
+  {
+    "id": "F22-S23/jennifer-guadarrama",
+    "term": "F22-S23",
+    "name": "Jennifer Guadarrama",
+    "role_title": "Web Developer",
+    "group_label": "Executive Board Members",
+    "email": "",
+    "photo_path": "img/board/jennifer-guadarrama.webp",
+    "bio": "Hi everyone! I am a senior, majoring in Computer Science & Information Security and work as a peer advisor. I am interested in pentesting.",
+    "socials": {
+      "linkedin": "https://www.linkedin.com/in/jennifer-guadarrama-34853b230/"
+    },
+    "sort": 7,
+    "active": false,
+    "os_role": "officer"
+  },
+  {
+    "id": "F21-S22/leandro-gamarra",
+    "term": "F21-S22",
+    "name": "Leandro Gamarra",
+    "role_title": "President",
+    "group_label": "Executive Board Members",
+    "email": "",
+    "photo_path": "img/board/leandro.webp",
+    "bio": "Hi! I have been the President of the club since June 2021. We have an amazing team here at the CSS Club. Fun fact about me, I love watching movies and iOS Development.",
+    "socials": {
+      "linkedin": "https://www.linkedin.com/in/leandro-gamarra/",
+      "github": "https://github.com/r0m3c"
+    },
+    "sort": 0,
+    "active": false,
+    "os_role": "officer"
+  },
+  {
+    "id": "F21-S22/luis-brito",
+    "term": "F21-S22",
+    "name": "Luis Brito",
+    "role_title": "Vice-President",
+    "group_label": "Executive Board Members",
+    "email": "",
+    "photo_path": "img/board/luis.webp",
+    "bio": "Graduated Spring 2022.",
+    "socials": {
+      "linkedin": "https://www.linkedin.com/in/luis-brito-arias/"
+    },
+    "sort": 1,
+    "active": false,
+    "os_role": "officer"
+  },
+  {
+    "id": "F21-S22/tanzil-hassan",
+    "term": "F21-S22",
+    "name": "Tanzil Hassan",
+    "role_title": "Secretary",
+    "group_label": "Executive Board Members",
+    "email": "",
+    "photo_path": "img/board/tanzil.webp",
+    "bio": "Graduated Spring 2022.",
+    "socials": {
+      "linkedin": "https://www.linkedin.com/in/tanzilhassan/"
+    },
+    "sort": 2,
+    "active": false,
+    "os_role": "officer"
+  },
+  {
+    "id": "F21-S22/rachel-perez",
+    "term": "F21-S22",
+    "name": "Rachel Perez",
+    "role_title": "Treasurer",
+    "group_label": "Executive Board Members",
+    "email": "",
+    "photo_path": "img/board/rachel.webp",
+    "bio": "Graduated Spring 2022.",
+    "socials": null,
+    "sort": 3,
+    "active": false,
+    "os_role": "officer"
+  },
+  {
+    "id": "F21-S22/sam-raykhman",
+    "term": "F21-S22",
+    "name": "Sam Raykhman",
+    "role_title": "Assistant V.P.",
+    "group_label": "Executive Board Members",
+    "email": "",
+    "photo_path": "img/board/sam.webp",
+    "bio": "Hey! I'm interested in data science / analytics. I know programming languages, like Python, SQL, and C++. I enjoy playing soccer and learning new skills. I am thrilled to join the CSS club and spread the joy of programming even more.",
+    "socials": {
+      "linkedin": "https://www.linkedin.com/in/sam-raykhman/"
+    },
+    "sort": 4,
+    "active": false,
+    "os_role": "officer"
+  },
+  {
+    "id": "F21-S22/katharine-wyant",
+    "term": "F21-S22",
+    "name": "Katharine Wyant",
+    "role_title": "Assistant Secretary",
+    "group_label": "Executive Board Members",
+    "email": "",
+    "photo_path": "img/board/katharine.webp",
+    "bio": "I am a Sophmore at John Jay and I am majoring in Computer Science and Economics. I am from Connecticut and now I’m living in Brooklyn.",
+    "socials": {
+      "linkedin": "https://www.linkedin.com/in/katharine-wyant-6a1a46213?miniProfileUrn=urn%3Ali%3Afs_miniProfile%3AACoAADYU2FkB1ziAcMmKKYxtNVx6kGU71-XuTg0&lipi=urn%3Ali%3Apage%3Ad_flagship3_search_srp_all%3ButSLK8ewTJykFNwgdNg4Iw%3D%3D"
+    },
+    "sort": 5,
+    "active": false,
+    "os_role": "officer"
+  },
+  {
+    "id": "F21-S22/annie-he",
+    "term": "F21-S22",
+    "name": "Annie He",
+    "role_title": "Assistant Treasurer",
+    "group_label": "Executive Board Members",
+    "email": "",
+    "photo_path": "img/board/annie.webp",
+    "bio": "I’m interested in data science and programming areas and excited to meet all of you. Let’s make our semesters fun and fulfilling together!",
+    "socials": {
+      "linkedin": "https://www.linkedin.com/in/anniezhe0"
+    },
+    "sort": 6,
+    "active": false,
+    "os_role": "officer"
+  },
+  {
+    "id": "F20-S21/hunter-kearney",
+    "term": "F20-S21",
+    "name": "Hunter Kearney",
+    "role_title": "President",
+    "group_label": "Executive Board Members",
+    "email": "",
+    "photo_path": "img/board/hunter.webp",
+    "bio": "Graduated Spring 2021.",
+    "socials": {
+      "linkedin": "https://www.linkedin.com/in/hunter-kearney-/"
+    },
+    "sort": 0,
+    "active": false,
+    "os_role": "officer"
+  },
+  {
+    "id": "F20-S21/jaehoon-han",
+    "term": "F20-S21",
+    "name": "Jaehoon Han",
+    "role_title": "Vice-President",
+    "group_label": "Executive Board Members",
+    "email": "",
+    "photo_path": "img/board/jjay-person.webp",
+    "bio": "Graduated Spring 2021.",
+    "socials": null,
+    "sort": 1,
+    "active": false,
+    "os_role": "officer"
+  },
+  {
+    "id": "F20-S21/leandro-gamarra",
+    "term": "F20-S21",
+    "name": "Leandro Gamarra",
+    "role_title": "Secretary",
+    "group_label": "Executive Board Members",
+    "email": "",
+    "photo_path": "img/board/leandro.webp",
+    "bio": "Hi! I have been the President of the club since June 2021. We have an amazing team here at the CSS Club. Fun fact about me, I love watching movies and iOS Development.",
+    "socials": {
+      "linkedin": "https://www.linkedin.com/in/leandro-gamarra/",
+      "github": "https://github.com/r0m3c"
+    },
+    "sort": 2,
+    "active": false,
+    "os_role": "officer"
+  },
+  {
+    "id": "F20-S21/rafia-islam",
+    "term": "F20-S21",
+    "name": "Rafia Islam",
+    "role_title": "Treasurer",
+    "group_label": "Executive Board Members",
+    "email": "",
+    "photo_path": "img/board/rafia.webp",
+    "bio": "Graduated Spring 2021.",
+    "socials": {
+      "linkedin": "https://www.linkedin.com/in/rafia-islam1/"
+    },
+    "sort": 3,
+    "active": false,
+    "os_role": "officer"
+  },
+  {
+    "name": "Filer 6625",
+    "term": "F26",
+    "role_title": "Historian 6625",
+    "active": false,
+    "created_by": "admin@local.dev",
+    "id": "72758e24-89a0-49db-8078-1df33192fb85",
+    "created_at": 1790023065,
+    "updated_at": 1790023066,
+    "archived": true
+  },
+  {
+    "name": "Filer 0644",
+    "term": "F26",
+    "role_title": "Historian 0644",
+    "active": false,
+    "created_by": "admin@local.dev",
+    "id": "c9fb6c6f-656a-4e57-bc4f-b8ded7e8ba45",
+    "created_at": 1790023193,
+    "updated_at": 1790023194,
+    "archived": true
+  },
+  {
+    "name": "Filer 5717",
+    "term": "F26",
+    "role_title": "Historian 5717",
+    "active": false,
+    "created_by": "admin@local.dev",
+    "id": "b46654e0-bc12-4468-8ed1-cb285b8079c8",
+    "created_at": 1790023575,
+    "updated_at": 1790023576,
+    "archived": true
+  },
+  {
+    "name": "Filer 3092",
+    "term": "F26",
+    "role_title": "Historian 3092",
+    "active": false,
+    "created_by": "admin@local.dev",
+    "id": "deb9d153-8bf5-4f45-bd6f-7072d6d9fea6",
+    "created_at": 1790023773,
+    "updated_at": 1790023774,
+    "archived": true
+  },
+  {
+    "name": "Filer 4497",
+    "term": "F26",
+    "role_title": "Historian 4497",
+    "active": false,
+    "created_by": "admin@local.dev",
+    "id": "d42a09b2-1eb8-4e84-9d48-2b986b2ef84c",
+    "created_at": 1790024102,
+    "updated_at": 1790024103,
+    "archived": true
+  },
+  {
+    "name": "Filer 8679",
+    "term": "F26",
+    "role_title": "Historian 8679",
+    "active": false,
+    "created_by": "admin@local.dev",
+    "id": "b8bc75bf-0ed6-4e26-b241-d047ed02204c",
+    "created_at": 1790024425,
+    "updated_at": 1790024426,
+    "archived": true
+  },
+  {
+    "name": "Filer 7958",
+    "term": "F26",
+    "role_title": "Historian 7958",
+    "active": true,
+    "created_by": "admin@local.dev",
+    "id": "1a40b4f5-1579-4473-90b8-440a5d6d9dd6",
+    "created_at": 1790024594,
+    "updated_at": 1790024594
+  }
+]

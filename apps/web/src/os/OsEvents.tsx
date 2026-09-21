@@ -48,6 +48,7 @@ export default function OsEvents() {
     const body = { ...v, flyer_path: flyer || null, when: whenOf(v.starts_at), updated_at: sel !== "new" && sel ? sel.updated_at : undefined };
     const r = await E.save(sel === "new" ? null : String((sel as Row).id), body, overwrite);
     if (r.ok) setSel(null);
+    return r.ok;
   }
   const open = (r: Row) => {
     setFlyer(String(r.flyer_path ?? ""));

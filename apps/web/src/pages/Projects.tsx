@@ -46,10 +46,13 @@ const SLOTS = [
 
 export default function Projects() {
   const { data } = useApi<{ projects: Project[] }>("/api/projects", projectsData as { projects: Project[] });
+  const { data: settings } = useApi<{ settings: Record<string, unknown> }>("/api/site-settings", { settings: {} });
+  const projectsPublic = (settings.settings.feature_flags as { projects_public?: boolean } | undefined)?.projects_public !== false;
   const all = data.projects;
   const featured = all.find((p) => p.featured) ?? all[0];
-  const apps = all.filter((p) => p.kind === "app");
-  const projects = all.filter((p) => p.kind !== "app");
+  // feature flag projects_public off → the directory shows a labelled OFFLINE state (the form still works)
+  const apps = projectsPublic ? all.filter((p) => p.kind === "app") : [];
+  const projects = projectsPublic ? all.filter((p) => p.kind !== "app") : [];
   const real = all.filter((p) => !p.example).length;
   return (
     <main>

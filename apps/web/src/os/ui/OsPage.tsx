@@ -184,8 +184,13 @@ export function Panel({ title, onClose, children, wide = false }: { title: strin
   const box = useRef<HTMLElement>(null);
   useEffect(() => {
     const opener = document.activeElement as HTMLElement | null;
-    const first = box.current?.querySelector<HTMLElement>("input,textarea,select,button");
-    first?.focus();
+    // focus the first visible field (not the close button) on the next frame, so the key that opened the panel cannot act on it
+    const raf = requestAnimationFrame(() => {
+      const els = [...(box.current?.querySelectorAll<HTMLElement>("input,textarea,select,button") ?? [])].filter(
+        (el) => el.offsetParent !== null && (el as HTMLInputElement).type !== "file",
+      );
+      (els.find((el) => el.tagName !== "BUTTON") ?? els[0])?.focus();
+    });
     const onKey = (e: KeyboardEvent) => {
       if (e.key === "Escape") onClose();
       if (e.key === "Tab" && box.current) {
@@ -204,6 +209,7 @@ export function Panel({ title, onClose, children, wide = false }: { title: strin
     };
     window.addEventListener("keydown", onKey);
     return () => {
+      cancelAnimationFrame(raf);
       window.removeEventListener("keydown", onKey);
       opener?.focus?.();
     };

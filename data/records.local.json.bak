@@ -1,0 +1,5069 @@
+[
+  {
+    "id": "3c6938d0-1b0e-4cf1-81e8-e7816e191e49",
+    "actor": "admin@local.dev",
+    "action": "create",
+    "table_name": "posts",
+    "row_id": "welcome-back-6625",
+    "before": null,
+    "after": {
+      "title": "Welcome Back 6625",
+      "slug": "welcome-back-6625",
+      "id": "welcome-back-6625",
+      "author_name": "Local admin",
+      "author_profile_id": null,
+      "tags": [],
+      "status": "draft",
+      "created_by": "admin@local.dev",
+      "created_at": 1790020536,
+      "updated_at": 1790020536
+    },
+    "note": "",
+    "created_at": 1790020536
+  },
+  {
+    "id": "a01191f8-e9bc-4274-8b1b-cc076f0fc8c0",
+    "actor": "admin@local.dev",
+    "action": "create",
+    "table_name": "posts",
+    "row_id": "welcome-back-6625-2",
+    "before": null,
+    "after": {
+      "title": "Welcome Back 6625",
+      "slug": "welcome-back-6625-2",
+      "id": "welcome-back-6625-2",
+      "author_name": "Local admin",
+      "author_profile_id": null,
+      "tags": [],
+      "status": "draft",
+      "created_by": "admin@local.dev",
+      "created_at": 1790020536,
+      "updated_at": 1790020536
+    },
+    "note": "",
+    "created_at": 1790020536
+  },
+  {
+    "id": "0514ea08-3242-4804-8ec9-6a7045d4b4b7",
+    "actor": "admin@local.dev",
+    "action": "create",
+    "table_name": "posts",
+    "row_id": "n-c-d-script-alert-1-script-drop-table-posts-6625",
+    "before": null,
+    "after": {
+      "title": "Ünïcödé ✨🐕 שלום <script>alert(1)</script> \"; DROP TABLE posts;-- 6625",
+      "dek": "Ünïcödé ✨🐕 שלום <script>alert(1)</script> \"; DROP TABLE posts;-- 6625",
+      "body_md": "## Ünïcödé ✨🐕 שלום <script>alert(1)</script> \"; DROP TABLE posts;-- 6625\n\nÜnïcödé ✨🐕 שלום <script>alert(1)</script> \"; DROP TABLE posts;-- 6625",
+      "tags": [
+        "Ünïcödé ✨🐕 שלום <script>alert(1)</script> \"; DROP TABLE posts;-- 6625"
+      ],
+      "slug": "n-c-d-script-alert-1-script-drop-table-posts-6625",
+      "id": "n-c-d-script-alert-1-script-drop-table-posts-6625",
+      "author_name": "Local admin",
+      "author_profile_id": null,
+      "status": "draft",
+      "created_by": "admin@local.dev",
+      "created_at": 1790020536,
+      "updated_at": 1790020536
+    },
+    "note": "",
+    "created_at": 1790020536
+  },
+  {
+    "id": "b9304339-827f-4ac7-9d67-0633e05c7812",
+    "actor": "admin@local.dev",
+    "action": "publish",
+    "table_name": "posts",
+    "row_id": "n-c-d-script-alert-1-script-drop-table-posts-6625",
+    "before": {
+      "title": "Ünïcödé ✨🐕 שלום <script>alert(1)</script> \"; DROP TABLE posts;-- 6625",
+      "dek": "Ünïcödé ✨🐕 שלום <script>alert(1)</script> \"; DROP TABLE posts;-- 6625",
+      "body_md": "## Ünïcödé ✨🐕 שלום <script>alert(1)</script> \"; DROP TABLE posts;-- 6625\n\nÜnïcödé ✨🐕 שלום <script>alert(1)</script> \"; DROP TABLE posts;-- 6625",
+      "tags": [
+        "Ünïcödé ✨🐕 שלום <script>alert(1)</script> \"; DROP TABLE posts;-- 6625"
+      ],
+      "slug": "n-c-d-script-alert-1-script-drop-table-posts-6625",
+      "id": "n-c-d-script-alert-1-script-drop-table-posts-6625",
+      "author_name": "Local admin",
+      "author_profile_id": null,
+      "status": "draft",
+      "created_by": "admin@local.dev",
+      "created_at": 1790020536,
+      "updated_at": 1790020536
+    },
+    "after": {
+      "title": "Ünïcödé ✨🐕 שלום <script>alert(1)</script> \"; DROP TABLE posts;-- 6625",
+      "dek": "Ünïcödé ✨🐕 שלום <script>alert(1)</script> \"; DROP TABLE posts;-- 6625",
+      "body_md": "## Ünïcödé ✨🐕 שלום <script>alert(1)</script> \"; DROP TABLE posts;-- 6625\n\nÜnïcödé ✨🐕 שלום <script>alert(1)</script> \"; DROP TABLE posts;-- 6625",
+      "tags": [
+        "Ünïcödé ✨🐕 שלום <script>alert(1)</script> \"; DROP TABLE posts;-- 6625"
+      ],
+      "slug": "n-c-d-script-alert-1-script-drop-table-posts-6625",
+      "id": "n-c-d-script-alert-1-script-drop-table-posts-6625",
+      "author_name": "Local admin",
+      "author_profile_id": null,
+      "status": "published",
+      "created_by": "admin@local.dev",
+      "created_at": 1790020536,
+      "updated_at": 1790020537,
+      "published_at": "2026-09-21"
+    },
+    "note": "",
+    "created_at": 1790020536
+  },
+  {
+    "id": "3e275100-586e-45bd-8845-d1c91228f76d",
+    "actor": "admin@local.dev",
+    "action": "create",
+    "table_name": "events",
+    "row_id": "e882144a-8698-4061-87f3-3bcd40c1386e",
+    "before": null,
+    "after": {
+      "title": "Spam Event 6625",
+      "semester": "Fall 2026",
+      "starts_at": "2026-11-01",
+      "when": "upcoming",
+      "sort": 0,
+      "status": "draft",
+      "created_by": "admin@local.dev",
+      "client_id": "9c50520a-ee2f-4f06-afb3-7f30885e7121",
+      "id": "e882144a-8698-4061-87f3-3bcd40c1386e",
+      "created_at": 1790020543,
+      "updated_at": 1790020543
+    },
+    "note": "",
+    "created_at": 1790020543
+  },
+  {
+    "id": "c709c2d0-71d2-439a-aad4-b597ae22d4a2",
+    "actor": "admin@local.dev",
+    "action": "create",
+    "table_name": "events",
+    "row_id": "be3c454a-495d-48b4-9255-13caed95cae6",
+    "before": null,
+    "after": {
+      "title": "Enter Event 6625",
+      "semester": "Fall 2026",
+      "starts_at": "2026-11-02",
+      "when": "upcoming",
+      "sort": 0,
+      "status": "draft",
+      "created_by": "admin@local.dev",
+      "client_id": "f240d039-f150-40a6-93e0-5f7c9c7665e2",
+      "id": "be3c454a-495d-48b4-9255-13caed95cae6",
+      "created_at": 1790020574,
+      "updated_at": 1790020574
+    },
+    "note": "",
+    "created_at": 1790020574
+  },
+  {
+    "id": "c7f70da2-f890-437b-8a7a-4532932b6c60",
+    "actor": "admin@local.dev",
+    "action": "create",
+    "table_name": "events",
+    "row_id": "7ac5b5b5-eed4-4312-8a3a-e722133f3751",
+    "before": null,
+    "after": {
+      "title": "Cid Event 6625",
+      "semester": "Fall 2026",
+      "when": "upcoming",
+      "sort": 0,
+      "status": "draft",
+      "created_by": "admin@local.dev",
+      "client_id": "dbl-6625",
+      "id": "7ac5b5b5-eed4-4312-8a3a-e722133f3751",
+      "created_at": 1790023064,
+      "updated_at": 1790023064
+    },
+    "note": "",
+    "created_at": 1790023064
+  },
+  {
+    "id": "88a134a6-fe15-4843-ad30-f6562f3972a7",
+    "actor": "admin@local.dev",
+    "action": "create",
+    "table_name": "posts",
+    "row_id": "stale-6625",
+    "before": null,
+    "after": {
+      "title": "Stale 6625",
+      "slug": "stale-6625",
+      "id": "stale-6625",
+      "author_name": "Local admin",
+      "author_profile_id": null,
+      "tags": [],
+      "status": "draft",
+      "created_by": "admin@local.dev",
+      "created_at": 1790023065,
+      "updated_at": 1790023065
+    },
+    "note": "",
+    "created_at": 1790023065
+  },
+  {
+    "id": "18d675ac-a653-4576-84f8-7c068f87b200",
+    "actor": "officer@local.dev",
+    "action": "create",
+    "table_name": "posts",
+    "row_id": "x",
+    "before": null,
+    "after": {
+      "title": "x",
+      "slug": "x",
+      "id": "x",
+      "author_name": "Local officer",
+      "author_profile_id": null,
+      "tags": [],
+      "status": "draft",
+      "created_by": "officer@local.dev",
+      "created_at": 1790023065,
+      "updated_at": 1790023065
+    },
+    "note": "",
+    "created_at": 1790023065
+  },
+  {
+    "id": "4f1e0edb-039a-404d-9064-b0b8118cebe5",
+    "actor": "officer@local.dev",
+    "action": "create",
+    "table_name": "projects",
+    "row_id": "9668009a-6e36-44ca-af70-a2c913dec293",
+    "before": null,
+    "after": {
+      "title": "x",
+      "status": "submitted",
+      "created_by": "officer@local.dev",
+      "id": "9668009a-6e36-44ca-af70-a2c913dec293",
+      "created_at": 1790023065,
+      "updated_at": 1790023065
+    },
+    "note": "",
+    "created_at": 1790023065
+  },
+  {
+    "id": "ccaf5857-8166-4595-a45e-2e60bb1aa2c9",
+    "actor": "officer@local.dev",
+    "action": "create",
+    "table_name": "events",
+    "row_id": "93cd8476-d318-4da2-a9a3-1a70ac976696",
+    "before": null,
+    "after": {
+      "title": "x",
+      "when": "upcoming",
+      "semester": "Fall 2026",
+      "sort": 0,
+      "status": "draft",
+      "created_by": "officer@local.dev",
+      "id": "93cd8476-d318-4da2-a9a3-1a70ac976696",
+      "created_at": 1790023065,
+      "updated_at": 1790023065
+    },
+    "note": "",
+    "created_at": 1790023065
+  },
+  {
+    "id": "9f86ee7f-8e57-4770-8e2d-b9122100227e",
+    "actor": "officer@local.dev",
+    "action": "create",
+    "table_name": "workshops",
+    "row_id": "85299d28-893f-4691-a715-fbbf2de358a9",
+    "before": null,
+    "after": {
+      "title": "x",
+      "status": "draft",
+      "created_by": "officer@local.dev",
+      "id": "85299d28-893f-4691-a715-fbbf2de358a9",
+      "created_at": 1790023065,
+      "updated_at": 1790023065
+    },
+    "note": "",
+    "created_at": 1790023065
+  },
+  {
+    "id": "8157a60a-2c51-470e-a844-5c1e269eacf6",
+    "actor": "officer@local.dev",
+    "action": "create",
+    "table_name": "resources",
+    "row_id": "cd551298-c591-4701-818c-2fc4fc9a05fd",
+    "before": null,
+    "after": {
+      "group": "g",
+      "title": "x",
+      "url": "https://x.example",
+      "created_by": "officer@local.dev",
+      "id": "cd551298-c591-4701-818c-2fc4fc9a05fd",
+      "created_at": 1790023065,
+      "updated_at": 1790023065
+    },
+    "note": "",
+    "created_at": 1790023065
+  },
+  {
+    "id": "f02e52b7-34e9-4616-b830-ea33a0efdc4d",
+    "actor": "officer@local.dev",
+    "action": "update",
+    "table_name": "links",
+    "row_id": "discord",
+    "before": {
+      "key": "discord",
+      "url": "https://discord.gg/fJZKErEnPa",
+      "label": "Discord invite",
+      "last_checked": null,
+      "last_status": null,
+      "dead": false
+    },
+    "after": {
+      "key": "discord",
+      "url": "https://x.example",
+      "label": "Discord invite",
+      "last_checked": null,
+      "last_status": null,
+      "dead": false,
+      "updated_at": 1790023065
+    },
+    "note": "",
+    "created_at": 1790023065
+  },
+  {
+    "id": "73f3d7fa-f73b-47bb-92ee-496caf6524ae",
+    "actor": "officer@local.dev",
+    "action": "create",
+    "table_name": "members",
+    "row_id": "57e27018-8d72-4555-bbc9-22b213640943",
+    "before": null,
+    "after": {
+      "display_name": "x",
+      "status": "interested",
+      "source": "manual",
+      "tags": [],
+      "created_by": "officer@local.dev",
+      "id": "57e27018-8d72-4555-bbc9-22b213640943",
+      "created_at": 1790023065,
+      "updated_at": 1790023065
+    },
+    "note": "",
+    "created_at": 1790023065
+  },
+  {
+    "id": "0ed3823f-fc0c-4933-9b80-eb2f8e6aeaa8",
+    "actor": "admin@local.dev",
+    "action": "create",
+    "table_name": "board_profiles",
+    "row_id": "72758e24-89a0-49db-8078-1df33192fb85",
+    "before": null,
+    "after": {
+      "name": "Filer 6625",
+      "term": "F26",
+      "role_title": "Historian 6625",
+      "active": true,
+      "created_by": "admin@local.dev",
+      "id": "72758e24-89a0-49db-8078-1df33192fb85",
+      "created_at": 1790023065,
+      "updated_at": 1790023065
+    },
+    "note": "",
+    "created_at": 1790023065
+  },
+  {
+    "id": "1faf06a6-2a77-4fa5-b8d0-527bed10f628",
+    "actor": "admin@local.dev",
+    "action": "create",
+    "table_name": "inheritance_records",
+    "row_id": "F26/handoffs/historian-6625",
+    "before": null,
+    "after": {
+      "type": "handoff",
+      "title": "Handoff — Historian 6625",
+      "term": "F26",
+      "date": "2026-12-01",
+      "status": "final",
+      "owners": [
+        "Historian 6625"
+      ],
+      "visibility": "board",
+      "role": "Historian 6625",
+      "id": "F26/handoffs/historian-6625",
+      "path": "content/inheritance/F26/handoffs/historian-6625.md",
+      "excerpt": "## What I ran the archive",
+      "updated_at": 1790023066
+    },
+    "note": "",
+    "created_at": 1790023066
+  },
+  {
+    "id": "e3b46477-fb47-4c5b-8d3b-53b1b68f2225",
+    "actor": "admin@local.dev",
+    "action": "archive",
+    "table_name": "board_profiles",
+    "row_id": "72758e24-89a0-49db-8078-1df33192fb85",
+    "before": {
+      "name": "Filer 6625",
+      "term": "F26",
+      "role_title": "Historian 6625",
+      "active": true,
+      "created_by": "admin@local.dev",
+      "id": "72758e24-89a0-49db-8078-1df33192fb85",
+      "created_at": 1790023065,
+      "updated_at": 1790023065
+    },
+    "after": {
+      "name": "Filer 6625",
+      "term": "F26",
+      "role_title": "Historian 6625",
+      "active": false,
+      "created_by": "admin@local.dev",
+      "id": "72758e24-89a0-49db-8078-1df33192fb85",
+      "created_at": 1790023065,
+      "updated_at": 1790023066,
+      "archived": true
+    },
+    "note": "",
+    "created_at": 1790023066
+  },
+  {
+    "id": "7ade5652-154d-4c1d-98c3-8e7cd193eea7",
+    "actor": "admin@local.dev",
+    "action": "create",
+    "table_name": "resources",
+    "row_id": "c8c5cd2e-8c8c-4679-89a0-d2fc8acb0574",
+    "before": null,
+    "after": {
+      "group": "Doomed 6625",
+      "title": "A",
+      "url": "https://a.example",
+      "created_by": "admin@local.dev",
+      "id": "c8c5cd2e-8c8c-4679-89a0-d2fc8acb0574",
+      "created_at": 1790023066,
+      "updated_at": 1790023066
+    },
+    "note": "",
+    "created_at": 1790023066
+  },
+  {
+    "id": "7bba3cbe-0aa1-48de-a6e7-3898da46112b",
+    "actor": "admin@local.dev",
+    "action": "delete",
+    "table_name": "resources",
+    "row_id": "c8c5cd2e-8c8c-4679-89a0-d2fc8acb0574",
+    "before": {
+      "group": "Doomed 6625",
+      "title": "A",
+      "url": "https://a.example",
+      "created_by": "admin@local.dev",
+      "id": "c8c5cd2e-8c8c-4679-89a0-d2fc8acb0574",
+      "created_at": 1790023066,
+      "updated_at": 1790023066
+    },
+    "after": null,
+    "note": "",
+    "created_at": 1790023066
+  },
+  {
+    "id": "886e3a4d-92a4-4303-b260-9a45d8ace587",
+    "actor": "admin@local.dev",
+    "action": "update",
+    "table_name": "site_settings",
+    "row_id": "maintenance_banner",
+    "before": {
+      "key": "maintenance_banner",
+      "value": {
+        "on": false,
+        "text": ""
+      }
+    },
+    "after": {
+      "key": "maintenance_banner",
+      "value": {
+        "on": true,
+        "text": "Back at 9 — 6625"
+      },
+      "updated_by": "admin@local.dev",
+      "updated_at": 1790023066
+    },
+    "note": "",
+    "created_at": 1790023066
+  },
+  {
+    "id": "8243ec7a-b10b-4274-8567-c6b07c501394",
+    "actor": "admin@local.dev",
+    "action": "update",
+    "table_name": "site_settings",
+    "row_id": "feature_flags",
+    "before": {
+      "key": "feature_flags",
+      "value": {
+        "projects_public": true,
+        "chat_enabled": true,
+        "ticker_items": [
+          "NEXT EVENT · FALL 2026",
+          "PROJECTS — SUBMISSIONS OPEN",
+          "CYBERHOUNDS · CTF"
+        ]
+      }
+    },
+    "after": {
+      "key": "feature_flags",
+      "value": {
+        "projects_public": false,
+        "chat_enabled": false,
+        "ticker_items": [
+          "NEXT EVENT · FALL 2026",
+          "PROJECTS — SUBMISSIONS OPEN",
+          "CYBERHOUNDS · CTF"
+        ]
+      },
+      "updated_by": "admin@local.dev",
+      "updated_at": 1790023066
+    },
+    "note": "",
+    "created_at": 1790023066
+  },
+  {
+    "id": "c5e0f424-1dbc-4b44-9a0a-851416b93613",
+    "actor": "admin@local.dev",
+    "action": "create",
+    "table_name": "posts",
+    "row_id": "welcome-back-0644",
+    "before": null,
+    "after": {
+      "title": "Welcome Back 0644",
+      "slug": "welcome-back-0644",
+      "id": "welcome-back-0644",
+      "author_name": "Local admin",
+      "author_profile_id": null,
+      "tags": [],
+      "status": "draft",
+      "created_by": "admin@local.dev",
+      "created_at": 1790023110,
+      "updated_at": 1790023110
+    },
+    "note": "",
+    "created_at": 1790023110
+  },
+  {
+    "id": "618822aa-354e-49f5-8a24-b4c7a5ebc820",
+    "actor": "admin@local.dev",
+    "action": "create",
+    "table_name": "posts",
+    "row_id": "welcome-back-0644-2",
+    "before": null,
+    "after": {
+      "title": "Welcome Back 0644",
+      "slug": "welcome-back-0644-2",
+      "id": "welcome-back-0644-2",
+      "author_name": "Local admin",
+      "author_profile_id": null,
+      "tags": [],
+      "status": "draft",
+      "created_by": "admin@local.dev",
+      "created_at": 1790023110,
+      "updated_at": 1790023110
+    },
+    "note": "",
+    "created_at": 1790023110
+  },
+  {
+    "id": "bd27dfb2-f089-4098-add6-592151efb954",
+    "actor": "admin@local.dev",
+    "action": "create",
+    "table_name": "posts",
+    "row_id": "n-c-d-script-alert-1-script-drop-table-posts-0644",
+    "before": null,
+    "after": {
+      "title": "Ünïcödé ✨🐕 שלום <script>alert(1)</script> \"; DROP TABLE posts;-- 0644",
+      "dek": "Ünïcödé ✨🐕 שלום <script>alert(1)</script> \"; DROP TABLE posts;-- 0644",
+      "body_md": "## Ünïcödé ✨🐕 שלום <script>alert(1)</script> \"; DROP TABLE posts;-- 0644\n\nÜnïcödé ✨🐕 שלום <script>alert(1)</script> \"; DROP TABLE posts;-- 0644",
+      "tags": [
+        "Ünïcödé ✨🐕 שלום <script>alert(1)</script> \"; DROP TABLE posts;-- 0644"
+      ],
+      "slug": "n-c-d-script-alert-1-script-drop-table-posts-0644",
+      "id": "n-c-d-script-alert-1-script-drop-table-posts-0644",
+      "author_name": "Local admin",
+      "author_profile_id": null,
+      "status": "draft",
+      "created_by": "admin@local.dev",
+      "created_at": 1790023110,
+      "updated_at": 1790023110
+    },
+    "note": "",
+    "created_at": 1790023110
+  },
+  {
+    "id": "6dd22edc-08d7-4e48-9606-17cbd72c3ba5",
+    "actor": "admin@local.dev",
+    "action": "publish",
+    "table_name": "posts",
+    "row_id": "n-c-d-script-alert-1-script-drop-table-posts-0644",
+    "before": {
+      "title": "Ünïcödé ✨🐕 שלום <script>alert(1)</script> \"; DROP TABLE posts;-- 0644",
+      "dek": "Ünïcödé ✨🐕 שלום <script>alert(1)</script> \"; DROP TABLE posts;-- 0644",
+      "body_md": "## Ünïcödé ✨🐕 שלום <script>alert(1)</script> \"; DROP TABLE posts;-- 0644\n\nÜnïcödé ✨🐕 שלום <script>alert(1)</script> \"; DROP TABLE posts;-- 0644",
+      "tags": [
+        "Ünïcödé ✨🐕 שלום <script>alert(1)</script> \"; DROP TABLE posts;-- 0644"
+      ],
+      "slug": "n-c-d-script-alert-1-script-drop-table-posts-0644",
+      "id": "n-c-d-script-alert-1-script-drop-table-posts-0644",
+      "author_name": "Local admin",
+      "author_profile_id": null,
+      "status": "draft",
+      "created_by": "admin@local.dev",
+      "created_at": 1790023110,
+      "updated_at": 1790023110
+    },
+    "after": {
+      "title": "Ünïcödé ✨🐕 שלום <script>alert(1)</script> \"; DROP TABLE posts;-- 0644",
+      "dek": "Ünïcödé ✨🐕 שלום <script>alert(1)</script> \"; DROP TABLE posts;-- 0644",
+      "body_md": "## Ünïcödé ✨🐕 שלום <script>alert(1)</script> \"; DROP TABLE posts;-- 0644\n\nÜnïcödé ✨🐕 שלום <script>alert(1)</script> \"; DROP TABLE posts;-- 0644",
+      "tags": [
+        "Ünïcödé ✨🐕 שלום <script>alert(1)</script> \"; DROP TABLE posts;-- 0644"
+      ],
+      "slug": "n-c-d-script-alert-1-script-drop-table-posts-0644",
+      "id": "n-c-d-script-alert-1-script-drop-table-posts-0644",
+      "author_name": "Local admin",
+      "author_profile_id": null,
+      "status": "published",
+      "created_by": "admin@local.dev",
+      "created_at": 1790023110,
+      "updated_at": 1790023111,
+      "published_at": "2026-09-21"
+    },
+    "note": "",
+    "created_at": 1790023110
+  },
+  {
+    "id": "ce9e93e4-53f5-4ad9-baa5-efd64d78f90f",
+    "actor": "admin@local.dev",
+    "action": "create",
+    "table_name": "events",
+    "row_id": "1e83bbfe-1c55-4bd0-836f-48e88ef77aeb",
+    "before": null,
+    "after": {
+      "title": "Spam Event 0644",
+      "semester": "Fall 2026",
+      "starts_at": "2026-11-01",
+      "when": "upcoming",
+      "sort": 0,
+      "status": "draft",
+      "created_by": "admin@local.dev",
+      "client_id": "f5a61695-d6a4-4bcf-90c2-cff10484d125",
+      "id": "1e83bbfe-1c55-4bd0-836f-48e88ef77aeb",
+      "created_at": 1790023129,
+      "updated_at": 1790023129
+    },
+    "note": "",
+    "created_at": 1790023129
+  },
+  {
+    "id": "2666a309-7710-44ff-b4c4-d68539d65127",
+    "actor": "admin@local.dev",
+    "action": "create",
+    "table_name": "events",
+    "row_id": "ed707337-a07f-4239-9a66-52c305f393c7",
+    "before": null,
+    "after": {
+      "title": "Spam Event 0644",
+      "semester": "Fall 2026",
+      "starts_at": "2026-11-01",
+      "when": "upcoming",
+      "sort": 0,
+      "status": "draft",
+      "created_by": "admin@local.dev",
+      "client_id": "52ae886a-7c08-479b-8cf8-3154a64ed261",
+      "id": "ed707337-a07f-4239-9a66-52c305f393c7",
+      "created_at": 1790023129,
+      "updated_at": 1790023129
+    },
+    "note": "",
+    "created_at": 1790023129
+  },
+  {
+    "id": "6091dbda-b85e-48d1-9ad2-ed836da14a82",
+    "actor": "admin@local.dev",
+    "action": "create",
+    "table_name": "events",
+    "row_id": "716ef803-dbd7-4dc6-aae8-950ab7e2c1fc",
+    "before": null,
+    "after": {
+      "title": "Enter Event 0644",
+      "semester": "Fall 2026",
+      "starts_at": "2026-11-02",
+      "when": "upcoming",
+      "sort": 0,
+      "status": "draft",
+      "created_by": "admin@local.dev",
+      "client_id": "1263e3ea-df74-44b9-a119-ed769b4e29e0",
+      "id": "716ef803-dbd7-4dc6-aae8-950ab7e2c1fc",
+      "created_at": 1790023131,
+      "updated_at": 1790023131
+    },
+    "note": "",
+    "created_at": 1790023131
+  },
+  {
+    "id": "6eb6f6b8-97c8-4e69-8ce8-ff6551d8dc03",
+    "actor": "admin@local.dev",
+    "action": "create",
+    "table_name": "events",
+    "row_id": "f07da9d8-c8cd-4b09-add4-d634be97d064",
+    "before": null,
+    "after": {
+      "title": "Cid Event 0644",
+      "semester": "Fall 2026",
+      "when": "upcoming",
+      "sort": 0,
+      "status": "draft",
+      "created_by": "admin@local.dev",
+      "client_id": "dbl-0644",
+      "id": "f07da9d8-c8cd-4b09-add4-d634be97d064",
+      "created_at": 1790023138,
+      "updated_at": 1790023138
+    },
+    "note": "",
+    "created_at": 1790023138
+  },
+  {
+    "id": "41c5d0cb-005b-4ffe-8406-fc8af223449a",
+    "actor": "admin@local.dev",
+    "action": "create",
+    "table_name": "posts",
+    "row_id": "stale-0644",
+    "before": null,
+    "after": {
+      "title": "Stale 0644",
+      "slug": "stale-0644",
+      "id": "stale-0644",
+      "author_name": "Local admin",
+      "author_profile_id": null,
+      "tags": [],
+      "status": "draft",
+      "created_by": "admin@local.dev",
+      "created_at": 1790023182,
+      "updated_at": 1790023182
+    },
+    "note": "",
+    "created_at": 1790023182
+  },
+  {
+    "id": "b29b3cb6-ee4c-4cf2-83c3-13731dd0cb2d",
+    "actor": "admin@local.dev",
+    "action": "update",
+    "table_name": "posts",
+    "row_id": "stale-0644",
+    "before": {
+      "title": "Stale 0644",
+      "slug": "stale-0644",
+      "id": "stale-0644",
+      "author_name": "Local admin",
+      "author_profile_id": null,
+      "tags": [],
+      "status": "draft",
+      "created_by": "admin@local.dev",
+      "created_at": 1790023182,
+      "updated_at": 1790023182
+    },
+    "after": {
+      "title": "Stale 0644 (changed elsewhere)",
+      "slug": "stale-0644",
+      "id": "stale-0644",
+      "author_name": "Local admin",
+      "author_profile_id": null,
+      "tags": [],
+      "status": "draft",
+      "created_by": "admin@local.dev",
+      "created_at": 1790023182,
+      "updated_at": 1790023185
+    },
+    "note": "",
+    "created_at": 1790023185
+  },
+  {
+    "id": "6dd81e37-ae92-4af4-abe8-2bb2a2621332",
+    "actor": "admin@local.dev",
+    "action": "create",
+    "table_name": "events",
+    "row_id": "8e627b6c-dd0e-4577-927f-097bedd00955",
+    "before": null,
+    "after": {
+      "title": "Expired Session 0644",
+      "semester": "Fall 2026",
+      "starts_at": "2026-11-03",
+      "when": "upcoming",
+      "sort": 0,
+      "status": "draft",
+      "created_by": "admin@local.dev",
+      "client_id": "773a3215-e02c-4203-b8e6-4dd4c9835930",
+      "id": "8e627b6c-dd0e-4577-927f-097bedd00955",
+      "created_at": 1790023189,
+      "updated_at": 1790023189
+    },
+    "note": "",
+    "created_at": 1790023189
+  },
+  {
+    "id": "9a89ccd2-7a48-40af-95f9-c27e6950a397",
+    "actor": "officer@local.dev",
+    "action": "create",
+    "table_name": "posts",
+    "row_id": "x-2",
+    "before": null,
+    "after": {
+      "title": "x",
+      "slug": "x-2",
+      "id": "x-2",
+      "author_name": "Local officer",
+      "author_profile_id": null,
+      "tags": [],
+      "status": "draft",
+      "created_by": "officer@local.dev",
+      "created_at": 1790023193,
+      "updated_at": 1790023193
+    },
+    "note": "",
+    "created_at": 1790023193
+  },
+  {
+    "id": "37147dc7-8821-498f-8eab-9be09e671525",
+    "actor": "officer@local.dev",
+    "action": "create",
+    "table_name": "projects",
+    "row_id": "bbe57f4e-7633-4f62-ae2f-b8e40795c246",
+    "before": null,
+    "after": {
+      "title": "x",
+      "status": "submitted",
+      "created_by": "officer@local.dev",
+      "id": "bbe57f4e-7633-4f62-ae2f-b8e40795c246",
+      "created_at": 1790023193,
+      "updated_at": 1790023193
+    },
+    "note": "",
+    "created_at": 1790023193
+  },
+  {
+    "id": "c60bb0a3-f2ac-4aeb-ad9f-289286683859",
+    "actor": "officer@local.dev",
+    "action": "create",
+    "table_name": "events",
+    "row_id": "c95a5e9e-0f60-4267-8822-b4344237ae78",
+    "before": null,
+    "after": {
+      "title": "x",
+      "when": "upcoming",
+      "semester": "Fall 2026",
+      "sort": 0,
+      "status": "draft",
+      "created_by": "officer@local.dev",
+      "id": "c95a5e9e-0f60-4267-8822-b4344237ae78",
+      "created_at": 1790023193,
+      "updated_at": 1790023193
+    },
+    "note": "",
+    "created_at": 1790023193
+  },
+  {
+    "id": "f5b62569-c0f5-4162-9ffd-48f2f8f82584",
+    "actor": "officer@local.dev",
+    "action": "create",
+    "table_name": "workshops",
+    "row_id": "7182225a-8a5c-4ca5-99d3-d48a94b2b487",
+    "before": null,
+    "after": {
+      "title": "x",
+      "status": "draft",
+      "created_by": "officer@local.dev",
+      "id": "7182225a-8a5c-4ca5-99d3-d48a94b2b487",
+      "created_at": 1790023193,
+      "updated_at": 1790023193
+    },
+    "note": "",
+    "created_at": 1790023193
+  },
+  {
+    "id": "a7168a10-8324-423a-9d9c-118068a6a215",
+    "actor": "officer@local.dev",
+    "action": "create",
+    "table_name": "resources",
+    "row_id": "776fd5c1-0e8f-4f12-8905-34085d70d1c5",
+    "before": null,
+    "after": {
+      "group": "g",
+      "title": "x",
+      "url": "https://x.example",
+      "created_by": "officer@local.dev",
+      "id": "776fd5c1-0e8f-4f12-8905-34085d70d1c5",
+      "created_at": 1790023193,
+      "updated_at": 1790023193
+    },
+    "note": "",
+    "created_at": 1790023193
+  },
+  {
+    "id": "320e9e0a-3c78-4fd9-a4c9-ea319f33f628",
+    "actor": "officer@local.dev",
+    "action": "update",
+    "table_name": "links",
+    "row_id": "discord",
+    "before": {
+      "key": "discord",
+      "url": "https://x.example",
+      "label": "Discord invite",
+      "last_checked": null,
+      "last_status": null,
+      "dead": false,
+      "updated_at": 1790023065
+    },
+    "after": {
+      "key": "discord",
+      "url": "https://x.example",
+      "label": "Discord invite",
+      "last_checked": null,
+      "last_status": null,
+      "dead": false,
+      "updated_at": 1790023193
+    },
+    "note": "",
+    "created_at": 1790023193
+  },
+  {
+    "id": "2bee7a0c-825a-4009-9527-c82338cca770",
+    "actor": "officer@local.dev",
+    "action": "create",
+    "table_name": "members",
+    "row_id": "089e0c28-4e8d-41d3-92c4-70f57be49209",
+    "before": null,
+    "after": {
+      "display_name": "x",
+      "status": "interested",
+      "source": "manual",
+      "tags": [],
+      "created_by": "officer@local.dev",
+      "id": "089e0c28-4e8d-41d3-92c4-70f57be49209",
+      "created_at": 1790023193,
+      "updated_at": 1790023193
+    },
+    "note": "",
+    "created_at": 1790023193
+  },
+  {
+    "id": "61a10679-c691-473c-bffb-4136c74ef007",
+    "actor": "admin@local.dev",
+    "action": "create",
+    "table_name": "board_profiles",
+    "row_id": "c9fb6c6f-656a-4e57-bc4f-b8ded7e8ba45",
+    "before": null,
+    "after": {
+      "name": "Filer 0644",
+      "term": "F26",
+      "role_title": "Historian 0644",
+      "active": true,
+      "created_by": "admin@local.dev",
+      "id": "c9fb6c6f-656a-4e57-bc4f-b8ded7e8ba45",
+      "created_at": 1790023193,
+      "updated_at": 1790023193
+    },
+    "note": "",
+    "created_at": 1790023193
+  },
+  {
+    "id": "7cc9418e-59ff-46e5-9cb3-9ad2fb6eef93",
+    "actor": "admin@local.dev",
+    "action": "create",
+    "table_name": "inheritance_records",
+    "row_id": "F26/handoffs/historian-0644",
+    "before": null,
+    "after": {
+      "type": "handoff",
+      "title": "Handoff — Historian 0644",
+      "term": "F26",
+      "date": "2026-12-01",
+      "status": "final",
+      "owners": [
+        "Historian 0644"
+      ],
+      "visibility": "board",
+      "role": "Historian 0644",
+      "id": "F26/handoffs/historian-0644",
+      "path": "content/inheritance/F26/handoffs/historian-0644.md",
+      "excerpt": "## What I ran the archive",
+      "updated_at": 1790023193
+    },
+    "note": "",
+    "created_at": 1790023193
+  },
+  {
+    "id": "18ef4f3f-57ca-4667-ac9f-f7666959d917",
+    "actor": "admin@local.dev",
+    "action": "archive",
+    "table_name": "board_profiles",
+    "row_id": "c9fb6c6f-656a-4e57-bc4f-b8ded7e8ba45",
+    "before": {
+      "name": "Filer 0644",
+      "term": "F26",
+      "role_title": "Historian 0644",
+      "active": true,
+      "created_by": "admin@local.dev",
+      "id": "c9fb6c6f-656a-4e57-bc4f-b8ded7e8ba45",
+      "created_at": 1790023193,
+      "updated_at": 1790023193
+    },
+    "after": {
+      "name": "Filer 0644",
+      "term": "F26",
+      "role_title": "Historian 0644",
+      "active": false,
+      "created_by": "admin@local.dev",
+      "id": "c9fb6c6f-656a-4e57-bc4f-b8ded7e8ba45",
+      "created_at": 1790023193,
+      "updated_at": 1790023194,
+      "archived": true
+    },
+    "note": "",
+    "created_at": 1790023193
+  },
+  {
+    "id": "b7e2de46-d4ca-44a2-8dd4-32997de3b8f7",
+    "actor": "admin@local.dev",
+    "action": "create",
+    "table_name": "resources",
+    "row_id": "47345783-7904-422e-b119-3b04cfc5fc12",
+    "before": null,
+    "after": {
+      "group": "Doomed 0644",
+      "title": "A",
+      "url": "https://a.example",
+      "created_by": "admin@local.dev",
+      "id": "47345783-7904-422e-b119-3b04cfc5fc12",
+      "created_at": 1790023193,
+      "updated_at": 1790023193
+    },
+    "note": "",
+    "created_at": 1790023193
+  },
+  {
+    "id": "95d1aba7-ea5d-4e3b-a199-355f5fb78b21",
+    "actor": "admin@local.dev",
+    "action": "delete",
+    "table_name": "resources",
+    "row_id": "47345783-7904-422e-b119-3b04cfc5fc12",
+    "before": {
+      "group": "Doomed 0644",
+      "title": "A",
+      "url": "https://a.example",
+      "created_by": "admin@local.dev",
+      "id": "47345783-7904-422e-b119-3b04cfc5fc12",
+      "created_at": 1790023193,
+      "updated_at": 1790023193
+    },
+    "after": null,
+    "note": "",
+    "created_at": 1790023193
+  },
+  {
+    "id": "52681f78-97ad-4ed9-a16f-c9b3b19d3aef",
+    "actor": "admin@local.dev",
+    "action": "update",
+    "table_name": "site_settings",
+    "row_id": "maintenance_banner",
+    "before": {
+      "key": "maintenance_banner",
+      "value": {
+        "on": true,
+        "text": "Back at 9 — 6625"
+      },
+      "updated_by": "admin@local.dev",
+      "updated_at": 1790023066
+    },
+    "after": {
+      "key": "maintenance_banner",
+      "value": {
+        "on": true,
+        "text": "Back at 9 — 0644"
+      },
+      "updated_by": "admin@local.dev",
+      "updated_at": 1790023193
+    },
+    "note": "",
+    "created_at": 1790023193
+  },
+  {
+    "id": "fc3875db-7506-4eea-877a-266a4a1dcb54",
+    "actor": "admin@local.dev",
+    "action": "update",
+    "table_name": "site_settings",
+    "row_id": "maintenance_banner",
+    "before": {
+      "key": "maintenance_banner",
+      "value": {
+        "on": true,
+        "text": "Back at 9 — 0644"
+      },
+      "updated_by": "admin@local.dev",
+      "updated_at": 1790023193
+    },
+    "after": {
+      "key": "maintenance_banner",
+      "value": {
+        "on": false,
+        "text": ""
+      },
+      "updated_by": "admin@local.dev",
+      "updated_at": 1790023199
+    },
+    "note": "",
+    "created_at": 1790023199
+  },
+  {
+    "id": "69e8cb80-3a84-4ff0-bbb9-f9e9bb3e2459",
+    "actor": "admin@local.dev",
+    "action": "update",
+    "table_name": "site_settings",
+    "row_id": "feature_flags",
+    "before": {
+      "key": "feature_flags",
+      "value": {
+        "projects_public": false,
+        "chat_enabled": false,
+        "ticker_items": [
+          "NEXT EVENT · FALL 2026",
+          "PROJECTS — SUBMISSIONS OPEN",
+          "CYBERHOUNDS · CTF"
+        ]
+      },
+      "updated_by": "admin@local.dev",
+      "updated_at": 1790023066
+    },
+    "after": {
+      "key": "feature_flags",
+      "value": {
+        "projects_public": false,
+        "chat_enabled": false,
+        "ticker_items": [
+          "NEXT EVENT · FALL 2026",
+          "PROJECTS — SUBMISSIONS OPEN",
+          "CYBERHOUNDS · CTF"
+        ]
+      },
+      "updated_by": "admin@local.dev",
+      "updated_at": 1790023203
+    },
+    "note": "",
+    "created_at": 1790023203
+  },
+  {
+    "id": "feb1513b-5b4f-41f5-a7b6-845a53dcc823",
+    "actor": "admin@local.dev",
+    "action": "update",
+    "table_name": "site_settings",
+    "row_id": "feature_flags",
+    "before": {
+      "key": "feature_flags",
+      "value": {
+        "projects_public": false,
+        "chat_enabled": false,
+        "ticker_items": [
+          "NEXT EVENT · FALL 2026",
+          "PROJECTS — SUBMISSIONS OPEN",
+          "CYBERHOUNDS · CTF"
+        ]
+      },
+      "updated_by": "admin@local.dev",
+      "updated_at": 1790023203
+    },
+    "after": {
+      "key": "feature_flags",
+      "value": {
+        "projects_public": false,
+        "chat_enabled": false,
+        "ticker_items": [
+          "NEXT EVENT · FALL 2026",
+          "PROJECTS — SUBMISSIONS OPEN",
+          "CYBERHOUNDS · CTF"
+        ]
+      },
+      "updated_by": "admin@local.dev",
+      "updated_at": 1790023206
+    },
+    "note": "",
+    "created_at": 1790023206
+  },
+  {
+    "id": "1c99bfe3-88fb-4cb2-99b2-782c159c4b94",
+    "actor": "admin@local.dev",
+    "action": "create",
+    "table_name": "posts",
+    "row_id": "mobile-post-0644",
+    "before": null,
+    "after": {
+      "title": "Mobile Post 0644",
+      "dek": "",
+      "body_md": "",
+      "tags": [],
+      "slug": "mobile-post-0644",
+      "id": "mobile-post-0644",
+      "author_name": "Local admin",
+      "author_profile_id": null,
+      "status": "draft",
+      "created_by": "admin@local.dev",
+      "client_id": "ba0ab6d5-8a1f-414f-9810-85ed23e316a9",
+      "created_at": 1790023209,
+      "updated_at": 1790023209
+    },
+    "note": "",
+    "created_at": 1790023209
+  },
+  {
+    "id": "e6f7cece-54f2-46c6-a720-66d0091cb497",
+    "actor": "public",
+    "action": "create",
+    "table_name": "projects",
+    "row_id": "a20e5d67-ff2d-4791-b92a-22106e46d017",
+    "before": null,
+    "after": {
+      "title": "Mobile Project 0644",
+      "kind": "app",
+      "summary": "From a phone.",
+      "platform": [],
+      "stack": [],
+      "links": {
+        "repo": ""
+      },
+      "authors": [
+        {
+          "name": "Mo Bile",
+          "handle": "",
+          "term": ""
+        }
+      ],
+      "author_email": "mo@jjay.cuny.edu",
+      "status": "submitted",
+      "featured": false,
+      "display_order": 999,
+      "source": "site-projects-form",
+      "id": "a20e5d67-ff2d-4791-b92a-22106e46d017",
+      "created_at": 1790023211,
+      "updated_at": 1790023211
+    },
+    "note": "",
+    "created_at": 1790023211
+  },
+  {
+    "id": "d5b82c95-8b87-4f31-8f84-e2e1d17aeccf",
+    "actor": "admin@local.dev",
+    "action": "create",
+    "table_name": "posts",
+    "row_id": "welcome-back-9600",
+    "before": null,
+    "after": {
+      "title": "Welcome Back 9600",
+      "slug": "welcome-back-9600",
+      "id": "welcome-back-9600",
+      "author_name": "Local admin",
+      "author_profile_id": null,
+      "tags": [],
+      "status": "draft",
+      "created_by": "admin@local.dev",
+      "created_at": 1790023334,
+      "updated_at": 1790023334
+    },
+    "note": "",
+    "created_at": 1790023334
+  },
+  {
+    "id": "3872e7b0-86e1-440c-a55c-eb9dc7dac14b",
+    "actor": "admin@local.dev",
+    "action": "create",
+    "table_name": "posts",
+    "row_id": "welcome-back-9600-2",
+    "before": null,
+    "after": {
+      "title": "Welcome Back 9600",
+      "slug": "welcome-back-9600-2",
+      "id": "welcome-back-9600-2",
+      "author_name": "Local admin",
+      "author_profile_id": null,
+      "tags": [],
+      "status": "draft",
+      "created_by": "admin@local.dev",
+      "created_at": 1790023334,
+      "updated_at": 1790023334
+    },
+    "note": "",
+    "created_at": 1790023334
+  },
+  {
+    "id": "ebbcbfcf-fc45-4fb9-bbaf-fac5241473af",
+    "actor": "admin@local.dev",
+    "action": "create",
+    "table_name": "posts",
+    "row_id": "n-c-d-script-alert-1-script-drop-table-posts-9600",
+    "before": null,
+    "after": {
+      "title": "Ünïcödé ✨🐕 שלום <script>alert(1)</script> \"; DROP TABLE posts;-- 9600",
+      "dek": "Ünïcödé ✨🐕 שלום <script>alert(1)</script> \"; DROP TABLE posts;-- 9600",
+      "body_md": "## Ünïcödé ✨🐕 שלום <script>alert(1)</script> \"; DROP TABLE posts;-- 9600\n\nÜnïcödé ✨🐕 שלום <script>alert(1)</script> \"; DROP TABLE posts;-- 9600",
+      "tags": [
+        "Ünïcödé ✨🐕 שלום <script>alert(1)</script> \"; DROP TABLE posts;-- 9600"
+      ],
+      "slug": "n-c-d-script-alert-1-script-drop-table-posts-9600",
+      "id": "n-c-d-script-alert-1-script-drop-table-posts-9600",
+      "author_name": "Local admin",
+      "author_profile_id": null,
+      "status": "draft",
+      "created_by": "admin@local.dev",
+      "created_at": 1790023334,
+      "updated_at": 1790023334
+    },
+    "note": "",
+    "created_at": 1790023334
+  },
+  {
+    "id": "5f809fd0-94d1-4084-8197-40f2ef5ac7a5",
+    "actor": "admin@local.dev",
+    "action": "publish",
+    "table_name": "posts",
+    "row_id": "n-c-d-script-alert-1-script-drop-table-posts-9600",
+    "before": {
+      "title": "Ünïcödé ✨🐕 שלום <script>alert(1)</script> \"; DROP TABLE posts;-- 9600",
+      "dek": "Ünïcödé ✨🐕 שלום <script>alert(1)</script> \"; DROP TABLE posts;-- 9600",
+      "body_md": "## Ünïcödé ✨🐕 שלום <script>alert(1)</script> \"; DROP TABLE posts;-- 9600\n\nÜnïcödé ✨🐕 שלום <script>alert(1)</script> \"; DROP TABLE posts;-- 9600",
+      "tags": [
+        "Ünïcödé ✨🐕 שלום <script>alert(1)</script> \"; DROP TABLE posts;-- 9600"
+      ],
+      "slug": "n-c-d-script-alert-1-script-drop-table-posts-9600",
+      "id": "n-c-d-script-alert-1-script-drop-table-posts-9600",
+      "author_name": "Local admin",
+      "author_profile_id": null,
+      "status": "draft",
+      "created_by": "admin@local.dev",
+      "created_at": 1790023334,
+      "updated_at": 1790023334
+    },
+    "after": {
+      "title": "Ünïcödé ✨🐕 שלום <script>alert(1)</script> \"; DROP TABLE posts;-- 9600",
+      "dek": "Ünïcödé ✨🐕 שלום <script>alert(1)</script> \"; DROP TABLE posts;-- 9600",
+      "body_md": "## Ünïcödé ✨🐕 שלום <script>alert(1)</script> \"; DROP TABLE posts;-- 9600\n\nÜnïcödé ✨🐕 שלום <script>alert(1)</script> \"; DROP TABLE posts;-- 9600",
+      "tags": [
+        "Ünïcödé ✨🐕 שלום <script>alert(1)</script> \"; DROP TABLE posts;-- 9600"
+      ],
+      "slug": "n-c-d-script-alert-1-script-drop-table-posts-9600",
+      "id": "n-c-d-script-alert-1-script-drop-table-posts-9600",
+      "author_name": "Local admin",
+      "author_profile_id": null,
+      "status": "published",
+      "created_by": "admin@local.dev",
+      "created_at": 1790023334,
+      "updated_at": 1790023335,
+      "published_at": "2026-09-21"
+    },
+    "note": "",
+    "created_at": 1790023334
+  },
+  {
+    "id": "19d61482-e39b-4f00-80e5-ff1630abc473",
+    "actor": "admin@local.dev",
+    "action": "create",
+    "table_name": "events",
+    "row_id": "e0d78390-0767-4104-bf40-9727f6f8dfa1",
+    "before": null,
+    "after": {
+      "title": "Spam Event 9600",
+      "semester": "Fall 2026",
+      "starts_at": "2026-11-01",
+      "when": "upcoming",
+      "sort": 0,
+      "status": "draft",
+      "created_by": "admin@local.dev",
+      "client_id": "abf8aadb-e2c6-46da-84a2-cabca0143411",
+      "id": "e0d78390-0767-4104-bf40-9727f6f8dfa1",
+      "created_at": 1790023339,
+      "updated_at": 1790023339
+    },
+    "note": "",
+    "created_at": 1790023339
+  },
+  {
+    "id": "cd6821e3-e8ec-4907-86f6-82299f861941",
+    "actor": "admin@local.dev",
+    "action": "create",
+    "table_name": "events",
+    "row_id": "fd465c88-66a4-4202-9263-17b77221cb48",
+    "before": null,
+    "after": {
+      "title": "Enter Event 9600",
+      "semester": "Fall 2026",
+      "starts_at": "2026-11-02",
+      "when": "upcoming",
+      "sort": 0,
+      "status": "draft",
+      "created_by": "admin@local.dev",
+      "client_id": "1a4efd20-d3c7-43af-b1e3-dad18a45ab22",
+      "id": "fd465c88-66a4-4202-9263-17b77221cb48",
+      "created_at": 1790023342,
+      "updated_at": 1790023342
+    },
+    "note": "",
+    "created_at": 1790023342
+  },
+  {
+    "id": "99c4e8a9-3425-4fa0-8ffa-286e36c91c6f",
+    "actor": "admin@local.dev",
+    "action": "create",
+    "table_name": "events",
+    "row_id": "add488e5-54e1-4f5e-885e-b1c76861ec00",
+    "before": null,
+    "after": {
+      "title": "Cid Event 9600",
+      "semester": "Fall 2026",
+      "when": "upcoming",
+      "sort": 0,
+      "status": "draft",
+      "created_by": "admin@local.dev",
+      "client_id": "dbl-9600",
+      "id": "add488e5-54e1-4f5e-885e-b1c76861ec00",
+      "created_at": 1790023344,
+      "updated_at": 1790023344
+    },
+    "note": "",
+    "created_at": 1790023344
+  },
+  {
+    "id": "addaf80c-6f4f-4e4f-b1f6-aafc435b4b05",
+    "actor": "admin@local.dev",
+    "action": "create",
+    "table_name": "posts",
+    "row_id": "welcome-back-1809",
+    "before": null,
+    "after": {
+      "title": "Welcome Back 1809",
+      "slug": "welcome-back-1809",
+      "id": "welcome-back-1809",
+      "author_name": "Local admin",
+      "author_profile_id": null,
+      "tags": [],
+      "status": "draft",
+      "created_by": "admin@local.dev",
+      "created_at": 1790023386,
+      "updated_at": 1790023386
+    },
+    "note": "",
+    "created_at": 1790023386
+  },
+  {
+    "id": "d5eab4f8-1e1d-4123-955b-760a02b99599",
+    "actor": "admin@local.dev",
+    "action": "create",
+    "table_name": "posts",
+    "row_id": "welcome-back-1809-2",
+    "before": null,
+    "after": {
+      "title": "Welcome Back 1809",
+      "slug": "welcome-back-1809-2",
+      "id": "welcome-back-1809-2",
+      "author_name": "Local admin",
+      "author_profile_id": null,
+      "tags": [],
+      "status": "draft",
+      "created_by": "admin@local.dev",
+      "created_at": 1790023386,
+      "updated_at": 1790023386
+    },
+    "note": "",
+    "created_at": 1790023386
+  },
+  {
+    "id": "d4656376-4804-41b3-88f8-653e313f1f3c",
+    "actor": "admin@local.dev",
+    "action": "create",
+    "table_name": "posts",
+    "row_id": "n-c-d-script-alert-1-script-drop-table-posts-1809",
+    "before": null,
+    "after": {
+      "title": "Ünïcödé ✨🐕 שלום <script>alert(1)</script> \"; DROP TABLE posts;-- 1809",
+      "dek": "Ünïcödé ✨🐕 שלום <script>alert(1)</script> \"; DROP TABLE posts;-- 1809",
+      "body_md": "## Ünïcödé ✨🐕 שלום <script>alert(1)</script> \"; DROP TABLE posts;-- 1809\n\nÜnïcödé ✨🐕 שלום <script>alert(1)</script> \"; DROP TABLE posts;-- 1809",
+      "tags": [
+        "Ünïcödé ✨🐕 שלום <script>alert(1)</script> \"; DROP TABLE posts;-- 1809"
+      ],
+      "slug": "n-c-d-script-alert-1-script-drop-table-posts-1809",
+      "id": "n-c-d-script-alert-1-script-drop-table-posts-1809",
+      "author_name": "Local admin",
+      "author_profile_id": null,
+      "status": "draft",
+      "created_by": "admin@local.dev",
+      "created_at": 1790023386,
+      "updated_at": 1790023386
+    },
+    "note": "",
+    "created_at": 1790023386
+  },
+  {
+    "id": "52ba9678-7972-4935-ad46-8a07d38a7795",
+    "actor": "admin@local.dev",
+    "action": "publish",
+    "table_name": "posts",
+    "row_id": "n-c-d-script-alert-1-script-drop-table-posts-1809",
+    "before": {
+      "title": "Ünïcödé ✨🐕 שלום <script>alert(1)</script> \"; DROP TABLE posts;-- 1809",
+      "dek": "Ünïcödé ✨🐕 שלום <script>alert(1)</script> \"; DROP TABLE posts;-- 1809",
+      "body_md": "## Ünïcödé ✨🐕 שלום <script>alert(1)</script> \"; DROP TABLE posts;-- 1809\n\nÜnïcödé ✨🐕 שלום <script>alert(1)</script> \"; DROP TABLE posts;-- 1809",
+      "tags": [
+        "Ünïcödé ✨🐕 שלום <script>alert(1)</script> \"; DROP TABLE posts;-- 1809"
+      ],
+      "slug": "n-c-d-script-alert-1-script-drop-table-posts-1809",
+      "id": "n-c-d-script-alert-1-script-drop-table-posts-1809",
+      "author_name": "Local admin",
+      "author_profile_id": null,
+      "status": "draft",
+      "created_by": "admin@local.dev",
+      "created_at": 1790023386,
+      "updated_at": 1790023386
+    },
+    "after": {
+      "title": "Ünïcödé ✨🐕 שלום <script>alert(1)</script> \"; DROP TABLE posts;-- 1809",
+      "dek": "Ünïcödé ✨🐕 שלום <script>alert(1)</script> \"; DROP TABLE posts;-- 1809",
+      "body_md": "## Ünïcödé ✨🐕 שלום <script>alert(1)</script> \"; DROP TABLE posts;-- 1809\n\nÜnïcödé ✨🐕 שלום <script>alert(1)</script> \"; DROP TABLE posts;-- 1809",
+      "tags": [
+        "Ünïcödé ✨🐕 שלום <script>alert(1)</script> \"; DROP TABLE posts;-- 1809"
+      ],
+      "slug": "n-c-d-script-alert-1-script-drop-table-posts-1809",
+      "id": "n-c-d-script-alert-1-script-drop-table-posts-1809",
+      "author_name": "Local admin",
+      "author_profile_id": null,
+      "status": "published",
+      "created_by": "admin@local.dev",
+      "created_at": 1790023386,
+      "updated_at": 1790023387,
+      "published_at": "2026-09-21"
+    },
+    "note": "",
+    "created_at": 1790023386
+  },
+  {
+    "id": "27d116c2-0b2c-46d4-bfc6-6ac2715e2beb",
+    "actor": "admin@local.dev",
+    "action": "create",
+    "table_name": "events",
+    "row_id": "00ec7024-f23f-43e0-9e85-99a898a3b155",
+    "before": null,
+    "after": {
+      "title": "Spam Event 1809",
+      "semester": "Fall 2026",
+      "starts_at": "2026-11-01",
+      "when": "upcoming",
+      "sort": 0,
+      "status": "draft",
+      "created_by": "admin@local.dev",
+      "client_id": "8b9ec7db-5323-4019-86e9-db8e3d46dcd5",
+      "id": "00ec7024-f23f-43e0-9e85-99a898a3b155",
+      "created_at": 1790023391,
+      "updated_at": 1790023391
+    },
+    "note": "",
+    "created_at": 1790023391
+  },
+  {
+    "id": "6cc58647-0224-4241-a78d-5b55df78b521",
+    "actor": "admin@local.dev",
+    "action": "create",
+    "table_name": "events",
+    "row_id": "3efb007e-5d4f-4b9a-af26-1f3cf20d16a0",
+    "before": null,
+    "after": {
+      "title": "Enter Event 1809",
+      "semester": "Fall 2026",
+      "starts_at": "2026-11-02",
+      "when": "upcoming",
+      "sort": 0,
+      "status": "draft",
+      "created_by": "admin@local.dev",
+      "client_id": "4f4a0044-467e-49a8-9e92-0186595922b9",
+      "id": "3efb007e-5d4f-4b9a-af26-1f3cf20d16a0",
+      "created_at": 1790023394,
+      "updated_at": 1790023394
+    },
+    "note": "",
+    "created_at": 1790023394
+  },
+  {
+    "id": "3eaec71c-e123-4f23-9f3a-08a4713abc4f",
+    "actor": "admin@local.dev",
+    "action": "create",
+    "table_name": "events",
+    "row_id": "ea699d52-dcf3-4609-a73e-8e27ab5f6eed",
+    "before": null,
+    "after": {
+      "title": "Cid Event 1809",
+      "semester": "Fall 2026",
+      "when": "upcoming",
+      "sort": 0,
+      "status": "draft",
+      "created_by": "admin@local.dev",
+      "client_id": "dbl-1809",
+      "id": "ea699d52-dcf3-4609-a73e-8e27ab5f6eed",
+      "created_at": 1790023402,
+      "updated_at": 1790023402
+    },
+    "note": "",
+    "created_at": 1790023402
+  },
+  {
+    "id": "5ee47e4f-4e85-4921-8529-d4c05ff5a4d5",
+    "actor": "admin@local.dev",
+    "action": "create",
+    "table_name": "posts",
+    "row_id": "offline-post-1809",
+    "before": null,
+    "after": {
+      "title": "Offline Post 1809",
+      "dek": "",
+      "body_md": "",
+      "tags": [],
+      "slug": "offline-post-1809",
+      "id": "offline-post-1809",
+      "author_name": "Local admin",
+      "author_profile_id": null,
+      "status": "draft",
+      "created_by": "admin@local.dev",
+      "client_id": "d33fc65e-882b-4fab-9440-077ad8b9ae1c",
+      "created_at": 1790023406,
+      "updated_at": 1790023406
+    },
+    "note": "",
+    "created_at": 1790023406
+  },
+  {
+    "id": "c5d0671d-7c30-4bc9-aeb1-eeaf598eb349",
+    "actor": "admin@local.dev",
+    "action": "create",
+    "table_name": "posts",
+    "row_id": "welcome-back-5717",
+    "before": null,
+    "after": {
+      "title": "Welcome Back 5717",
+      "slug": "welcome-back-5717",
+      "id": "welcome-back-5717",
+      "author_name": "Local admin",
+      "author_profile_id": null,
+      "tags": [],
+      "status": "draft",
+      "created_by": "admin@local.dev",
+      "created_at": 1790023510,
+      "updated_at": 1790023510
+    },
+    "note": "",
+    "created_at": 1790023510
+  },
+  {
+    "id": "3f24a42c-3075-4093-9e2e-8a89cdba5ae0",
+    "actor": "admin@local.dev",
+    "action": "create",
+    "table_name": "posts",
+    "row_id": "welcome-back-5717-2",
+    "before": null,
+    "after": {
+      "title": "Welcome Back 5717",
+      "slug": "welcome-back-5717-2",
+      "id": "welcome-back-5717-2",
+      "author_name": "Local admin",
+      "author_profile_id": null,
+      "tags": [],
+      "status": "draft",
+      "created_by": "admin@local.dev",
+      "created_at": 1790023510,
+      "updated_at": 1790023510
+    },
+    "note": "",
+    "created_at": 1790023510
+  },
+  {
+    "id": "7f6a68dc-a856-45e8-be72-eb31b245bcdc",
+    "actor": "admin@local.dev",
+    "action": "create",
+    "table_name": "posts",
+    "row_id": "n-c-d-script-alert-1-script-drop-table-posts-5717",
+    "before": null,
+    "after": {
+      "title": "Ünïcödé ✨🐕 שלום <script>alert(1)</script> \"; DROP TABLE posts;-- 5717",
+      "dek": "Ünïcödé ✨🐕 שלום <script>alert(1)</script> \"; DROP TABLE posts;-- 5717",
+      "body_md": "## Ünïcödé ✨🐕 שלום <script>alert(1)</script> \"; DROP TABLE posts;-- 5717\n\nÜnïcödé ✨🐕 שלום <script>alert(1)</script> \"; DROP TABLE posts;-- 5717",
+      "tags": [
+        "Ünïcödé ✨🐕 שלום <script>alert(1)</script> \"; DROP TABLE posts;-- 5717"
+      ],
+      "slug": "n-c-d-script-alert-1-script-drop-table-posts-5717",
+      "id": "n-c-d-script-alert-1-script-drop-table-posts-5717",
+      "author_name": "Local admin",
+      "author_profile_id": null,
+      "status": "draft",
+      "created_by": "admin@local.dev",
+      "created_at": 1790023510,
+      "updated_at": 1790023510
+    },
+    "note": "",
+    "created_at": 1790023510
+  },
+  {
+    "id": "d4ac9e57-4588-4821-a518-3dede0c182d0",
+    "actor": "admin@local.dev",
+    "action": "publish",
+    "table_name": "posts",
+    "row_id": "n-c-d-script-alert-1-script-drop-table-posts-5717",
+    "before": {
+      "title": "Ünïcödé ✨🐕 שלום <script>alert(1)</script> \"; DROP TABLE posts;-- 5717",
+      "dek": "Ünïcödé ✨🐕 שלום <script>alert(1)</script> \"; DROP TABLE posts;-- 5717",
+      "body_md": "## Ünïcödé ✨🐕 שלום <script>alert(1)</script> \"; DROP TABLE posts;-- 5717\n\nÜnïcödé ✨🐕 שלום <script>alert(1)</script> \"; DROP TABLE posts;-- 5717",
+      "tags": [
+        "Ünïcödé ✨🐕 שלום <script>alert(1)</script> \"; DROP TABLE posts;-- 5717"
+      ],
+      "slug": "n-c-d-script-alert-1-script-drop-table-posts-5717",
+      "id": "n-c-d-script-alert-1-script-drop-table-posts-5717",
+      "author_name": "Local admin",
+      "author_profile_id": null,
+      "status": "draft",
+      "created_by": "admin@local.dev",
+      "created_at": 1790023510,
+      "updated_at": 1790023510
+    },
+    "after": {
+      "title": "Ünïcödé ✨🐕 שלום <script>alert(1)</script> \"; DROP TABLE posts;-- 5717",
+      "dek": "Ünïcödé ✨🐕 שלום <script>alert(1)</script> \"; DROP TABLE posts;-- 5717",
+      "body_md": "## Ünïcödé ✨🐕 שלום <script>alert(1)</script> \"; DROP TABLE posts;-- 5717\n\nÜnïcödé ✨🐕 שלום <script>alert(1)</script> \"; DROP TABLE posts;-- 5717",
+      "tags": [
+        "Ünïcödé ✨🐕 שלום <script>alert(1)</script> \"; DROP TABLE posts;-- 5717"
+      ],
+      "slug": "n-c-d-script-alert-1-script-drop-table-posts-5717",
+      "id": "n-c-d-script-alert-1-script-drop-table-posts-5717",
+      "author_name": "Local admin",
+      "author_profile_id": null,
+      "status": "published",
+      "created_by": "admin@local.dev",
+      "created_at": 1790023510,
+      "updated_at": 1790023511,
+      "published_at": "2026-09-21"
+    },
+    "note": "",
+    "created_at": 1790023510
+  },
+  {
+    "id": "2ae09f55-0f73-4711-aaac-f45ed3acd736",
+    "actor": "admin@local.dev",
+    "action": "create",
+    "table_name": "events",
+    "row_id": "6c3c35ff-10b5-4164-ab97-f75e6bbc0bf8",
+    "before": null,
+    "after": {
+      "title": "Spam Event 5717",
+      "semester": "Fall 2026",
+      "starts_at": "2026-11-01",
+      "when": "upcoming",
+      "sort": 0,
+      "status": "draft",
+      "created_by": "admin@local.dev",
+      "client_id": "bd6b991f-73be-4c3f-a889-14d87a889062",
+      "id": "6c3c35ff-10b5-4164-ab97-f75e6bbc0bf8",
+      "created_at": 1790023515,
+      "updated_at": 1790023515
+    },
+    "note": "",
+    "created_at": 1790023515
+  },
+  {
+    "id": "1c89760a-81f7-40cf-aefd-4f0dd2c81d91",
+    "actor": "admin@local.dev",
+    "action": "create",
+    "table_name": "events",
+    "row_id": "e0c87efc-78e4-4b52-9aab-ee38c7b5c707",
+    "before": null,
+    "after": {
+      "title": "Enter Event 5717",
+      "semester": "Fall 2026",
+      "starts_at": "2026-11-02",
+      "when": "upcoming",
+      "sort": 0,
+      "status": "draft",
+      "created_by": "admin@local.dev",
+      "client_id": "6bc55cf7-af55-4d55-8061-ed5aa567d6d9",
+      "id": "e0c87efc-78e4-4b52-9aab-ee38c7b5c707",
+      "created_at": 1790023517,
+      "updated_at": 1790023517
+    },
+    "note": "",
+    "created_at": 1790023517
+  },
+  {
+    "id": "a87e9b31-8cb5-48ca-bf79-b0f18ef101a5",
+    "actor": "admin@local.dev",
+    "action": "create",
+    "table_name": "events",
+    "row_id": "9f0c3e0e-645e-494d-ab67-35b466d2f819",
+    "before": null,
+    "after": {
+      "title": "Cid Event 5717",
+      "semester": "Fall 2026",
+      "when": "upcoming",
+      "sort": 0,
+      "status": "draft",
+      "created_by": "admin@local.dev",
+      "client_id": "dbl-5717",
+      "id": "9f0c3e0e-645e-494d-ab67-35b466d2f819",
+      "created_at": 1790023524,
+      "updated_at": 1790023524
+    },
+    "note": "",
+    "created_at": 1790023524
+  },
+  {
+    "id": "efe4d5a1-5fba-4f63-9531-64357fb84cad",
+    "actor": "admin@local.dev",
+    "action": "create",
+    "table_name": "posts",
+    "row_id": "offline-post-5717",
+    "before": null,
+    "after": {
+      "title": "Offline Post 5717",
+      "dek": "",
+      "body_md": "",
+      "tags": [],
+      "slug": "offline-post-5717",
+      "id": "offline-post-5717",
+      "author_name": "Local admin",
+      "author_profile_id": null,
+      "status": "draft",
+      "created_by": "admin@local.dev",
+      "client_id": "8f54df48-4ece-465e-950c-4702ae762076",
+      "created_at": 1790023529,
+      "updated_at": 1790023529
+    },
+    "note": "",
+    "created_at": 1790023529
+  },
+  {
+    "id": "f4771892-c5da-46b7-83d1-b9b7a01ea4d1",
+    "actor": "admin@local.dev",
+    "action": "create",
+    "table_name": "posts",
+    "row_id": "stale-5717",
+    "before": null,
+    "after": {
+      "title": "Stale 5717",
+      "slug": "stale-5717",
+      "id": "stale-5717",
+      "author_name": "Local admin",
+      "author_profile_id": null,
+      "tags": [],
+      "status": "draft",
+      "created_by": "admin@local.dev",
+      "created_at": 1790023564,
+      "updated_at": 1790023564
+    },
+    "note": "",
+    "created_at": 1790023564
+  },
+  {
+    "id": "ae18fd33-b543-4e11-936a-c325ffc4367f",
+    "actor": "admin@local.dev",
+    "action": "update",
+    "table_name": "posts",
+    "row_id": "stale-5717",
+    "before": {
+      "title": "Stale 5717",
+      "slug": "stale-5717",
+      "id": "stale-5717",
+      "author_name": "Local admin",
+      "author_profile_id": null,
+      "tags": [],
+      "status": "draft",
+      "created_by": "admin@local.dev",
+      "created_at": 1790023564,
+      "updated_at": 1790023564
+    },
+    "after": {
+      "title": "Stale 5717 (changed elsewhere)",
+      "slug": "stale-5717",
+      "id": "stale-5717",
+      "author_name": "Local admin",
+      "author_profile_id": null,
+      "tags": [],
+      "status": "draft",
+      "created_by": "admin@local.dev",
+      "created_at": 1790023564,
+      "updated_at": 1790023567
+    },
+    "note": "",
+    "created_at": 1790023567
+  },
+  {
+    "id": "57224b66-e014-49aa-83c2-917ede365679",
+    "actor": "officer@local.dev",
+    "action": "create",
+    "table_name": "posts",
+    "row_id": "x-3",
+    "before": null,
+    "after": {
+      "title": "x",
+      "slug": "x-3",
+      "id": "x-3",
+      "author_name": "Local officer",
+      "author_profile_id": null,
+      "tags": [],
+      "status": "draft",
+      "created_by": "officer@local.dev",
+      "created_at": 1790023575,
+      "updated_at": 1790023575
+    },
+    "note": "",
+    "created_at": 1790023575
+  },
+  {
+    "id": "10304203-e163-4403-bafb-7b9e97916cf1",
+    "actor": "officer@local.dev",
+    "action": "create",
+    "table_name": "projects",
+    "row_id": "6f795269-198f-4956-80cd-60ffb5e2e989",
+    "before": null,
+    "after": {
+      "title": "x",
+      "status": "submitted",
+      "created_by": "officer@local.dev",
+      "id": "6f795269-198f-4956-80cd-60ffb5e2e989",
+      "created_at": 1790023575,
+      "updated_at": 1790023575
+    },
+    "note": "",
+    "created_at": 1790023575
+  },
+  {
+    "id": "e590a1a9-709c-4559-8567-7fa521671d41",
+    "actor": "officer@local.dev",
+    "action": "create",
+    "table_name": "events",
+    "row_id": "45994a37-3649-443f-bac9-9498ae933b13",
+    "before": null,
+    "after": {
+      "title": "x",
+      "when": "upcoming",
+      "semester": "Fall 2026",
+      "sort": 0,
+      "status": "draft",
+      "created_by": "officer@local.dev",
+      "id": "45994a37-3649-443f-bac9-9498ae933b13",
+      "created_at": 1790023575,
+      "updated_at": 1790023575
+    },
+    "note": "",
+    "created_at": 1790023575
+  },
+  {
+    "id": "8154f296-cf79-4af6-b30d-ff63b0d1443a",
+    "actor": "officer@local.dev",
+    "action": "create",
+    "table_name": "workshops",
+    "row_id": "06ee5662-e0ab-49f9-834e-1b8e04212835",
+    "before": null,
+    "after": {
+      "title": "x",
+      "status": "draft",
+      "created_by": "officer@local.dev",
+      "id": "06ee5662-e0ab-49f9-834e-1b8e04212835",
+      "created_at": 1790023575,
+      "updated_at": 1790023575
+    },
+    "note": "",
+    "created_at": 1790023575
+  },
+  {
+    "id": "81dafbcd-c6f3-458f-b44f-35575cfb7f67",
+    "actor": "officer@local.dev",
+    "action": "create",
+    "table_name": "resources",
+    "row_id": "f8a5b3a8-ed4d-48c4-aed9-0bbb55fefc0a",
+    "before": null,
+    "after": {
+      "group": "g",
+      "title": "x",
+      "url": "https://x.example",
+      "created_by": "officer@local.dev",
+      "id": "f8a5b3a8-ed4d-48c4-aed9-0bbb55fefc0a",
+      "created_at": 1790023575,
+      "updated_at": 1790023575
+    },
+    "note": "",
+    "created_at": 1790023575
+  },
+  {
+    "id": "43b3b560-e58d-405e-b83f-864a3d3dfec2",
+    "actor": "officer@local.dev",
+    "action": "update",
+    "table_name": "links",
+    "row_id": "discord",
+    "before": {
+      "key": "discord",
+      "url": "https://x.example",
+      "label": "Discord invite",
+      "last_checked": null,
+      "last_status": null,
+      "dead": false,
+      "updated_at": 1790023193
+    },
+    "after": {
+      "key": "discord",
+      "url": "https://x.example",
+      "label": "Discord invite",
+      "last_checked": null,
+      "last_status": null,
+      "dead": false,
+      "updated_at": 1790023575
+    },
+    "note": "",
+    "created_at": 1790023575
+  },
+  {
+    "id": "c025a9cb-f000-471a-b8fc-6bee56298d83",
+    "actor": "officer@local.dev",
+    "action": "create",
+    "table_name": "members",
+    "row_id": "763a4904-3130-4e05-8793-8e995a34a8e6",
+    "before": null,
+    "after": {
+      "display_name": "x",
+      "status": "interested",
+      "source": "manual",
+      "tags": [],
+      "created_by": "officer@local.dev",
+      "id": "763a4904-3130-4e05-8793-8e995a34a8e6",
+      "created_at": 1790023575,
+      "updated_at": 1790023575
+    },
+    "note": "",
+    "created_at": 1790023575
+  },
+  {
+    "id": "a5af7064-ab48-4bf6-89ac-f613bab33419",
+    "actor": "admin@local.dev",
+    "action": "create",
+    "table_name": "board_profiles",
+    "row_id": "b46654e0-bc12-4468-8ed1-cb285b8079c8",
+    "before": null,
+    "after": {
+      "name": "Filer 5717",
+      "term": "F26",
+      "role_title": "Historian 5717",
+      "active": true,
+      "created_by": "admin@local.dev",
+      "id": "b46654e0-bc12-4468-8ed1-cb285b8079c8",
+      "created_at": 1790023575,
+      "updated_at": 1790023575
+    },
+    "note": "",
+    "created_at": 1790023575
+  },
+  {
+    "id": "58422755-06cb-4ff6-b359-ea718323848b",
+    "actor": "admin@local.dev",
+    "action": "create",
+    "table_name": "inheritance_records",
+    "row_id": "F26/handoffs/historian-5717",
+    "before": null,
+    "after": {
+      "type": "handoff",
+      "title": "Handoff — Historian 5717",
+      "term": "F26",
+      "date": "2026-12-01",
+      "status": "final",
+      "owners": [
+        "Historian 5717"
+      ],
+      "visibility": "board",
+      "role": "Historian 5717",
+      "id": "F26/handoffs/historian-5717",
+      "path": "content/inheritance/F26/handoffs/historian-5717.md",
+      "excerpt": "## What I ran the archive",
+      "updated_at": 1790023575
+    },
+    "note": "",
+    "created_at": 1790023575
+  },
+  {
+    "id": "b1ba2caf-f418-4934-9e6e-31a48d3c346f",
+    "actor": "admin@local.dev",
+    "action": "archive",
+    "table_name": "board_profiles",
+    "row_id": "b46654e0-bc12-4468-8ed1-cb285b8079c8",
+    "before": {
+      "name": "Filer 5717",
+      "term": "F26",
+      "role_title": "Historian 5717",
+      "active": true,
+      "created_by": "admin@local.dev",
+      "id": "b46654e0-bc12-4468-8ed1-cb285b8079c8",
+      "created_at": 1790023575,
+      "updated_at": 1790023575
+    },
+    "after": {
+      "name": "Filer 5717",
+      "term": "F26",
+      "role_title": "Historian 5717",
+      "active": false,
+      "created_by": "admin@local.dev",
+      "id": "b46654e0-bc12-4468-8ed1-cb285b8079c8",
+      "created_at": 1790023575,
+      "updated_at": 1790023576,
+      "archived": true
+    },
+    "note": "",
+    "created_at": 1790023575
+  },
+  {
+    "id": "734acb21-8d5e-4921-b0de-ccbe862458a0",
+    "actor": "admin@local.dev",
+    "action": "create",
+    "table_name": "resources",
+    "row_id": "bf3464d6-aea2-4c36-a059-015c9828d932",
+    "before": null,
+    "after": {
+      "group": "Doomed 5717",
+      "title": "A",
+      "url": "https://a.example",
+      "created_by": "admin@local.dev",
+      "id": "bf3464d6-aea2-4c36-a059-015c9828d932",
+      "created_at": 1790023575,
+      "updated_at": 1790023575
+    },
+    "note": "",
+    "created_at": 1790023575
+  },
+  {
+    "id": "56abdec0-92d4-4441-af6a-1281b3358a9e",
+    "actor": "admin@local.dev",
+    "action": "delete",
+    "table_name": "resources",
+    "row_id": "bf3464d6-aea2-4c36-a059-015c9828d932",
+    "before": {
+      "group": "Doomed 5717",
+      "title": "A",
+      "url": "https://a.example",
+      "created_by": "admin@local.dev",
+      "id": "bf3464d6-aea2-4c36-a059-015c9828d932",
+      "created_at": 1790023575,
+      "updated_at": 1790023575
+    },
+    "after": null,
+    "note": "",
+    "created_at": 1790023575
+  },
+  {
+    "id": "181614f7-3147-400b-8e4b-10ec7b4259dd",
+    "actor": "admin@local.dev",
+    "action": "update",
+    "table_name": "site_settings",
+    "row_id": "maintenance_banner",
+    "before": {
+      "key": "maintenance_banner",
+      "value": {
+        "on": false,
+        "text": ""
+      },
+      "updated_by": "admin@local.dev",
+      "updated_at": 1790023199
+    },
+    "after": {
+      "key": "maintenance_banner",
+      "value": {
+        "on": true,
+        "text": "Back at 9 — 5717"
+      },
+      "updated_by": "admin@local.dev",
+      "updated_at": 1790023575
+    },
+    "note": "",
+    "created_at": 1790023575
+  },
+  {
+    "id": "6e6aa06b-96a7-4352-b287-fef5a562c50f",
+    "actor": "admin@local.dev",
+    "action": "update",
+    "table_name": "site_settings",
+    "row_id": "maintenance_banner",
+    "before": {
+      "key": "maintenance_banner",
+      "value": {
+        "on": true,
+        "text": "Back at 9 — 5717"
+      },
+      "updated_by": "admin@local.dev",
+      "updated_at": 1790023575
+    },
+    "after": {
+      "key": "maintenance_banner",
+      "value": {
+        "on": false,
+        "text": ""
+      },
+      "updated_by": "admin@local.dev",
+      "updated_at": 1790023582
+    },
+    "note": "",
+    "created_at": 1790023582
+  },
+  {
+    "id": "adbc5060-d913-46c9-a811-714873d9664d",
+    "actor": "admin@local.dev",
+    "action": "update",
+    "table_name": "site_settings",
+    "row_id": "feature_flags",
+    "before": {
+      "key": "feature_flags",
+      "value": {
+        "projects_public": false,
+        "chat_enabled": false,
+        "ticker_items": [
+          "NEXT EVENT · FALL 2026",
+          "PROJECTS — SUBMISSIONS OPEN",
+          "CYBERHOUNDS · CTF"
+        ]
+      },
+      "updated_by": "admin@local.dev",
+      "updated_at": 1790023206
+    },
+    "after": {
+      "key": "feature_flags",
+      "value": {
+        "projects_public": false,
+        "chat_enabled": false,
+        "ticker_items": [
+          "NEXT EVENT · FALL 2026",
+          "PROJECTS — SUBMISSIONS OPEN",
+          "CYBERHOUNDS · CTF"
+        ]
+      },
+      "updated_by": "admin@local.dev",
+      "updated_at": 1790023587
+    },
+    "note": "",
+    "created_at": 1790023587
+  },
+  {
+    "id": "26ed0ba6-7d10-44f1-b4b4-fe4ed3a8e149",
+    "actor": "admin@local.dev",
+    "action": "update",
+    "table_name": "site_settings",
+    "row_id": "feature_flags",
+    "before": {
+      "key": "feature_flags",
+      "value": {
+        "projects_public": false,
+        "chat_enabled": false,
+        "ticker_items": [
+          "NEXT EVENT · FALL 2026",
+          "PROJECTS — SUBMISSIONS OPEN",
+          "CYBERHOUNDS · CTF"
+        ]
+      },
+      "updated_by": "admin@local.dev",
+      "updated_at": 1790023587
+    },
+    "after": {
+      "key": "feature_flags",
+      "value": {
+        "projects_public": false,
+        "chat_enabled": false,
+        "ticker_items": [
+          "NEXT EVENT · FALL 2026",
+          "PROJECTS — SUBMISSIONS OPEN",
+          "CYBERHOUNDS · CTF"
+        ]
+      },
+      "updated_by": "admin@local.dev",
+      "updated_at": 1790023591
+    },
+    "note": "",
+    "created_at": 1790023591
+  },
+  {
+    "id": "7e6c7b2b-4033-4c6c-b385-7dd36b4da5e9",
+    "actor": "admin@local.dev",
+    "action": "create",
+    "table_name": "posts",
+    "row_id": "mobile-post-5717",
+    "before": null,
+    "after": {
+      "title": "Mobile Post 5717",
+      "dek": "",
+      "body_md": "",
+      "tags": [],
+      "slug": "mobile-post-5717",
+      "id": "mobile-post-5717",
+      "author_name": "Local admin",
+      "author_profile_id": null,
+      "status": "draft",
+      "created_by": "admin@local.dev",
+      "client_id": "a8401046-76f8-4425-8abd-f2085855857f",
+      "created_at": 1790023594,
+      "updated_at": 1790023594
+    },
+    "note": "",
+    "created_at": 1790023594
+  },
+  {
+    "id": "cdaa92e5-fea5-4b58-bfac-c37b3086b76a",
+    "actor": "public",
+    "action": "create",
+    "table_name": "projects",
+    "row_id": "aa6fd5cf-5e65-4021-b9ed-990ee82621cb",
+    "before": null,
+    "after": {
+      "title": "Mobile Project 5717",
+      "kind": "app",
+      "summary": "From a phone.",
+      "platform": [],
+      "stack": [],
+      "links": {
+        "repo": ""
+      },
+      "authors": [
+        {
+          "name": "Mo Bile",
+          "handle": "",
+          "term": ""
+        }
+      ],
+      "author_email": "mo@jjay.cuny.edu",
+      "status": "submitted",
+      "featured": false,
+      "display_order": 999,
+      "source": "site-projects-form",
+      "id": "aa6fd5cf-5e65-4021-b9ed-990ee82621cb",
+      "created_at": 1790023597,
+      "updated_at": 1790023597
+    },
+    "note": "",
+    "created_at": 1790023597
+  },
+  {
+    "id": "f25b7dc1-fa36-4f36-9597-e14fac971f70",
+    "actor": "admin@local.dev",
+    "action": "create",
+    "table_name": "posts",
+    "row_id": "welcome-back-5740",
+    "before": null,
+    "after": {
+      "title": "Welcome Back 5740",
+      "slug": "welcome-back-5740",
+      "id": "welcome-back-5740",
+      "author_name": "Local admin",
+      "author_profile_id": null,
+      "tags": [],
+      "status": "draft",
+      "created_by": "admin@local.dev",
+      "created_at": 1790023680,
+      "updated_at": 1790023680
+    },
+    "note": "",
+    "created_at": 1790023680
+  },
+  {
+    "id": "626d2d60-e179-4531-90b0-b7858fbcea50",
+    "actor": "admin@local.dev",
+    "action": "create",
+    "table_name": "posts",
+    "row_id": "welcome-back-5740-2",
+    "before": null,
+    "after": {
+      "title": "Welcome Back 5740",
+      "slug": "welcome-back-5740-2",
+      "id": "welcome-back-5740-2",
+      "author_name": "Local admin",
+      "author_profile_id": null,
+      "tags": [],
+      "status": "draft",
+      "created_by": "admin@local.dev",
+      "created_at": 1790023680,
+      "updated_at": 1790023680
+    },
+    "note": "",
+    "created_at": 1790023680
+  },
+  {
+    "id": "45c2b35b-b719-40e5-accb-43c8ef162c3e",
+    "actor": "admin@local.dev",
+    "action": "create",
+    "table_name": "posts",
+    "row_id": "n-c-d-script-alert-1-script-drop-table-posts-5740",
+    "before": null,
+    "after": {
+      "title": "Ünïcödé ✨🐕 שלום <script>alert(1)</script> \"; DROP TABLE posts;-- 5740",
+      "dek": "Ünïcödé ✨🐕 שלום <script>alert(1)</script> \"; DROP TABLE posts;-- 5740",
+      "body_md": "## Ünïcödé ✨🐕 שלום <script>alert(1)</script> \"; DROP TABLE posts;-- 5740\n\nÜnïcödé ✨🐕 שלום <script>alert(1)</script> \"; DROP TABLE posts;-- 5740",
+      "tags": [
+        "Ünïcödé ✨🐕 שלום <script>alert(1)</script> \"; DROP TABLE posts;-- 5740"
+      ],
+      "slug": "n-c-d-script-alert-1-script-drop-table-posts-5740",
+      "id": "n-c-d-script-alert-1-script-drop-table-posts-5740",
+      "author_name": "Local admin",
+      "author_profile_id": null,
+      "status": "draft",
+      "created_by": "admin@local.dev",
+      "created_at": 1790023680,
+      "updated_at": 1790023680
+    },
+    "note": "",
+    "created_at": 1790023680
+  },
+  {
+    "id": "f44db0d4-d998-4234-b98d-21d9c6b4efe4",
+    "actor": "admin@local.dev",
+    "action": "publish",
+    "table_name": "posts",
+    "row_id": "n-c-d-script-alert-1-script-drop-table-posts-5740",
+    "before": {
+      "title": "Ünïcödé ✨🐕 שלום <script>alert(1)</script> \"; DROP TABLE posts;-- 5740",
+      "dek": "Ünïcödé ✨🐕 שלום <script>alert(1)</script> \"; DROP TABLE posts;-- 5740",
+      "body_md": "## Ünïcödé ✨🐕 שלום <script>alert(1)</script> \"; DROP TABLE posts;-- 5740\n\nÜnïcödé ✨🐕 שלום <script>alert(1)</script> \"; DROP TABLE posts;-- 5740",
+      "tags": [
+        "Ünïcödé ✨🐕 שלום <script>alert(1)</script> \"; DROP TABLE posts;-- 5740"
+      ],
+      "slug": "n-c-d-script-alert-1-script-drop-table-posts-5740",
+      "id": "n-c-d-script-alert-1-script-drop-table-posts-5740",
+      "author_name": "Local admin",
+      "author_profile_id": null,
+      "status": "draft",
+      "created_by": "admin@local.dev",
+      "created_at": 1790023680,
+      "updated_at": 1790023680
+    },
+    "after": {
+      "title": "Ünïcödé ✨🐕 שלום <script>alert(1)</script> \"; DROP TABLE posts;-- 5740",
+      "dek": "Ünïcödé ✨🐕 שלום <script>alert(1)</script> \"; DROP TABLE posts;-- 5740",
+      "body_md": "## Ünïcödé ✨🐕 שלום <script>alert(1)</script> \"; DROP TABLE posts;-- 5740\n\nÜnïcödé ✨🐕 שלום <script>alert(1)</script> \"; DROP TABLE posts;-- 5740",
+      "tags": [
+        "Ünïcödé ✨🐕 שלום <script>alert(1)</script> \"; DROP TABLE posts;-- 5740"
+      ],
+      "slug": "n-c-d-script-alert-1-script-drop-table-posts-5740",
+      "id": "n-c-d-script-alert-1-script-drop-table-posts-5740",
+      "author_name": "Local admin",
+      "author_profile_id": null,
+      "status": "published",
+      "created_by": "admin@local.dev",
+      "created_at": 1790023680,
+      "updated_at": 1790023681,
+      "published_at": "2026-09-21"
+    },
+    "note": "",
+    "created_at": 1790023680
+  },
+  {
+    "id": "1cce175d-14e0-4249-8c0e-8df0f49d95fd",
+    "actor": "admin@local.dev",
+    "action": "create",
+    "table_name": "events",
+    "row_id": "71cc2c9e-eb72-4da4-8d4c-42dd17808e48",
+    "before": null,
+    "after": {
+      "title": "Spam Event 5740",
+      "semester": "Fall 2026",
+      "starts_at": "2026-11-01",
+      "when": "upcoming",
+      "sort": 0,
+      "status": "draft",
+      "created_by": "admin@local.dev",
+      "client_id": "be16a5e4-cb48-4af1-a4b3-deb109f24e69",
+      "id": "71cc2c9e-eb72-4da4-8d4c-42dd17808e48",
+      "created_at": 1790023686,
+      "updated_at": 1790023686
+    },
+    "note": "",
+    "created_at": 1790023686
+  },
+  {
+    "id": "8901e89e-c56d-4864-9fd9-8f22db24562c",
+    "actor": "admin@local.dev",
+    "action": "create",
+    "table_name": "events",
+    "row_id": "0ad1e259-dd84-48df-b73b-ebfac106180a",
+    "before": null,
+    "after": {
+      "title": "Enter Event 5740",
+      "semester": "Fall 2026",
+      "starts_at": "2026-11-02",
+      "when": "upcoming",
+      "sort": 0,
+      "status": "draft",
+      "created_by": "admin@local.dev",
+      "client_id": "007c549f-06eb-414e-b09c-a4deeb6ef72d",
+      "id": "0ad1e259-dd84-48df-b73b-ebfac106180a",
+      "created_at": 1790023688,
+      "updated_at": 1790023688
+    },
+    "note": "",
+    "created_at": 1790023688
+  },
+  {
+    "id": "c158e85b-6ddb-4b2d-9a0a-4d894ad4fcbb",
+    "actor": "admin@local.dev",
+    "action": "create",
+    "table_name": "events",
+    "row_id": "382806bd-7348-4e9a-b82c-df0855de576f",
+    "before": null,
+    "after": {
+      "title": "Cid Event 5740",
+      "semester": "Fall 2026",
+      "when": "upcoming",
+      "sort": 0,
+      "status": "draft",
+      "created_by": "admin@local.dev",
+      "client_id": "dbl-5740",
+      "id": "382806bd-7348-4e9a-b82c-df0855de576f",
+      "created_at": 1790023690,
+      "updated_at": 1790023690
+    },
+    "note": "",
+    "created_at": 1790023690
+  },
+  {
+    "id": "81bbcb6a-cc37-4b66-9080-fc1451bf4d1e",
+    "actor": "admin@local.dev",
+    "action": "create",
+    "table_name": "posts",
+    "row_id": "offline-post-5740",
+    "before": null,
+    "after": {
+      "title": "Offline Post 5740",
+      "dek": "",
+      "body_md": "",
+      "tags": [],
+      "slug": "offline-post-5740",
+      "id": "offline-post-5740",
+      "author_name": "Local admin",
+      "author_profile_id": null,
+      "status": "draft",
+      "created_by": "admin@local.dev",
+      "client_id": "f9846650-c338-41cd-a110-588bf7ee9195",
+      "created_at": 1790023694,
+      "updated_at": 1790023694
+    },
+    "note": "",
+    "created_at": 1790023694
+  },
+  {
+    "id": "5efb0ebb-c37a-47e9-9670-939add735bfe",
+    "actor": "admin@local.dev",
+    "action": "create",
+    "table_name": "posts",
+    "row_id": "welcome-back-3092",
+    "before": null,
+    "after": {
+      "title": "Welcome Back 3092",
+      "slug": "welcome-back-3092",
+      "id": "welcome-back-3092",
+      "author_name": "Local admin",
+      "author_profile_id": null,
+      "tags": [],
+      "status": "draft",
+      "created_by": "admin@local.dev",
+      "created_at": 1790023738,
+      "updated_at": 1790023738
+    },
+    "note": "",
+    "created_at": 1790023738
+  },
+  {
+    "id": "85267c98-1467-4851-842d-d98c05e104c1",
+    "actor": "admin@local.dev",
+    "action": "create",
+    "table_name": "posts",
+    "row_id": "welcome-back-3092-2",
+    "before": null,
+    "after": {
+      "title": "Welcome Back 3092",
+      "slug": "welcome-back-3092-2",
+      "id": "welcome-back-3092-2",
+      "author_name": "Local admin",
+      "author_profile_id": null,
+      "tags": [],
+      "status": "draft",
+      "created_by": "admin@local.dev",
+      "created_at": 1790023738,
+      "updated_at": 1790023738
+    },
+    "note": "",
+    "created_at": 1790023738
+  },
+  {
+    "id": "ab859834-315e-48f4-953c-b987b441da4b",
+    "actor": "admin@local.dev",
+    "action": "create",
+    "table_name": "posts",
+    "row_id": "n-c-d-script-alert-1-script-drop-table-posts-3092",
+    "before": null,
+    "after": {
+      "title": "Ünïcödé ✨🐕 שלום <script>alert(1)</script> \"; DROP TABLE posts;-- 3092",
+      "dek": "Ünïcödé ✨🐕 שלום <script>alert(1)</script> \"; DROP TABLE posts;-- 3092",
+      "body_md": "## Ünïcödé ✨🐕 שלום <script>alert(1)</script> \"; DROP TABLE posts;-- 3092\n\nÜnïcödé ✨🐕 שלום <script>alert(1)</script> \"; DROP TABLE posts;-- 3092",
+      "tags": [
+        "Ünïcödé ✨🐕 שלום <script>alert(1)</script> \"; DROP TABLE posts;-- 3092"
+      ],
+      "slug": "n-c-d-script-alert-1-script-drop-table-posts-3092",
+      "id": "n-c-d-script-alert-1-script-drop-table-posts-3092",
+      "author_name": "Local admin",
+      "author_profile_id": null,
+      "status": "draft",
+      "created_by": "admin@local.dev",
+      "created_at": 1790023738,
+      "updated_at": 1790023738
+    },
+    "note": "",
+    "created_at": 1790023738
+  },
+  {
+    "id": "e885f22c-39b9-4456-b328-a8d6a4b568f1",
+    "actor": "admin@local.dev",
+    "action": "publish",
+    "table_name": "posts",
+    "row_id": "n-c-d-script-alert-1-script-drop-table-posts-3092",
+    "before": {
+      "title": "Ünïcödé ✨🐕 שלום <script>alert(1)</script> \"; DROP TABLE posts;-- 3092",
+      "dek": "Ünïcödé ✨🐕 שלום <script>alert(1)</script> \"; DROP TABLE posts;-- 3092",
+      "body_md": "## Ünïcödé ✨🐕 שלום <script>alert(1)</script> \"; DROP TABLE posts;-- 3092\n\nÜnïcödé ✨🐕 שלום <script>alert(1)</script> \"; DROP TABLE posts;-- 3092",
+      "tags": [
+        "Ünïcödé ✨🐕 שלום <script>alert(1)</script> \"; DROP TABLE posts;-- 3092"
+      ],
+      "slug": "n-c-d-script-alert-1-script-drop-table-posts-3092",
+      "id": "n-c-d-script-alert-1-script-drop-table-posts-3092",
+      "author_name": "Local admin",
+      "author_profile_id": null,
+      "status": "draft",
+      "created_by": "admin@local.dev",
+      "created_at": 1790023738,
+      "updated_at": 1790023738
+    },
+    "after": {
+      "title": "Ünïcödé ✨🐕 שלום <script>alert(1)</script> \"; DROP TABLE posts;-- 3092",
+      "dek": "Ünïcödé ✨🐕 שלום <script>alert(1)</script> \"; DROP TABLE posts;-- 3092",
+      "body_md": "## Ünïcödé ✨🐕 שלום <script>alert(1)</script> \"; DROP TABLE posts;-- 3092\n\nÜnïcödé ✨🐕 שלום <script>alert(1)</script> \"; DROP TABLE posts;-- 3092",
+      "tags": [
+        "Ünïcödé ✨🐕 שלום <script>alert(1)</script> \"; DROP TABLE posts;-- 3092"
+      ],
+      "slug": "n-c-d-script-alert-1-script-drop-table-posts-3092",
+      "id": "n-c-d-script-alert-1-script-drop-table-posts-3092",
+      "author_name": "Local admin",
+      "author_profile_id": null,
+      "status": "published",
+      "created_by": "admin@local.dev",
+      "created_at": 1790023738,
+      "updated_at": 1790023739,
+      "published_at": "2026-09-21"
+    },
+    "note": "",
+    "created_at": 1790023738
+  },
+  {
+    "id": "c0960a8f-3804-4f29-9678-df2e4fcb3854",
+    "actor": "admin@local.dev",
+    "action": "create",
+    "table_name": "events",
+    "row_id": "345227de-7a8c-4725-855f-ac4dba3d8278",
+    "before": null,
+    "after": {
+      "title": "Spam Event 3092",
+      "semester": "Fall 2026",
+      "starts_at": "2026-11-01",
+      "when": "upcoming",
+      "sort": 0,
+      "status": "draft",
+      "created_by": "admin@local.dev",
+      "client_id": "d5a31c6e-3d8d-4d91-a6b1-f45069de2f96",
+      "id": "345227de-7a8c-4725-855f-ac4dba3d8278",
+      "created_at": 1790023744,
+      "updated_at": 1790023744
+    },
+    "note": "",
+    "created_at": 1790023744
+  },
+  {
+    "id": "6e1d96a2-573a-4b7e-99f3-b8c13d4717f6",
+    "actor": "admin@local.dev",
+    "action": "create",
+    "table_name": "events",
+    "row_id": "0c87dfe4-3854-45d4-b52b-34ba3ebbd141",
+    "before": null,
+    "after": {
+      "title": "Enter Event 3092",
+      "semester": "Fall 2026",
+      "starts_at": "2026-11-02",
+      "when": "upcoming",
+      "sort": 0,
+      "status": "draft",
+      "created_by": "admin@local.dev",
+      "client_id": "d1e07be1-d475-45f3-8f34-e65c6c66d6e9",
+      "id": "0c87dfe4-3854-45d4-b52b-34ba3ebbd141",
+      "created_at": 1790023746,
+      "updated_at": 1790023746
+    },
+    "note": "",
+    "created_at": 1790023746
+  },
+  {
+    "id": "18410cf3-d9d1-4c9d-b96a-71261c5d842f",
+    "actor": "admin@local.dev",
+    "action": "create",
+    "table_name": "events",
+    "row_id": "fd49ea5e-1b1d-4bb1-92e1-905ce90c2195",
+    "before": null,
+    "after": {
+      "title": "Cid Event 3092",
+      "semester": "Fall 2026",
+      "when": "upcoming",
+      "sort": 0,
+      "status": "draft",
+      "created_by": "admin@local.dev",
+      "client_id": "dbl-3092",
+      "id": "fd49ea5e-1b1d-4bb1-92e1-905ce90c2195",
+      "created_at": 1790023748,
+      "updated_at": 1790023748
+    },
+    "note": "",
+    "created_at": 1790023748
+  },
+  {
+    "id": "eda1623f-2dba-4cb7-9539-f6e0836cb533",
+    "actor": "admin@local.dev",
+    "action": "create",
+    "table_name": "posts",
+    "row_id": "offline-post-3092",
+    "before": null,
+    "after": {
+      "title": "Offline Post 3092",
+      "dek": "",
+      "body_md": "",
+      "tags": [],
+      "slug": "offline-post-3092",
+      "id": "offline-post-3092",
+      "author_name": "Local admin",
+      "author_profile_id": null,
+      "status": "draft",
+      "created_by": "admin@local.dev",
+      "client_id": "c5dbf5d0-072b-4c07-bc8a-0447216e9bdf",
+      "created_at": 1790023752,
+      "updated_at": 1790023752
+    },
+    "note": "",
+    "created_at": 1790023752
+  },
+  {
+    "id": "9ffee353-ae18-4835-8d81-bbf3da5c00bf",
+    "actor": "admin@local.dev",
+    "action": "create",
+    "table_name": "posts",
+    "row_id": "stale-3092",
+    "before": null,
+    "after": {
+      "title": "Stale 3092",
+      "slug": "stale-3092",
+      "id": "stale-3092",
+      "author_name": "Local admin",
+      "author_profile_id": null,
+      "tags": [],
+      "status": "draft",
+      "created_by": "admin@local.dev",
+      "created_at": 1790023760,
+      "updated_at": 1790023760
+    },
+    "note": "",
+    "created_at": 1790023760
+  },
+  {
+    "id": "3b6233db-e1a7-4dc2-93be-4b7c9b6e90c5",
+    "actor": "admin@local.dev",
+    "action": "update",
+    "table_name": "posts",
+    "row_id": "stale-3092",
+    "before": {
+      "title": "Stale 3092",
+      "slug": "stale-3092",
+      "id": "stale-3092",
+      "author_name": "Local admin",
+      "author_profile_id": null,
+      "tags": [],
+      "status": "draft",
+      "created_by": "admin@local.dev",
+      "created_at": 1790023760,
+      "updated_at": 1790023760
+    },
+    "after": {
+      "title": "Stale 3092 (changed elsewhere)",
+      "slug": "stale-3092",
+      "id": "stale-3092",
+      "author_name": "Local admin",
+      "author_profile_id": null,
+      "tags": [],
+      "status": "draft",
+      "created_by": "admin@local.dev",
+      "created_at": 1790023760,
+      "updated_at": 1790023764
+    },
+    "note": "",
+    "created_at": 1790023764
+  },
+  {
+    "id": "4905938b-e5c9-4b76-997f-3c197cb04773",
+    "actor": "officer@local.dev",
+    "action": "create",
+    "table_name": "posts",
+    "row_id": "x-4",
+    "before": null,
+    "after": {
+      "title": "x",
+      "slug": "x-4",
+      "id": "x-4",
+      "author_name": "Local officer",
+      "author_profile_id": null,
+      "tags": [],
+      "status": "draft",
+      "created_by": "officer@local.dev",
+      "created_at": 1790023772,
+      "updated_at": 1790023772
+    },
+    "note": "",
+    "created_at": 1790023772
+  },
+  {
+    "id": "2230f828-eb0b-4d9f-942b-750b2ff2105f",
+    "actor": "officer@local.dev",
+    "action": "create",
+    "table_name": "projects",
+    "row_id": "3d28e21a-26f4-4a20-9db0-d963f0b868c8",
+    "before": null,
+    "after": {
+      "title": "x",
+      "status": "submitted",
+      "created_by": "officer@local.dev",
+      "id": "3d28e21a-26f4-4a20-9db0-d963f0b868c8",
+      "created_at": 1790023772,
+      "updated_at": 1790023772
+    },
+    "note": "",
+    "created_at": 1790023772
+  },
+  {
+    "id": "f6a5b00d-eeb2-451b-a2ee-e8703e68a411",
+    "actor": "officer@local.dev",
+    "action": "create",
+    "table_name": "events",
+    "row_id": "8b5e36a5-2bcf-4ae8-9bb3-47148fe70fec",
+    "before": null,
+    "after": {
+      "title": "x",
+      "when": "upcoming",
+      "semester": "Fall 2026",
+      "sort": 0,
+      "status": "draft",
+      "created_by": "officer@local.dev",
+      "id": "8b5e36a5-2bcf-4ae8-9bb3-47148fe70fec",
+      "created_at": 1790023772,
+      "updated_at": 1790023772
+    },
+    "note": "",
+    "created_at": 1790023772
+  },
+  {
+    "id": "e6bbd0a9-3c8e-4103-84ad-b2e17e6d4130",
+    "actor": "officer@local.dev",
+    "action": "create",
+    "table_name": "workshops",
+    "row_id": "aed466a5-e513-4151-9acc-369877496362",
+    "before": null,
+    "after": {
+      "title": "x",
+      "status": "draft",
+      "created_by": "officer@local.dev",
+      "id": "aed466a5-e513-4151-9acc-369877496362",
+      "created_at": 1790023773,
+      "updated_at": 1790023773
+    },
+    "note": "",
+    "created_at": 1790023773
+  },
+  {
+    "id": "f05f6f79-0c68-4924-9977-6628d82dd7ae",
+    "actor": "officer@local.dev",
+    "action": "create",
+    "table_name": "resources",
+    "row_id": "5b630463-3c09-401f-a603-562d27dd773a",
+    "before": null,
+    "after": {
+      "group": "g",
+      "title": "x",
+      "url": "https://x.example",
+      "created_by": "officer@local.dev",
+      "id": "5b630463-3c09-401f-a603-562d27dd773a",
+      "created_at": 1790023773,
+      "updated_at": 1790023773
+    },
+    "note": "",
+    "created_at": 1790023773
+  },
+  {
+    "id": "fbba200c-0cb8-48ab-9eef-d4822a6a7359",
+    "actor": "officer@local.dev",
+    "action": "update",
+    "table_name": "links",
+    "row_id": "discord",
+    "before": {
+      "key": "discord",
+      "url": "https://x.example",
+      "label": "Discord invite",
+      "last_checked": null,
+      "last_status": null,
+      "dead": false,
+      "updated_at": 1790023575
+    },
+    "after": {
+      "key": "discord",
+      "url": "https://x.example",
+      "label": "Discord invite",
+      "last_checked": null,
+      "last_status": null,
+      "dead": false,
+      "updated_at": 1790023773
+    },
+    "note": "",
+    "created_at": 1790023773
+  },
+  {
+    "id": "2c57777b-9658-4df7-ba44-8c7bb9a23169",
+    "actor": "officer@local.dev",
+    "action": "create",
+    "table_name": "members",
+    "row_id": "ed068c4d-5c70-475c-81b6-be111e34e97c",
+    "before": null,
+    "after": {
+      "display_name": "x",
+      "status": "interested",
+      "source": "manual",
+      "tags": [],
+      "created_by": "officer@local.dev",
+      "id": "ed068c4d-5c70-475c-81b6-be111e34e97c",
+      "created_at": 1790023773,
+      "updated_at": 1790023773
+    },
+    "note": "",
+    "created_at": 1790023773
+  },
+  {
+    "id": "d989465b-10f5-4521-b6f9-70669b2d5526",
+    "actor": "admin@local.dev",
+    "action": "create",
+    "table_name": "board_profiles",
+    "row_id": "deb9d153-8bf5-4f45-bd6f-7072d6d9fea6",
+    "before": null,
+    "after": {
+      "name": "Filer 3092",
+      "term": "F26",
+      "role_title": "Historian 3092",
+      "active": true,
+      "created_by": "admin@local.dev",
+      "id": "deb9d153-8bf5-4f45-bd6f-7072d6d9fea6",
+      "created_at": 1790023773,
+      "updated_at": 1790023773
+    },
+    "note": "",
+    "created_at": 1790023773
+  },
+  {
+    "id": "a9720076-1738-4147-86cf-62356bce3fa9",
+    "actor": "admin@local.dev",
+    "action": "create",
+    "table_name": "inheritance_records",
+    "row_id": "F26/handoffs/historian-3092",
+    "before": null,
+    "after": {
+      "type": "handoff",
+      "title": "Handoff — Historian 3092",
+      "term": "F26",
+      "date": "2026-12-01",
+      "status": "final",
+      "owners": [
+        "Historian 3092"
+      ],
+      "visibility": "board",
+      "role": "Historian 3092",
+      "id": "F26/handoffs/historian-3092",
+      "path": "content/inheritance/F26/handoffs/historian-3092.md",
+      "excerpt": "## What I ran the archive",
+      "updated_at": 1790023773
+    },
+    "note": "",
+    "created_at": 1790023773
+  },
+  {
+    "id": "e96e5300-d894-43ae-a1d9-63f97e5ec6f3",
+    "actor": "admin@local.dev",
+    "action": "archive",
+    "table_name": "board_profiles",
+    "row_id": "deb9d153-8bf5-4f45-bd6f-7072d6d9fea6",
+    "before": {
+      "name": "Filer 3092",
+      "term": "F26",
+      "role_title": "Historian 3092",
+      "active": true,
+      "created_by": "admin@local.dev",
+      "id": "deb9d153-8bf5-4f45-bd6f-7072d6d9fea6",
+      "created_at": 1790023773,
+      "updated_at": 1790023773
+    },
+    "after": {
+      "name": "Filer 3092",
+      "term": "F26",
+      "role_title": "Historian 3092",
+      "active": false,
+      "created_by": "admin@local.dev",
+      "id": "deb9d153-8bf5-4f45-bd6f-7072d6d9fea6",
+      "created_at": 1790023773,
+      "updated_at": 1790023774,
+      "archived": true
+    },
+    "note": "",
+    "created_at": 1790023773
+  },
+  {
+    "id": "37c00061-4af6-4aeb-a8b1-82cb17e60f58",
+    "actor": "admin@local.dev",
+    "action": "create",
+    "table_name": "resources",
+    "row_id": "4c87a1fe-d8ae-4396-8361-c3355e6eb74a",
+    "before": null,
+    "after": {
+      "group": "Doomed 3092",
+      "title": "A",
+      "url": "https://a.example",
+      "created_by": "admin@local.dev",
+      "id": "4c87a1fe-d8ae-4396-8361-c3355e6eb74a",
+      "created_at": 1790023773,
+      "updated_at": 1790023773
+    },
+    "note": "",
+    "created_at": 1790023773
+  },
+  {
+    "id": "08aeb3dc-4641-4e35-88be-8a49c454aaac",
+    "actor": "admin@local.dev",
+    "action": "delete",
+    "table_name": "resources",
+    "row_id": "4c87a1fe-d8ae-4396-8361-c3355e6eb74a",
+    "before": {
+      "group": "Doomed 3092",
+      "title": "A",
+      "url": "https://a.example",
+      "created_by": "admin@local.dev",
+      "id": "4c87a1fe-d8ae-4396-8361-c3355e6eb74a",
+      "created_at": 1790023773,
+      "updated_at": 1790023773
+    },
+    "after": null,
+    "note": "",
+    "created_at": 1790023773
+  },
+  {
+    "id": "953cbaf2-8534-4af1-b210-48184d0041b7",
+    "actor": "admin@local.dev",
+    "action": "update",
+    "table_name": "site_settings",
+    "row_id": "maintenance_banner",
+    "before": {
+      "key": "maintenance_banner",
+      "value": {
+        "on": false,
+        "text": ""
+      },
+      "updated_by": "admin@local.dev",
+      "updated_at": 1790023582
+    },
+    "after": {
+      "key": "maintenance_banner",
+      "value": {
+        "on": true,
+        "text": "Back at 9 — 3092"
+      },
+      "updated_by": "admin@local.dev",
+      "updated_at": 1790023773
+    },
+    "note": "",
+    "created_at": 1790023773
+  },
+  {
+    "id": "4ce7aab1-b565-4a1b-936b-ce7933e950a9",
+    "actor": "admin@local.dev",
+    "action": "update",
+    "table_name": "site_settings",
+    "row_id": "maintenance_banner",
+    "before": {
+      "key": "maintenance_banner",
+      "value": {
+        "on": true,
+        "text": "Back at 9 — 3092"
+      },
+      "updated_by": "admin@local.dev",
+      "updated_at": 1790023773
+    },
+    "after": {
+      "key": "maintenance_banner",
+      "value": {
+        "on": false,
+        "text": ""
+      },
+      "updated_by": "admin@local.dev",
+      "updated_at": 1790023782
+    },
+    "note": "",
+    "created_at": 1790023782
+  },
+  {
+    "id": "fb73c015-1e19-4078-96ed-b7ca61b0ab78",
+    "actor": "admin@local.dev",
+    "action": "update",
+    "table_name": "site_settings",
+    "row_id": "feature_flags",
+    "before": {
+      "key": "feature_flags",
+      "value": {
+        "projects_public": false,
+        "chat_enabled": false,
+        "ticker_items": [
+          "NEXT EVENT · FALL 2026",
+          "PROJECTS — SUBMISSIONS OPEN",
+          "CYBERHOUNDS · CTF"
+        ]
+      },
+      "updated_by": "admin@local.dev",
+      "updated_at": 1790023591
+    },
+    "after": {
+      "key": "feature_flags",
+      "value": {
+        "projects_public": false,
+        "chat_enabled": false,
+        "ticker_items": [
+          "NEXT EVENT · FALL 2026",
+          "PROJECTS — SUBMISSIONS OPEN",
+          "CYBERHOUNDS · CTF"
+        ]
+      },
+      "updated_by": "admin@local.dev",
+      "updated_at": 1790023787
+    },
+    "note": "",
+    "created_at": 1790023787
+  },
+  {
+    "id": "48b05cfb-1ebe-4a0c-be70-0f547f3fec18",
+    "actor": "admin@local.dev",
+    "action": "update",
+    "table_name": "site_settings",
+    "row_id": "feature_flags",
+    "before": {
+      "key": "feature_flags",
+      "value": {
+        "projects_public": false,
+        "chat_enabled": false,
+        "ticker_items": [
+          "NEXT EVENT · FALL 2026",
+          "PROJECTS — SUBMISSIONS OPEN",
+          "CYBERHOUNDS · CTF"
+        ]
+      },
+      "updated_by": "admin@local.dev",
+      "updated_at": 1790023787
+    },
+    "after": {
+      "key": "feature_flags",
+      "value": {
+        "projects_public": false,
+        "chat_enabled": false,
+        "ticker_items": [
+          "NEXT EVENT · FALL 2026",
+          "PROJECTS — SUBMISSIONS OPEN",
+          "CYBERHOUNDS · CTF"
+        ]
+      },
+      "updated_by": "admin@local.dev",
+      "updated_at": 1790023792
+    },
+    "note": "",
+    "created_at": 1790023792
+  },
+  {
+    "id": "262db434-b092-4626-b738-8e3e7f743bb7",
+    "actor": "admin@local.dev",
+    "action": "create",
+    "table_name": "posts",
+    "row_id": "mobile-post-3092",
+    "before": null,
+    "after": {
+      "title": "Mobile Post 3092",
+      "dek": "",
+      "body_md": "",
+      "tags": [],
+      "slug": "mobile-post-3092",
+      "id": "mobile-post-3092",
+      "author_name": "Local admin",
+      "author_profile_id": null,
+      "status": "draft",
+      "created_by": "admin@local.dev",
+      "client_id": "0358a31c-5704-4c5e-a386-83dc19a95cb2",
+      "created_at": 1790023797,
+      "updated_at": 1790023797
+    },
+    "note": "",
+    "created_at": 1790023797
+  },
+  {
+    "id": "82934108-1a02-44cd-8aba-87894ca7f334",
+    "actor": "public",
+    "action": "create",
+    "table_name": "projects",
+    "row_id": "c58ea4ba-ed7d-4294-9786-1465e9bf9fc0",
+    "before": null,
+    "after": {
+      "title": "Mobile Project 3092",
+      "kind": "app",
+      "summary": "From a phone.",
+      "platform": [],
+      "stack": [],
+      "links": {
+        "repo": ""
+      },
+      "authors": [
+        {
+          "name": "Mo Bile",
+          "handle": "",
+          "term": ""
+        }
+      ],
+      "author_email": "mo@jjay.cuny.edu",
+      "status": "submitted",
+      "featured": false,
+      "display_order": 999,
+      "source": "site-projects-form",
+      "id": "c58ea4ba-ed7d-4294-9786-1465e9bf9fc0",
+      "created_at": 1790023801,
+      "updated_at": 1790023801
+    },
+    "note": "",
+    "created_at": 1790023801
+  },
+  {
+    "id": "9d796d74-a391-4d56-b107-c15b3bb416b1",
+    "actor": "admin@local.dev",
+    "action": "create",
+    "table_name": "posts",
+    "row_id": "welcome-back-4497",
+    "before": null,
+    "after": {
+      "title": "Welcome Back 4497",
+      "slug": "welcome-back-4497",
+      "id": "welcome-back-4497",
+      "author_name": "Local admin",
+      "author_profile_id": null,
+      "tags": [],
+      "status": "draft",
+      "created_by": "admin@local.dev",
+      "created_at": 1790023960,
+      "updated_at": 1790023960
+    },
+    "note": "",
+    "created_at": 1790023960
+  },
+  {
+    "id": "5007b5d1-d56c-4914-9204-fb38a41d0184",
+    "actor": "admin@local.dev",
+    "action": "create",
+    "table_name": "posts",
+    "row_id": "welcome-back-4497-2",
+    "before": null,
+    "after": {
+      "title": "Welcome Back 4497",
+      "slug": "welcome-back-4497-2",
+      "id": "welcome-back-4497-2",
+      "author_name": "Local admin",
+      "author_profile_id": null,
+      "tags": [],
+      "status": "draft",
+      "created_by": "admin@local.dev",
+      "created_at": 1790023960,
+      "updated_at": 1790023960
+    },
+    "note": "",
+    "created_at": 1790023960
+  },
+  {
+    "id": "a1f60c45-4ef1-411c-9499-f46db73fb482",
+    "actor": "admin@local.dev",
+    "action": "create",
+    "table_name": "posts",
+    "row_id": "n-c-d-script-alert-1-script-drop-table-posts-4497",
+    "before": null,
+    "after": {
+      "title": "Ünïcödé ✨🐕 שלום <script>alert(1)</script> \"; DROP TABLE posts;-- 4497",
+      "dek": "Ünïcödé ✨🐕 שלום <script>alert(1)</script> \"; DROP TABLE posts;-- 4497",
+      "body_md": "## Ünïcödé ✨🐕 שלום <script>alert(1)</script> \"; DROP TABLE posts;-- 4497\n\nÜnïcödé ✨🐕 שלום <script>alert(1)</script> \"; DROP TABLE posts;-- 4497",
+      "tags": [
+        "Ünïcödé ✨🐕 שלום <script>alert(1)</script> \"; DROP TABLE posts;-- 4497"
+      ],
+      "slug": "n-c-d-script-alert-1-script-drop-table-posts-4497",
+      "id": "n-c-d-script-alert-1-script-drop-table-posts-4497",
+      "author_name": "Local admin",
+      "author_profile_id": null,
+      "status": "draft",
+      "created_by": "admin@local.dev",
+      "created_at": 1790023960,
+      "updated_at": 1790023960
+    },
+    "note": "",
+    "created_at": 1790023960
+  },
+  {
+    "id": "2b5af97b-d8b1-44ea-a2cb-8b44f8938a53",
+    "actor": "admin@local.dev",
+    "action": "publish",
+    "table_name": "posts",
+    "row_id": "n-c-d-script-alert-1-script-drop-table-posts-4497",
+    "before": {
+      "title": "Ünïcödé ✨🐕 שלום <script>alert(1)</script> \"; DROP TABLE posts;-- 4497",
+      "dek": "Ünïcödé ✨🐕 שלום <script>alert(1)</script> \"; DROP TABLE posts;-- 4497",
+      "body_md": "## Ünïcödé ✨🐕 שלום <script>alert(1)</script> \"; DROP TABLE posts;-- 4497\n\nÜnïcödé ✨🐕 שלום <script>alert(1)</script> \"; DROP TABLE posts;-- 4497",
+      "tags": [
+        "Ünïcödé ✨🐕 שלום <script>alert(1)</script> \"; DROP TABLE posts;-- 4497"
+      ],
+      "slug": "n-c-d-script-alert-1-script-drop-table-posts-4497",
+      "id": "n-c-d-script-alert-1-script-drop-table-posts-4497",
+      "author_name": "Local admin",
+      "author_profile_id": null,
+      "status": "draft",
+      "created_by": "admin@local.dev",
+      "created_at": 1790023960,
+      "updated_at": 1790023960
+    },
+    "after": {
+      "title": "Ünïcödé ✨🐕 שלום <script>alert(1)</script> \"; DROP TABLE posts;-- 4497",
+      "dek": "Ünïcödé ✨🐕 שלום <script>alert(1)</script> \"; DROP TABLE posts;-- 4497",
+      "body_md": "## Ünïcödé ✨🐕 שלום <script>alert(1)</script> \"; DROP TABLE posts;-- 4497\n\nÜnïcödé ✨🐕 שלום <script>alert(1)</script> \"; DROP TABLE posts;-- 4497",
+      "tags": [
+        "Ünïcödé ✨🐕 שלום <script>alert(1)</script> \"; DROP TABLE posts;-- 4497"
+      ],
+      "slug": "n-c-d-script-alert-1-script-drop-table-posts-4497",
+      "id": "n-c-d-script-alert-1-script-drop-table-posts-4497",
+      "author_name": "Local admin",
+      "author_profile_id": null,
+      "status": "published",
+      "created_by": "admin@local.dev",
+      "created_at": 1790023960,
+      "updated_at": 1790023961,
+      "published_at": "2026-09-21"
+    },
+    "note": "",
+    "created_at": 1790023960
+  },
+  {
+    "id": "b5b99b94-5dea-4a17-8a98-3cae29fb5236",
+    "actor": "admin@local.dev",
+    "action": "create",
+    "table_name": "posts",
+    "row_id": "stale-4497",
+    "before": null,
+    "after": {
+      "title": "Stale 4497",
+      "slug": "stale-4497",
+      "id": "stale-4497",
+      "author_name": "Local admin",
+      "author_profile_id": null,
+      "tags": [],
+      "status": "draft",
+      "created_by": "admin@local.dev",
+      "created_at": 1790024060,
+      "updated_at": 1790024060
+    },
+    "note": "",
+    "created_at": 1790024060
+  },
+  {
+    "id": "47f9daf5-7cda-4485-b711-5ed9a5805d58",
+    "actor": "admin@local.dev",
+    "action": "update",
+    "table_name": "posts",
+    "row_id": "stale-4497",
+    "before": {
+      "title": "Stale 4497",
+      "slug": "stale-4497",
+      "id": "stale-4497",
+      "author_name": "Local admin",
+      "author_profile_id": null,
+      "tags": [],
+      "status": "draft",
+      "created_by": "admin@local.dev",
+      "created_at": 1790024060,
+      "updated_at": 1790024060
+    },
+    "after": {
+      "title": "Stale 4497 (changed elsewhere)",
+      "slug": "stale-4497",
+      "id": "stale-4497",
+      "author_name": "Local admin",
+      "author_profile_id": null,
+      "tags": [],
+      "status": "draft",
+      "created_by": "admin@local.dev",
+      "created_at": 1790024060,
+      "updated_at": 1790024065
+    },
+    "note": "",
+    "created_at": 1790024065
+  },
+  {
+    "id": "b8a20636-bed9-4139-92d7-d52464fa2f11",
+    "actor": "officer@local.dev",
+    "action": "create",
+    "table_name": "posts",
+    "row_id": "x-5",
+    "before": null,
+    "after": {
+      "title": "x",
+      "slug": "x-5",
+      "id": "x-5",
+      "author_name": "Local officer",
+      "author_profile_id": null,
+      "tags": [],
+      "status": "draft",
+      "created_by": "officer@local.dev",
+      "created_at": 1790024102,
+      "updated_at": 1790024102
+    },
+    "note": "",
+    "created_at": 1790024102
+  },
+  {
+    "id": "58d780be-a342-4b90-b878-4dfbc64e74a1",
+    "actor": "officer@local.dev",
+    "action": "create",
+    "table_name": "projects",
+    "row_id": "f4030314-e975-40bf-86ee-85967b1cb09a",
+    "before": null,
+    "after": {
+      "title": "x",
+      "status": "submitted",
+      "created_by": "officer@local.dev",
+      "id": "f4030314-e975-40bf-86ee-85967b1cb09a",
+      "created_at": 1790024102,
+      "updated_at": 1790024102
+    },
+    "note": "",
+    "created_at": 1790024102
+  },
+  {
+    "id": "34dffb9b-285b-48b6-ad6c-41413852c4b7",
+    "actor": "officer@local.dev",
+    "action": "create",
+    "table_name": "events",
+    "row_id": "bc6b236d-1321-4162-b2ad-df658c725d25",
+    "before": null,
+    "after": {
+      "title": "x",
+      "when": "upcoming",
+      "semester": "Fall 2026",
+      "sort": 0,
+      "status": "draft",
+      "created_by": "officer@local.dev",
+      "id": "bc6b236d-1321-4162-b2ad-df658c725d25",
+      "created_at": 1790024102,
+      "updated_at": 1790024102
+    },
+    "note": "",
+    "created_at": 1790024102
+  },
+  {
+    "id": "08974bcc-0f35-430d-b9d1-2420d1274058",
+    "actor": "officer@local.dev",
+    "action": "create",
+    "table_name": "workshops",
+    "row_id": "885a1d6f-544e-44a4-8f94-511faa31df59",
+    "before": null,
+    "after": {
+      "title": "x",
+      "status": "draft",
+      "created_by": "officer@local.dev",
+      "id": "885a1d6f-544e-44a4-8f94-511faa31df59",
+      "created_at": 1790024102,
+      "updated_at": 1790024102
+    },
+    "note": "",
+    "created_at": 1790024102
+  },
+  {
+    "id": "af513a85-abe1-4352-88c0-0b14630dd053",
+    "actor": "officer@local.dev",
+    "action": "create",
+    "table_name": "resources",
+    "row_id": "38c35b3c-ebcd-4aad-a294-ddcc71a04479",
+    "before": null,
+    "after": {
+      "group": "g",
+      "title": "x",
+      "url": "https://x.example",
+      "created_by": "officer@local.dev",
+      "id": "38c35b3c-ebcd-4aad-a294-ddcc71a04479",
+      "created_at": 1790024102,
+      "updated_at": 1790024102
+    },
+    "note": "",
+    "created_at": 1790024102
+  },
+  {
+    "id": "4c6027b1-baec-4878-93f3-920acc897fcc",
+    "actor": "officer@local.dev",
+    "action": "update",
+    "table_name": "links",
+    "row_id": "discord",
+    "before": {
+      "key": "discord",
+      "url": "https://x.example",
+      "label": "Discord invite",
+      "last_checked": null,
+      "last_status": null,
+      "dead": false,
+      "updated_at": 1790023773
+    },
+    "after": {
+      "key": "discord",
+      "url": "https://x.example",
+      "label": "Discord invite",
+      "last_checked": null,
+      "last_status": null,
+      "dead": false,
+      "updated_at": 1790024102
+    },
+    "note": "",
+    "created_at": 1790024102
+  },
+  {
+    "id": "72a6b550-55bf-4811-b74d-b2ed0ac22095",
+    "actor": "officer@local.dev",
+    "action": "create",
+    "table_name": "members",
+    "row_id": "ddffc89e-790b-4197-946a-c1b16abad303",
+    "before": null,
+    "after": {
+      "display_name": "x",
+      "status": "interested",
+      "source": "manual",
+      "tags": [],
+      "created_by": "officer@local.dev",
+      "id": "ddffc89e-790b-4197-946a-c1b16abad303",
+      "created_at": 1790024102,
+      "updated_at": 1790024102
+    },
+    "note": "",
+    "created_at": 1790024102
+  },
+  {
+    "id": "57562896-4013-45ee-9522-06c6846f24ef",
+    "actor": "admin@local.dev",
+    "action": "create",
+    "table_name": "board_profiles",
+    "row_id": "d42a09b2-1eb8-4e84-9d48-2b986b2ef84c",
+    "before": null,
+    "after": {
+      "name": "Filer 4497",
+      "term": "F26",
+      "role_title": "Historian 4497",
+      "active": true,
+      "created_by": "admin@local.dev",
+      "id": "d42a09b2-1eb8-4e84-9d48-2b986b2ef84c",
+      "created_at": 1790024102,
+      "updated_at": 1790024102
+    },
+    "note": "",
+    "created_at": 1790024102
+  },
+  {
+    "id": "6ea4beff-3950-428e-9b15-1f94f1ec2073",
+    "actor": "admin@local.dev",
+    "action": "create",
+    "table_name": "inheritance_records",
+    "row_id": "F26/handoffs/historian-4497",
+    "before": null,
+    "after": {
+      "type": "handoff",
+      "title": "Handoff — Historian 4497",
+      "term": "F26",
+      "date": "2026-12-01",
+      "status": "final",
+      "owners": [
+        "Historian 4497"
+      ],
+      "visibility": "board",
+      "role": "Historian 4497",
+      "id": "F26/handoffs/historian-4497",
+      "path": "content/inheritance/F26/handoffs/historian-4497.md",
+      "excerpt": "## What I ran the archive",
+      "updated_at": 1790024102
+    },
+    "note": "",
+    "created_at": 1790024102
+  },
+  {
+    "id": "734698bf-f79e-4c2c-8e0a-6c65af0101e0",
+    "actor": "admin@local.dev",
+    "action": "archive",
+    "table_name": "board_profiles",
+    "row_id": "d42a09b2-1eb8-4e84-9d48-2b986b2ef84c",
+    "before": {
+      "name": "Filer 4497",
+      "term": "F26",
+      "role_title": "Historian 4497",
+      "active": true,
+      "created_by": "admin@local.dev",
+      "id": "d42a09b2-1eb8-4e84-9d48-2b986b2ef84c",
+      "created_at": 1790024102,
+      "updated_at": 1790024102
+    },
+    "after": {
+      "name": "Filer 4497",
+      "term": "F26",
+      "role_title": "Historian 4497",
+      "active": false,
+      "created_by": "admin@local.dev",
+      "id": "d42a09b2-1eb8-4e84-9d48-2b986b2ef84c",
+      "created_at": 1790024102,
+      "updated_at": 1790024103,
+      "archived": true
+    },
+    "note": "",
+    "created_at": 1790024102
+  },
+  {
+    "id": "4189be69-3126-4b34-bd24-591fd2b2bf3f",
+    "actor": "admin@local.dev",
+    "action": "create",
+    "table_name": "resources",
+    "row_id": "2ebc9f23-7747-484b-8d77-4bfc9975ab26",
+    "before": null,
+    "after": {
+      "group": "Doomed 4497",
+      "title": "A",
+      "url": "https://a.example",
+      "created_by": "admin@local.dev",
+      "id": "2ebc9f23-7747-484b-8d77-4bfc9975ab26",
+      "created_at": 1790024102,
+      "updated_at": 1790024102
+    },
+    "note": "",
+    "created_at": 1790024102
+  },
+  {
+    "id": "473e626e-3ef1-45fd-b403-b4e507afa35b",
+    "actor": "admin@local.dev",
+    "action": "delete",
+    "table_name": "resources",
+    "row_id": "2ebc9f23-7747-484b-8d77-4bfc9975ab26",
+    "before": {
+      "group": "Doomed 4497",
+      "title": "A",
+      "url": "https://a.example",
+      "created_by": "admin@local.dev",
+      "id": "2ebc9f23-7747-484b-8d77-4bfc9975ab26",
+      "created_at": 1790024102,
+      "updated_at": 1790024102
+    },
+    "after": null,
+    "note": "",
+    "created_at": 1790024102
+  },
+  {
+    "id": "130cc0e7-46fd-45bd-8cc1-66cac5bec649",
+    "actor": "admin@local.dev",
+    "action": "update",
+    "table_name": "site_settings",
+    "row_id": "maintenance_banner",
+    "before": {
+      "key": "maintenance_banner",
+      "value": {
+        "on": false,
+        "text": ""
+      },
+      "updated_by": "admin@local.dev",
+      "updated_at": 1790023782
+    },
+    "after": {
+      "key": "maintenance_banner",
+      "value": {
+        "on": true,
+        "text": "Back at 9 — 4497"
+      },
+      "updated_by": "admin@local.dev",
+      "updated_at": 1790024102
+    },
+    "note": "",
+    "created_at": 1790024102
+  },
+  {
+    "id": "3a295242-113c-4904-91b2-6a7cd84632d3",
+    "actor": "admin@local.dev",
+    "action": "update",
+    "table_name": "site_settings",
+    "row_id": "maintenance_banner",
+    "before": {
+      "key": "maintenance_banner",
+      "value": {
+        "on": true,
+        "text": "Back at 9 — 4497"
+      },
+      "updated_by": "admin@local.dev",
+      "updated_at": 1790024102
+    },
+    "after": {
+      "key": "maintenance_banner",
+      "value": {
+        "on": false,
+        "text": ""
+      },
+      "updated_by": "admin@local.dev",
+      "updated_at": 1790024106
+    },
+    "note": "",
+    "created_at": 1790024106
+  },
+  {
+    "id": "4f07317b-44e5-41f0-8165-b87e6f3e1b39",
+    "actor": "admin@local.dev",
+    "action": "update",
+    "table_name": "site_settings",
+    "row_id": "feature_flags",
+    "before": {
+      "key": "feature_flags",
+      "value": {
+        "projects_public": false,
+        "chat_enabled": false,
+        "ticker_items": [
+          "NEXT EVENT · FALL 2026",
+          "PROJECTS — SUBMISSIONS OPEN",
+          "CYBERHOUNDS · CTF"
+        ]
+      },
+      "updated_by": "admin@local.dev",
+      "updated_at": 1790023792
+    },
+    "after": {
+      "key": "feature_flags",
+      "value": {
+        "projects_public": false,
+        "chat_enabled": false,
+        "ticker_items": [
+          "NEXT EVENT · FALL 2026",
+          "PROJECTS — SUBMISSIONS OPEN",
+          "CYBERHOUNDS · CTF"
+        ]
+      },
+      "updated_by": "admin@local.dev",
+      "updated_at": 1790024109
+    },
+    "note": "",
+    "created_at": 1790024109
+  },
+  {
+    "id": "b85fac1b-36a3-4058-8407-b6009d60f897",
+    "actor": "admin@local.dev",
+    "action": "update",
+    "table_name": "site_settings",
+    "row_id": "feature_flags",
+    "before": {
+      "key": "feature_flags",
+      "value": {
+        "projects_public": false,
+        "chat_enabled": false,
+        "ticker_items": [
+          "NEXT EVENT · FALL 2026",
+          "PROJECTS — SUBMISSIONS OPEN",
+          "CYBERHOUNDS · CTF"
+        ]
+      },
+      "updated_by": "admin@local.dev",
+      "updated_at": 1790024109
+    },
+    "after": {
+      "key": "feature_flags",
+      "value": {
+        "projects_public": false,
+        "chat_enabled": false,
+        "ticker_items": [
+          "NEXT EVENT · FALL 2026",
+          "PROJECTS — SUBMISSIONS OPEN",
+          "CYBERHOUNDS · CTF"
+        ]
+      },
+      "updated_by": "admin@local.dev",
+      "updated_at": 1790024114
+    },
+    "note": "",
+    "created_at": 1790024114
+  },
+  {
+    "id": "9650a78f-2185-4aa9-af72-b2e6f627a6ce",
+    "actor": "admin@local.dev",
+    "action": "create",
+    "table_name": "posts",
+    "row_id": "welcome-back-8679",
+    "before": null,
+    "after": {
+      "title": "Welcome Back 8679",
+      "slug": "welcome-back-8679",
+      "id": "welcome-back-8679",
+      "author_name": "Local admin",
+      "author_profile_id": null,
+      "tags": [],
+      "status": "draft",
+      "created_by": "admin@local.dev",
+      "created_at": 1790024277,
+      "updated_at": 1790024277
+    },
+    "note": "",
+    "created_at": 1790024277
+  },
+  {
+    "id": "e4e10410-0c0a-4815-aa01-0a546066223b",
+    "actor": "admin@local.dev",
+    "action": "create",
+    "table_name": "posts",
+    "row_id": "welcome-back-8679-2",
+    "before": null,
+    "after": {
+      "title": "Welcome Back 8679",
+      "slug": "welcome-back-8679-2",
+      "id": "welcome-back-8679-2",
+      "author_name": "Local admin",
+      "author_profile_id": null,
+      "tags": [],
+      "status": "draft",
+      "created_by": "admin@local.dev",
+      "created_at": 1790024277,
+      "updated_at": 1790024277
+    },
+    "note": "",
+    "created_at": 1790024277
+  },
+  {
+    "id": "472c36a5-baa0-4e29-a871-2b4c5f6c3a62",
+    "actor": "admin@local.dev",
+    "action": "create",
+    "table_name": "posts",
+    "row_id": "n-c-d-script-alert-1-script-drop-table-posts-8679",
+    "before": null,
+    "after": {
+      "title": "Ünïcödé ✨🐕 שלום <script>alert(1)</script> \"; DROP TABLE posts;-- 8679",
+      "dek": "Ünïcödé ✨🐕 שלום <script>alert(1)</script> \"; DROP TABLE posts;-- 8679",
+      "body_md": "## Ünïcödé ✨🐕 שלום <script>alert(1)</script> \"; DROP TABLE posts;-- 8679\n\nÜnïcödé ✨🐕 שלום <script>alert(1)</script> \"; DROP TABLE posts;-- 8679",
+      "tags": [
+        "Ünïcödé ✨🐕 שלום <script>alert(1)</script> \"; DROP TABLE posts;-- 8679"
+      ],
+      "slug": "n-c-d-script-alert-1-script-drop-table-posts-8679",
+      "id": "n-c-d-script-alert-1-script-drop-table-posts-8679",
+      "author_name": "Local admin",
+      "author_profile_id": null,
+      "status": "draft",
+      "created_by": "admin@local.dev",
+      "created_at": 1790024277,
+      "updated_at": 1790024277
+    },
+    "note": "",
+    "created_at": 1790024277
+  },
+  {
+    "id": "c400c960-852d-4c6d-ab31-ca3876a69216",
+    "actor": "admin@local.dev",
+    "action": "publish",
+    "table_name": "posts",
+    "row_id": "n-c-d-script-alert-1-script-drop-table-posts-8679",
+    "before": {
+      "title": "Ünïcödé ✨🐕 שלום <script>alert(1)</script> \"; DROP TABLE posts;-- 8679",
+      "dek": "Ünïcödé ✨🐕 שלום <script>alert(1)</script> \"; DROP TABLE posts;-- 8679",
+      "body_md": "## Ünïcödé ✨🐕 שלום <script>alert(1)</script> \"; DROP TABLE posts;-- 8679\n\nÜnïcödé ✨🐕 שלום <script>alert(1)</script> \"; DROP TABLE posts;-- 8679",
+      "tags": [
+        "Ünïcödé ✨🐕 שלום <script>alert(1)</script> \"; DROP TABLE posts;-- 8679"
+      ],
+      "slug": "n-c-d-script-alert-1-script-drop-table-posts-8679",
+      "id": "n-c-d-script-alert-1-script-drop-table-posts-8679",
+      "author_name": "Local admin",
+      "author_profile_id": null,
+      "status": "draft",
+      "created_by": "admin@local.dev",
+      "created_at": 1790024277,
+      "updated_at": 1790024277
+    },
+    "after": {
+      "title": "Ünïcödé ✨🐕 שלום <script>alert(1)</script> \"; DROP TABLE posts;-- 8679",
+      "dek": "Ünïcödé ✨🐕 שלום <script>alert(1)</script> \"; DROP TABLE posts;-- 8679",
+      "body_md": "## Ünïcödé ✨🐕 שלום <script>alert(1)</script> \"; DROP TABLE posts;-- 8679\n\nÜnïcödé ✨🐕 שלום <script>alert(1)</script> \"; DROP TABLE posts;-- 8679",
+      "tags": [
+        "Ünïcödé ✨🐕 שלום <script>alert(1)</script> \"; DROP TABLE posts;-- 8679"
+      ],
+      "slug": "n-c-d-script-alert-1-script-drop-table-posts-8679",
+      "id": "n-c-d-script-alert-1-script-drop-table-posts-8679",
+      "author_name": "Local admin",
+      "author_profile_id": null,
+      "status": "published",
+      "created_by": "admin@local.dev",
+      "created_at": 1790024277,
+      "updated_at": 1790024278,
+      "published_at": "2026-09-21"
+    },
+    "note": "",
+    "created_at": 1790024277
+  },
+  {
+    "id": "6e06c536-fd2c-4890-8a75-7640658e588b",
+    "actor": "admin@local.dev",
+    "action": "create",
+    "table_name": "posts",
+    "row_id": "stale-8679",
+    "before": null,
+    "after": {
+      "title": "Stale 8679",
+      "slug": "stale-8679",
+      "id": "stale-8679",
+      "author_name": "Local admin",
+      "author_profile_id": null,
+      "tags": [],
+      "status": "draft",
+      "created_by": "admin@local.dev",
+      "created_at": 1790024378,
+      "updated_at": 1790024378
+    },
+    "note": "",
+    "created_at": 1790024378
+  },
+  {
+    "id": "cd1ba6f2-54a8-4804-afdd-11b22a490f07",
+    "actor": "admin@local.dev",
+    "action": "update",
+    "table_name": "posts",
+    "row_id": "stale-8679",
+    "before": {
+      "title": "Stale 8679",
+      "slug": "stale-8679",
+      "id": "stale-8679",
+      "author_name": "Local admin",
+      "author_profile_id": null,
+      "tags": [],
+      "status": "draft",
+      "created_by": "admin@local.dev",
+      "created_at": 1790024378,
+      "updated_at": 1790024378
+    },
+    "after": {
+      "title": "Stale 8679 (changed elsewhere)",
+      "slug": "stale-8679",
+      "id": "stale-8679",
+      "author_name": "Local admin",
+      "author_profile_id": null,
+      "tags": [],
+      "status": "draft",
+      "created_by": "admin@local.dev",
+      "created_at": 1790024378,
+      "updated_at": 1790024386
+    },
+    "note": "",
+    "created_at": 1790024386
+  },
+  {
+    "id": "0d892c3d-ff49-421a-ad6d-a4e1285fdd07",
+    "actor": "officer@local.dev",
+    "action": "create",
+    "table_name": "posts",
+    "row_id": "x-6",
+    "before": null,
+    "after": {
+      "title": "x",
+      "slug": "x-6",
+      "id": "x-6",
+      "author_name": "Local officer",
+      "author_profile_id": null,
+      "tags": [],
+      "status": "draft",
+      "created_by": "officer@local.dev",
+      "created_at": 1790024424,
+      "updated_at": 1790024424
+    },
+    "note": "",
+    "created_at": 1790024424
+  },
+  {
+    "id": "9b9de5a2-285f-4791-94cc-2d4ad25b6b76",
+    "actor": "officer@local.dev",
+    "action": "create",
+    "table_name": "projects",
+    "row_id": "bc7751fe-03b4-47f1-aa71-cfd34a19e9ce",
+    "before": null,
+    "after": {
+      "title": "x",
+      "status": "submitted",
+      "created_by": "officer@local.dev",
+      "id": "bc7751fe-03b4-47f1-aa71-cfd34a19e9ce",
+      "created_at": 1790024424,
+      "updated_at": 1790024424
+    },
+    "note": "",
+    "created_at": 1790024424
+  },
+  {
+    "id": "521ad99f-5d12-455b-920e-0f556cd4e8fb",
+    "actor": "officer@local.dev",
+    "action": "create",
+    "table_name": "events",
+    "row_id": "31b28d57-04f9-49ac-893a-12fcdcff395d",
+    "before": null,
+    "after": {
+      "title": "x",
+      "when": "upcoming",
+      "semester": "Fall 2026",
+      "sort": 0,
+      "status": "draft",
+      "created_by": "officer@local.dev",
+      "id": "31b28d57-04f9-49ac-893a-12fcdcff395d",
+      "created_at": 1790024425,
+      "updated_at": 1790024425
+    },
+    "note": "",
+    "created_at": 1790024425
+  },
+  {
+    "id": "d0741ecc-c2ea-4870-9cd5-88815a5e5b67",
+    "actor": "officer@local.dev",
+    "action": "create",
+    "table_name": "workshops",
+    "row_id": "565c4c62-b147-4708-8214-58e90bf1be3f",
+    "before": null,
+    "after": {
+      "title": "x",
+      "status": "draft",
+      "created_by": "officer@local.dev",
+      "id": "565c4c62-b147-4708-8214-58e90bf1be3f",
+      "created_at": 1790024425,
+      "updated_at": 1790024425
+    },
+    "note": "",
+    "created_at": 1790024425
+  },
+  {
+    "id": "1bf75933-f521-4e22-932f-d29733cfddb6",
+    "actor": "officer@local.dev",
+    "action": "create",
+    "table_name": "resources",
+    "row_id": "03927d77-29f6-4fa3-bb52-e098fe51dfeb",
+    "before": null,
+    "after": {
+      "group": "g",
+      "title": "x",
+      "url": "https://x.example",
+      "created_by": "officer@local.dev",
+      "id": "03927d77-29f6-4fa3-bb52-e098fe51dfeb",
+      "created_at": 1790024425,
+      "updated_at": 1790024425
+    },
+    "note": "",
+    "created_at": 1790024425
+  },
+  {
+    "id": "3aa335b0-a9a8-424a-9047-dfaa434d1921",
+    "actor": "officer@local.dev",
+    "action": "update",
+    "table_name": "links",
+    "row_id": "discord",
+    "before": {
+      "key": "discord",
+      "url": "https://x.example",
+      "label": "Discord invite",
+      "last_checked": null,
+      "last_status": null,
+      "dead": false,
+      "updated_at": 1790024102
+    },
+    "after": {
+      "key": "discord",
+      "url": "https://x.example",
+      "label": "Discord invite",
+      "last_checked": null,
+      "last_status": null,
+      "dead": false,
+      "updated_at": 1790024425
+    },
+    "note": "",
+    "created_at": 1790024425
+  },
+  {
+    "id": "cf46424b-157a-4f1d-869f-232b961df113",
+    "actor": "officer@local.dev",
+    "action": "create",
+    "table_name": "members",
+    "row_id": "e341704b-5296-4ae5-a366-1bb7dec464e8",
+    "before": null,
+    "after": {
+      "display_name": "x",
+      "status": "interested",
+      "source": "manual",
+      "tags": [],
+      "created_by": "officer@local.dev",
+      "id": "e341704b-5296-4ae5-a366-1bb7dec464e8",
+      "created_at": 1790024425,
+      "updated_at": 1790024425
+    },
+    "note": "",
+    "created_at": 1790024425
+  },
+  {
+    "id": "aeb7c740-947a-4095-be18-d31b827947fb",
+    "actor": "admin@local.dev",
+    "action": "create",
+    "table_name": "board_profiles",
+    "row_id": "b8bc75bf-0ed6-4e26-b241-d047ed02204c",
+    "before": null,
+    "after": {
+      "name": "Filer 8679",
+      "term": "F26",
+      "role_title": "Historian 8679",
+      "active": true,
+      "created_by": "admin@local.dev",
+      "id": "b8bc75bf-0ed6-4e26-b241-d047ed02204c",
+      "created_at": 1790024425,
+      "updated_at": 1790024425
+    },
+    "note": "",
+    "created_at": 1790024425
+  },
+  {
+    "id": "42697f51-8f84-485a-b5bf-a03a0c9a7f27",
+    "actor": "admin@local.dev",
+    "action": "create",
+    "table_name": "inheritance_records",
+    "row_id": "F26/handoffs/historian-8679",
+    "before": null,
+    "after": {
+      "type": "handoff",
+      "title": "Handoff — Historian 8679",
+      "term": "F26",
+      "date": "2026-12-01",
+      "status": "final",
+      "owners": [
+        "Historian 8679"
+      ],
+      "visibility": "board",
+      "role": "Historian 8679",
+      "id": "F26/handoffs/historian-8679",
+      "path": "content/inheritance/F26/handoffs/historian-8679.md",
+      "excerpt": "## What I ran the archive",
+      "updated_at": 1790024425
+    },
+    "note": "",
+    "created_at": 1790024425
+  },
+  {
+    "id": "59b1caee-e0c7-4d2a-9e8b-b91d16d61714",
+    "actor": "admin@local.dev",
+    "action": "archive",
+    "table_name": "board_profiles",
+    "row_id": "b8bc75bf-0ed6-4e26-b241-d047ed02204c",
+    "before": {
+      "name": "Filer 8679",
+      "term": "F26",
+      "role_title": "Historian 8679",
+      "active": true,
+      "created_by": "admin@local.dev",
+      "id": "b8bc75bf-0ed6-4e26-b241-d047ed02204c",
+      "created_at": 1790024425,
+      "updated_at": 1790024425
+    },
+    "after": {
+      "name": "Filer 8679",
+      "term": "F26",
+      "role_title": "Historian 8679",
+      "active": false,
+      "created_by": "admin@local.dev",
+      "id": "b8bc75bf-0ed6-4e26-b241-d047ed02204c",
+      "created_at": 1790024425,
+      "updated_at": 1790024426,
+      "archived": true
+    },
+    "note": "",
+    "created_at": 1790024425
+  },
+  {
+    "id": "bc0dee11-71d7-4041-9143-e43263d22e44",
+    "actor": "admin@local.dev",
+    "action": "create",
+    "table_name": "resources",
+    "row_id": "fdcc1db0-bf8b-4e9d-a6cd-c3c527307996",
+    "before": null,
+    "after": {
+      "group": "Doomed 8679",
+      "title": "A",
+      "url": "https://a.example",
+      "created_by": "admin@local.dev",
+      "id": "fdcc1db0-bf8b-4e9d-a6cd-c3c527307996",
+      "created_at": 1790024425,
+      "updated_at": 1790024425
+    },
+    "note": "",
+    "created_at": 1790024425
+  },
+  {
+    "id": "2202db0a-ebc0-4a26-a869-b77ccf1dfcda",
+    "actor": "admin@local.dev",
+    "action": "delete",
+    "table_name": "resources",
+    "row_id": "fdcc1db0-bf8b-4e9d-a6cd-c3c527307996",
+    "before": {
+      "group": "Doomed 8679",
+      "title": "A",
+      "url": "https://a.example",
+      "created_by": "admin@local.dev",
+      "id": "fdcc1db0-bf8b-4e9d-a6cd-c3c527307996",
+      "created_at": 1790024425,
+      "updated_at": 1790024425
+    },
+    "after": null,
+    "note": "",
+    "created_at": 1790024425
+  },
+  {
+    "id": "323c2059-d9a7-4040-80d3-16d13d593268",
+    "actor": "admin@local.dev",
+    "action": "update",
+    "table_name": "site_settings",
+    "row_id": "maintenance_banner",
+    "before": {
+      "key": "maintenance_banner",
+      "value": {
+        "on": false,
+        "text": ""
+      },
+      "updated_by": "admin@local.dev",
+      "updated_at": 1790024106
+    },
+    "after": {
+      "key": "maintenance_banner",
+      "value": {
+        "on": true,
+        "text": "Back at 9 — 8679"
+      },
+      "updated_by": "admin@local.dev",
+      "updated_at": 1790024425
+    },
+    "note": "",
+    "created_at": 1790024425
+  },
+  {
+    "id": "d1ad6359-0cbc-432f-bf6b-e97b07e6f335",
+    "actor": "admin@local.dev",
+    "action": "update",
+    "table_name": "site_settings",
+    "row_id": "maintenance_banner",
+    "before": {
+      "key": "maintenance_banner",
+      "value": {
+        "on": true,
+        "text": "Back at 9 — 8679"
+      },
+      "updated_by": "admin@local.dev",
+      "updated_at": 1790024425
+    },
+    "after": {
+      "key": "maintenance_banner",
+      "value": {
+        "on": false,
+        "text": ""
+      },
+      "updated_by": "admin@local.dev",
+      "updated_at": 1790024433
+    },
+    "note": "",
+    "created_at": 1790024433
+  },
+  {
+    "id": "f923d424-ea1e-4107-9d54-b2105d995c69",
+    "actor": "admin@local.dev",
+    "action": "update",
+    "table_name": "site_settings",
+    "row_id": "feature_flags",
+    "before": {
+      "key": "feature_flags",
+      "value": {
+        "projects_public": false,
+        "chat_enabled": false,
+        "ticker_items": [
+          "NEXT EVENT · FALL 2026",
+          "PROJECTS — SUBMISSIONS OPEN",
+          "CYBERHOUNDS · CTF"
+        ]
+      },
+      "updated_by": "admin@local.dev",
+      "updated_at": 1790024114
+    },
+    "after": {
+      "key": "feature_flags",
+      "value": {
+        "projects_public": false,
+        "chat_enabled": false,
+        "ticker_items": [
+          "NEXT EVENT · FALL 2026",
+          "PROJECTS — SUBMISSIONS OPEN",
+          "CYBERHOUNDS · CTF"
+        ]
+      },
+      "updated_by": "admin@local.dev",
+      "updated_at": 1790024441
+    },
+    "note": "",
+    "created_at": 1790024441
+  },
+  {
+    "id": "ba1b9e9a-a8ab-4ca3-950a-5b963d00abe5",
+    "actor": "admin@local.dev",
+    "action": "update",
+    "table_name": "site_settings",
+    "row_id": "feature_flags",
+    "before": {
+      "key": "feature_flags",
+      "value": {
+        "projects_public": false,
+        "chat_enabled": false,
+        "ticker_items": [
+          "NEXT EVENT · FALL 2026",
+          "PROJECTS — SUBMISSIONS OPEN",
+          "CYBERHOUNDS · CTF"
+        ]
+      },
+      "updated_by": "admin@local.dev",
+      "updated_at": 1790024441
+    },
+    "after": {
+      "key": "feature_flags",
+      "value": {
+        "projects_public": false,
+        "chat_enabled": false,
+        "ticker_items": [
+          "NEXT EVENT · FALL 2026",
+          "PROJECTS — SUBMISSIONS OPEN",
+          "CYBERHOUNDS · CTF"
+        ]
+      },
+      "updated_by": "admin@local.dev",
+      "updated_at": 1790024446
+    },
+    "note": "",
+    "created_at": 1790024446
+  },
+  {
+    "id": "01bbd330-9a1b-442b-b223-2a81aaca642f",
+    "actor": "admin@local.dev",
+    "action": "create",
+    "table_name": "posts",
+    "row_id": "welcome-back-7958",
+    "before": null,
+    "after": {
+      "title": "Welcome Back 7958",
+      "slug": "welcome-back-7958",
+      "id": "welcome-back-7958",
+      "author_name": "Local admin",
+      "author_profile_id": null,
+      "tags": [],
+      "status": "draft",
+      "created_by": "admin@local.dev",
+      "created_at": 1790024552,
+      "updated_at": 1790024552
+    },
+    "note": "",
+    "created_at": 1790024552
+  },
+  {
+    "id": "05984506-5301-4b52-8159-84179a1c8a18",
+    "actor": "admin@local.dev",
+    "action": "create",
+    "table_name": "posts",
+    "row_id": "welcome-back-7958-2",
+    "before": null,
+    "after": {
+      "title": "Welcome Back 7958",
+      "slug": "welcome-back-7958-2",
+      "id": "welcome-back-7958-2",
+      "author_name": "Local admin",
+      "author_profile_id": null,
+      "tags": [],
+      "status": "draft",
+      "created_by": "admin@local.dev",
+      "created_at": 1790024552,
+      "updated_at": 1790024552
+    },
+    "note": "",
+    "created_at": 1790024552
+  },
+  {
+    "id": "e79e0ad0-8548-4caf-9ff7-4f7fbca1e9d2",
+    "actor": "admin@local.dev",
+    "action": "create",
+    "table_name": "posts",
+    "row_id": "n-c-d-script-alert-1-script-drop-table-posts-7958",
+    "before": null,
+    "after": {
+      "title": "Ünïcödé ✨🐕 שלום <script>alert(1)</script> \"; DROP TABLE posts;-- 7958",
+      "dek": "Ünïcödé ✨🐕 שלום <script>alert(1)</script> \"; DROP TABLE posts;-- 7958",
+      "body_md": "## Ünïcödé ✨🐕 שלום <script>alert(1)</script> \"; DROP TABLE posts;-- 7958\n\nÜnïcödé ✨🐕 שלום <script>alert(1)</script> \"; DROP TABLE posts;-- 7958",
+      "tags": [
+        "Ünïcödé ✨🐕 שלום <script>alert(1)</script> \"; DROP TABLE posts;-- 7958"
+      ],
+      "slug": "n-c-d-script-alert-1-script-drop-table-posts-7958",
+      "id": "n-c-d-script-alert-1-script-drop-table-posts-7958",
+      "author_name": "Local admin",
+      "author_profile_id": null,
+      "status": "draft",
+      "created_by": "admin@local.dev",
+      "created_at": 1790024552,
+      "updated_at": 1790024552
+    },
+    "note": "",
+    "created_at": 1790024552
+  },
+  {
+    "id": "2f391467-9bf3-484e-a0ff-94771cc35526",
+    "actor": "admin@local.dev",
+    "action": "publish",
+    "table_name": "posts",
+    "row_id": "n-c-d-script-alert-1-script-drop-table-posts-7958",
+    "before": {
+      "title": "Ünïcödé ✨🐕 שלום <script>alert(1)</script> \"; DROP TABLE posts;-- 7958",
+      "dek": "Ünïcödé ✨🐕 שלום <script>alert(1)</script> \"; DROP TABLE posts;-- 7958",
+      "body_md": "## Ünïcödé ✨🐕 שלום <script>alert(1)</script> \"; DROP TABLE posts;-- 7958\n\nÜnïcödé ✨🐕 שלום <script>alert(1)</script> \"; DROP TABLE posts;-- 7958",
+      "tags": [
+        "Ünïcödé ✨🐕 שלום <script>alert(1)</script> \"; DROP TABLE posts;-- 7958"
+      ],
+      "slug": "n-c-d-script-alert-1-script-drop-table-posts-7958",
+      "id": "n-c-d-script-alert-1-script-drop-table-posts-7958",
+      "author_name": "Local admin",
+      "author_profile_id": null,
+      "status": "draft",
+      "created_by": "admin@local.dev",
+      "created_at": 1790024552,
+      "updated_at": 1790024552
+    },
+    "after": {
+      "title": "Ünïcödé ✨🐕 שלום <script>alert(1)</script> \"; DROP TABLE posts;-- 7958",
+      "dek": "Ünïcödé ✨🐕 שלום <script>alert(1)</script> \"; DROP TABLE posts;-- 7958",
+      "body_md": "## Ünïcödé ✨🐕 שלום <script>alert(1)</script> \"; DROP TABLE posts;-- 7958\n\nÜnïcödé ✨🐕 שלום <script>alert(1)</script> \"; DROP TABLE posts;-- 7958",
+      "tags": [
+        "Ünïcödé ✨🐕 שלום <script>alert(1)</script> \"; DROP TABLE posts;-- 7958"
+      ],
+      "slug": "n-c-d-script-alert-1-script-drop-table-posts-7958",
+      "id": "n-c-d-script-alert-1-script-drop-table-posts-7958",
+      "author_name": "Local admin",
+      "author_profile_id": null,
+      "status": "published",
+      "created_by": "admin@local.dev",
+      "created_at": 1790024552,
+      "updated_at": 1790024553,
+      "published_at": "2026-09-21"
+    },
+    "note": "",
+    "created_at": 1790024552
+  },
+  {
+    "id": "564b310f-cb74-4ab4-bf3b-e2c59c7467d2",
+    "actor": "admin@local.dev",
+    "action": "create",
+    "table_name": "events",
+    "row_id": "84afc641-b05e-4618-9d76-f12e041232ae",
+    "before": null,
+    "after": {
+      "title": "Spam Event 7958",
+      "semester": "Fall 2026",
+      "starts_at": "2026-11-01",
+      "when": "upcoming",
+      "sort": 0,
+      "status": "draft",
+      "created_by": "admin@local.dev",
+      "client_id": "7a6b883b-9ef8-4ab7-8511-e79d470e0866",
+      "id": "84afc641-b05e-4618-9d76-f12e041232ae",
+      "created_at": 1790024558,
+      "updated_at": 1790024558
+    },
+    "note": "",
+    "created_at": 1790024558
+  },
+  {
+    "id": "8e13641c-9f58-45ca-9f08-0d245e2cc49d",
+    "actor": "admin@local.dev",
+    "action": "create",
+    "table_name": "events",
+    "row_id": "b270be1a-9cc3-4f9f-ac8a-209febe6028e",
+    "before": null,
+    "after": {
+      "title": "Enter Event 7958",
+      "semester": "Fall 2026",
+      "starts_at": "2026-11-02",
+      "when": "upcoming",
+      "sort": 0,
+      "status": "draft",
+      "created_by": "admin@local.dev",
+      "client_id": "73b8c65b-e595-45fd-96ce-af35d1715f0a",
+      "id": "b270be1a-9cc3-4f9f-ac8a-209febe6028e",
+      "created_at": 1790024561,
+      "updated_at": 1790024561
+    },
+    "note": "",
+    "created_at": 1790024561
+  },
+  {
+    "id": "c9b0b2e0-c25e-43a1-bbd9-06d221062a4c",
+    "actor": "admin@local.dev",
+    "action": "create",
+    "table_name": "events",
+    "row_id": "0787639a-d2ea-4a62-b3c6-7d06a7339513",
+    "before": null,
+    "after": {
+      "title": "Cid Event 7958",
+      "semester": "Fall 2026",
+      "when": "upcoming",
+      "sort": 0,
+      "status": "draft",
+      "created_by": "admin@local.dev",
+      "client_id": "dbl-7958",
+      "id": "0787639a-d2ea-4a62-b3c6-7d06a7339513",
+      "created_at": 1790024569,
+      "updated_at": 1790024569
+    },
+    "note": "",
+    "created_at": 1790024569
+  },
+  {
+    "id": "30065179-5b9b-40ea-ba7a-e108e0ff42b0",
+    "actor": "admin@local.dev",
+    "action": "create",
+    "table_name": "posts",
+    "row_id": "offline-post-7958",
+    "before": null,
+    "after": {
+      "title": "Offline Post 7958",
+      "dek": "",
+      "body_md": "",
+      "tags": [],
+      "slug": "offline-post-7958",
+      "id": "offline-post-7958",
+      "author_name": "Local admin",
+      "author_profile_id": null,
+      "status": "draft",
+      "created_by": "admin@local.dev",
+      "client_id": "33290f39-380b-401a-8d93-bc3b7cd51884",
+      "created_at": 1790024573,
+      "updated_at": 1790024573
+    },
+    "note": "",
+    "created_at": 1790024573
+  },
+  {
+    "id": "3adf8db3-6085-4f0e-8fdf-3954c0baeb17",
+    "actor": "admin@local.dev",
+    "action": "create",
+    "table_name": "posts",
+    "row_id": "stale-7958",
+    "before": null,
+    "after": {
+      "title": "Stale 7958",
+      "slug": "stale-7958",
+      "id": "stale-7958",
+      "author_name": "Local admin",
+      "author_profile_id": null,
+      "tags": [],
+      "status": "draft",
+      "created_by": "admin@local.dev",
+      "created_at": 1790024581,
+      "updated_at": 1790024581
+    },
+    "note": "",
+    "created_at": 1790024581
+  },
+  {
+    "id": "62328af1-e78b-402a-ba89-124f8c318711",
+    "actor": "admin@local.dev",
+    "action": "update",
+    "table_name": "posts",
+    "row_id": "stale-7958",
+    "before": {
+      "title": "Stale 7958",
+      "slug": "stale-7958",
+      "id": "stale-7958",
+      "author_name": "Local admin",
+      "author_profile_id": null,
+      "tags": [],
+      "status": "draft",
+      "created_by": "admin@local.dev",
+      "created_at": 1790024581,
+      "updated_at": 1790024581
+    },
+    "after": {
+      "title": "Stale 7958 (changed elsewhere)",
+      "slug": "stale-7958",
+      "id": "stale-7958",
+      "author_name": "Local admin",
+      "author_profile_id": null,
+      "tags": [],
+      "status": "draft",
+      "created_by": "admin@local.dev",
+      "created_at": 1790024581,
+      "updated_at": 1790024583
+    },
+    "note": "",
+    "created_at": 1790024583
+  },
+  {
+    "id": "a33766a7-06c8-4e3a-b7ca-df8d0352cf14",
+    "actor": "officer@local.dev",
+    "action": "create",
+    "table_name": "posts",
+    "row_id": "x-7",
+    "before": null,
+    "after": {
+      "title": "x",
+      "slug": "x-7",
+      "id": "x-7",
+      "author_name": "Local officer",
+      "author_profile_id": null,
+      "tags": [],
+      "status": "draft",
+      "created_by": "officer@local.dev",
+      "created_at": 1790024594,
+      "updated_at": 1790024594
+    },
+    "note": "",
+    "created_at": 1790024594
+  },
+  {
+    "id": "45e438dc-597d-4f62-868e-f9e132a00d0c",
+    "actor": "officer@local.dev",
+    "action": "create",
+    "table_name": "projects",
+    "row_id": "4a50af89-24c9-4975-9ff4-dc6b04bc8719",
+    "before": null,
+    "after": {
+      "title": "x",
+      "status": "submitted",
+      "created_by": "officer@local.dev",
+      "id": "4a50af89-24c9-4975-9ff4-dc6b04bc8719",
+      "created_at": 1790024594,
+      "updated_at": 1790024594
+    },
+    "note": "",
+    "created_at": 1790024594
+  },
+  {
+    "id": "a77f5601-af8e-4347-a987-f214b02794c3",
+    "actor": "officer@local.dev",
+    "action": "create",
+    "table_name": "events",
+    "row_id": "e225fd4b-8914-4bce-9eb3-b0546fa12b0c",
+    "before": null,
+    "after": {
+      "title": "x",
+      "when": "upcoming",
+      "semester": "Fall 2026",
+      "sort": 0,
+      "status": "draft",
+      "created_by": "officer@local.dev",
+      "id": "e225fd4b-8914-4bce-9eb3-b0546fa12b0c",
+      "created_at": 1790024594,
+      "updated_at": 1790024594
+    },
+    "note": "",
+    "created_at": 1790024594
+  },
+  {
+    "id": "4b58e72c-0541-4d35-a94e-b12e75505804",
+    "actor": "officer@local.dev",
+    "action": "create",
+    "table_name": "workshops",
+    "row_id": "b3259442-e1c9-4ed3-9ba0-c3ae214a0594",
+    "before": null,
+    "after": {
+      "title": "x",
+      "status": "draft",
+      "created_by": "officer@local.dev",
+      "id": "b3259442-e1c9-4ed3-9ba0-c3ae214a0594",
+      "created_at": 1790024594,
+      "updated_at": 1790024594
+    },
+    "note": "",
+    "created_at": 1790024594
+  },
+  {
+    "id": "d344b59e-633e-425b-98c4-a907c26ad7f5",
+    "actor": "officer@local.dev",
+    "action": "create",
+    "table_name": "resources",
+    "row_id": "cc70fef1-3b48-46dc-9f4b-810be1d53967",
+    "before": null,
+    "after": {
+      "group": "g",
+      "title": "x",
+      "url": "https://x.example",
+      "created_by": "officer@local.dev",
+      "id": "cc70fef1-3b48-46dc-9f4b-810be1d53967",
+      "created_at": 1790024594,
+      "updated_at": 1790024594
+    },
+    "note": "",
+    "created_at": 1790024594
+  },
+  {
+    "id": "7af32307-6aeb-4178-bcba-f296b7e1c5ea",
+    "actor": "officer@local.dev",
+    "action": "update",
+    "table_name": "links",
+    "row_id": "discord",
+    "before": {
+      "key": "discord",
+      "url": "https://x.example",
+      "label": "Discord invite",
+      "last_checked": null,
+      "last_status": null,
+      "dead": false,
+      "updated_at": 1790024425
+    },
+    "after": {
+      "key": "discord",
+      "url": "https://x.example",
+      "label": "Discord invite",
+      "last_checked": null,
+      "last_status": null,
+      "dead": false,
+      "updated_at": 1790024594
+    },
+    "note": "",
+    "created_at": 1790024594
+  },
+  {
+    "id": "4096bb1b-6fe7-4dbc-b682-c64c534f602e",
+    "actor": "officer@local.dev",
+    "action": "create",
+    "table_name": "members",
+    "row_id": "919bd5b0-a40c-4909-ad7d-7a1e7721c89f",
+    "before": null,
+    "after": {
+      "display_name": "x",
+      "status": "interested",
+      "source": "manual",
+      "tags": [],
+      "created_by": "officer@local.dev",
+      "id": "919bd5b0-a40c-4909-ad7d-7a1e7721c89f",
+      "created_at": 1790024594,
+      "updated_at": 1790024594
+    },
+    "note": "",
+    "created_at": 1790024594
+  },
+  {
+    "id": "f497df5e-4556-473b-9870-9d10c051444a",
+    "actor": "admin@local.dev",
+    "action": "create",
+    "table_name": "board_profiles",
+    "row_id": "1a40b4f5-1579-4473-90b8-440a5d6d9dd6",
+    "before": null,
+    "after": {
+      "name": "Filer 7958",
+      "term": "F26",
+      "role_title": "Historian 7958",
+      "active": true,
+      "created_by": "admin@local.dev",
+      "id": "1a40b4f5-1579-4473-90b8-440a5d6d9dd6",
+      "created_at": 1790024594,
+      "updated_at": 1790024594
+    },
+    "note": "",
+    "created_at": 1790024594
+  },
+  {
+    "id": "6e8b1ac7-c58d-41ae-b483-ea68f83f757f",
+    "actor": "admin@local.dev",
+    "action": "create",
+    "table_name": "inheritance_records",
+    "row_id": "F26/handoffs/historian-7958",
+    "before": null,
+    "after": {
+      "type": "handoff",
+      "title": "Handoff — Historian 7958",
+      "term": "F26",
+      "date": "2026-12-01",
+      "status": "final",
+      "owners": [
+        "Historian 7958"
+      ],
+      "visibility": "board",
+      "role": "Historian 7958",
+      "id": "F26/handoffs/historian-7958",
+      "path": "content/inheritance/F26/handoffs/historian-7958.md",
+      "excerpt": "## What I ran the archive",
+      "updated_at": 1790024594
+    },
+    "note": "",
+    "created_at": 1790024594
+  },
+  {
+    "id": "ea06d53a-5e72-478d-a470-1d0e702a7e7f",
+    "actor": "admin@local.dev",
+    "action": "archive",
+    "table_name": "board_profiles",
+    "row_id": "1a40b4f5-1579-4473-90b8-440a5d6d9dd6",
+    "before": {
+      "name": "Filer 7958",
+      "term": "F26",
+      "role_title": "Historian 7958",
+      "active": true,
+      "created_by": "admin@local.dev",
+      "id": "1a40b4f5-1579-4473-90b8-440a5d6d9dd6",
+      "created_at": 1790024594,
+      "updated_at": 1790024594
+    },
+    "after": {
+      "name": "Filer 7958",
+      "term": "F26",
+      "role_title": "Historian 7958",
+      "active": false,
+      "created_by": "admin@local.dev",
+      "id": "1a40b4f5-1579-4473-90b8-440a5d6d9dd6",
+      "created_at": 1790024594,
+      "updated_at": 1790024595,
+      "archived": true
+    },
+    "note": "",
+    "created_at": 1790024594
+  },
+  {
+    "id": "fff6cc2f-3d63-4fe0-97a8-b986574491ff",
+    "actor": "admin@local.dev",
+    "action": "create",
+    "table_name": "resources",
+    "row_id": "07e695f7-a064-4841-a8fc-41e023f1e24b",
+    "before": null,
+    "after": {
+      "group": "Doomed 7958",
+      "title": "A",
+      "url": "https://a.example",
+      "created_by": "admin@local.dev",
+      "id": "07e695f7-a064-4841-a8fc-41e023f1e24b",
+      "created_at": 1790024594,
+      "updated_at": 1790024594
+    },
+    "note": "",
+    "created_at": 1790024594
+  },
+  {
+    "id": "1ef2b931-5b4e-403d-89bf-686b5ecdfc56",
+    "actor": "admin@local.dev",
+    "action": "delete",
+    "table_name": "resources",
+    "row_id": "07e695f7-a064-4841-a8fc-41e023f1e24b",
+    "before": {
+      "group": "Doomed 7958",
+      "title": "A",
+      "url": "https://a.example",
+      "created_by": "admin@local.dev",
+      "id": "07e695f7-a064-4841-a8fc-41e023f1e24b",
+      "created_at": 1790024594,
+      "updated_at": 1790024594
+    },
+    "after": null,
+    "note": "",
+    "created_at": 1790024594
+  },
+  {
+    "id": "9e307630-633a-42fb-8de8-fb9f35a11248",
+    "actor": "admin@local.dev",
+    "action": "update",
+    "table_name": "site_settings",
+    "row_id": "maintenance_banner",
+    "before": {
+      "key": "maintenance_banner",
+      "value": {
+        "on": false,
+        "text": ""
+      },
+      "updated_by": "admin@local.dev",
+      "updated_at": 1790024433
+    },
+    "after": {
+      "key": "maintenance_banner",
+      "value": {
+        "on": true,
+        "text": "Back at 9 — 7958"
+      },
+      "updated_by": "admin@local.dev",
+      "updated_at": 1790024594
+    },
+    "note": "",
+    "created_at": 1790024594
+  },
+  {
+    "id": "78ba442a-cf25-4026-90de-a9336a8a3466",
+    "actor": "admin@local.dev",
+    "action": "update",
+    "table_name": "site_settings",
+    "row_id": "maintenance_banner",
+    "before": {
+      "key": "maintenance_banner",
+      "value": {
+        "on": true,
+        "text": "Back at 9 — 7958"
+      },
+      "updated_by": "admin@local.dev",
+      "updated_at": 1790024594
+    },
+    "after": {
+      "key": "maintenance_banner",
+      "value": {
+        "on": false,
+        "text": ""
+      },
+      "updated_by": "admin@local.dev",
+      "updated_at": 1790024597
+    },
+    "note": "",
+    "created_at": 1790024597
+  },
+  {
+    "id": "8f1e94de-73f7-4d5f-ad5a-7c27617c621c",
+    "actor": "admin@local.dev",
+    "action": "update",
+    "table_name": "site_settings",
+    "row_id": "feature_flags",
+    "before": {
+      "key": "feature_flags",
+      "value": {
+        "projects_public": false,
+        "chat_enabled": false,
+        "ticker_items": [
+          "NEXT EVENT · FALL 2026",
+          "PROJECTS — SUBMISSIONS OPEN",
+          "CYBERHOUNDS · CTF"
+        ]
+      },
+      "updated_by": "admin@local.dev",
+      "updated_at": 1790024446
+    },
+    "after": {
+      "key": "feature_flags",
+      "value": {
+        "projects_public": false,
+        "chat_enabled": false,
+        "ticker_items": [
+          "NEXT EVENT · FALL 2026",
+          "PROJECTS — SUBMISSIONS OPEN",
+          "CYBERHOUNDS · CTF"
+        ]
+      },
+      "updated_by": "admin@local.dev",
+      "updated_at": 1790024601
+    },
+    "note": "",
+    "created_at": 1790024601
+  },
+  {
+    "id": "1e92d066-c6d7-482e-aa41-f20c20ceca6c",
+    "actor": "admin@local.dev",
+    "action": "update",
+    "table_name": "site_settings",
+    "row_id": "feature_flags",
+    "before": {
+      "key": "feature_flags",
+      "value": {
+        "projects_public": false,
+        "chat_enabled": false,
+        "ticker_items": [
+          "NEXT EVENT · FALL 2026",
+          "PROJECTS — SUBMISSIONS OPEN",
+          "CYBERHOUNDS · CTF"
+        ]
+      },
+      "updated_by": "admin@local.dev",
+      "updated_at": 1790024601
+    },
+    "after": {
+      "key": "feature_flags",
+      "value": {
+        "projects_public": false,
+        "chat_enabled": false,
+        "ticker_items": [
+          "NEXT EVENT · FALL 2026",
+          "PROJECTS — SUBMISSIONS OPEN",
+          "CYBERHOUNDS · CTF"
+        ]
+      },
+      "updated_by": "admin@local.dev",
+      "updated_at": 1790024604
+    },
+    "note": "",
+    "created_at": 1790024604
+  },
+  {
+    "id": "22b0db22-fc89-4984-98db-a3821b66bcd6",
+    "actor": "admin@local.dev",
+    "action": "create",
+    "table_name": "posts",
+    "row_id": "mobile-post-7958",
+    "before": null,
+    "after": {
+      "title": "Mobile Post 7958",
+      "dek": "",
+      "body_md": "",
+      "tags": [],
+      "slug": "mobile-post-7958",
+      "id": "mobile-post-7958",
+      "author_name": "Local admin",
+      "author_profile_id": null,
+      "status": "draft",
+      "created_by": "admin@local.dev",
+      "client_id": "0c12aa5b-0161-4ff5-b8c6-c9f36d3a0172",
+      "created_at": 1790024607,
+      "updated_at": 1790024607
+    },
+    "note": "",
+    "created_at": 1790024607
+  },
+  {
+    "id": "e9690142-1caf-454e-a326-65d6078668b5",
+    "actor": "public",
+    "action": "create",
+    "table_name": "projects",
+    "row_id": "53282d48-5629-4010-bc34-ae86c70c9e9d",
+    "before": null,
+    "after": {
+      "title": "Mobile Project 7958",
+      "kind": "app",
+      "summary": "From a phone.",
+      "platform": [],
+      "stack": [],
+      "links": {
+        "repo": ""
+      },
+      "authors": [
+        {
+          "name": "Mo Bile",
+          "handle": "",
+          "term": ""
+        }
+      ],
+      "author_email": "mo@jjay.cuny.edu",
+      "status": "submitted",
+      "featured": false,
+      "display_order": 999,
+      "source": "site-projects-form",
+      "id": "53282d48-5629-4010-bc34-ae86c70c9e9d",
+      "created_at": 1790024610,
+      "updated_at": 1790024610
+    },
+    "note": "",
+    "created_at": 1790024610
+  }
+]

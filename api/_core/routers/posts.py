@@ -21,9 +21,13 @@ def slugify(s: str) -> str:
 
 
 def prepare(data: dict[str, Any], actor: Actor) -> dict[str, Any]:
-    data["slug"] = slugify(data.get("slug") or data["title"])
-    if any(p.get("slug") == data["slug"] for p in C.posts.list()):
-        data["slug"] = f"{data['slug']}-{int(time.time()) % 10000}"
+    base = slugify(data.get("slug") or data["title"])
+    taken = {str(p.get("slug")) for p in C.posts.list()}
+    data["slug"] = base
+    n = 2
+    while data["slug"] in taken:  # welcome-back, welcome-back-2, welcome-back-3 …
+        data["slug"] = f"{base}-{n}"
+        n += 1
     data["id"] = data["slug"]
     data["author_name"] = actor.name or actor.email
     data["author_profile_id"] = actor.profile_id

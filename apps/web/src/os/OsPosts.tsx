@@ -49,9 +49,11 @@ export default function OsPosts() {
       cover_path: cover || null,
       ...(status ? { status } : {}),
       updated_at: sel !== "new" && sel ? sel.updated_at : undefined,
+      client_id: v.client_id,
     };
     const r = await E.save(sel === "new" ? null : String((sel as Row).id), body, overwrite);
     if (r.ok) setSel(null);
+    return r.ok;
   }
   const open = (r: Row) => {
     setCover(String(r.cover_path ?? ""));

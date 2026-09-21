@@ -8,7 +8,7 @@
 import { useEffect, useRef, useState, type ReactNode } from "react";
 import { parseMd } from "@/lib/md";
 import { Button } from "@/components/Button";
-import type { ApiError } from "./useOs";
+import { newClientId, type ApiError } from "./useOs";
 
 export type Field = {
   name: string;
@@ -68,7 +68,7 @@ export function OsForm({
 }: {
   fields: Field[];
   initial?: Values;
-  onSubmit: (values: Values) => void | Promise<void>;
+  onSubmit: (values: Values) => void | boolean | Promise<void | boolean>;
   submitLabel?: string;
   busy?: boolean;
   extra?: ReactNode;
@@ -89,6 +89,8 @@ export function OsForm({
   const [errs, setErrs] = useState<Record<string, string>>({});
   const [touched, setTouched] = useState(false);
   const dirty = useRef(false);
+  const cid = useRef(newClientId()); // one idempotency key per form session: a double-click cannot make two rows
+  const inFlight = useRef(false);
   const set = (k: string, val: unknown) => {
     dirty.current = true;
     setV((s) => {
@@ -118,11 +120,20 @@ export function OsForm({
       document.getElementById(`f-${Object.keys(e)[0]}`)?.focus();
       return;
     }
-    dirty.current = false;
-    if (draftKey) sessionStorage.removeItem(`os-draft:${draftKey}`);
+    if (inFlight.current) return;
+    inFlight.current = true;
     const { __restored: _r, ...clean } = v;
     void _r;
-    await onSubmit(clean);
+    try {
+      const ok = await onSubmit({ ...clean, client_id: cid.current });
+      if (ok !== false) {
+        // the draft survives a failed or interrupted save (401 → login → back → DRAFT_RESTORED)
+        dirty.current = false;
+        if (draftKey) sessionStorage.removeItem(`os-draft:${draftKey}`);
+      }
+    } finally {
+      inFlight.current = false;
+    }
   };
   const allErrs = { ...errs, ...(serverError?.field ? { [serverError.field]: serverError.message } : {}) };
   const bad = Object.keys(allErrs);

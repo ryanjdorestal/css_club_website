@@ -36,8 +36,17 @@ async function initCreds(): Promise<void> {
 
 /** Why /os bounced — shown as a chip on /os/login. */
 export type Reason = "not_signed_in" | "not_on_roster" | "session_expired";
+let expiredMidWrite = false;
+/** A write answered 401 while the OS thought it was signed in (run 10 §9 case 10): the bounce names it. */
+export function markSessionExpired(): void {
+  expiredMidWrite = true;
+}
 export function reasonFor(actor: Actor | null): Reason {
   if (actor && actor.role === "guest" && actor.email) return "not_on_roster";
+  if (expiredMidWrite) {
+    expiredMidWrite = false;
+    return "session_expired";
+  }
   if (creds.token && (!actor || !actor.email)) return "session_expired";
   return "not_signed_in";
 }
@@ -62,7 +71,12 @@ export function osHeaders(): Record<string, string> {
   if (creds.attempt) h["X-Login-Attempt"] = "1";
   creds.attempt = false;
   if (creds.token) h.Authorization = `Bearer ${creds.token}`;
-  else if (creds.localRole) h["X-Local-Role"] = creds.localRole;
+  else {
+    // read the LOCAL_DEV role fresh each request: a cleared session must fail the very next save (run 10 §9 case 10)
+    const role = typeof sessionStorage !== "undefined" ? sessionStorage.getItem(LOCAL_KEY) : creds.localRole;
+    creds.localRole = role;
+    if (role) h["X-Local-Role"] = role;
+  }
   return h;
 }
 
