@@ -4,6 +4,7 @@
     Discord invite without a deploy. */
 import { useMemo, useState } from "react";
 import { resourcesSpec } from "./ui/specs";
+import { FolderCard } from "@/components/cards/FolderCard";
 import { OsPage, Notice, Panel, KeyVal } from "./ui/OsPage";
 import { OsTable, StatusWord, type Row } from "./ui/OsTable";
 import { OsForm, type Field } from "./ui/OsForm";
@@ -132,12 +133,18 @@ export default function OsResources() {
         </div>
       </section>
 
-      {[...groups.entries()].map(([g, rows]) => (
-        <section key={g} className="mt-8">
-          <MonoLabel accent>
-            {g.toUpperCase()} · {rows.length}
-          </MonoLabel>
-          <div className="mt-2">
+      {/* run 9 §3: each category is a folder (T11), the table inside */}
+      {[...groups.entries()].map(([g, rows], gi) => (
+        <FolderCard
+          key={g}
+          as="article"
+          tab={`RES · ${String.fromCharCode(65 + gi)} · ${g.toUpperCase()}`}
+          tone="os"
+          tabFrac={0.5}
+          edgeLabel={`//RES_${String(gi + 1).padStart(2, "0")} · ${rows.length}_LINKS`}
+          className="mt-6"
+        >
+          <div className="-mt-1">
             <OsTable
               cols={[
                 { key: "title", label: "TITLE", render: (r) => <span className="text-ink">{String(r.title)}</span> },
@@ -167,7 +174,7 @@ export default function OsResources() {
               onRow={setSel}
             />
           </div>
-        </section>
+        </FolderCard>
       ))}
 
       {sel && (

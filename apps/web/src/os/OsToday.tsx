@@ -96,7 +96,14 @@ export default function OsToday() {
       thumbs: published
         .slice(-6)
         .reverse()
-        .map((p) => ({ key: String(p.id), src: p.cover_path ? String(p.cover_path) : undefined, text: String(p.title ?? "").slice(0, 28), href: "/os/posts" })),
+        .map((p) => ({
+          key: String(p.id),
+          src: p.cover_path ? String(p.cover_path) : undefined,
+          text: `PST-${String(p.id ?? "")
+            .slice(-6)
+            .toUpperCase()}`,
+          href: "/os/posts",
+        })),
     },
     f: { title: "WHAT THIS IS", pages: PRINCIPLES },
     g: {

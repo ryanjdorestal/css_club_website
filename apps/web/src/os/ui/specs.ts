@@ -13,13 +13,16 @@ const last = (rows: Row[], f: string) =>
     .sort()
     .at(-1)
     ?.slice(0, 10) ?? "—";
+// thumbnails are images; the text fallback is the row's id code (readout grammar), never its title
 const thumbs = (rows: Row[], text: string, href: string, src?: string) =>
   rows
     .slice(-6)
     .reverse()
     .map((r) => ({
       key: String(r.id ?? r.slug ?? Math.random()),
-      text: String(r[text] ?? "").slice(0, 28),
+      text: `${text.slice(0, 3).toUpperCase()}-${String(r.id ?? r.slug ?? "")
+        .slice(-6)
+        .toUpperCase()}`,
       href,
       src: src && r[src] ? String(r[src]) : undefined,
     }));

@@ -5,6 +5,8 @@ import { useEffect, useState } from "react";
 import runbookRaw from "@docs/RUNBOOK.md?raw";
 import docsIndex from "@docs/INDEX.json";
 import { systemSpec } from "./ui/specs";
+import { Ring } from "./ui/Bento";
+import { SubjectSheet } from "./ui/SubjectSheet";
 import { OsPage, Notice, KeyVal } from "./ui/OsPage";
 import { StatusWord } from "./ui/OsTable";
 import { act, useNotice, useOsList } from "./ui/useOs";
@@ -25,6 +27,7 @@ export default function OsSystem() {
   const settings = useOsList("/api/os/site-settings");
   const board = useOsList("/api/os/board");
   const [ownEdit, setOwnEdit] = useState<Account[] | null>(null);
+  const [activeCheck, setActiveCheck] = useState<number | null>(null);
   const { notice, say } = useNotice();
 
   useEffect(() => {
@@ -66,21 +69,53 @@ export default function OsSystem() {
     >
       {notice && <Notice kind={notice.kind}>{notice.text}</Notice>}
 
-      <section className="mt-4">
-        <MonoLabel accent>1 · IS THE PLATFORM WORKING?</MonoLabel>
-        <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-px bg-line border border-line mt-2">
-          {(checks ?? []).map((c) => (
-            <div key={c.label} className="bg-navy-900 px-4 py-3">
-              <div className="flex items-center justify-between gap-2">
-                <span className="mono-label text-muted">{c.label}</span>
-                <StatusChip state={c.state} />
-              </div>
-              <p className="text-[13px] text-ink mt-1.5">{c.detail}</p>
-              {c.state !== "live" && c.fix && <p className="t-micro text-teal mt-1">→ {c.fix}</p>}
+      <section className="mt-4 grid lg:grid-cols-[minmax(0,1fr)_300px] gap-5 items-start">
+        <div>
+          <MonoLabel accent>1 · IS_THE_PLATFORM_WORKING?</MonoLabel>
+          <div className="grid md:grid-cols-[220px_1fr] gap-5 mt-2 items-start">
+            {/* run 9 §6.7: the radial dial — one segment per check, red when it is not live; click → its runbook line */}
+            <div className="h-[220px] border border-line bg-navy-900/60" id="checks">
+              <Ring
+                value={checks ? Math.round((checks.filter((c) => c.state === "live").length / Math.max(1, checks.length)) * 100) : null}
+                label="CHECKS LIVE"
+                segments={(checks ?? []).map((c) => ({ key: c.label, ok: c.state === "live", title: `${c.label}: ${c.detail}` }))}
+                active={activeCheck ?? undefined}
+                onSegment={(i) => {
+                  setActiveCheck(i);
+                  document.getElementById("runbook")?.scrollIntoView({ behavior: "smooth", block: "start" });
+                }}
+              />
             </div>
-          ))}
-          {!checks && <div className="bg-navy-900 px-4 py-3 text-[13px] text-muted">probing…</div>}
+            <div className="grid sm:grid-cols-2 gap-px bg-line border border-line">
+              {(checks ?? []).map((c) => (
+                <div key={c.label} className="bg-navy-900 px-4 py-3">
+                  <div className="flex items-center justify-between gap-2">
+                    <span className="mono-label text-muted">{c.label}</span>
+                    <StatusChip state={c.state} />
+                  </div>
+                  <p className="text-[13px] text-ink mt-1.5">{c.detail}</p>
+                  {c.state !== "live" && c.fix && <p className="t-micro text-teal mt-1">→ {c.fix}</p>}
+                </div>
+              ))}
+              {!checks && <div className="bg-navy-900 px-4 py-3 text-[13px] text-muted">probing…</div>}
+            </div>
+          </div>
         </div>
+        <SubjectSheet
+          title="PLATFORM_SUBJECT"
+          onRefresh={() => {
+            setChecks(null);
+            void osFetch<{ checks: Check[] }>("/api/os/status").then((r) => setChecks(r.ok ? r.data.checks : []));
+          }}
+          rows={[
+            { k: "DB", v: health ? (health.db === "ok" ? "SUPABASE" : "TIER1 · LOCAL") : "—" },
+            { k: "SNAPSHOT", v: health?.snapshot ? health.snapshot.slice(0, 10) : "never" },
+            { k: "KEEPALIVE", v: health?.keepalive ? health.keepalive.slice(0, 10) : "never" },
+            { k: "CHECKS", v: checks ? `${checks.filter((c) => c.state === "live").length}/${checks.length}` : "—" },
+            { k: "OWNERS", v: ownership.length },
+          ]}
+          ring={{ value: checks ? Math.round((checks.filter((c) => c.state === "live").length / Math.max(1, checks.length)) * 100) : null, label: "HEALTH" }}
+        />
       </section>
 
       <section className="mt-8">
@@ -153,8 +188,15 @@ export default function OsSystem() {
             ))}
           </ul>
         </div>
-        <div>
-          <MonoLabel accent>4 · RUNBOOK · docs/RUNBOOK.md</MonoLabel>
+        <div id="runbook">
+          <MonoLabel accent>
+            4 · RUNBOOK · docs/RUNBOOK.md{activeCheck !== null && checks?.[activeCheck] ? ` · → ${checks[activeCheck].label.toUpperCase()}` : ""}
+          </MonoLabel>
+          {activeCheck !== null && checks?.[activeCheck] && (
+            <p className="t-micro text-teal mt-2 border border-teal/40 px-3 py-2">
+              {checks[activeCheck].label}: {checks[activeCheck].detail} {checks[activeCheck].fix ? `→ ${checks[activeCheck].fix}` : ""}
+            </p>
+          )}
           <div className="mt-2 border border-line px-4 py-3 max-h-[420px] overflow-y-auto" tabIndex={0} aria-label="Runbook">
             {runbook.blocks.map((b, i) =>
               b.type === "h2" ? (

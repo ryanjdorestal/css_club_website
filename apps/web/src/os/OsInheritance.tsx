@@ -6,13 +6,13 @@
 import { useEffect, useMemo, useState } from "react";
 import { inheritanceSpec } from "./ui/specs";
 import { OsPage, Chips, KeyVal, Notice, Panel, Empty } from "./ui/OsPage";
-import { IndexList } from "@/components/cards/IndexList";
 import { Readout } from "@/components/cards/StatChip";
 import { MonoLabel } from "@/components/MonoLabel";
 import { Button } from "@/components/Button";
 import { StatusWord } from "./ui/OsTable";
 import { RecordEditor, RecordView, type Rec } from "./ui/SpineRecord";
 import type { Row } from "./ui/OsTable";
+import { FolderCard } from "@/components/cards/FolderCard";
 import { osFetch, osHeaders, useSession } from "./session";
 
 type Index = {
@@ -161,17 +161,36 @@ export default function OsInheritance() {
                 <MonoLabel accent>
                   /{String(i + 1).padStart(2, "0")} {TYPE_LABEL[type] ?? type.toUpperCase()} · {rows.length}
                 </MonoLabel>
-                <div className="mt-2">
-                  <IndexList
-                    rows={rows.map((r, n) => ({
-                      index: String(n + 1).padStart(2, "0"),
-                      title: r.title,
-                      dek: `${(r.owners ?? []).join(", ")} · ${r.date}${r.summary ? ` — ${r.summary}` : ""}`,
-                      meta: `${r.status.toUpperCase()} · ${r.visibility.toUpperCase()}`,
-                      chip: r.status === "final" ? undefined : r.status.toUpperCase(),
-                      onClick: () => void osFetch<{ row: Rec }>(`/api/os/inheritance/${r.id}`).then((x) => x.ok && setOpen(x.data.row)),
-                    }))}
-                  />
+                {/* run 9 §3: the file metaphor is literal — each record is a folder (T11) */}
+                <div className="mt-3 grid sm:grid-cols-2 xl:grid-cols-3 gap-4">
+                  {rows.map((r) => (
+                    <FolderCard
+                      key={r.id}
+                      as="article"
+                      tab={`${type.toUpperCase()} · ${r.term}`}
+                      tone="os"
+                      tabFrac={0.5}
+                      edgeLabel={String(r.id).split("/").pop()?.replace(/\.md$/, "").toUpperCase()}
+                      className="min-h-[170px] hover:brightness-110"
+                    >
+                      <button
+                        className="text-left w-full cursor-pointer"
+                        onClick={() => void osFetch<{ row: Rec }>(`/api/os/inheritance/${r.id}`).then((x) => x.ok && setOpen(x.data.row))}
+                      >
+                        <p className="text-[16px] font-medium leading-tight text-ink">{r.title}</p>
+                        <p className="t-micro opacity-60 mt-2">
+                          {(r.owners ?? []).join(", ").toUpperCase() || "—"} · {r.date}
+                        </p>
+                        {r.summary && <p className="text-[13px] text-muted mt-2 leading-relaxed line-clamp-3">{r.summary}</p>}
+                        <p className="t-micro raise mt-3 flex gap-2">
+                          <span className={r.status === "final" ? "text-teal" : "text-(--color-red-hi)"}>
+                            {r.status === "final" ? "●" : "○"} {r.status.toUpperCase()}
+                          </span>
+                          <span className="opacity-50">{r.visibility.toUpperCase()}</span>
+                        </p>
+                      </button>
+                    </FolderCard>
+                  ))}
                 </div>
               </section>
             ))
@@ -181,13 +200,20 @@ export default function OsInheritance() {
 
       {open && (
         <Panel title={`${open.type.toUpperCase()} · ${open.id}`} onClose={() => setOpen(null)} wide>
-          <RecordView
-            rec={open}
-            onEdit={() => {
-              setEditing(open);
-              setOpen(null);
-            }}
-          />
+          <FolderCard
+            tab={`${open.type.toUpperCase()} · ${open.term}`}
+            tone="os"
+            tabFrac={0.5}
+            edgeLabel={String(open.id).split("/").pop()?.replace(/\.md$/, "").toUpperCase()}
+          >
+            <RecordView
+              rec={open}
+              onEdit={() => {
+                setEditing(open);
+                setOpen(null);
+              }}
+            />
+          </FolderCard>
         </Panel>
       )}
       {editing && (

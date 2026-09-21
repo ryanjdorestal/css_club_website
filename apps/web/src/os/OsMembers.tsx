@@ -3,6 +3,8 @@
     next states, CSV import with a dry-run diff, client-side CSV export. */
 import { useMemo, useState } from "react";
 import { membersSpec } from "./ui/specs";
+import { DossierCard, DossierStack } from "./ui/DossierCard";
+import { Meter } from "@/components/cards/Meter";
 import { OsPage, Chips, Notice, Panel, KeyVal } from "./ui/OsPage";
 import { OsTable, StatusWord, ago, type Row } from "./ui/OsTable";
 import { OsForm, type Field } from "./ui/OsForm";
@@ -76,7 +78,26 @@ export default function OsMembers() {
 
   return (
     <OsPage
-      dash={membersSpec(rows, source !== "loading")}
+      dash={{
+        ...membersSpec(rows, source !== "loading"),
+        e: {
+          ...membersSpec(rows, source !== "loading").e,
+          custom: rows.length ? (
+            <DossierStack
+              className="mt-2"
+              people={rows
+                .slice(-4)
+                .reverse()
+                .map((r) => ({
+                  name: String(r.display_name ?? ""),
+                  code: `MBR-${String(r.id ?? "")
+                    .slice(-4)
+                    .toUpperCase()}`,
+                }))}
+            />
+          ) : undefined,
+        },
+      }}
       kicker="MEMBERS · DISCORD TRACKER"
       title="Members"
       source={source}
@@ -115,8 +136,10 @@ export default function OsMembers() {
           </div>
         ))}
       </div>
-      <div className="flex flex-wrap items-center gap-3 mt-5">
+      <div className="flex flex-wrap items-center gap-5 mt-5">
         <Chips options={STATUSES} value={status} onChange={setStatus} counts={counts} />
+        <Meter label="active" value={Number(counts.active ?? 0)} max={Math.max(1, rows.length)} className="w-40" />
+        <Meter label="interested" value={Number(counts.interested ?? 0)} max={Math.max(1, rows.length)} className="w-40" />
         <input
           value={q}
           onChange={(e) => setQ(e.target.value)}
@@ -124,6 +147,27 @@ export default function OsMembers() {
           className="bg-transparent border-b border-line px-1 py-1 font-mono text-[12px] text-ink focus:border-teal outline-none"
         />
       </div>
+      {shown.length > 0 && (
+        <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-4 mt-5" data-testid="dossiers">
+          {shown.slice(0, 6).map((r, i) => (
+            <button key={String(r.id)} onClick={() => open(r)} className="text-left cursor-pointer">
+              <DossierCard
+                n={i + 1}
+                name={String(r.display_name ?? "")}
+                code={`MBR-${String(r.joined_term ?? "").toUpperCase() || "—"}-${String(r.id ?? "")
+                  .slice(-4)
+                  .toUpperCase()}`}
+                rows={[
+                  { k: "HANDLE", v: r.discord_handle ? String(r.discord_handle) : null },
+                  { k: "STATUS", v: String(r.status ?? "").toUpperCase() },
+                  { k: "TERM", v: r.joined_term ? String(r.joined_term) : null },
+                ]}
+                compact
+              />
+            </button>
+          ))}
+        </div>
+      )}
       <div className="mt-4">
         <OsTable
           cols={[

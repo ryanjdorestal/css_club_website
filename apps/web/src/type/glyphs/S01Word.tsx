@@ -49,56 +49,59 @@ export function S01Word({
   const W = Math.max(1, x - TRACK);
   const HGT = 100 + DESCENT;
   const hasMask = bars?.length || glyphs.some((g) => g.outline);
+  // the text stays in the DOM (sr-only) so headings keep their content; the drawing is decorative
   return (
-    <svg
-      viewBox={`0 0 ${W} ${HGT}`}
-      className={`inline-block align-baseline overflow-visible ${className}`}
-      style={{ height: `${cap * (HGT / 100)}em`, width: "auto", verticalAlign: `${-cap * (DESCENT / 100)}em`, ...style }}
-      role="img"
-      aria-label={children}
-    >
-      {hasMask && (
-        <defs>
-          {glyphs.map(
-            (g, i) =>
-              g.outline && (
-                // mask space = the translated glyph group's space, so the glyph's own coordinates apply
-                <mask id={`${id}-o${i}`} key={i} maskUnits="userSpaceOnUse">
-                  <rect x={-STROKE} y={-STROKE} width={g.w + 2 * STROKE} height={HGT + 2 * STROKE} fill="white" />
-                  <g fill="none" stroke="black" strokeWidth={OUTLINE_INNER} strokeLinejoin="round">
-                    {g.d.map((d, j) => (
-                      <path d={d} key={j} />
-                    ))}
-                  </g>
-                </mask>
-              ),
-          )}
-          {bars?.length ? (
-            <mask id={`${id}-bars`} maskUnits="userSpaceOnUse">
-              <rect x={-STROKE} y={-STROKE} width={W + 2 * STROKE} height={HGT + 2 * STROKE} fill="white" />
-              {bars.map((b) => (
-                <rect key={b} x={-STROKE} y={b * 100 - 2} width={W + 2 * STROKE} height={4} fill="black" />
-              ))}
-            </mask>
-          ) : null}
-        </defs>
-      )}
-      <g
-        mask={bars?.length ? `url(#${id}-bars)` : undefined}
-        fill="none"
-        stroke="currentColor"
-        strokeWidth={STROKE}
-        strokeLinejoin="round"
-        strokeLinecap="butt"
+    <span className={`inline-block ${className}`} style={style}>
+      <span className="sr-only">{children}</span>
+      <svg
+        viewBox={`0 0 ${W} ${HGT}`}
+        className="inline-block align-baseline overflow-visible"
+        style={{ height: `${cap * (HGT / 100)}em`, width: "auto", verticalAlign: `${-cap * (DESCENT / 100)}em` }}
+        aria-hidden="true"
       >
-        {glyphs.map((g, i) => (
-          <g key={i} transform={`translate(${g.x} 0)`} mask={g.outline ? `url(#${id}-o${i})` : undefined}>
-            {g.d.map((d, j) => (
-              <path d={d} key={j} />
-            ))}
-          </g>
-        ))}
-      </g>
-    </svg>
+        {hasMask && (
+          <defs>
+            {glyphs.map(
+              (g, i) =>
+                g.outline && (
+                  // mask space = the translated glyph group's space, so the glyph's own coordinates apply
+                  <mask id={`${id}-o${i}`} key={i} maskUnits="userSpaceOnUse">
+                    <rect x={-STROKE} y={-STROKE} width={g.w + 2 * STROKE} height={HGT + 2 * STROKE} fill="white" />
+                    <g fill="none" stroke="black" strokeWidth={OUTLINE_INNER} strokeLinejoin="round">
+                      {g.d.map((d, j) => (
+                        <path d={d} key={j} />
+                      ))}
+                    </g>
+                  </mask>
+                ),
+            )}
+            {bars?.length ? (
+              <mask id={`${id}-bars`} maskUnits="userSpaceOnUse">
+                <rect x={-STROKE} y={-STROKE} width={W + 2 * STROKE} height={HGT + 2 * STROKE} fill="white" />
+                {bars.map((b) => (
+                  <rect key={b} x={-STROKE} y={b * 100 - 2} width={W + 2 * STROKE} height={4} fill="black" />
+                ))}
+              </mask>
+            ) : null}
+          </defs>
+        )}
+        <g
+          mask={bars?.length ? `url(#${id}-bars)` : undefined}
+          fill="none"
+          stroke="currentColor"
+          strokeWidth={STROKE}
+          strokeLinejoin="round"
+          strokeLinecap="butt"
+        >
+          {glyphs.map((g, i) => (
+            <g key={i} transform={`translate(${g.x} 0)`} mask={g.outline ? `url(#${id}-o${i})` : undefined}>
+              {g.d.map((d, j) => (
+                <path d={d} key={j} />
+              ))}
+            </g>
+          ))}
+        </g>
+      </svg>
+    </span>
   );
 }

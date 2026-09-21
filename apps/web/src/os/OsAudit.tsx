@@ -3,6 +3,9 @@
     with an admin "Replay to DB" button. Read-only otherwise. */
 import { useMemo, useState } from "react";
 import { auditSpec } from "./ui/specs";
+import { TraceStrip } from "./ui/TraceStrip";
+import { DossierCard } from "./ui/DossierCard";
+import { SubjectSheet } from "./ui/SubjectSheet";
 import { OsPage, Chips, Notice, Panel, KeyVal, Empty } from "./ui/OsPage";
 import { OsTable, ago, type Row } from "./ui/OsTable";
 import { act, useNotice, useOsList } from "./ui/useOs";
@@ -78,7 +81,27 @@ export default function OsAudit() {
       ]}
     >
       {notice && <Notice kind={notice.kind}>{notice.text}</Notice>}
-      <section className="mt-4">
+      {/* run 9 §6.4: the activity traces are the hero of the working surface — 8 channels, one per table, real per-day counts */}
+      <section className="mt-4 grid lg:grid-cols-[minmax(0,1fr)_300px] gap-5 items-start">
+        <div className="border border-line bg-navy-900/60 p-3">
+          <MonoLabel accent>ACTIVITY_TRACES · 60_DAYS · PER_TABLE</MonoLabel>
+          <TraceStrip rows={records.rows} field="created_at" groupBy="table_name" channels={8} height={220} className="mt-3 !pointer-events-none" />
+        </div>
+        <SubjectSheet
+          title="LOG_SUBJECT"
+          onRefresh={() => void records.reload()}
+          rows={[
+            { k: "RECORDS", v: records.rows.length },
+            { k: "INBOX", v: inbox.rows.length },
+            { k: "TABLES", v: new Set(records.rows.map((r) => String(r.table_name ?? ""))).size },
+            { k: "ACTORS", v: new Set(records.rows.map((r) => String(r.actor ?? ""))).size },
+            { k: "SOURCE", v: records.source.toUpperCase() },
+          ]}
+          ring={{ value: records.rows.length ? Math.round(((records.rows.length - inbox.rows.length) / records.rows.length) * 100) : null, label: "SYNC" }}
+          wave={{ rows: records.rows, field: "created_at" }}
+        />
+      </section>
+      <section className="mt-6">
         <div className="flex items-center justify-between">
           <MonoLabel accent>INBOX · {inbox.rows.length} unsynced Tier-1 write(s)</MonoLabel>
           {actor?.role === "admin" && inbox.rows.length > 0 && (
@@ -110,7 +133,31 @@ export default function OsAudit() {
           <OsTable
             cols={[
               { key: "created_at", label: "WHEN", mono: true, render: (r) => ago(r.created_at) },
-              { key: "actor", label: "WHO", mono: true },
+              {
+                key: "actor",
+                label: "WHO",
+                mono: true,
+                render: (r) => (
+                  <span className="relative group/who">
+                    {String(r.actor ?? "")}
+                    <span className="hidden group-hover/who:block absolute left-0 top-full z-30 w-[300px] pt-2">
+                      <DossierCard
+                        n={1}
+                        name={String(r.actor ?? "")}
+                        code={`ACT-${String(r.id ?? "")
+                          .slice(-6)
+                          .toUpperCase()}`}
+                        rows={[
+                          { k: "ACTION", v: String(r.action ?? "") },
+                          { k: "TABLE", v: String(r.table_name ?? "") },
+                          { k: "WHEN", v: ago(r.created_at) },
+                        ]}
+                        compact
+                      />
+                    </span>
+                  </span>
+                ),
+              },
               { key: "action", label: "ACTION", mono: true },
               { key: "table_name", label: "TABLE", mono: true },
               { key: "row_id", label: "ROW", mono: true, render: (r) => String(r.row_id ?? "").slice(0, 28) },

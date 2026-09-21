@@ -2,6 +2,8 @@
     term rollover wizard (confirm dates → who continues → done). */
 import { useState } from "react";
 import { boardSpec } from "./ui/specs";
+import { DossierCard } from "./ui/DossierCard";
+import { FolderCard } from "@/components/cards/FolderCard";
 import { OsPage, Chips, KeyVal, Notice, Panel } from "./ui/OsPage";
 import { OsTable, StatusWord, type Row } from "./ui/OsTable";
 import { OsForm, type Field } from "./ui/OsForm";
@@ -109,6 +111,36 @@ export default function OsBoard() {
         <p className="t-micro opacity-60 mb-2">
           TERM {shownTerm || "—"} {current && String(current.id) === shownTerm && "· CURRENT"} · {rows.filter((r) => r.active).length} can sign in
         </p>
+        {/* run 9: officers as folders (T11) with the dossier layout inside (R9_05) */}
+        {rows.length > 0 && (
+          <div className="grid sm:grid-cols-2 xl:grid-cols-3 gap-4 mb-5" data-testid="officer-folders">
+            {rows.map((r, i) => (
+              <FolderCard
+                key={String(r.id)}
+                tab={String(r.role_title ?? "OFFICER").toUpperCase()}
+                tone="os"
+                tabFrac={0.5}
+                edgeLabel={`BRD-${shownTerm}-${String(i + 1).padStart(2, "0")}`}
+              >
+                <DossierCard
+                  n={i + 1}
+                  name={String(r.name ?? "")}
+                  photo={r.photo_path ? String(r.photo_path) : null}
+                  code={`BRD-${shownTerm}-${String(i + 1).padStart(2, "0")}`}
+                  rows={[
+                    { k: "ROLE", v: String(r.role_title ?? "").toUpperCase() },
+                    { k: "TERM", v: shownTerm },
+                    { k: "EMAIL", v: r.email ? String(r.email) : null },
+                    { k: "STATUS", v: r.active ? "● ACTIVE" : "○ INACTIVE" },
+                    { k: "OS", v: String(r.os_role ?? "").toUpperCase() },
+                  ]}
+                  className="!border-0 !bg-transparent !p-0 [&_.brackets]:hidden"
+                  compact
+                />
+              </FolderCard>
+            ))}
+          </div>
+        )}
         <OsTable
           cols={[
             { key: "name", label: "NAME", render: (r) => <span className="text-ink">{String(r.name)}</span> },

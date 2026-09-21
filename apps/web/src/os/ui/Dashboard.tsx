@@ -20,6 +20,8 @@ export type Spec = {
     thumbsLabel: string;
     thumbs: { key: string; src?: string; text?: string; href?: string }[];
     href?: string;
+    /** replaces the 2×3 thumbnail grid (Members: the DossierStack) */
+    custom?: ReactNode;
   };
   f: { title: string; pages: string[]; cta?: { label: string; href: string } };
   g: { title: string; value: string | number | null; denom?: string; progress: { value: number; max: number } | null };
@@ -152,30 +154,36 @@ export function Dashboard({ spec }: { spec: Spec }) {
           <Tile title={e.title} menu="arrow" href={e.href}>
             <Kpi value={e.value} denom={e.denom} size="xl" className="!mt-6" />
             <p className="t-micro opacity-50 mt-4 pt-3 border-t border-ink/15">{e.thumbsLabel}</p>
-            <ul className="grid grid-cols-3 gap-1.5 mt-2 grow content-start">
-              {Array.from({ length: 6 }).map((_, n) => {
-                const t = e.thumbs[n];
-                return (
-                  <li key={t?.key ?? n} className="aspect-square bg-navy-900/60 overflow-hidden relative min-w-0">
-                    {t?.src ? (
-                      <img src={t.src} alt="" className="w-full h-full object-cover" loading="lazy" />
-                    ) : (
-                      <span className="absolute inset-0 flex items-center justify-center t-micro text-center px-1 opacity-70 break-words">
-                        {t?.text ?? "·"}
-                      </span>
-                    )}
-                    {t?.href && <Link to={t.href} className="absolute inset-0" aria-label={t.text ?? "open"} />}
-                  </li>
-                );
-              })}
-            </ul>
+            {e.custom ?? (
+              <ul className="grid grid-cols-3 gap-1.5 mt-2 grow content-start">
+                {Array.from({ length: 6 }).map((_, n) => {
+                  const t = e.thumbs[n];
+                  return (
+                    <li key={t?.key ?? n} className="aspect-square bg-navy-900/60 overflow-hidden relative min-w-0">
+                      {t?.src ? (
+                        <img src={t.src} alt="" className="w-full h-full object-cover" loading="lazy" />
+                      ) : (
+                        <span className="absolute inset-0 flex items-center justify-center t-micro text-center px-1 opacity-70 break-words">
+                          {t?.text ?? "·"}
+                        </span>
+                      )}
+                      {t?.href && <Link to={t.href} className="absolute inset-0" aria-label={t.text ?? "open"} tabIndex={-1} />}
+                    </li>
+                  );
+                })}
+              </ul>
+            )}
           </Tile>
         ),
         f: <FTile f={spec.f} />,
         g: (
           <Tile title={g.title}>
             <Kpi value={g.value} denom={g.denom} size="xl" />
-            {g.progress ? <Bar value={g.progress.value} max={g.progress.max} className="mt-4" /> : <p className="t-micro opacity-50 mt-4">NO_DATA_YET</p>}
+            {g.progress ? (
+              <Bar value={g.progress.value} max={g.progress.max} label={g.title} className="mt-4" />
+            ) : (
+              <p className="t-micro opacity-50 mt-4">NO_DATA_YET</p>
+            )}
           </Tile>
         ),
         h: (

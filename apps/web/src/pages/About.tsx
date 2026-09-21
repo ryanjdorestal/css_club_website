@@ -187,8 +187,15 @@ export default function About() {
                 className="h-full"
               >
                 {m.photo && <img src={`/${m.photo}`} alt={m.name} loading="lazy" className="w-full aspect-square object-cover object-top" />}
-                <p className="t-h3 !text-[14px] !font-medium leading-tight mt-3">{m.name}</p>
-                <p className="t-micro raise text-(--accent-ink) mt-1">_term {current.term.toUpperCase()}</p>
+                {/* the dossier sheet (R9_05): micro caps keys over values */}
+                <dl className="mt-3 grid grid-cols-[46px_1fr] gap-x-2 gap-y-0.5">
+                  <dt className="t-micro opacity-60 pt-0.5">NAME</dt>
+                  <dd className="t-h3 !text-[14px] !font-medium leading-tight">{m.name}</dd>
+                  <dt className="t-micro opacity-60 pt-0.5">ROLE</dt>
+                  <dd className="t-micro raise text-(--accent-ink)">{m.role.toUpperCase()}</dd>
+                  <dt className="t-micro opacity-60 pt-0.5">TERM</dt>
+                  <dd className="t-micro raise">{current.term.toUpperCase()}</dd>
+                </dl>
               </FolderCard>
             </RevealItem>
           ))}
