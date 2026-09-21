@@ -240,14 +240,16 @@ def board() -> dict[str, Any]:
     profiles = C.board.list()
     out = []
     for t in terms:
-        members = [p for p in profiles if p.get("term") == t["id"] and p.get("visibility", "public") == "public"]
-        if not members:
-            continue
+        members = [p for p in profiles if p.get("term") == t["id"] and p.get("visibility", "public") == "public" and not p.get("archived")]
+        if not members and not t.get("is_current"):
+            continue  # a past term with nobody on record is noise; the CURRENT term always shows (even before seats are filled)
         members.sort(key=lambda p: p.get("sort", 0))
         out.append({"term": t.get("label", t["id"]), "id": t["id"], "is_current": t.get("is_current", False), "members": [
             {"name": p.get("name"), "role": p.get("role_title", ""), "group": p.get("group_label", ""), "bio": p.get("bio", ""),
              "photo": p.get("photo_path", ""), "socials": p.get("socials", {})} for p in members]})
     cur = next((t for t in out if t["is_current"]), out[0] if out else None)
+    if cur:
+        out = [cur, *[t for t in out if t is not cur]]
     return {"ok": True, "source": _source(C.board), "current_term": cur["term"] if cur else "", "terms": out}
 
 
@@ -255,11 +257,13 @@ def board() -> dict[str, Any]:
 def resources() -> dict[str, Any]:
     rows = C.resources.list()
     groups: dict[str, list[dict[str, Any]]] = {}
-    for row in sorted(rows, key=lambda x: (x.get("group", ""), x.get("sort", 0))):
+    for row in sorted(rows, key=lambda x: (int(x.get("group_sort") or 0), x.get("group", ""), int(x.get("sort") or 0))):
         groups.setdefault(row["group"], []).append({"title": row["title"], "url": row["url"], "description": row.get("description", ""),
                                                     "dead": row.get("dead", False), "id": row.get("id")})
+    # category order: the OS's group_sort when any row carries one, else the committed JSON order, new groups last
     order: list[str] = [g["group"] for g in tier1.read_json("resources.json", {"groups": []})["groups"]]
-    names = sorted(groups, key=lambda g: (order.index(g) if g in order else 99, g))
+    gsort = {row["group"]: int(row.get("group_sort") or 0) for row in rows if row.get("group_sort") is not None}
+    names = sorted(groups, key=lambda g: (gsort.get(g, 999) if gsort else (order.index(g) if g in order else 999), order.index(g) if g in order else 999, g))
     return {"ok": True, "source": _source(C.resources), "count": len(rows), "groups": [{"group": g, "links": groups[g]} for g in names]}
 
 

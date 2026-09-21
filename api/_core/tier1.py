@@ -5,6 +5,7 @@ Used by store.py, audit.py and the public read endpoints."""
 from __future__ import annotations
 
 import json
+import threading
 import time
 import uuid
 from pathlib import Path
@@ -37,16 +38,21 @@ def local_read(table: str) -> list[dict[str, Any]] | None:
         return None
 
 
+LOCK = threading.RLock()  # one process, many request threads: read-modify-write is serialised in store.py
+
+
 def local_write(table: str, rows: list[dict[str, Any]]) -> None:
-    """Atomic: write a temp file, keep the previous version as one .bak, then os.replace."""
+    """Atomic: write a temp file, COPY the previous version to one .bak, then os.replace — the
+    table file never disappears, so a concurrent reader can never see "missing" and re-seed it."""
     import os
+    import shutil
 
     config.DATA.mkdir(parents=True, exist_ok=True)
     p = _local_path(table)
     tmp = p.with_suffix(".json.tmp")
     tmp.write_text(json.dumps(rows, indent=2, ensure_ascii=False) + "\n")
     if p.exists():
-        os.replace(p, p.with_suffix(".json.bak"))
+        shutil.copyfile(p, p.with_suffix(".json.bak"))
     os.replace(tmp, p)
 
 

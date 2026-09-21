@@ -104,6 +104,10 @@ class ResourceIn(WriteMeta):
     url: str = Field(min_length=4, max_length=600)
     description: str | None = Field(default=None, max_length=2000)
     sort: int | None = None
+    group_sort: int | None = None
+    last_checked: int | None = None
+    last_status: int | None = None
+    dead: bool | None = None
 
 
 class LinkIn(WriteMeta):

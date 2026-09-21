@@ -40,7 +40,9 @@ export default function OsToday() {
   const [records, setRecords] = useState<Row[]>([]);
   const [posts, setPosts] = useState<Row[]>([]);
   const [checks, setChecks] = useState<Check[] | null>(null);
+  const [spine, setSpine] = useState<{ handoffs_filed: number; officers: number } | null>(null);
   useEffect(() => {
+    void osFetch<{ stats: { handoffs_filed: number; officers: number } }>("/api/os/inheritance").then((r) => r.ok && setSpine(r.data.stats));
     void osFetch<Health>("/api/health").then((r) => setHealth(r.ok ? r.data : "down"));
     void osFetch<Attention>("/api/os/attention").then((r) => r.ok && setAtt(r.data));
     void osFetch<{ rows: Row[] }>("/api/os/records?limit=500").then((r) => r.ok && setRecords(r.data.rows ?? []));
@@ -52,7 +54,6 @@ export default function OsToday() {
   const today = new Date().toLocaleDateString("en-US", { weekday: "long", month: "long", day: "numeric", year: "numeric" });
   const pending = (att?.items ?? []).filter((i) => i.count > 0);
   const officers = att?.officers ?? 0;
-  const handoffItem = att?.items.find((i) => i.key === "handoffs");
   const published = posts.filter((p) => p.status === "published");
   const lastPostAt = published
     .map((p) => String(p.published_at ?? ""))
@@ -68,7 +69,7 @@ export default function OsToday() {
 
   const dash: Spec = {
     a: { title: "NEEDS ATTENTION", value: att ? pending.length : null, denom: "open" },
-    b: { title: "HANDOFFS FILED", value: att ? officers - (handoffItem?.count ?? 0) : null, denom: att ? `${officers}` : undefined },
+    b: { title: "HANDOFFS FILED", value: spine ? spine.handoffs_filed : null, denom: spine ? `${spine.officers || officers}` : undefined },
     c: {
       title: "THIS TERM",
       value: att?.term?.id ?? null,

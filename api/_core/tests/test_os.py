@@ -176,7 +176,9 @@ def test_rollover(client: TestClient) -> None:
 
 def test_public_board_shape(client: TestClient) -> None:
     j = client.get("/api/board").json()
-    assert j["terms"][0]["members"][0]["name"]
+    # the current term (F26, no seats yet) lists first — even empty — then the most recent board on record
+    assert j["terms"][0]["is_current"] and j["terms"][0]["members"] == []
+    assert j["terms"][1]["members"][0]["name"]
 
 
 # ---------------------------------------------------------------- members

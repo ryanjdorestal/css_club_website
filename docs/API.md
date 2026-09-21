@@ -18,10 +18,12 @@ One Vercel function (`api/index.py`). Public reads fall back to the committed JS
 | `GET` | `/api/posts` | Posts |  |
 | `GET` | `/api/posts/{slug}` | Post |  |
 | `GET` | `/api/projects` | Projects |  |
+| `GET` | `/api/projects/submission/{pid}` | Submission Status | What a student sees on resubmit: status + the reviewer's note (never internal fields). |
 | `POST` | `/api/projects/submit` | Projects Submit |  |
 | `GET` | `/api/resources` | Resources |  |
 | `GET` | `/api/site-settings` | Site Settings |  |
 | `GET` | `/api/whoami` | Whoami Route |  |
+| `GET` | `/api/workshops` | Workshops | Published workshops grouped by series (the Events page's Workshops section). |
 
 ## OS — officer (admin where noted)
 
@@ -32,16 +34,22 @@ One Vercel function (`api/index.py`). Public reads fall back to the committed JS
 | `POST` | `/api/os/board` | Create Row |  |
 | `GET` | `/api/os/board/{row_id}` | Get Row |  |
 | `PATCH` | `/api/os/board/{row_id}` | Patch Row |  |
-| `DELETE` | `/api/os/board/{row_id}` | Delete Row |  |
+| `DELETE` | `/api/os/board/{row_id}` | Delete Officer | An officer who filed a handoff is archived (kept for the term history), never deleted. |
+| `POST` | `/api/os/board/{row_id}/archive` | Archive Row |  |
+| `POST` | `/api/os/board/{row_id}/duplicate` | Duplicate Row |  |
 | `GET` | `/api/os/board/{row_id}/next` | Next States |  |
+| `POST` | `/api/os/board/{row_id}/unarchive` | Unarchive Row |  |
 | `GET` | `/api/os/events` | List Rows |  |
 | `POST` | `/api/os/events` | Create Row |  |
 | `GET` | `/api/os/events/{row_id}` | Get Row |  |
 | `PATCH` | `/api/os/events/{row_id}` | Patch Row |  |
 | `DELETE` | `/api/os/events/{row_id}` | Delete Row |  |
+| `POST` | `/api/os/events/{row_id}/archive` | Archive Row |  |
+| `POST` | `/api/os/events/{row_id}/duplicate` | Duplicate Row |  |
 | `GET` | `/api/os/events/{row_id}/next` | Next States |  |
 | `POST` | `/api/os/events/{row_id}/publish` | Publish |  |
 | `POST` | `/api/os/events/{row_id}/transition` | Transition |  |
+| `POST` | `/api/os/events/{row_id}/unarchive` | Unarchive Row |  |
 | `GET` | `/api/os/inbox` | Inbox |  |
 | `POST` | `/api/os/inbox/replay` | Replay | Post each inbox line to Supabase (upsert by id → idempotent). Lines that |
 | `GET` | `/api/os/inheritance` | Index |  |
@@ -55,47 +63,82 @@ One Vercel function (`api/index.py`). Public reads fall back to the committed JS
 | `PATCH` | `/api/os/links/{key}` | Patch Link |  |
 | `GET` | `/api/os/members` | List Rows |  |
 | `POST` | `/api/os/members` | Create Row |  |
+| `POST` | `/api/os/members/bulk-transition` | Bulk Transition | Honours the allowed-transition map per row; the rest are refused with the reason. |
 | `POST` | `/api/os/members/import` | Import Members |  |
+| `POST` | `/api/os/members/import/undo` | Undo Import | Delete every row the LAST import added (changed rows keep their new values — the audit has the diff). |
+| `POST` | `/api/os/members/merge` | Merge | Fold `duplicate` into `survivor`: keeps both handles/emails (the extra one lands in notes + tags), audited. |
 | `GET` | `/api/os/members/{row_id}` | Get Row |  |
 | `PATCH` | `/api/os/members/{row_id}` | Patch Row |  |
 | `DELETE` | `/api/os/members/{row_id}` | Delete Row |  |
+| `POST` | `/api/os/members/{row_id}/archive` | Archive Row |  |
+| `POST` | `/api/os/members/{row_id}/duplicate` | Duplicate Row |  |
 | `GET` | `/api/os/members/{row_id}/next` | Next States |  |
 | `POST` | `/api/os/members/{row_id}/transition` | Transition |  |
+| `POST` | `/api/os/members/{row_id}/unarchive` | Unarchive Row |  |
 | `GET` | `/api/os/posts` | List Rows |  |
 | `POST` | `/api/os/posts` | Create Row |  |
 | `GET` | `/api/os/posts/{row_id}` | Get Row |  |
 | `PATCH` | `/api/os/posts/{row_id}` | Patch Row |  |
 | `DELETE` | `/api/os/posts/{row_id}` | Delete Row |  |
+| `POST` | `/api/os/posts/{row_id}/archive` | Archive Row |  |
+| `POST` | `/api/os/posts/{row_id}/duplicate` | Duplicate Row |  |
 | `GET` | `/api/os/posts/{row_id}/next` | Next States |  |
 | `POST` | `/api/os/posts/{row_id}/publish` | Publish |  |
 | `POST` | `/api/os/posts/{row_id}/transition` | Transition |  |
+| `POST` | `/api/os/posts/{row_id}/unarchive` | Unarchive Row |  |
 | `GET` | `/api/os/projects` | List Rows |  |
 | `POST` | `/api/os/projects` | Create Row |  |
 | `POST` | `/api/os/projects/reorder` | Reorder |  |
 | `GET` | `/api/os/projects/{row_id}` | Get Row |  |
 | `PATCH` | `/api/os/projects/{row_id}` | Patch Row |  |
 | `DELETE` | `/api/os/projects/{row_id}` | Delete Row |  |
+| `POST` | `/api/os/projects/{row_id}/archive` | Archive Row |  |
 | `POST` | `/api/os/projects/{row_id}/decide` | Decide |  |
-| `POST` | `/api/os/projects/{row_id}/feature` | Feature | Make this the featured project (the public page shows one); clears the others. |
+| `POST` | `/api/os/projects/{row_id}/duplicate` | Duplicate Row |  |
+| `POST` | `/api/os/projects/{row_id}/feature` | Feature | Feature = pinned to the top three on /projects. A 4th is refused, naming the three. |
 | `GET` | `/api/os/projects/{row_id}/next` | Next States |  |
 | `POST` | `/api/os/projects/{row_id}/publish` | Publish |  |
 | `POST` | `/api/os/projects/{row_id}/transition` | Transition |  |
+| `POST` | `/api/os/projects/{row_id}/unarchive` | Unarchive Row |  |
+| `POST` | `/api/os/projects/{row_id}/unfeature` | Unfeature |  |
+| `POST` | `/api/os/projects/{row_id}/unpublish` | Unpublish |  |
 | `GET` | `/api/os/records` | Records |  |
 | `GET` | `/api/os/resources` | List Rows |  |
 | `POST` | `/api/os/resources` | Create Row |  |
+| `POST` | `/api/os/resources/bulk` | Bulk Paste | One URL per line (optionally `Title | URL`) → parsed preview rows → confirm with dry_run=false. |
+| `POST` | `/api/os/resources/category/delete` | Delete Category | Refused while links exist unless `cascade` — then every link goes, named in the audit note. |
+| `POST` | `/api/os/resources/category/rename` | Rename Category |  |
+| `POST` | `/api/os/resources/category/reorder` | Reorder Categories | Category order = a `group_sort` on every link of the group (the public page sorts by it). |
 | `POST` | `/api/os/resources/reorder` | Reorder |  |
 | `GET` | `/api/os/resources/{row_id}` | Get Row |  |
 | `PATCH` | `/api/os/resources/{row_id}` | Patch Row |  |
 | `DELETE` | `/api/os/resources/{row_id}` | Delete Row |  |
+| `POST` | `/api/os/resources/{row_id}/archive` | Archive Row |  |
+| `POST` | `/api/os/resources/{row_id}/check` | Check One |  |
+| `POST` | `/api/os/resources/{row_id}/duplicate` | Duplicate Row |  |
 | `GET` | `/api/os/resources/{row_id}/next` | Next States |  |
+| `POST` | `/api/os/resources/{row_id}/unarchive` | Unarchive Row |  |
 | `GET` | `/api/os/site-settings` | List Settings |  |
 | `PATCH` | `/api/os/site-settings/{key}` | Patch Setting |  |
 | `GET` | `/api/os/status` | Platform Status | Is the platform working? Every check names its real data source. |
 | `GET` | `/api/os/terms` | List Terms |  |
 | `POST` | `/api/os/terms` | Create Term |  |
 | `POST` | `/api/os/terms/rollover` | Rollover |  |
+| `PATCH` | `/api/os/terms/{term_id}` | Patch Term | Edit dates / label; `is_current: true` moves the current flag here (exactly one current term). |
+| `DELETE` | `/api/os/terms/{term_id}` | Delete Term | Refused for the current term and for any term that still has officers or spine records. |
 | `POST` | `/api/os/uploads` | Upload |  |
 | `GET` | `/api/os/uploads/{name}` | Serve |  |
+| `GET` | `/api/os/workshops` | List Rows |  |
+| `POST` | `/api/os/workshops` | Create Row |  |
+| `GET` | `/api/os/workshops/{row_id}` | Get Row |  |
+| `PATCH` | `/api/os/workshops/{row_id}` | Patch Row |  |
+| `DELETE` | `/api/os/workshops/{row_id}` | Delete Row |  |
+| `POST` | `/api/os/workshops/{row_id}/archive` | Archive Row |  |
+| `POST` | `/api/os/workshops/{row_id}/duplicate` | Duplicate Row |  |
+| `GET` | `/api/os/workshops/{row_id}/next` | Next States |  |
+| `POST` | `/api/os/workshops/{row_id}/publish` | Publish |  |
+| `POST` | `/api/os/workshops/{row_id}/transition` | Transition |  |
+| `POST` | `/api/os/workshops/{row_id}/unarchive` | Unarchive Row |  |
 
 ## Shapes
 

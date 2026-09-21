@@ -1,7 +1,8 @@
 import { brand } from "@brand/brand.config";
 import { useState } from "react";
 import { ArrowUpRight } from "lucide-react";
-import links from "@data/links.json";
+import linksData from "@data/links.json";
+import { useApi } from "@/lib/useApi";
 import collaborate from "@data/collaborate.json";
 import { Band } from "@/components/Band";
 import { PageHero } from "@/components/PageHero";
@@ -104,6 +105,9 @@ export default function Join() {
 }
 
 function OnboardBand() {
+  // the site links (Discord invite, forms) come from the OS — API first, committed JSON second (run 10: Join read the static file)
+  const { data: linksApi } = useApi<{ links: Record<string, string> }>("/api/links", { links: linksData as unknown as Record<string, string> });
+  const links = { ...(linksData as unknown as Record<string, string>), ...linksApi.links };
   const [result, setResult] = useState<SubmitResult | null>(null);
   const [busy, setBusy] = useState(false);
   async function onSubmit(e: React.FormEvent<HTMLFormElement>) {

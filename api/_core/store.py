@@ -40,10 +40,11 @@ class Collection:
 
     # ------------------------------------------------------------ reads
     def _local(self) -> Rows:
-        rows = tier1.local_read(self.table)
-        if rows is None:
-            rows = self.seed()
-            tier1.local_write(self.table, rows)
+        with tier1.LOCK:
+            rows = tier1.local_read(self.table)
+            if rows is None:
+                rows = self.seed()
+                tier1.local_write(self.table, rows)
         return rows
 
     def list(self, **filters: Any) -> Rows:
@@ -82,9 +83,10 @@ class Collection:
         row["updated_at"] = now()
         saved = db.insert(self.table, row)
         if saved is None:
-            rows = self._local()
-            rows.append(row)
-            tier1.local_write(self.table, rows)
+            with tier1.LOCK:
+                rows = self._local()
+                rows.append(row)
+                tier1.local_write(self.table, rows)
             tier1.inbox_append(self.table, "create", row, client_id)
             saved = row
         audit.record(actor, "create", self.table, str(saved.get(self.id_field)), None, saved)
@@ -102,19 +104,44 @@ class Collection:
         changes["updated_at"] = max(now(), int(before.get("updated_at") or 0) + 1)
         saved = db.update(self.table, row_id, changes, self.id_field)
         if saved is None:
-            rows = self._local()
-            saved = None
-            for i, r in enumerate(rows):
-                if str(r.get(self.id_field)) == str(row_id):
-                    rows[i] = {**r, **changes}
-                    saved = rows[i]
-            if saved is None:
-                return None
-            tier1.local_write(self.table, rows)
+            with tier1.LOCK:
+                rows = self._local()
+                saved = None
+                for i, r in enumerate(rows):
+                    if str(r.get(self.id_field)) == str(row_id):
+                        rows[i] = {**r, **changes}
+                        saved = rows[i]
+                if saved is None:
+                    return None
+                tier1.local_write(self.table, rows)
             tier1.inbox_append(self.table, "patch", {self.id_field: row_id, **changes})
         audit.record(actor, action, self.table, str(row_id), before, saved)
         log.info("write actor=%s entity=%s action=%s ms=%d tier=%s", actor, self.table, action, (time.time() - t0) * 1000, self.source())
         return saved
+
+    def patch_many(self, updates: dict[str, dict[str, Any]], actor: str, action: str) -> int:
+        """One write for many rows (reorders, renames): DB → per-row updates; Tier 1 → a single file write,
+        one inbox line per row, one audit record naming the count."""
+        if config.supabase_configured() and db.reachable():
+            n = 0
+            for rid, ch in updates.items():
+                if db.update(self.table, rid, {**ch, "updated_at": now()}, self.id_field):
+                    n += 1
+            audit.record(actor, action, self.table, None, None, {"rows": n})
+            return n
+        with tier1.LOCK:
+            rows = self._local()
+            n = 0
+            for i, r in enumerate(rows):
+                upd = updates.get(str(r.get(self.id_field)))
+                if upd:
+                    rows[i] = {**r, **upd, "updated_at": now()}
+                    n += 1
+            tier1.local_write(self.table, rows)
+        for rid, ch in updates.items():
+            tier1.inbox_append(self.table, "patch", {self.id_field: rid, **ch})
+        audit.record(actor, action, self.table, None, None, {"rows": n})
+        return n
 
     def archive(self, row_id: str, actor: str, undo: bool = False) -> dict[str, Any] | None:
         """Archive = status 'archived' (remembering where it came from) or an `archived` flag on
@@ -146,8 +173,9 @@ class Collection:
         if before is None:
             return False
         if not db.delete(self.table, row_id, self.id_field):
-            rows = [r for r in self._local() if str(r.get(self.id_field)) != str(row_id)]
-            tier1.local_write(self.table, rows)
+            with tier1.LOCK:
+                rows = [r for r in self._local() if str(r.get(self.id_field)) != str(row_id)]
+                tier1.local_write(self.table, rows)
             tier1.inbox_append(self.table, "delete", {self.id_field: row_id})
         audit.record(actor, "delete", self.table, str(row_id), before, None)
         return True

@@ -30,6 +30,9 @@ const goto = async (p, path) => {
   await p.waitForTimeout(700);
 };
 const fill = async (p, label, value) => {
+  // run 10: OsForm labels point at their inputs with htmlFor (getByLabel); legacy nested labels still work
+  const byFor = p.getByLabel(new RegExp(`^${label.replace(/[.*+?^${}()|[\]\\]/g, "\\$&")}( \*)?$`, "i")).first();
+  if (await byFor.count()) return byFor.fill(value);
   const el = p.locator(`label:has-text("${label}") input, label:has-text("${label}") textarea, label:has-text("${label}") select`).first();
   await el.fill(value);
 };

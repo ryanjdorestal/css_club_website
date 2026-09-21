@@ -84,6 +84,4 @@ def unpublish(row_id: str, actor: Actor = Depends(require_role("officer"))) -> d
 
 @r.post("/reorder")
 def reorder(body: ReorderIn, actor: Actor = Depends(require_role("officer"))) -> dict[str, Any]:
-    for i, pid in enumerate(body.ids):
-        C.projects.patch(pid, {"display_order": i}, actor.email, action="reorder")
-    return {"ok": True, "count": len(body.ids)}
+    return {"ok": True, "count": C.projects.patch_many({pid: {"display_order": i} for i, pid in enumerate(body.ids)}, actor.email, "reorder")}

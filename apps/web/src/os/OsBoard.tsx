@@ -10,6 +10,7 @@ import { OsForm, type Field } from "./ui/OsForm";
 import { act, useNotice, useOsList } from "./ui/useOs";
 import { useSession } from "./session";
 import { Button } from "@/components/Button";
+import { Upload } from "./ui/Upload";
 import { MonoLabel } from "@/components/MonoLabel";
 
 const FIELDS: Field[] = [
@@ -20,7 +21,6 @@ const FIELDS: Field[] = [
   { name: "os_role", label: "OS ROLE", type: "select", options: ["officer", "admin"] },
   { name: "active", label: "ACTIVE (can log in)", type: "toggle" },
   { name: "bio", label: "BIO", type: "textarea", rows: 3 },
-  { name: "photo_path", label: "PHOTO PATH", placeholder: "img/board/name.webp" },
   { name: "sort", label: "SORT", type: "number" },
 ];
 
@@ -33,6 +33,7 @@ export default function OsBoard() {
   const [term, setTerm] = useState<string>("current");
   const [sel, setSel] = useState<Row | "new" | null>(null);
   const [termPanel, setTermPanel] = useState<Row | "new" | null>(null);
+  const [photo, setPhoto] = useState("");
   const [roll, setRoll] = useState<null | {
     step: 1 | 2 | 3;
     next_id: string;
@@ -50,7 +51,7 @@ export default function OsBoard() {
 
   async function save(v: Record<string, unknown>) {
     setBusy(true);
-    const body = { ...v, term: v.term || shownTerm };
+    const body = { ...v, term: v.term || shownTerm, photo_path: photo || null, active: v.active ?? true };
     const r = sel === "new" ? await act("/api/os/board", { body }) : await act(`/api/os/board/${(sel as Row).id}`, { method: "PATCH", body });
     say(r.ok, r.msg);
     setBusy(false);
@@ -128,7 +129,13 @@ export default function OsBoard() {
         <>
           <Chips options={termIds} value={term} onChange={setTerm} />
           {admin && (
-            <Button variant="ghost" onClick={() => setSel("new")}>
+            <Button
+              variant="ghost"
+              onClick={() => {
+                setPhoto("");
+                setSel("new");
+              }}
+            >
               + add officer
             </Button>
           )}
@@ -197,11 +204,24 @@ export default function OsBoard() {
             { key: "active", label: "ACTIVE", render: (r) => (r.active ? <StatusWord s="active" /> : <StatusWord s="inactive" />) },
           ]}
           rows={rows}
-          onRow={admin ? setSel : undefined}
+          onRow={
+            admin
+              ? (r) => {
+                  setPhoto(String(r.photo_path ?? ""));
+                  setSel(r);
+                }
+              : undefined
+          }
           actions={
             admin
               ? [
-                  { label: "EDIT", onClick: (r) => setSel(r) },
+                  {
+                    label: "EDIT",
+                    onClick: (r) => {
+                      setPhoto(String(r.photo_path ?? ""));
+                      setSel(r);
+                    },
+                  },
                   { label: "▲ UP", onClick: (r) => void moveSeat(r, -1) },
                   { label: "▼ DOWN", onClick: (r) => void moveSeat(r, 1) },
                   {
@@ -277,10 +297,12 @@ export default function OsBoard() {
       )}
       {sel && admin && (
         <Panel title={sel === "new" ? "ADD OFFICER" : `OFFICER · ${String(sel.name)}`} onClose={() => setSel(null)}>
+          <Upload label="PHOTO" value={photo} onChange={setPhoto} />
           <OsForm
             key={sel === "new" ? "new" : String(sel.id)}
             fields={FIELDS}
             initial={sel === "new" ? { term: shownTerm, os_role: "officer", active: true } : sel}
+            draftKey={sel === "new" ? "officer-new" : `officer-${String(sel.id)}`}
             busy={busy}
             onSubmit={save}
           />

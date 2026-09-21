@@ -34,9 +34,8 @@ def rename_category(body: CategoryIn, actor: Actor = Depends(require_role("offic
     rows = C.resources.list(group=body.group)
     if not rows:
         raise HTTPException(404, "no such category")
-    for row in rows:
-        C.resources.patch(row["id"], {"group": body.to}, actor.email, action="category:rename")
-    return {"ok": True, "moved": len(rows)}
+    moved = C.resources.patch_many({str(r["id"]): {"group": body.to} for r in rows}, actor.email, "category:rename")
+    return {"ok": True, "moved": moved}
 
 
 @r.post("/category/delete")
@@ -58,12 +57,9 @@ class CategoryOrder(BaseModel):
 @r.post("/category/reorder")
 def reorder_categories(body: CategoryOrder, actor: Actor = Depends(require_role("officer"))) -> dict[str, Any]:
     """Category order = a `group_sort` on every link of the group (the public page sorts by it)."""
-    n = 0
-    for i, g in enumerate(body.groups):
-        for row in C.resources.list(group=g):
-            C.resources.patch(row["id"], {"group_sort": i}, actor.email, action="category:reorder")
-            n += 1
-    return {"ok": True, "count": n}
+    order = {g: i for i, g in enumerate(body.groups)}
+    updates = {str(r["id"]): {"group_sort": order[str(r["group"])]} for r in C.resources.list() if str(r["group"]) in order}
+    return {"ok": True, "count": C.resources.patch_many(updates, actor.email, "category:reorder")}
 
 
 class BulkIn(BaseModel):
@@ -105,9 +101,7 @@ def check_one(row_id: str, actor: Actor = Depends(require_role("officer"))) -> d
 
 @r.post("/reorder")
 def reorder(body: ReorderIn, actor: Actor = Depends(require_role("officer"))) -> dict[str, Any]:
-    for i, rid in enumerate(body.ids):
-        C.resources.patch(rid, {"sort": i}, actor.email, action="reorder")
-    return {"ok": True, "count": len(body.ids)}
+    return {"ok": True, "count": C.resources.patch_many({rid: {"sort": i} for i, rid in enumerate(body.ids)}, actor.email, "reorder")}
 
 
 @links_r.get("")

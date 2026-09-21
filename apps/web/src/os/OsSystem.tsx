@@ -156,6 +156,7 @@ export default function OsSystem() {
             </div>
           ) : (
             <KeyVal
+              className="ownership"
               rows={ownership.map((a) => ({
                 k: a.name,
                 v: (

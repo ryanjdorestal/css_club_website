@@ -38,7 +38,10 @@ const ACTIVITIES = [
 
 export default function About() {
   const { data: board } = useApi<typeof boardData>("/api/board", boardData);
-  const [current, ...alumni] = board.terms;
+  // the grid shows the most recent board WITH seats; the current term (even before its seats are filled) is named in the title
+  const withSeats = board.terms.filter((t) => t.members.length);
+  const [current, ...alumni] = withSeats.length ? withSeats : board.terms;
+  const currentLabel = board.current_term && board.current_term !== current.term ? `${board.current_term.toUpperCase()} · CURRENT · ` : "";
   const [open, setOpen] = useState<string | null>(null);
   const who = sectionText("grow together") || sectionText("Who We Are");
   return (
@@ -169,7 +172,7 @@ export default function About() {
         sigil={<Sg.Eye size={16} />}
         code="INHERITANCE"
         index="04 — THE BOARD"
-        title={`${current.term.toUpperCase()} · MOST RECENT ON RECORD`}
+        title={`${currentLabel}${current.term.toUpperCase()} · MOST RECENT ON RECORD`}
         rail="04 · BOARD · 01000010 · INHERITANCE"
       >
         <RevealGroup className="grid grid-cols-2 md:grid-cols-4 gap-5 mb-14">
