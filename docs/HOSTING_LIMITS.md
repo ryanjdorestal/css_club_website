@@ -10,32 +10,32 @@ ever sells anything through the site, the project must move to a paid plan first
 
 ## Vercel Hobby — limits, our use, the guard
 
-| Limit                        | Hobby     | Our expected use | Guard                                                                                   |
-| ---------------------------- | --------- | ---------------- | --------------------------------------------------------------------------------------- |
-| Deployments per day          | 100       | ~5               | §1 ignored-build-step skips docs/qa/workflow commits; CI concurrency collapses bursts   |
-| Function invocations / month | 1,000,000 | < 20,000         | one function; every public read has a bundled JSON fallback; `/api/*` is `no-store`     |
+| Limit                        | Hobby     | Our expected use | Guard                                                                                  |
+| ---------------------------- | --------- | ---------------- | -------------------------------------------------------------------------------------- |
+| Deployments per day          | 100       | ~5               | §1 ignored-build-step skips docs/qa/workflow commits; CI concurrency collapses bursts  |
+| Function invocations / month | 1,000,000 | < 20,000         | one function; every public read has a bundled JSON fallback; `/api/*` is `no-store`    |
 | Active CPU                   | 4 CPU-h   | minutes          | nothing heavy in the request path — link checks and snapshots run in GitHub Actions    |
-| Provisioned memory           | 360 GB-h  | small            | default memory, one function                                                            |
-| Fast data transfer / month   | 100 GB    | < 5 GB           | static assets cached `immutable` for a year; every image a pre-sized WebP ≤ 400 KB      |
-| Fast origin transfer / month | 10 GB     | < 1 GB           | everything static is served from the edge cache after the first hit                     |
-| Edge requests / month        | 1,000,000 | low              | —                                                                                       |
-| Image transformations        | 5,000     | **0**            | §2 — the image optimiser is never used; `scripts/check_assets.mjs` enforces the policy  |
-| Function max duration        | 300 s     | < 5 s            | the API does reads, writes and one image resize; nothing waits on a third party          |
-| Projects                     | 200       | 1                | —                                                                                       |
-| Domains per project          | 50        | 2                | `jjaycss.tech` + the `*.vercel.app` URL                                                 |
+| Provisioned memory           | 360 GB-h  | small            | default memory, one function                                                           |
+| Fast data transfer / month   | 100 GB    | < 5 GB           | static assets cached `immutable` for a year; every image a pre-sized WebP ≤ 400 KB     |
+| Fast origin transfer / month | 10 GB     | < 1 GB           | everything static is served from the edge cache after the first hit                    |
+| Edge requests / month        | 1,000,000 | low              | —                                                                                      |
+| Image transformations        | 5,000     | **0**            | §2 — the image optimiser is never used; `scripts/check_assets.mjs` enforces the policy |
+| Function max duration        | 300 s     | < 5 s            | the API does reads, writes and one image resize; nothing waits on a third party        |
+| Projects                     | 200       | 1                | —                                                                                      |
+| Domains per project          | 50        | 2                | `jjaycss.tech` + the `*.vercel.app` URL                                                |
 
 ## Supabase Free — limits, our use, the guard
 
-| Limit                | Free                        | Our expected use          | Guard                                                                         |
-| -------------------- | --------------------------- | ------------------------- | ----------------------------------------------------------------------------- |
-| Database size        | 500 MB                      | a few MB                  | `scripts/db_budget.py` fails the keepalive workflow at 70 %; audit prune       |
-| File storage         | 1 GB                        | < 100 MB                  | uploads ≤ 2 MB, resized to 1600 px, EXIF stripped; the same 70 % check        |
-| Egress / month       | 5 GB                        | < 1 GB                    | the public site reads bundled JSON; the API caches nothing but sends little   |
-| Monthly active users | 50,000                      | < 20 (the board)          | only officers log in                                                          |
-| Projects             | 2 per organisation          | **1** (`jjay-css-prod`)   | the second slot stays empty for a future maintainer's dev project — never burn it on a test |
-| Compute              | shared CPU, 500 MB RAM      | small                     | —                                                                             |
-| Backups              | none                        | —                         | §3 — the nightly snapshot into the repo is the backup                         |
-| Inactivity           | pauses after 7 idle days    | —                         | the keepalive writes every 3 days and fails loudly if the write is not read back |
+| Limit                | Free                     | Our expected use        | Guard                                                                                       |
+| -------------------- | ------------------------ | ----------------------- | ------------------------------------------------------------------------------------------- |
+| Database size        | 500 MB                   | a few MB                | `scripts/db_budget.py` fails the keepalive workflow at 70 %; audit prune                    |
+| File storage         | 1 GB                     | < 100 MB                | uploads ≤ 2 MB, resized to 1600 px, EXIF stripped; the same 70 % check                      |
+| Egress / month       | 5 GB                     | < 1 GB                  | the public site reads bundled JSON; the API caches nothing but sends little                 |
+| Monthly active users | 50,000                   | < 20 (the board)        | only officers log in                                                                        |
+| Projects             | 2 per organisation       | **1** (`jjay-css-prod`) | the second slot stays empty for a future maintainer's dev project — never burn it on a test |
+| Compute              | shared CPU, 500 MB RAM   | small                   | —                                                                                           |
+| Backups              | none                     | —                       | §3 — the nightly snapshot into the repo is the backup                                       |
+| Inactivity           | pauses after 7 idle days | —                       | the keepalive writes every 3 days and fails loudly if the write is not read back            |
 
 ## 1. Deployment centralisation (updates can never hit a limit)
 
@@ -57,15 +57,15 @@ ever sells anything through the site, the project must move to a paid plan first
   the GitHub API).
 - **Cron budget** — nothing runs more often than daily:
 
-  | Workflow     | Schedule            | What it does                                                         |
-  | ------------ | ------------------- | -------------------------------------------------------------------- |
-  | keepalive    | every 3 days, 06:17 | write + read back `site_settings.keepalive`; `db_budget.py`; live `/api/health` |
-  | snapshot     | nightly, 07:23      | DB → `data/*.json` + `content/**` on the `snapshot` branch → auto-merged PR |
-  | link-check   | weekly, Monday 08:00| lychee over the built site, data and docs                            |
-  | lighthouse   | pull requests only  | desktop + mobile scores on the preview                               |
-  | a11y         | pushes and PRs      | pa11y + axe, must stay 0                                             |
-  | secret-scan  | pushes and PRs      | gitleaks over the history                                            |
-  | CI           | pushes, PRs, and on dispatch | `make check` + build + render smoke; the functional job (smoke, sim, break) |
+  | Workflow    | Schedule                     | What it does                                                                    |
+  | ----------- | ---------------------------- | ------------------------------------------------------------------------------- |
+  | keepalive   | every 3 days, 06:17          | write + read back `site_settings.keepalive`; `db_budget.py`; live `/api/health` |
+  | snapshot    | nightly, 07:23               | DB → `data/*.json` + `content/**` on the `snapshot` branch → auto-merged PR     |
+  | link-check  | weekly, Monday 08:00         | lychee over the built site, data and docs                                       |
+  | lighthouse  | pull requests only           | desktop + mobile scores on the preview                                          |
+  | a11y        | pushes and PRs               | pa11y + axe, must stay 0                                                        |
+  | secret-scan | pushes and PRs               | gitleaks over the history                                                       |
+  | CI          | pushes, PRs, and on dispatch | `make check` + build + render smoke; the functional job (smoke, sim, break)     |
 
 - **A usage page in the OS.** `/os/system` → HOSTING shows deployments today (CI runs on `main` from the public
   GitHub API — no token; UNKNOWN when the repo is private or the API is unreachable), days since the last

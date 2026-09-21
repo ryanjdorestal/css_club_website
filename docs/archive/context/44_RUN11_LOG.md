@@ -32,7 +32,7 @@ Started 18:06 (2026-09-21). Prompt: `docs/archive/prompts/KICKOFF_PROMPT_RUN11_S
   on, ruleset "main — protected" (PR required, `check` status required, linear history, no force-push, no
   deletion; bypass = repository admins, i.e. Ryan), 12 labels (the seven GitHub defaults that overlap were
   deleted), CODEOWNERS with the commented `@jjcss/*` lines.
-- **18:52** B done (checkpoint). `vercel.json` (one production branch, install/build/output in the file, cache
+- **18:28** B done. `vercel.json` (one production branch, install/build/output in the file, cache
   headers, `env_validate` in the build command); `scripts/vercel_should_build.sh` + 15 table tests
   (`scripts/tests/`, added to pytest's paths); concurrency on all 8 workflows; snapshot → PR flow (decision 3);
   keepalive → `scripts/keepalive.py` write + read-back and `scripts/db_budget.py` (70 %), no commit (decision 4);

@@ -7,6 +7,15 @@
     { "path": "docs/HANDOFF.md", "title": "What the board does each term; account ownership; transferring the repo", "for": "the board" },
     { "path": "docs/RUNBOOK.md", "title": "What to do when a chip on /os/inheritance is red", "for": "the board" },
     { "path": "docs/DECISIONS.md", "title": "Why Python, one function, Tier 1, no keys, Unbounded, procedural 3D, snapshot", "for": "developers" },
-    { "path": "docs/LATER.md", "title": "Deferred features that need a third-party account or key", "for": "everyone" }
+    { "path": "docs/LATER.md", "title": "Deferred features that need a third-party account or key", "for": "everyone" },
+    {
+      "path": "docs/handoff/00_START_HERE.md",
+      "title": "The next maintainer's package: purpose, reality map, setup, the OS, inheritance, roadmap, risks",
+      "for": "the next maintainer"
+    },
+    { "path": "docs/OWNERSHIP.md", "title": "Who holds each account and how to transfer it (the live copy is the sheet on this page)", "for": "the board" },
+    { "path": "docs/TERM_CHECKLIST.md", "title": "Start-of-term and end-of-term checklist", "for": "the board" },
+    { "path": "docs/HOSTING_LIMITS.md", "title": "The free-tier limits, our usage, and the guards", "for": "webmaster" },
+    { "path": "docs/ENVIRONMENT.md", "title": "Every environment variable: who supplies it, what breaks without it", "for": "webmaster" }
   ]
 }

@@ -56,39 +56,23 @@ the right, the `LOCAL_DEV` strip under it in dev builds.
   a refresh mid-edit restores your draft, a lost session sends you to login and keeps your draft,
   double-clicks make one row, archive / delete ask you to type the word, and an UNDO waits 8 s.
 
-## Accounts (keep two owners on each — /os/inheritance → Ownership)
+## Accounts, each term, transfer — the package
 
-| Account                                           | Owner                   | Second owner | What it holds                                                                                                                                              |
-| ------------------------------------------------- | ----------------------- | ------------ | ---------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| GitHub `jjcss` org · this repo                    | webmaster               | president    | the code, the committed data, the workflows                                                                                                                |
-| Vercel project                                    | webmaster               | president    | hosting; the env vars (secrets by name only: `SUPABASE_URL`, `SUPABASE_SERVICE_KEY`, `SUPABASE_JWT_SECRET`, `VITE_SUPABASE_URL`, `VITE_SUPABASE_ANON_KEY`) |
-| Supabase project                                  | webmaster               | president    | the database, logins, uploads                                                                                                                              |
-| Domain / DNS                                      | president               | webmaster    | jjaycss.tech → Vercel                                                                                                                                      |
-| Club Gmail (computersocjjay@)                     | president               | secretary    | the identity every service is registered to                                                                                                                |
-| Google Form · Discord server · Linktree · YouTube | see the ownership sheet |              | links the site points at (/os/resources → site links)                                                                                                      |
+This page used to hold the account table and the term checklist. They now live once, in files the board keeps
+current, and this page points at them:
 
-Use the club Gmail for every service. Never put a password or key in the repo,
-a Discord message, or a handoff — write _where_ it is (the club password
-manager, Vercel settings), not _what_ it is.
+| You need                                                 | Read                                                                  |
+| -------------------------------------------------------- | --------------------------------------------------------------------- |
+| who holds each account and how to transfer it            | `docs/OWNERSHIP.md` (the live copy: `/os/system` → Ownership)         |
+| what to do at the start and end of every term            | `docs/TERM_CHECKLIST.md`                                              |
+| the OS, module by module, in board language              | `docs/handoff/06_HOW_THE_BOARD_USES_IT.md`                            |
+| the spine: record types, files, validator, term end      | `docs/handoff/07_INHERITANCE.md`                                      |
+| going live (Supabase, Vercel, domain), for the webmaster | `docs/handoff/04_SUPABASE_SETUP.md`, `05_VERCEL_SETUP.md`, `SETUP.md` |
+| what to do when a chip is red                            | `docs/RUNBOOK.md`                                                     |
+| the next maintainer's reading order                      | `docs/handoff/00_START_HERE.md`                                       |
 
-## Each term
-
-- **Week 1** — /os/board: add the new officers (their email + ACTIVE on); set
-  the term dates. /os/system → Ownership: update owners, set
-  `last_verified`. /os/events: publish the semester's events as they are set.
-- **Ongoing** — /os/projects: review submissions within two weeks (write the
-  note). /os/posts: a bulletin when something happens. /os/members: import the
-  Discord export once a semester. /os/resources: "Check all links" once a
-  semester and fix the dead ones.
-- **Green means green** — glance at /os/system monthly. A red chip has a
-  one-line fix next to it and a runbook entry (docs/RUNBOOK.md).
-- **Last 4 weeks** — every officer files a handoff on /os/inheritance → New record →
-  handoff (what I ran, where things are, what's unfinished, who to call, advice).
-  Set `status: final` when it's good enough to hand over; Today nags until then.
-- **Term end** — an admin runs **Term rollover** on /os/board: closes the
-  term, opens the next, clones who continues (as inactive — confirm each),
-  files handoff stubs. Remove graduated officers' ACTIVE flag. Update the
-  ownership sheet.
+Use the club Gmail for every service. Never put a password or key in the repo, a Discord message, or a
+handoff — write _where_ it is (the club password manager, Vercel settings), not _what_ it is.
 
 ## Where the spine lives, and how to take it with you
 
