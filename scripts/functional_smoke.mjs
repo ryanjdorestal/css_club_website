@@ -31,7 +31,7 @@ const goto = async (p, path) => {
 };
 const fill = async (p, label, value) => {
   // run 10: OsForm labels point at their inputs with htmlFor (getByLabel); legacy nested labels still work
-  const byFor = p.getByLabel(new RegExp(`^${label.replace(/[.*+?^${}()|[\]\\]/g, "\\$&")}( \*)?$`, "i")).first();
+  const byFor = p.getByLabel(new RegExp("^" + label.replace(/[.*+?^${}()|[\]\\]/g, "\\$&") + "( \\*)?$", "i")).first();
   if (await byFor.count()) return byFor.fill(value);
   const el = p.locator(`label:has-text("${label}") input, label:has-text("${label}") textarea, label:has-text("${label}") select`).first();
   await el.fill(value);
@@ -64,7 +64,7 @@ await os.getByRole("button", { name: /NEW_POST/i }).click({ force: true });
 await os.waitForTimeout(400);
 await fill(os, "TITLE", `Smoke bulletin ${stamp}`);
 await fill(os, "DEK", "written by the functional smoke");
-await os.locator('label:has-text("BODY (MARKDOWN)") textarea').fill("## Hello\n\nThis post was published by scripts/functional_smoke.mjs.");
+await os.locator("#f-body_md").fill("## Hello\n\nThis post was published by scripts/functional_smoke.mjs.");
 await os.getByRole("button", { name: /SAVE_DRAFT/i }).click({ force: true });
 await os.waitForTimeout(900);
 await closePanels(os);
@@ -84,7 +84,7 @@ await goto(os, "/os/projects");
 await os.locator('button:has-text("add")').first().click();
 await os.waitForTimeout(400);
 await fill(os, "TITLE", `Smoke Project ${stamp}`);
-await os.locator('label:has-text("KIND") select').selectOption("project");
+await os.locator("#f-kind").selectOption("project");
 await fill(os, "SUMMARY", "A project added on behalf of a student by the smoke test.");
 await fill(os, "AUTHORS", "Jay Bloodhound");
 await os.getByRole("button", { name: /ADD_PROJECT/i }).click({ force: true });
@@ -110,10 +110,11 @@ await os
 await os.waitForTimeout(900);
 await goto(site, "/projects");
 const pageText = (await site.locator("body").textContent()) ?? "";
-const firstPublic = await site.evaluate(async () => (await (await fetch("/api/projects")).json()).projects[0]?.title ?? "");
+// run 10: up to three projects are featured (the seed's example stays); ours must be among them
+const featuredTitles = await site.evaluate(async () => (await (await fetch("/api/projects")).json()).projects.filter((p) => p.featured).map((p) => p.title));
 say(
-  pageText.includes(`Smoke Project ${stamp}`) && firstPublic === `Smoke Project ${stamp}`,
-  `project published + featured → /projects (featured = ${firstPublic})`,
+  pageText.includes(`Smoke Project ${stamp}`) && featuredTitles.includes(`Smoke Project ${stamp}`),
+  `project published + featured → /projects (featured = ${featuredTitles.join(" · ")})`,
 );
 await shot(site, "projects");
 
@@ -124,7 +125,8 @@ await os.getByRole("button", { name: /NEW_EVENT/i }).click({ force: true });
 await os.waitForTimeout(400);
 await fill(os, "TITLE", `Smoke Kickoff ${stamp}`);
 await fill(os, "SEMESTER", "Fall 2026");
-await fill(os, "DATE", "Thursday, October 1st, 2026");
+await fill(os, "DATE", "2026-10-01"); // run 10: a real date (upcoming/past derives from it)
+await fill(os, "DATE (AS PRINTED)", "Thursday, October 1st, 2026");
 await os
   .getByRole("button", { name: /^\[?\s*>_save\s*\]?$/i })
   .first()
@@ -195,8 +197,8 @@ for (const [type, title] of [
   await os.waitForTimeout(500);
   await fill(os, "TITLE", title);
   await fill(os, "OWNERS", "the board");
-  await os.locator('label:has-text("STATUS") select').selectOption("final");
-  await os.locator('label:has-text("RECORD (MARKDOWN)") textarea').fill("## What I ran\n\nThe smoke test.\n\n## Where things are\n\nIn the repo.");
+  await os.locator("#f-status").selectOption("final");
+  await os.locator("#f-body_md").fill("## What I ran\n\nThe smoke test.\n\n## Where things are\n\nIn the repo.");
   await os.getByRole("button", { name: /WRITE_FILE/i }).click({ force: true });
   await os.waitForTimeout(1000);
 }

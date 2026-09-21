@@ -653,6 +653,13 @@ await guard("keyboard only, no mouse: acts 2 and 3 → completable; axe/pa11y st
 });
 
 await b.close();
+// leave the repo as found: the spine files case 12 wrote (untracked or ignored) go
+{
+  const { execFileSync } = createRequire(import.meta.url)("node:child_process");
+  const { rmSync } = createRequire(import.meta.url)("node:fs");
+  for (const f of execFileSync("git", ["ls-files", "--others", "content/inheritance"], { cwd: ROOT, encoding: "utf8" }).split("\n").filter(Boolean))
+    rmSync(join(ROOT, f), { force: true });
+}
 const passed = rows.filter((r) => r.ok).length;
 console.log(
   `\n| # | case | result |\n|---|---|---|\n${rows.map((r) => `| ${String(r.n).padStart(2, "0")} | ${r.label} | ${r.ok ? "✅" : "❌"} ${r.detail} |`).join("\n")}`,

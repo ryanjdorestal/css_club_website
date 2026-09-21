@@ -17,8 +17,7 @@ mkdirSync(OUT, { recursive: true });
 // land in content/inheritance/ like a real board's; only UNTRACKED files there are removed (never a
 // committed record), at the start (leftovers) and at the end (the repo is left as it was found).
 const { execFileSync } = createRequire(import.meta.url)("node:child_process");
-const untrackedSpine = () =>
-  execFileSync("git", ["ls-files", "--others", "--exclude-standard", "content/inheritance"], { cwd: ROOT, encoding: "utf8" }).split("\n").filter(Boolean);
+const untrackedSpine = () => execFileSync("git", ["ls-files", "--others", "content/inheritance"], { cwd: ROOT, encoding: "utf8" }).split("\n").filter(Boolean);
 const cleanSpine = () => {
   for (const f of untrackedSpine()) rmSync(join(ROOT, f), { force: true });
   for (const d of ["F26/handoffs", "F26/meetings", "S27/handoffs", "S27"]) {

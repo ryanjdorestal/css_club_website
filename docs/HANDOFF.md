@@ -22,21 +22,57 @@ and activity traces drawn from real per-day counts. The login (`/os/login`) is t
 cube appears in the OS: the field on the left, the black panel with `BOARD / ACCESS` and `01 / 05` on
 the right, the `LOCAL_DEV` strip under it in dev builds.
 
+## What the board can do in the OS (run 10 — everything you touch works)
+
+- **Posts** — write in markdown with a toolbar and a live preview, upload / replace / remove a cover,
+  save a draft, send to review, publish, unpublish, archive and bring back, duplicate, delete a draft,
+  preview the public page. Same title twice → `welcome-back-2`. Two people editing the same post → the
+  second sees CHANGED_ELSEWHERE with both versions and chooses.
+- **Projects** — the review loop: submitted → in review → changes requested (with a note the student
+  reads when they resubmit) → approved → published → featured (three at most; the fourth is refused
+  naming the three) → unpublished or archived. Edit every field of a published project. Add one on a
+  student's behalf. Reorder with ▲▼.
+- **Events** — date + time (Eastern), location, RSVP link, flyer upload / replace / remove, publish /
+  unpublish / archive / unarchive, duplicate for next term. Upcoming vs past follows the date.
+- **Workshops** — series (INTRO TO GIT) with numbered sessions, materials as links, a recording link;
+  publish needs a date; /events groups them by series.
+- **Resources** — add / edit / delete a link, rename / reorder / delete a category (refused while it
+  has links unless you confirm the cascade), paste a list of URLs (preview → confirm), check every
+  link or one, filter to dead ones; the Discord invite and forms edit in place and change the site.
+- **Members** — add / edit, import a CSV (dry run → commit → undo the last import), export a CSV, tick
+  rows and move them together (the allowed moves only), merge two duplicates.
+- **Board / terms** — add / edit / reorder / remove officers (a photo upload each; someone who filed
+  a handoff is archived, not deleted), create a term, edit its dates, set it current, delete an empty
+  past term, the rollover wizard (step back before the final confirm).
+- **Inheritance** — the 8 record types with templates, a form for the front matter, markdown with a
+  preview, the validator that refuses a bad record and says which field, filter by term / type, search,
+  export the zip.
+- **Site** — taglines, blurbs, the maintenance banner (it really shows on the public site now), the
+  feature flags (they really turn things off now), the ticker items.
+- **Audit / System** — every write with its before / after, the browser outbox when the API was down
+  (WILL_SYNC, replays itself), health checks on demand, ownership rows inline.
+- **Everywhere** — search / sort / count / EXPORT CSV on every list, rules printed under every field
+  before you break them, errors beside the field and as a jump list, ⌘/Ctrl+Enter saves, Esc closes,
+  a refresh mid-edit restores your draft, a lost session sends you to login and keeps your draft,
+  double-clicks make one row, archive / delete ask you to type the word, and an UNDO waits 8 s.
+
 ## Accounts (keep two owners on each — /os/inheritance → Ownership)
-| Account | Owner | Second owner | What it holds |
-|---|---|---|---|
-| GitHub `jjcss` org · this repo | webmaster | president | the code, the committed data, the workflows |
-| Vercel project | webmaster | president | hosting; the env vars (secrets by name only: `SUPABASE_URL`, `SUPABASE_SERVICE_KEY`, `SUPABASE_JWT_SECRET`, `VITE_SUPABASE_URL`, `VITE_SUPABASE_ANON_KEY`) |
-| Supabase project | webmaster | president | the database, logins, uploads |
-| Domain / DNS | president | webmaster | jjaycss.tech → Vercel |
-| Club Gmail (computersocjjay@) | president | secretary | the identity every service is registered to |
-| Google Form · Discord server · Linktree · YouTube | see the ownership sheet | | links the site points at (/os/resources → site links) |
+
+| Account                                           | Owner                   | Second owner | What it holds                                                                                                                                              |
+| ------------------------------------------------- | ----------------------- | ------------ | ---------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| GitHub `jjcss` org · this repo                    | webmaster               | president    | the code, the committed data, the workflows                                                                                                                |
+| Vercel project                                    | webmaster               | president    | hosting; the env vars (secrets by name only: `SUPABASE_URL`, `SUPABASE_SERVICE_KEY`, `SUPABASE_JWT_SECRET`, `VITE_SUPABASE_URL`, `VITE_SUPABASE_ANON_KEY`) |
+| Supabase project                                  | webmaster               | president    | the database, logins, uploads                                                                                                                              |
+| Domain / DNS                                      | president               | webmaster    | jjaycss.tech → Vercel                                                                                                                                      |
+| Club Gmail (computersocjjay@)                     | president               | secretary    | the identity every service is registered to                                                                                                                |
+| Google Form · Discord server · Linktree · YouTube | see the ownership sheet |              | links the site points at (/os/resources → site links)                                                                                                      |
 
 Use the club Gmail for every service. Never put a password or key in the repo,
-a Discord message, or a handoff — write *where* it is (the club password
-manager, Vercel settings), not *what* it is.
+a Discord message, or a handoff — write _where_ it is (the club password
+manager, Vercel settings), not _what_ it is.
 
 ## Each term
+
 - **Week 1** — /os/board: add the new officers (their email + ACTIVE on); set
   the term dates. /os/system → Ownership: update owners, set
   `last_verified`. /os/events: publish the semester's events as they are set.
@@ -55,6 +91,7 @@ manager, Vercel settings), not *what* it is.
   ownership sheet.
 
 ## Where the spine lives, and how to take it with you
+
 Everything the board writes on /os/inheritance is a markdown file in the repo under
 `content/inheritance/<term>/` (roster, handoffs, decisions, projects, events,
 contacts, lessons, minutes). It reads without any software. `EXPORT_SPINE.zip` on
@@ -65,15 +102,18 @@ record; the validator refuses secret-shaped text and public records with emails
 or phone numbers.
 
 ## Adding / removing an officer
+
 /os/board → Add officer (name, role, login email, OS role: `officer`, or
 `admin` for president + webmaster) → ACTIVE on. To remove: ACTIVE off (they
 become a guest immediately). No passwords exist; sign-in is an emailed code.
 
 ## Going live for the first time
+
 SETUP.md — 8 steps, ~30 minutes, all under the club Gmail. Then
 `scripts/bootstrap_admin.py` (or ask the developer) creates the first admin row.
 
 ## Transferring the repo to `jjcss`
+
 1. GitHub → repo → Settings → Transfer → `jjcss` org. Keep ≥ 2 org owners.
 2. Vercel → project → Settings → Git → reconnect to the moved repo.
 3. GitHub → Settings → Actions secrets/variables: re-enter `SITE_URL`,
@@ -82,16 +122,19 @@ SETUP.md — 8 steps, ~30 minutes, all under the club Gmail. Then
 5. /os/inheritance → Ownership: record the new owners and today's date.
 
 ## If everything is lost
+
 The repo is the backup: `data/` and `content/` are refreshed from the database
 nightly. A new Supabase project + `scripts/snapshot.py --restore` brings the
 data back; the public site kept working the whole time (Tier 1).
 
 ## Who to ask
+
 The developer who built this (Ryan Dorestal, ryanjdorestal@gmail.com) will
 answer questions for the first year. After that: README.md → CONTRIBUTING.md
 → docs/RUNBOOK.md, in that order — and any CS student who can read Python.
 
 ## What "green" means (for the board, no code)
+
 Every change to the site goes through the checks in GitHub (the `CI`, `a11y` and
 `functional` badges on a pull request). Green = the site renders on every page, a board
 member can still publish a post, a project, an event and a record end to end, and no
