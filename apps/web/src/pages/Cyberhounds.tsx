@@ -5,7 +5,7 @@ import { parseMd } from "@/lib/md";
 import { Band } from "@/components/Band";
 import { PosterBand } from "@/components/PosterBand";
 import { FinLine } from "@/components/FinLine";
-import { PhotoFrame } from "@/components/PhotoFrame";
+import { Pennant } from "@/components/Pennant";
 import { PosterCard } from "@/components/cards/PosterCard";
 import { IndexList } from "@/components/cards/IndexList";
 import { TicketCard } from "@/components/cards/TicketCard";
@@ -16,7 +16,7 @@ import { EdgeCrop } from "@/components/type/EdgeCrop";
 import { Decode } from "@/components/type/Decode";
 import { Label } from "@/components/type/Label";
 import { Scanlines, Halftone } from "@/textures";
-import { Chevrons, HoundPixel } from "@/sigils";
+import { Chevrons, HoundPixel, CyberhoundHead } from "@/sigils";
 import { Brackets } from "@/components/frame";
 import { Stencil } from "@/components/type/Stencil";
 import { CyberhoundSpot } from "@/mascot/CyberhoundSpot";
@@ -106,7 +106,7 @@ export default function Cyberhounds() {
             </Reveal>
           </div>
           <Reveal delay={0.1}>
-            <PhotoFrame src="/img/photos/cyberhounds-header.webp" alt="Cyberhounds header art" caption="CYBERHOUNDS · HEADER ART · ORIGINAL" tag="VISUAL · 01" meta="FRAME · 001" />
+            <Pennant tag="VISUAL · 01" meta="FRAME · 001" caption="CYBERHOUNDS · PENNANT · VECTOR" className="w-full md:ml-auto" />
           </Reveal>
         </div>
       </Band>
@@ -126,7 +126,7 @@ export default function Cyberhounds() {
         <RevealGroup className="grid grid-cols-2 lg:grid-cols-4 gap-5">
           {COMPS.map((c) => (
             <RevealItem key={c.word}>
-              <PosterCard word={c.word} index={c.index} meta={c.meta} mark={<HoundPixel size={48} />}>
+              <PosterCard word={c.word} index={c.index} meta={c.meta} mark={<CyberhoundHead size={40} />}>
                 <span className="absolute top-1/2 left-6 mono-label text-(--color-red-hi)/70">▶ FLAG CAPTURED !</span>
               </PosterCard>
             </RevealItem>

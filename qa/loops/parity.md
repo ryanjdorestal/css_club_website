@@ -21,7 +21,7 @@
 | Collaborate: Committees | Join §3 + Home §8 | ✅ |
 | Collaborate: Project ideas | Join §3 + Home §8 (copy verbatim) | ✅ |
 | Collaborate: Suggestions (form) | Join §4 onboarding form + suggestions copy (API + inbox fallback) | ✅ |
-| Cyberhounds: What is CTF | Cyberhounds §2 (copy + original header art) | ✅ |
+| Cyberhounds: What is CTF | Cyberhounds §2 (copy + the header art re-cut as a vector pennant — run 6; original raster retired) | ✅ |
 | Cyberhounds: How It Works | Cyberhounds §3 (copy + 4-step IndexList) | ✅ |
 | Cyberhounds: Competitions | Cyberhounds §4 PosterCards (picoCTF/NCL/Angstrom/SDCTF) | ✅ |
 | Cyberhounds: Join | Cyberhounds §5 ticket + Discord CTA | ✅ |

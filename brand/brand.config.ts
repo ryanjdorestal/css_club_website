@@ -11,6 +11,16 @@ export const brand = {
   collegeShort: "John Jay College",
   cuny: "CUNY",
   campusAddress: "524 W 59th St, New York, NY 10019",
+  // jjay.cuny.edu footer (run 6): address / phone / map query — the footer MapCard + address block read these
+  campus: {
+    street: "524 West 59th Street",
+    city: "New York, NY 10019",
+    phone: "212.237.8000",
+    phoneHref: "+12122378000",
+    mapsQuery: "524+W+59th+St,+New+York,+NY+10019",
+    lat: 40.7706,
+    lng: -73.9886,
+  },
   email: "computersocjjay@gmail.com",
   githubOrg: "https://github.com/jjcss",
   site: "https://jjaycss.tech",

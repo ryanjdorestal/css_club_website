@@ -230,3 +230,12 @@ body {
 /* run 5: Cyberhounds hero — when the 3D bust falls back to the pixel hound, hide the
    front-left pixel hound so the frame never shows two hounds */
 #cyberhound-slot:has([data-cyberhound="pixel"]) ~ svg { display: none; }
+
+/* run 6: footer map — dark treatment that lights up on hover (never a white hole) */
+.map-dark { filter: invert(0.92) hue-rotate(185deg) saturate(0.6) contrast(0.9); transition: filter 0.4s ease; }
+.group:hover .map-dark { filter: invert(0); }
+
+/* run 6: the Cyberhounds pennant sways 1.5° around its top edge on hover */
+@keyframes pennant-sway { 0% { transform: rotate(0); } 30% { transform: rotate(1.5deg); } 70% { transform: rotate(-1.5deg); } 100% { transform: rotate(0); } }
+.pennant-sway { transform-origin: 50% 0; }
+.pennant-sway:hover { animation: pennant-sway 1.2s ease-in-out; }

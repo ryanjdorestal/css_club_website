@@ -65,6 +65,7 @@ export function CSSKufic({ size = 24, className = "", style }: { size?: number; 
 }
 
 export { HoundPixel } from "./HoundPixel";
+export { CyberhoundHead } from "./CyberhoundHeadMark";
 
 export const Flag = (p: P) => (
   <svg {...base(p)}><path d="M6 21 V3 M6 4 H18 L15 8 L18 12 H6" /></svg>

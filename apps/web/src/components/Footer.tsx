@@ -5,6 +5,7 @@ import { brand } from "@brand/brand.config";
 import links from "@data/links.json";
 import pkg from "../../package.json";
 import { BinaryRings } from "./BinaryRings";
+import { MapCard } from "./MapCard";
 import { CubeSpot } from "@/cube/CubeSpot";
 import { useLocation } from "react-router-dom";
 import { useLenis } from "@/motion/LenisProvider";
@@ -131,12 +132,25 @@ export function Footer() {
         </div>
       </div>
 
-      {/* 3 — bottom zone: rail (left) + the official Bloodhound (right, cropped) */}
-      <div className="relative border-t border-line overflow-hidden md:min-h-[clamp(400px,58vh,660px)]">
-        {/* the rail */}
-        <div className="relative z-10 max-w-[1280px] mx-auto px-5 md:px-10 py-6 md:absolute md:inset-x-0 md:bottom-0 md:py-8">
-          <div className="md:max-w-[60%] flex flex-wrap items-baseline gap-x-6 gap-y-3">
-            <span className="font-display font-black leading-[0.9] tracking-[-0.02em] w-full whitespace-nowrap" style={{ fontSize: "clamp(34px, 4.4vw, 64px)" }}>CSS · JOHN JAY</span>
+      {/* 3 — bottom zone (run 6): map + address on the left, the official Bloodhound on the right —
+          clean matte (assets/brand/jj_bloodhound_alpha), no gradient, no wordmark */}
+      <div className="relative border-t border-line overflow-hidden">
+        <div className="relative z-10 max-w-[1280px] mx-auto px-5 md:px-10 pt-10 pb-6 md:pb-28 md:min-h-[clamp(460px,62vh,720px)] flex flex-col justify-center">
+          <div className="md:max-w-[460px] xl:max-w-[640px]">
+            <MapCard />
+            <address className="not-italic mt-5 grid grid-cols-1 sm:grid-cols-2 gap-x-8 gap-y-1 text-[14px] text-ink/80">
+              <span className="sm:col-span-2 t-micro opacity-55 mb-1">{brand.college.toUpperCase()}</span>
+              <span>{brand.campus.street}</span>
+              <span>{brand.campus.city}</span>
+              <a href={`tel:${brand.campus.phoneHref}`} className="u-draw w-fit tnum">Main {brand.campus.phone}</a>
+              <a href={`mailto:${brand.email}`} className="u-draw w-fit truncate">{brand.email}</a>
+            </address>
+          </div>
+        </div>
+
+        {/* the rail — mono only, no wordmark */}
+        <div className="relative z-10 max-w-[1280px] mx-auto px-5 md:px-10 py-5 md:absolute md:inset-x-0 md:bottom-0 md:pt-6 md:pb-10">
+          <div className="md:max-w-[52%] xl:max-w-[60%] flex flex-wrap items-baseline gap-x-6 gap-y-2">
             <span className="t-micro opacity-60">© {new Date().getFullYear()} JOHN_JAY_COMPUTER_SCIENCE_SOCIETY</span>
             <span className="t-micro opacity-40">HANDED_TO_THE_BOARD</span>
             <span className="t-micro opacity-40 tnum">V{pkg.version}</span>
@@ -149,7 +163,7 @@ export function Footer() {
           </div>
         </div>
 
-        {/* the mascot — full colour, 100 % opacity; bottom ~10 % cropped, right edge 6 % off the viewport */}
+        {/* the mascot — full colour, 100 % opacity, clean alpha matte; bottom ~10 % cropped, right edge 6 % off the viewport */}
         <div className="relative h-[40vh] min-h-[260px] md:h-auto md:absolute md:inset-0 pointer-events-none select-none">
           <motion.img
             src="/img/jj_bloodhound.webp"
@@ -157,20 +171,13 @@ export function Footer() {
             aria-hidden
             width={1472}
             height={1332}
-            className="absolute right-[-6vw] bottom-[-4.2vh] h-[42vh] md:h-[62vh] md:bottom-[-6.2vh] w-auto max-w-none"
+            className="absolute right-[-6vw] bottom-[-4.2vh] h-[42vh] md:h-[56vh] md:bottom-[-5.6vh] xl:h-[62vh] xl:bottom-[-6.2vh] w-auto max-w-none"
             initial={reduced ? false : { y: 40, opacity: 0 }}
             whileInView={{ y: 0, opacity: 1 }}
             viewport={{ once: true, amount: 0.15 }}
             transition={{ duration: 0.7, ease: [0.22, 1, 0.36, 1] }}
           />
-          {/* one soft navy-900 gradient over the hound's left third so the rail stays readable */}
-          <span
-            aria-hidden
-            className="absolute inset-y-0 right-[-6vw] hidden md:block"
-            style={{ width: "calc(62vh * 1.105)", background: "linear-gradient(90deg, var(--color-navy-900) 0%, transparent 40%)" }}
-          />
         </div>
-
       </div>
     </footer>
   );

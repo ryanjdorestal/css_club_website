@@ -52,7 +52,7 @@ def main() -> None:
 
     # club photos referenced by the old index/about pages — the gallery + spreads
     for name in [
-        "club2.jpg", "cyberhounds-header.png",
+        "club2.jpg",  # cyberhounds-header.png retired in run 6 (vector pennant: assets/brand/cyberhounds_pennant.svg)
         "Intro_Cyb_Group_pic.png", "invol_fair.png",
         "involvement_fair_fall_2022.jpg", "shirt_event.png",
         "cybersecurity.jpeg", "languages2.jpg", "leetcode.png", "discord.png",

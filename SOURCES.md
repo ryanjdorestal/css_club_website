@@ -10,6 +10,9 @@
 | `~/Desktop/LAGCC/rhec_web/rhecwb` (Ryan's LaGuardia platform) | Structure only: endpoint contracts, SQL shapes, OS route list, Tier-1 patterns. Nothing copied verbatim. | Reference |
 | `assets/brand/jj_bloodhound.webp` — the official John Jay College Bloodhound mascot (1472×1332, TM), supplied by Ryan 2026-09-20 | Footer mascot (`apps/web/public/img/jj_bloodhound.webp`, alpha via `scripts/hound_alpha.py`) | **John Jay College's mark, not the club's** — board-owned in the handoff; keep the TM, no recolouring, no glaze. Replace with the college's vector master if they supply one. |
 | `assets/refs/hound/cyberhound_logo_red_outline.png` + pitbull photo refs (Ryan, 2026-09-20) | Colour/attitude + anatomy references for the procedural 3D Cyberhound (`assets/hound3d/build_hound.py`) — nothing copied, nothing traced | reference only; the GLB is original |
+| `assets/brand/cyberhound_head.svg` + `cyberhounds_pennant.svg` (Cowork, 2026-09-20) — vector trace of the old site's own header art (`CSS_Website@a8fca55` files/images/cyberhounds-header.png) | Cyberhounds §1 pennant (`components/Pennant.tsx`), PosterCard corner mark; inlined with the C2PA manifest stripped | derived from MIT-licensed club art; raster header retired |
+| `assets/brand/jj_bloodhound_alpha.{png,webp}` (Cowork matte of the official mascot) | Footer mascot (`public/img/jj_bloodhound.webp`) | John Jay College's mark, board-owned; `.png` is the lossless master |
+| Google Maps embed (`https://www.google.com/maps?q=…&output=embed`, keyless) | Footer `MapCard` | **Privacy:** the iframe is created only when the footer scrolls into view (lazy, in-view mount); no API key, no tracking params, `referrerpolicy=no-referrer-when-downgrade`; offline/slow → static DotGrid fallback |
 
 Extraction is by script (`scripts/extract_old_site.py`) from a git-ignored clone in
 `.cache/CSS_Website/`; the old repo is never vendored.
