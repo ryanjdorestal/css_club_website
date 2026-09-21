@@ -27,3 +27,23 @@ Commit `feat(type): v4 …`. font_audit per realm green on /, /cyberhounds, /abo
 
 ## B done (11:47 — 6 min)
 FolderCard on Resources (category folder), Projects (non-app kinds; the list is empty in Tier 1 → SlotCards show), About §5 (officers), Join (Discord), Events (slot 02), styleguide story (4 tones incl. two-tone + mirror). Commit `feat(ui): folder cards …`. Sheet `qa/loops/run9/folder-surfaces.png`.
+| 9 | `/os/login` keeps the public `<Nav compact />` (the T03 nav bar) — a `compact` prop forces the scrolled state | the gate page is outside the public layout; the OS gate's `nav-os` checks still pass |
+| 10 | The bento's height follows its width (`aspect-ratio: 1081 / 697` with `fr` row tracks in the ref's px) — the grid scales, never reflows, inside the width left by the rail; under 900 px the nine tiles stack A→I | §6.2 "scale it, don't reflow it"; the overlay gate measures fractions of the grid box |
+| 11 | Every module's slot content is one builder in `os/ui/specs.ts` (rows in → nine slots out); pages pass `dash={…}` to `OsPage` | keeps every page under the 250-line budget; the table in §5.2 is literally one file |
+| 12 | Timestamps in the store are epoch seconds — `series()` and the traces accept seconds, ms and ISO | the first histogram bucketed everything into 1970 |
+| 13 | Tile-E thumbnails show id codes (`PST-82445`), never titles | the functional smoke's `text=<title>` locator matched the dashboard thumbnail before the table row (a real ambiguity, not a flake); titles are also the wrong register for a thumbnail fallback |
+| 14 | `<S01Word>` keeps the word in the DOM as `sr-only` text next to an `aria-hidden` SVG | pa11y: "heading with no content" on the two heroes |
+| 15 | PageHero deks over 170 characters stay Space Grotesk sentence-case | About's dek is 5 lines in caps otherwise (the > 3-lines rule) |
+| 16 | Login proportions tuned to the T03 measures (headline clamp(40px, 4.2vw, 60px), two-line dek, pagination clamp(40px, 4.2vw, 58px) flush at the bottom) → worst Δ 2.0 % | the first cut was 13 % off on the list and pagination rows |
+
+## C done (11:51 — 4 min)
+OS gate 12/12. `feat(os): login on T03 …`. Shots `qa/loops/run9/os-login-{1440,390}.png`; overlay after the tune: `login-overlay-1440.png` (worst 2.0 %).
+
+## D done (12:05 — 14 min)
+`39_OS_GRID.md` (projection-measured boxes) → `Bento` / `Tile` / `Kpi` / `Histogram` / `Ring` / `Bar` / `Range`, `TopStrip` + launcher, `Dashboard` + `specs.ts`, `os.css` realm, the new `OsLayout` (rail + strip), `OsPage` dash slot + VT323 titles + red segmented `Chips`. All 11 modules wear the grid. `bento_overlay.mjs`: 0.15 % on /os, /os/members, /os/audit. `feat(os): bento grid …`.
+
+## E done (12:21 — 16 min)
+DossierCard/DossierStack (Members, Board-in-folders, Audit who-hover, About §5 sheet), TraceStrip (Audit hero 8 ch, Today tile D), Meters beside the tabs, SubjectSheet (System, Audit), ring segments → runbook, folder records (Inheritance list + view, OS Resources). pa11y 2 → 0 (sr-only heading text), axe 5 → 0 (progressbar names). Smoke 12/12 + 9/9 after the thumbnail fix. `feat(os): ops layer …`.
+
+## Close (12:35 — 97 of 210 min)
+Login retune (Δ 2.0 %), long deks stay body, SYS VER hidden on mobile, DESIGN.md (type v4 · folder · OS realm), HANDOFF.md (the OS in two paragraphs), README map, `39_OS_GRID.md`, `qa/REPORT_RUN9.md`. Lighthouse desktop 92 / 94 on the preview build. Tracked repo 13.9 MB. `make check` green; local tables + inbox reset after the final shots. Dev servers left running. Nothing pushed.

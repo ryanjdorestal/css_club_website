@@ -30,7 +30,8 @@ and the write is logged in `data/records.local.json` + `.cache/inbox/`.
 ```
 apps/web/          React + TS + Vite (Tailwind v4, Motion, R3F)
   src/pages/       one file per route; pages/home/ holds Home's sections
-  src/os/          the board platform: session, ui/, one file per module
+  src/os/          the board platform: session, ui/ (Bento · Dashboard · specs · TopStrip · Dossier · Trace), one file per module
+  src/type/glyphs/ the drawn S01 display alphabet (hero + poster words)
   src/components/  cards/, frame/, type/ + the page-level pieces (Nav, Footer, PageHero…)
   src/cube/        the 3D cube (rail + spots); src/mascot/ the hound + chat
   src/sigils/ textures/ motion/ lib/   marks, backgrounds, reveals, helpers
@@ -42,7 +43,7 @@ supabase/          migrations + the schema the API expects
 scripts/           snapshot, bootstrap_admin, extract_old_site, validators (each has --help)
 brand/ assets/     brand.config.ts (names, palette, links) + brand files, cube, hound
 docs/              RUNBOOK, HANDOFF, DECISIONS, LATER; docs/archive/ = planning history
-qa/                REPORT_*.md per run + the latest shots
+qa/                REPORT_*.md per run + the latest shots (qa/loops is local: overlays, match sheets)
 ```
 
 Read next: **ARCHITECTURE.md** (one page), **CONTRIBUTING.md** (how to add a

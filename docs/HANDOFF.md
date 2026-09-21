@@ -4,6 +4,24 @@ You own a website, a board platform, and five accounts. This page is what to do
 each term, who holds what, and how to hand it on. The platform survives you if
 you follow it.
 
+## The OS, in two paragraphs
+
+Every page of CSS OS opens on the same dashboard: nine tiles in a fixed grid (the top-left pair and
+the tall tile beside them are folder-tab cards with the module's counts; the wide one is a histogram
+with a `7D 30D 3M 12M` range; the accent tile with the pager explains the module's rules; the ring
+is one rate; the paper tile bottom-right is the module's main action). Every number comes from the
+module's own rows — a tile that says `—` and `NO_DATA_YET` has nothing to count, not a bug. Above
+the grid: the launcher glyph (also `⌘K`), a seven-cell ticker (term · officers · pending · posts ·
+projects · DB · time) and your chip. Down the left: the icon rail — Today at the top, Audit at the
+bottom, the red edge marks where you are.
+
+Below the grid, under the hairline, is the work: the same tables, editors, queues and forms as before,
+restyled — filter tabs are the red segmented strip, people are dossier cards, records and resource
+categories are folders, `/os/system` and `/os/audit` carry a subject sheet on the right (`[ REFRESH ]`)
+and activity traces drawn from real per-day counts. The login (`/os/login`) is the only place the 3D
+cube appears in the OS: the field on the left, the black panel with `BOARD / ACCESS` and `01 / 05` on
+the right, the `LOCAL_DEV` strip under it in dev builds.
+
 ## Accounts (keep two owners on each — /os/inheritance → Ownership)
 | Account | Owner | Second owner | What it holds |
 |---|---|---|---|

@@ -24,13 +24,19 @@ posters (halftone, geometric type), jj_10 phone UI (technical labels), jj_12 Sup
 - Light surfaces (reading pages, OS documents): `#F5F7FA` with the section accent at 12–15% tint — exactly how the old site tinted its sections, modernized. Not cream.
 - Rule: **one accent per section.** Teal is the only color allowed everywhere.
 
-**Type — v3 (run 4: ONE heavy display face; `context/26` §2)**
-- Display: **Unbounded 700/800/900** — every headline ≥28px, poster words, stat numerals, buttons (700 @ 12–13px), nav logotype, footer brandmark line. Heavy is the point.
-- Body: **Space Grotesk** 400/500/700 — paragraphs, card titles <28px, inputs.
-- Labels/readouts: **JetBrains Mono** with prefix glyphs (`/01`, `//SCN_01`, `_status`, `>`, `[1]`, `●`).
-- Legacy pixel: **VT323** — binary rings + ticker digits only.
-- Treatments (each H1 uses two): stencil bars (4.5% cap) · solid+outline (2px dark / 2.5px paper) · split-fill · edge-crop · wireframe-through · decode (≤600ms, fonts-ready-gated).
-- Retired across runs: Archivo, Poppins (r3), Chakra Petch, Michroma, Silkscreen (r4 — three display voices fought; Michroma's single 400 weight read thin). **Never Inter.** Self-hosted @fontsource only. `qa-scripts/font_audit.mjs` enforces the buckets.
+**Type — v4 (run 9: the S01 face, two realms; `context/38_RUN9_LOG.md` §A, `qa/REPORT_RUN9.md`)**
+- **Hero + poster words are drawn, not typed** — the S01 alphabet (`apps/web/src/type/glyphs/`: 26 caps + digits + `.,:/-_'!&`, skeleton polylines on a 100-unit cap grid, stroke 12 % of cap, rounded-square outer corners, squared counters, wide M, narrow E — measured from the DEMON reference; no free face cleared the match, best IoU 0.52). `<S01Word>` carries the stencil bars / outline / split-fill as SVG masks; ≤ 12 words on the site (Home + Cyberhounds heroes, the poster bands).
+- Display (H1/H2, stats, buttons, logotype): **Unbounded 700/800/900** — unchanged.
+- Mono-display: **Space Mono 400/700** (`--font-mono-display`, IoU .327 vs the S01 body mono; JetBrains .246) — deks ≤ 3 lines (`.t-dek`: caps, +.04em, 15–18 px), ticker, fin lines, readouts, labels ≥ 12 px, OS KPI numerals (`.t-kpi`). Body paragraphs over 3 lines stay **Space Grotesk** sentence-case.
+- Labels < 12 px, code, tables, forms: **JetBrains Mono** with prefix glyphs (`/01`, `//SCN_01`, `_status`, `>`, `[1]`, `●`).
+- OS realm (`[data-realm="os"]`): **VT323** = `--font-os-display` (page titles, the login headline, empty-state words; ≥ 20 px only — IoU .451 vs the T03 headline) + Space Mono numerals. Legacy pixel elsewhere: binary rings + ticker digits only.
+- Treatments (each H1 uses two): stencil bars (4 % cap on the drawn words, 4.5 % on Unbounded) · solid+outline (2px dark / 2.5px paper) · split-fill · edge-crop · wireframe-through · decode (≤600ms, fonts-ready-gated).
+- The S01 dossier hero (Home, Cyberhounds): 48 px hairline grid, two 1-bit halftone photo blocks with `SEC-0N` chips, one accent outline path ending in a registration circle, `[ ↓ SCROLL_TO_REVEAL ]`.
+- Retired across runs: Archivo, Poppins (r3), Chakra Petch, Michroma, Silkscreen (r4). **Never Inter.** Self-hosted @fontsource only. `qa-scripts/font_audit.mjs` enforces the buckets per realm. `scripts/type_match.mjs` is how a face gets in: render, binarize, overlay, IoU.
+
+**Cards — the folder (run 9)**: `FolderCard` is the T11 folder-tab silhouette (tab top-left with a 45° cut, one chamfer, optional mirrored tab, 4 px radius — the one place a radius is allowed, two-tone split, rotated edge label, barcode). Used for records (inheritance), resource categories, non-app projects, officers, the Join Discord card, open event slots, OS titled tiles. **Never** on `TicketCard` / `PosterCard` surfaces.
+
+**The OS realm (run 9)**: every module page is the R9_06 bento (9 tiles A–I in fixed slots, measured in `context/39_OS_GRID.md`) over a hairline, then the working surface. Page navy-900 with scanlines 3 % + a 32 px grid 4 %, tiles navy-800, accent tiles teal 18 % over navy-700, one paper tile; a 56 px icon rail (active cell = red edge, 1 Hz), the launcher glyph + ⌘K, a 7-cell ticker, the user chip, `SYS VER` bottom-right; dossier cards, activity traces from real per-day counts (flat is flat), the red segmented tab strip, subject sheets, ring segments. Terse system voice (`NEEDS_ATTENTION · 3`, `NO_DATA_YET`). No cube in the OS — login only.
 
 **Identity elements**: cube (`assets/brand/cs_logo_sharp.svg`, `assets/cube/cs_cube.glb`) ·
 binary rings `01001…` in VT323 on circular paths, faint, drifting (background texture; from

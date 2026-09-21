@@ -79,7 +79,8 @@ export function PageHero({
             </h1>
             {dek && (
               <Reveal delay={0.25}>
-                <p className="t-dek text-muted mt-6">{dek}</p>
+                {/* type v4: short deks (≤ 3 lines) take the S01 body mono; longer ones stay Space Grotesk sentence-case */}
+                <p className={dek.length <= 170 ? "t-dek text-muted mt-6" : "text-[15px] text-muted leading-[1.6] max-w-[58ch] mt-6"}>{dek}</p>
               </Reveal>
             )}
           </div>

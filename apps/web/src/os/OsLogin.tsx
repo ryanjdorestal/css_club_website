@@ -111,22 +111,22 @@ function Gate() {
       <div className="relative bg-navy-700 lg:pl-0 lg:pr-3 lg:pt-3 lg:pb-3 p-3 flex flex-col">
         <div
           data-tone="dark-3"
-          className="relative grow flex flex-col px-7 md:px-10 pt-10 pb-8"
+          className="relative grow flex flex-col px-7 md:px-10 pt-9 pb-4"
           style={{
             background: "var(--color-seam)",
             clipPath: "polygon(0 0, 100% 0, 100% calc(100% - min(15%, 120px)), calc(100% - min(15%, 120px)) 100%, 0 100%)",
           }}
         >
-          <h1 className="t-os-display text-[clamp(52px,7vw,96px)] leading-[0.92]" data-testid="login-title">
+          <h1 className="t-os-display text-[clamp(40px,4.2vw,60px)] leading-[0.92]" data-testid="login-title">
             BOARD
             <br />
             ACCESS
           </h1>
-          <p className="text-[15px] leading-relaxed text-muted max-w-[46ch] mt-5">
-            For the current {brand.name} board only. Access is granted by the roster — if you're on the board and can't get in, the president or webmaster adds
-            your school email on <span className="text-ink">/os/board</span>.
+          <p className="text-[15px] leading-relaxed text-muted max-w-[60ch] mt-4">
+            Current {brand.shortName} board only. Access is granted by the roster: the president or webmaster adds your school email on{" "}
+            <span className="text-ink">/os/board</span>.
           </p>
-          <ol className="mt-8 border-t border-ink/15">
+          <ol className="mt-6 border-t border-ink/15">
             {LIST.map((t, i) => (
               <li key={t} className="grid grid-cols-[40px_1fr] gap-3 py-2.5 border-b border-ink/15 t-label raise">
                 <span className="opacity-60 tnum">[{i + 1}]</span>
@@ -136,7 +136,7 @@ function Gate() {
           </ol>
 
           {/* the form sits between the list and the pagination */}
-          <div className="mt-8 max-w-[440px]">
+          <div className="mt-6 max-w-[440px]">
             {shownReason && (
               <p className="mb-5 flex items-center gap-3 flex-wrap">
                 <span className="t-micro raise border border-(--color-red-hi)/60 text-(--color-red-hi) px-2.5 py-1" data-testid="reason-chip">
@@ -220,17 +220,17 @@ function Gate() {
             )}
           </div>
 
-          {/* giant pagination — step of 5 */}
-          <div className="mt-auto pt-10 flex items-end justify-between t-os-display text-[clamp(56px,7vw,96px)] leading-none tnum">
-            <span>{String(step).padStart(2, "0")}</span>
-            <span className="mr-[min(15%,120px)]">/05</span>
-          </div>
-          <p className="t-micro opacity-40 mt-4">
+          <p className="t-micro opacity-40 mt-6">
             Every change made in the OS is audited.{" "}
             <Link to="/" className="text-teal u-draw">
               ← back to the site
             </Link>
           </p>
+          {/* giant pagination — step of 5, flush at the bottom like T03's 1 /5 */}
+          <div className="mt-auto pt-6 flex items-end justify-between t-os-display text-[clamp(40px,4.2vw,58px)] leading-none tnum">
+            <span>{String(step).padStart(2, "0")}</span>
+            <span className="mr-[min(15%,120px)]">/05</span>
+          </div>
         </div>
 
         {mode === "local" && !import.meta.env.PROD && (

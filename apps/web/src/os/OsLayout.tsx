@@ -106,7 +106,7 @@ function Shell() {
         <main className="grow p-4 md:p-5 min-w-0">
           <Outlet />
         </main>
-        <p className="fixed right-4 bottom-9 t-micro opacity-40 tnum pointer-events-none z-30" aria-hidden>
+        <p className="fixed right-4 bottom-9 t-micro opacity-40 tnum pointer-events-none z-30 max-md:hidden" aria-hidden>
           SYS VER {version()}.{buildHash().slice(0, 7).toUpperCase()}
         </p>
       </div>
