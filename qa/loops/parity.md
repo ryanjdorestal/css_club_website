@@ -25,6 +25,7 @@
 | Cyberhounds: How It Works | Cyberhounds §3 (copy + 4-step IndexList) | ✅ |
 | Cyberhounds: Competitions | Cyberhounds §4 PosterCards (picoCTF/NCL/Angstrom/SDCTF) | ✅ |
 | Cyberhounds: Join | Cyberhounds §5 ticket + Discord CTA | ✅ |
+| Apps register + submit form | **/projects** — one section for apps, tools, research, class projects (run 7 merge; /apps 308s here); Featured · Apps · Projects (3 pitch slots) · Submit · How review works | ✅ |
 | Graduate-events article | News issue 001 (reading column) | ✅ |
 | Blog posts | News issue log (0 old posts — stated, PLANNED slots) | ✅ |
 | Discord / Form / Linktree / MSRC / PRISM links | Footer CONNECT + Home §10 partners + Join §4 | ✅ |

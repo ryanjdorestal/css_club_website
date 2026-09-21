@@ -2,7 +2,7 @@ import { Link } from "react-router-dom";
 import { brand } from "@brand/brand.config";
 import events from "@data/events.json";
 import resources from "@data/resources.json";
-import appsData from "@data/apps.json";
+import projectsData from "@data/projects.json";
 import links from "@data/links.json";
 import collaborate from "@data/collaborate.json";
 import homeRaw from "@content/home.md?raw";
@@ -44,7 +44,7 @@ function bandCopy(title: string): string {
 }
 const heroDek = home.blocks.find((b) => b.type === "p")?.text ?? "";
 const pastEvents = events.semesters[0].events.slice(0, 2);
-const exampleApps = appsData.apps;
+const exampleApps = projectsData.projects;
 
 const GALLERY = [
   { src: "/img/photos/club2.webp", cap: "GENERAL_MEETING · SPRING" },
@@ -95,7 +95,7 @@ export default function Home() {
                 <Reveal delay={0.4}>
                   <div className="flex flex-wrap gap-3 mt-7" data-accent="blue">
                     <ButtonLink to="/join" variant="primary">Join the Society</ButtonLink>
-                    <span data-accent="teal"><ButtonLink to="/apps" variant="ghost">see the apps</ButtonLink></span>
+                    <span data-accent="teal"><ButtonLink to="/projects" variant="ghost">see the projects</ButtonLink></span>
                   </div>
                 </Reveal>
               </div>
@@ -136,7 +136,7 @@ export default function Home() {
 
         {/* ticker */}
         <div data-accent="teal">
-          <Marquee items={[brand.taglines.ticker, "NEXT EVENT · FALL 2026", "APPS — SUBMISSIONS OPEN", "CYBERHOUNDS · CTF"]} />
+          <Marquee items={[brand.taglines.ticker, "NEXT EVENT · FALL 2026", "PROJECTS — SUBMISSIONS OPEN", "CYBERHOUNDS · CTF"]} />
         </div>
 
         {/* /01 ABOUT SPREAD */}
@@ -236,7 +236,7 @@ export default function Home() {
 
         {/* /03 APPS SPOTLIGHT */}
         <CubeAnchor id="apps" kf={{ x: 0.88, y: 0.55, scale: 0.62, face: "green", glow: "#40A33F" }}>
-          <Band tone="tinted" accent="green" index="03 — APPS · BUILT AT JOHN JAY" sigil={<Sg.Terminal size={16} />} code="APP_REG" rail="03 · APPS · 01010011 · OPEN">
+          <Band tone="tinted" accent="green" index="03 — PROJECTS · BUILT AT JOHN JAY" sigil={<Sg.Terminal size={16} />} code="APP_REG" rail="03 · PROJECTS · 01010011 · OPEN">
             <CubeWire opacity={0.05} width="30vw" />
             <div className="relative grid md:grid-cols-[7fr_5fr] gap-10 items-start">
               <div>
@@ -258,7 +258,7 @@ export default function Home() {
                         model={`APP-EX-${app.id.slice(-2).toUpperCase()}`}
                         title={app.title}
                         body={app.summary}
-                        href="/apps"
+                        href="/projects"
                         rows={[
                           { k: "PLATFORM", v: app.platform.join(" · ") },
                           { k: "STATUS", v: "EXAMPLE — NOT REAL" },
@@ -267,7 +267,7 @@ export default function Home() {
                     </RevealItem>
                   ))}
                   <RevealItem>
-                    <SlotCard n="02" label="Your app here" action="submit ↗" href="/apps" className="min-h-[140px]" />
+                    <SlotCard n="02" label="Your project here" action="submit ↗" href="/projects#submit" className="min-h-[140px]" />
                   </RevealItem>
                 </RevealGroup>
               </div>
@@ -285,7 +285,7 @@ export default function Home() {
                   meter={{ label: "review steps", value: 3, max: 3 }}
                 >
                   <div className="px-5 py-4 flex items-center justify-between">
-                    <Link to="/apps" className="t-label raise text-(--accent-ink) u-draw">[ &gt;_SUBMIT_APP ]</Link>
+                    <Link to="/projects#submit" className="t-label raise text-(--accent-ink) u-draw">[ &gt;_SUBMIT_PROJECT ]</Link>
                     <Tag variant="hatch">EXAMPLE</Tag>
                   </div>
                 </SpecSheet>

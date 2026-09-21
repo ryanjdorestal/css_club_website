@@ -1,7 +1,8 @@
 import { useState } from "react";
 import { ArrowUpRight } from "lucide-react";
 import aboutRaw from "@content/about.md?raw";
-import board from "@data/board.json";
+import boardData from "@data/board.json";
+import { useApi } from "@/lib/useApi";
 import links from "@data/links.json";
 import { parseMd } from "@/lib/md";
 import { Band } from "@/components/Band";
@@ -34,9 +35,9 @@ const ACTIVITIES = [
   { t: "Conquer LeetCode", d: "Technical-interview prep sessions and practice together, not alone." },
 ];
 
-const [current, ...alumni] = board.terms;
-
 export default function About() {
+  const { data: board } = useApi<typeof boardData>("/api/board", boardData);
+  const [current, ...alumni] = board.terms;
   const [open, setOpen] = useState<string | null>(null);
   const who = sectionText("grow together") || sectionText("Who We Are");
   return (

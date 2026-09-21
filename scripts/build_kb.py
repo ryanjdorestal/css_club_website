@@ -67,10 +67,10 @@ def main() -> None:
         {
             "id": "apps",
             "keywords": ["app", "apps", "submit", "project", "showcase", "built", "publish"],
-            "pages": ["/apps"],
+            "pages": ["/projects"],
             "answer": "Apps is the club's showcase of student-built software. Built something? Submit it from the Apps page — the board reviews it and it goes live with your name on it.",
             "suggestions": ["How do I join?", "What stack should I use?"],
-            "citations": [{"label": "Apps", "href": "/apps"}],
+            "citations": [{"label": "Projects", "href": "/projects"}],
             "emote": "happy",
         },
         {

@@ -16,3 +16,8 @@ Read pass done (RHEC shape via a sub-agent: whoami rule, audit rows, one-handoff
 
 ## Checkpoint 60 min (00:15)
 44 pytest green (api/_core/tests). Front end: session.tsx (Supabase OTP or LOCAL_DEV picker, PROD-guarded), osFetch, ui/{OsPage,OsTable,OsForm,Upload,useOs}, all 11 OS pages, routes wired, tsc clean. docs/RUNBOOK.md + docs/INDEX.json rendered on /os/inheritance.
+
+## Checkpoint 90 min (00:45)
+Phase A committed (1818b10). Public pages now read the API first (News via /api/posts + /api/posts/:slug, Events, About board, Resources + links) with the committed JSON as the typed fallback (`lib/useApi.ts`). Phase B: /projects (Featured · Apps · Projects with 3 pitch slots · Submit with kind · How review works), /apps → /projects, nav PROJECTS, cube green face → /projects, Home §3 copy, KB + extractor + parity updated, Apps.tsx + apps.json deleted. Shots: qa/loops/run7/pub-*.png, no page errors.
+| 6 | Public pages switched to `useApi(path, fallback)` rather than a global store | one hook, same JSON shape both sides; the pages' JSX did not change |
+| 7 | The Google Maps footer embed loads Google's own scripts — that key is Google's public embed key, not ours | noted for the audit: no keys of ours anywhere in the bundle |

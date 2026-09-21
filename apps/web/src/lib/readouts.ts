@@ -4,7 +4,7 @@ import pkg from "../../package.json";
 import board from "@data/board.json";
 import events from "@data/events.json";
 import resources from "@data/resources.json";
-import apps from "@data/apps.json";
+import projects from "@data/projects.json";
 import workshops from "@data/workshops.json";
 import kb from "@data/kb.json";
 
@@ -22,8 +22,8 @@ export const counts = {
   terms: board.terms.length,
   events: events.semesters.reduce((a, s) => a + s.events.length, 0),
   resources: resources.count,
-  apps: apps.apps.filter((a) => a.status !== "example").length,
-  examples: apps.apps.length,
+  apps: projects.projects.filter((a) => a.status !== "example").length,
+  examples: projects.projects.length,
   workshops: workshops.workshops.length,
   kb: kb.entries.length,
   semesters: board.terms.length * 2,

@@ -1,6 +1,7 @@
 import { useState } from "react";
-import resources from "@data/resources.json";
-import links from "@data/links.json";
+import resourcesData from "@data/resources.json";
+import linksData from "@data/links.json";
+import { useApi } from "@/lib/useApi";
 import { Band } from "@/components/Band";
 import { PageHero } from "@/components/PageHero";
 import { PosterBand } from "@/components/PosterBand";
@@ -44,6 +45,9 @@ const KITS = [
 
 export default function Resources() {
   const [active, setActive] = useState(0);
+  const { data: resources } = useApi<typeof resourcesData>("/api/resources", resourcesData);
+  const { data: linksApi } = useApi<{ links: Record<string, string> }>("/api/links", { links: linksData as unknown as Record<string, string> });
+  const links = { ...linksData, ...linksApi.links };
   const g = resources.groups[active];
   return (
     <main>

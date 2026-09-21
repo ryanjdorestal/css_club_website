@@ -12,7 +12,7 @@ export const FACE_QUAT: Record<Exclude<Face, null>, THREE.Quaternion> = {
 
 export const FACE_ROUTE: Partial<Record<Exclude<Face, null>, string>> = {
   red: "/events",
-  green: "/apps",
+  green: "/projects",
   blue: "/join",
 };
 

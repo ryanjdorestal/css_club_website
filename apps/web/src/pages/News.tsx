@@ -1,6 +1,10 @@
+/** /news — bulletins and articles written in the OS. Reads /api/posts (list)
+    and /api/posts/:slug (article) with data/posts.json as the fallback, and
+    renders markdown with lib/md.ts — the same renderer the OS preview uses. */
 import { Link, useParams } from "react-router-dom";
-import gradRaw from "@content/news/grad-school-events.md?raw";
+import postsData from "@data/posts.json";
 import { parseMd } from "@/lib/md";
+import { useApi } from "@/lib/useApi";
 import { Band } from "@/components/Band";
 import { PageHero } from "@/components/PageHero";
 import { FinLine } from "@/components/FinLine";
@@ -12,38 +16,36 @@ import { Registration } from "@/components/frame";
 import { Contour } from "@/textures";
 import { Label } from "@/components/type/Label";
 
-const POSTS = [{ slug: "grad-school-events", raw: gradRaw, issue: "001", date: "MIGRATED · 2023" }];
+type Post = { id: string; slug: string; title: string; dek?: string; body_md?: string; author_name?: string; published_at?: string; tags?: string[]; source?: string; cover_path?: string | null };
+const FALLBACK = { posts: (postsData as { posts: Post[] }).posts };
 
-/** /news — light reading surface (the old site's tinted sections, modernized).
-    The grad-school article is issue 001; the old Blog shipped zero posts. */
+function issue(i: number) {
+  return String(i + 1).padStart(3, "0");
+}
+function dateLabel(p: Post) {
+  return p.source === "legacy" ? `MIGRATED · ${(p.published_at ?? "").slice(0, 4)}` : (p.published_at ?? "").slice(0, 10).toUpperCase();
+}
+
 export function NewsIndex() {
+  const { data } = useApi<{ posts: Post[] }>("/api/posts", FALLBACK);
+  const posts = [...data.posts].sort((a, b) => (a.published_at ?? "").localeCompare(b.published_at ?? ""));
   return (
     <main>
       <PageHero
         kicker="NEWS · BULLETINS · ISSUE LOG"
         cubeFace="threeQuarter"
         lines={[{ text: "News.", stencil: true }]}
-        dek="Bulletins and articles. The old Blog shipped zero posts — News replaces it; board bulletins land here once the OS is live. Issue 001 is the graduate-school guide migrated from the old site."
+        dek="Bulletins and articles, written by the board in the OS. Issue 001 is the graduate-school guide migrated from the old site; everything after it is new."
         stats={[
-          { v: 1, l: "ISSUES PUBLISHED" },
+          { v: posts.length, l: "ISSUES PUBLISHED" },
           { v: 0, l: "OLD BLOG POSTS (REALLY)" },
         ]}
       />
       <Band tone="light" accent="blue" index="01 — ISSUE LOG" sigil={<Sg.Eye size={16} />} code="ISSUES" rail="01 · NEWS · 01001110 · LOG">
         <IndexList
           rows={[
-            ...POSTS.map((p) => {
-              const doc = parseMd(p.raw);
-              return {
-                index: p.issue,
-                title: doc.meta.title ?? p.slug,
-                dek: "Programs · Colleges · Locations — what to check before any grad-school event",
-                meta: p.date,
-                href: `/news/${p.slug}`,
-              };
-            }),
-            { index: "002", title: "Fall 2026 kickoff bulletin", dek: "Pending — written by the board in the OS", chip: "PLANNED" },
-            { index: "003", title: "Cyberhounds season recap", dek: "Pending — after the first NCL bracket", chip: "PLANNED" },
+            ...posts.map((p, i) => ({ index: issue(i), title: p.title, dek: p.dek || " ", meta: dateLabel(p), href: `/news/${p.slug}` })),
+            ...(posts.length < 2 ? [{ index: issue(posts.length), title: "Fall 2026 kickoff bulletin", dek: "Pending — written by the board in the OS", chip: "PLANNED" }] : []),
           ]}
         />
       </Band>
@@ -53,19 +55,22 @@ export function NewsIndex() {
 }
 
 export function NewsArticle() {
-  const { slug } = useParams();
-  const post = POSTS.find((p) => p.slug === slug);
-  if (!post) {
+  const { slug = "" } = useParams();
+  const fallbackPost = FALLBACK.posts.find((p) => p.slug === slug) ?? null;
+  const { data, source } = useApi<{ post: Post | null }>(`/api/posts/${slug}`, { post: fallbackPost });
+  const post = data.post;
+  if (!post || source === "loading") {
     return (
       <main className="pt-[120px]" data-tone="dark">
         <div className="max-w-[720px] mx-auto px-5 py-20 text-center">
-          <p className="pixel text-teal text-4xl">NO SUCH BULLETIN</p>
+          <p className="pixel text-teal text-4xl">{source === "loading" && !post ? "LOADING" : "NO SUCH BULLETIN"}</p>
           <Link to="/news" className="mono-label text-teal u-draw mt-6 inline-block">← BACK TO THE ISSUE LOG</Link>
         </div>
       </main>
     );
   }
-  const doc = parseMd(post.raw);
+  const doc = parseMd(post.body_md ?? "");
+  const idx = FALLBACK.posts.findIndex((p) => p.slug === slug);
   return (
     <main>
       <section data-tone="light" data-accent="blue" className="relative pt-[120px] pb-20">
@@ -74,39 +79,35 @@ export function NewsArticle() {
         <article className="relative max-w-[720px] mx-auto px-5">
           <Reveal y={10}>
             <div className="flex items-center gap-4 mb-6">
-              <Label pfx="/" className="raise text-(--accent)">ISSUE_{post.issue}</Label>
+              <Label pfx="/" className="raise text-(--accent)">ISSUE_{issue(idx >= 0 ? idx : FALLBACK.posts.length)}</Label>
               <span className="h-px grow bg-(--tone-line)" />
-              <span className="t-micro opacity-55 tnum">{post.date}</span>
+              <span className="t-micro opacity-55 tnum">{dateLabel(post)}</span>
             </div>
-            <div className="flex gap-6 mb-8">
-              <span className="t-micro opacity-55">_author THE_BOARD</span>
-              <span className="t-micro opacity-55">_kind ARTICLE</span>
-              <span className="t-micro opacity-55 tnum">_read_time 4_MIN</span>
+            <div className="flex gap-6 mb-8 flex-wrap">
+              <span className="t-micro opacity-55">_author {(post.author_name ?? "THE BOARD").toUpperCase().replace(/ /g, "_")}</span>
+              <span className="t-micro opacity-55">_kind {(post.tags?.[0] ?? "article").toUpperCase()}</span>
+              <span className="t-micro opacity-55 tnum">_read_time {Math.max(1, Math.round((post.body_md ?? "").split(/\s+/).length / 220))}_MIN</span>
             </div>
           </Reveal>
+          {post.cover_path && <img src={post.cover_path} alt="" className="w-full mb-8 border border-(--tone-line)" />}
           <Reveal>
-            <h1 className="t-h1 !normal-case !text-[clamp(28px,4vw,48px)] !leading-[1.02] mb-10">
-              {doc.meta.title}
-            </h1>
+            <h1 className="t-h1 !normal-case !text-[clamp(28px,4vw,48px)] !leading-[1.02] mb-10">{post.title}</h1>
           </Reveal>
           {doc.blocks.map((b, i) =>
             b.type === "h2" ? (
-              <h2 key={i} className="font-display font-bold text-xl mt-10 mb-3" style={{ fontStretch: "108%" }}>
-                {b.text}
-              </h2>
-            ) : i === 2 ? (
+              <h2 key={i} className="font-display font-bold text-xl mt-10 mb-3">{b.text}</h2>
+            ) : i === 2 && doc.blocks.length > 4 ? (
               <div key={i}>
                 <Pullquote>{b.text.split(".")[0] + "."}</Pullquote>
                 <p className="text-[17px] leading-[1.7] mb-5 mt-6" style={{ color: "var(--tone-muted)" }}>{b.text}</p>
               </div>
             ) : (
-              <p key={i} className="text-[17px] leading-[1.7] mb-5" style={{ color: "var(--tone-muted)" }}>
-                {b.text}
-              </p>
+              <p key={i} className="text-[17px] leading-[1.7] mb-5" style={{ color: "var(--tone-muted)" }}>{b.text}</p>
             ),
           )}
           <p className="mono-label mt-12 pt-6 border-t border-(--tone-line)" style={{ color: "var(--tone-muted)" }}>
-            MIGRATED FROM CSS_WEBSITE@A8FCA55 · <Link to="/news" className="text-(--accent) u-draw">← ISSUE LOG</Link>
+            {post.source === "legacy" ? "MIGRATED FROM CSS_WEBSITE@A8FCA55 · " : "PUBLISHED FROM THE OS · "}
+            <Link to="/news" className="text-(--accent) u-draw">← ISSUE LOG</Link>
           </p>
         </article>
       </section>

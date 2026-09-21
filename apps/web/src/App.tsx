@@ -1,5 +1,5 @@
 import { lazy, Suspense } from "react";
-import { Routes, Route, Outlet, useLocation } from "react-router-dom";
+import { Routes, Route, Outlet, Navigate, useLocation } from "react-router-dom";
 import { AnimatePresence, motion } from "motion/react";
 import { Nav } from "@/components/Nav";
 import { Footer } from "@/components/Footer";
@@ -12,7 +12,7 @@ import { useEffect, useState } from "react";
 
 const Home = lazy(() => import("@/pages/Home"));
 const Events = lazy(() => import("@/pages/Events"));
-const Apps = lazy(() => import("@/pages/Apps"));
+const Projects = lazy(() => import("@/pages/Projects"));
 const Cyberhounds = lazy(() => import("@/pages/Cyberhounds"));
 const About = lazy(() => import("@/pages/About"));
 const Resources = lazy(() => import("@/pages/Resources"));
@@ -38,7 +38,7 @@ const NewsArticle = lazy(() => import("@/pages/News").then((m) => ({ default: m.
 const ACCENT_BY_PATH: Record<string, "red" | "green" | "blue" | "teal"> = {
   "/events": "red",
   "/cyberhounds": "red",
-  "/apps": "green",
+  "/projects": "green",
   "/about": "blue",
   "/resources": "teal",
   "/news": "blue",
@@ -104,7 +104,8 @@ export default function App() {
           <Route element={<Layout />}>
             <Route index element={<Home />} />
             <Route path="events" element={<Events />} />
-            <Route path="apps" element={<Apps />} />
+            <Route path="projects" element={<Projects />} />
+            <Route path="apps" element={<Navigate to="/projects" replace />} />
             <Route path="cyberhounds" element={<Cyberhounds />} />
             <Route path="about" element={<About />} />
             <Route path="resources" element={<Resources />} />

@@ -49,11 +49,11 @@ export const brand = {
   },
 
   // Section accent map — one accent per section (DESIGN.md).
-  // Red C = Events, Green S = Apps, Blue S = Join/community.
+  // Red C = Events, Green S = Projects (apps, tools, research), Blue S = Join/community.
   accents: {
     events: "red",
     cyberhounds: "red",
-    apps: "green",
+    projects: "green",
     join: "blue",
     about: "blue",
     resources: "blue",

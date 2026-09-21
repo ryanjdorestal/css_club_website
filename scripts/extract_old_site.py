@@ -383,63 +383,30 @@ def extract_workshops():
     )
 
 
-# ------------------------------------------------------------------- apps.json
-def seed_apps():
-    """Three placeholder entries clearly marked status:'example' so /apps renders.
-    Never shown with fake stats; the UI labels them as examples."""
+# --------------------------------------------------------------- projects.json
+def seed_projects():
+    """Three placeholder entries marked example:true so /projects renders the
+    format. Never shown with fake stats; the UI labels them as examples."""
+    examples = [
+        ("example-study-planner", "Study Planner", "Example: a weekly study planner for John Jay CS courses.", ["web"], ["react", "typescript"],
+         "Helps students plan around the CSCI course sequence."),
+        ("example-ctf-notebook", "CTF Notebook", "Example: notes + writeup templates for Cyberhounds competitions.", ["cli"], ["python"],
+         "Faster writeups for NCL and picoCTF; shared templates for the team."),
+        ("example-room-finder", "Campus Room Finder", "Example: find an open study room in the New Building.", ["web", "ios"], ["swift", "fastapi"],
+         "Saves the walk between floors looking for a free room."),
+    ]
     write_json(
-        "apps.json",
+        "projects.json",
         {
             "note": "Example entries only — replaced by real submissions approved in the OS.",
-            "apps": [
+            "projects": [
                 {
-                    "id": "2026/apps/example-study-planner",
-                    "type": "app-record",
-                    "title": "Study Planner",
-                    "summary": "Example: a weekly study planner for John Jay CS courses.",
-                    "author": {"name": "Your Name Here", "handle": "", "class_year": ""},
-                    "platform": ["web"],
-                    "stack": ["react", "typescript"],
-                    "links": {"web": "", "store": "", "repo": ""},
-                    "screenshots": [],
-                    "benefits_jj": "Helps students plan around the CSCI course sequence.",
-                    "status": "example",
-                    "term": "Fall 2026",
-                    "visibility": "public",
-                    "last_updated": "2026-09-19",
-                },
-                {
-                    "id": "2026/apps/example-ctf-notebook",
-                    "type": "app-record",
-                    "title": "CTF Notebook",
-                    "summary": "Example: notes + writeup templates for Cyberhounds competitions.",
-                    "author": {"name": "Your Name Here", "handle": "", "class_year": ""},
-                    "platform": ["cli"],
-                    "stack": ["python"],
-                    "links": {"web": "", "store": "", "repo": ""},
-                    "screenshots": [],
-                    "benefits_jj": "Gives new CTF members a starting playbook.",
-                    "status": "example",
-                    "term": "Fall 2026",
-                    "visibility": "public",
-                    "last_updated": "2026-09-19",
-                },
-                {
-                    "id": "2026/apps/example-campus-map",
-                    "type": "app-record",
-                    "title": "Campus Room Finder",
-                    "summary": "Example: find John Jay rooms like 1.114 New Building fast.",
-                    "author": {"name": "Your Name Here", "handle": "", "class_year": ""},
-                    "platform": ["ios"],
-                    "stack": ["swift"],
-                    "links": {"web": "", "store": "", "repo": ""},
-                    "screenshots": [],
-                    "benefits_jj": "First meeting of the semester, nobody can find the room.",
-                    "status": "example",
-                    "term": "Fall 2026",
-                    "visibility": "public",
-                    "last_updated": "2026-09-19",
-                },
+                    "id": f"2026/projects/{slug}", "kind": "app", "title": title, "summary": summary, "platform": platform, "stack": stack,
+                    "links": {"repo": "", "live": ""}, "screenshots": [], "benefits_jj": benefit,
+                    "authors": [{"name": "Your Name Here", "handle": "", "term": "F26"}], "featured": i == 0, "display_order": i,
+                    "term": "F26", "status": "published", "example": True, "visibility": "public", "created_at": 0, "updated_at": 0,
+                }
+                for i, (slug, title, summary, platform, stack, benefit) in enumerate(examples)
             ],
         },
     )
@@ -486,7 +453,7 @@ if __name__ == "__main__":
     extract_copy()
     extract_workshops()
     extract_collaborate()
-    seed_apps()
+    seed_projects()
     n_members = sum(len(t["members"]) for t in terms)
     print(
         f"\nboard: {len(terms)} terms / {n_members} members · events: {len(events)} · resources: {n_links} links"

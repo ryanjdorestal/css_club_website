@@ -1,5 +1,6 @@
 import { ArrowUpRight } from "lucide-react";
-import events from "@data/events.json";
+import eventsData from "@data/events.json";
+import { useApi } from "@/lib/useApi";
 import workshops from "@data/workshops.json";
 import { Band } from "@/components/Band";
 import { PageHero, DossierMeta } from "@/components/PageHero";
@@ -13,7 +14,6 @@ import { Reveal, RevealGroup, RevealItem } from "@/motion/Reveal";
 import { brand } from "@brand/brand.config";
 import * as Sg from "@/sigils";
 
-const nEvents = events.semesters.reduce((a, s) => a + s.events.length, 0);
 
 const SERIES: { name: string; topic: string[] }[] = [
   { name: "Security series", topic: ["Security"] },
@@ -22,6 +22,8 @@ const SERIES: { name: string; topic: string[] }[] = [
 ];
 
 export default function Events() {
+  const { data: events } = useApi<typeof eventsData>("/api/events", eventsData);
+  const nEvents = events.semesters.reduce((a, s) => a + s.events.length, 0);
   return (
     <main>
       <PageHero
@@ -121,7 +123,7 @@ export default function Events() {
       </Band>
 
       <PosterBand accent="red" meta="// FALL 2026 · FIRST GENERAL MEETING" lines={["See you", { text: "there.", className: "text-red", outline: true }]} />
-      <FinLine n="03" next="/apps" />
+      <FinLine n="03" next="/projects" />
     </main>
   );
 }

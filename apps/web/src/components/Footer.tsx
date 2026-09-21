@@ -15,7 +15,7 @@ import { buildHash, buildTime } from "@/lib/readouts";
 const NAVIGATE = [
   { to: "/", label: "Home" },
   { to: "/events", label: "Events" },
-  { to: "/apps", label: "Apps" },
+  { to: "/projects", label: "Projects" },
   { to: "/cyberhounds", label: "Cyberhounds" },
   { to: "/about", label: "About" },
   { to: "/resources", label: "Resources" },
@@ -125,8 +125,8 @@ export function Footer() {
               <span className="flex items-center px-6 py-3 bg-teal text-navy-900 t-label raise !opacity-100 font-display font-bold">JOIN_THE_SOCIETY</span>
               <span className="flex items-center justify-center w-10 bg-teal text-navy-900 border-l border-navy-900/25 transition-transform duration-200 group-hover:translate-x-1">↗</span>
             </Link>
-            <Link to="/apps" className="group inline-flex items-center gap-2 border border-teal text-teal px-6 py-3 t-label raise hover:bg-teal/10 transition-colors">
-              <span className="transition-transform duration-200 group-hover:-translate-x-0.5">[</span>SUBMIT_AN_APP<span className="transition-transform duration-200 group-hover:translate-x-0.5">]</span>
+            <Link to="/projects#submit" className="group inline-flex items-center gap-2 border border-teal text-teal px-6 py-3 t-label raise hover:bg-teal/10 transition-colors">
+              <span className="transition-transform duration-200 group-hover:-translate-x-0.5">[</span>SUBMIT_A_PROJECT<span className="transition-transform duration-200 group-hover:translate-x-0.5">]</span>
             </Link>
           </div>
         </div>

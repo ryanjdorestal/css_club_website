@@ -106,7 +106,7 @@
         "publish"
       ],
       "pages": [
-        "/apps"
+        "/projects"
       ],
       "answer": "Apps is the club's showcase of student-built software. Built something? Submit it from the Apps page — the board reviews it and it goes live with your name on it.",
       "suggestions": [
@@ -115,8 +115,8 @@
       ],
       "citations": [
         {
-          "label": "Apps",
-          "href": "/apps"
+          "label": "Projects",
+          "href": "/projects"
         }
       ],
       "emote": "happy"

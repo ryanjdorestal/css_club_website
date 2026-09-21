@@ -8,7 +8,7 @@ import { nyTime, useApiState } from "@/lib/readouts";
 
 const LINKS = [
   { to: "/events", label: "EVENTS" },
-  { to: "/apps", label: "APPS" },
+  { to: "/projects", label: "PROJECTS" },
   { to: "/cyberhounds", label: "CYBERHOUNDS" },
   { to: "/about", label: "ABOUT" },
   { to: "/resources", label: "RESOURCES" },
