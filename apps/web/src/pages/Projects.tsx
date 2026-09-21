@@ -220,15 +220,15 @@ function SubmitBand() {
   async function onSubmit(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
     setBusy(true);
-    const data = Object.fromEntries(new FormData(e.currentTarget).entries()) as Record<string, string>;
+    const fields = Object.fromEntries(new FormData(e.currentTarget).entries()) as Record<string, string>;
     const payload: ProjectSubmit = {
-      title: data.title,
-      author: data.author,
-      email: data.email,
-      summary: data.summary,
-      link: data.link || null,
-      kind: (data.kind as ProjectSubmit["kind"]) ?? "app",
-      platform: (data.platform ?? "")
+      title: fields.title,
+      author: fields.author,
+      email: fields.email,
+      summary: fields.summary,
+      link: fields.link || null,
+      kind: (fields.kind as ProjectSubmit["kind"]) ?? "app",
+      platform: (fields.platform ?? "")
         .split(",")
         .map((s) => s.trim())
         .filter(Boolean),

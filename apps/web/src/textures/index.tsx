@@ -1,6 +1,6 @@
 /** §6 texture layer — all ≤ 10% opacity, max two per band. CSS/SVG only. */
 import { useMemo } from "react";
-import kb from "@data/kb.json";
+import knowledgeBase from "@data/kb.json";
 import { CubeWireSvg } from "@/components/type/Wireframe";
 
 const wrap = "absolute inset-0 pointer-events-none";
@@ -108,7 +108,7 @@ export function Scanlines({ opacity = 0.03 }: { opacity?: number }) {
 /** Vertical columns of KB question text drifting (hero right third). */
 export function CodeRain({ opacity = 0.045, className = "" }: { opacity?: number; className?: string }) {
   const lines = useMemo(() => {
-    const qs = kb.entries
+    const qs = knowledgeBase.entries
       .flatMap((e) => e.keywords)
       .join(" · ")
       .toUpperCase();

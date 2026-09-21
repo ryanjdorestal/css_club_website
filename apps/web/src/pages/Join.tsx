@@ -113,14 +113,14 @@ function OnboardBand() {
   async function onSubmit(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
     setBusy(true);
-    const data = Object.fromEntries(new FormData(e.currentTarget).entries()) as Record<string, string>;
+    const fields = Object.fromEntries(new FormData(e.currentTarget).entries()) as Record<string, string>;
     const payload: OnboardingSubmit = {
-      name: data.name,
-      email: data.email,
-      major: data.major || null,
-      class_year: data.class_year || null,
-      interests: data.interests || null,
-      discord_handle: data.discord_handle || null,
+      name: fields.name,
+      email: fields.email,
+      major: fields.major || null,
+      class_year: fields.class_year || null,
+      interests: fields.interests || null,
+      discord_handle: fields.discord_handle || null,
     };
     setResult(await postWithFallback("/api/onboarding/submit", payload));
     setBusy(false);

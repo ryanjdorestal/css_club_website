@@ -1,5 +1,9 @@
-/** Home — composition only. Each section lives in pages/home/ and carries its
-    own cube-rail keyframe. Order here = the page order. */
+/** The home page (`/`). This file only decides the ORDER of the sections; each section is its own
+    component under pages/home/ (HomeHero, HomeEvents, …), and each reads its data the same way every
+    public page does: `useApi(path, bundledJson)` — the committed JSON first, the API's copy when it
+    arrives. The 3D cube rides along the page on the CubeRail; a section tells the rail where the cube
+    should be when that section is on screen. To add a section: make a component in pages/home/, import
+    it here, put it in the list. */
 import { CubeRail } from "@/cube/CubeRail";
 import { CubeRailProvider } from "@/cube/CubeRailContext";
 import { HomeHero } from "./home/HomeHero";

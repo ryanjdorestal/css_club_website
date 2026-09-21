@@ -1,4 +1,5 @@
-import { Suspense, lazy, useEffect, useRef, useState } from "react";
+import { Suspense, lazy } from "react";
+import { useLazy3d } from "@/lib/useLazy3d";
 
 const CubeSpotCanvas = lazy(() => import("./CubeSpotCanvas"));
 
@@ -18,22 +19,7 @@ export function CubeSpot({
   interactive?: boolean;
   className?: string;
 }) {
-  const ref = useRef<HTMLDivElement>(null);
-  const [ok, setOk] = useState(false);
-  const [visible, setVisible] = useState(false);
-  useEffect(() => {
-    const rm = window.matchMedia("(prefers-reduced-motion: reduce)");
-    const update = () => setOk(!rm.matches);
-    update();
-    rm.addEventListener("change", update);
-    return () => rm.removeEventListener("change", update);
-  }, []);
-  useEffect(() => {
-    if (!ref.current) return;
-    const io = new IntersectionObserver(([e]) => setVisible(e.isIntersecting), { rootMargin: "160px" });
-    io.observe(ref.current);
-    return () => io.disconnect();
-  }, []);
+  const { ref, ok, visible } = useLazy3d();
   const fallback = (
     <img
       src="/cube/hero_840.webp"

@@ -21,7 +21,9 @@ const TONE: Record<FolderTone, { bg: string; ink: string; muted: string }> = {
 };
 const OTHER: Record<FolderTone, FolderTone> = { navy: "paper", paper: "navy", red: "paper", teal: "navy", os: "paper", slate: "paper" };
 
-function silhouette(w: number, h: number, mirror: boolean, chamfer: "br" | "tr" | "bl", tabFrac = 0.34) {
+type Shape = { w: number; h: number; mirror: boolean; chamfer: "br" | "tr" | "bl"; tabFrac?: number };
+
+function silhouette({ w, h, mirror, chamfer, tabFrac = 0.34 }: Shape) {
   const r = 4;
   const tabW = Math.round(w * tabFrac);
   const tabH = Math.max(22, Math.min(34, Math.round(h * 0.09)));
@@ -81,7 +83,7 @@ export function FolderCard({
     if (!el) return;
     const ro = new ResizeObserver(([e]) => {
       const { width, height } = e.contentRect;
-      if (width && height) setGeo(silhouette(Math.round(width), Math.round(height), mirrorTab, cut, tabFrac));
+      if (width && height) setGeo(silhouette({ w: Math.round(width), h: Math.round(height), mirror: mirrorTab, chamfer: cut, tabFrac }));
     });
     ro.observe(el);
     return () => ro.disconnect();

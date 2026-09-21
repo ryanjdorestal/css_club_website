@@ -6,7 +6,7 @@ import events from "@data/events.json";
 import resources from "@data/resources.json";
 import projects from "@data/projects.json";
 import workshops from "@data/workshops.json";
-import kb from "@data/kb.json";
+import knowledgeBase from "@data/kb.json";
 
 export const version = () => pkg.version as string;
 export const buildHash = () => (import.meta.env.VITE_GIT_SHA as string) ?? "dev";
@@ -25,7 +25,7 @@ export const counts = {
   apps: projects.projects.filter((a) => a.status !== "example").length,
   examples: projects.projects.length,
   workshops: workshops.workshops.length,
-  kb: kb.entries.length,
+  knowledgeBase: knowledgeBase.entries.length,
   semesters: board.terms.length * 2,
 };
 

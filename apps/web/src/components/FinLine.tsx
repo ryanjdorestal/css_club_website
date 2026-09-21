@@ -16,8 +16,9 @@ const SLOW = typeof window === "undefined" ? 1 : Math.max(1, Number(new URLSearc
 
 type Line = { text: string; ms: number };
 
-function typed(text: string, k: number, frame: number, i: number): string {
+function typed(text: string, k: number, clock: { frame: number; i: number }): string {
   if (k >= text.length) return text;
+  const { frame, i } = clock;
   const buf = 2 + ((frame + i) % 2);
   let s = text.slice(0, k);
   for (let j = 0; j < buf && s.length < text.length; j++) {
@@ -57,7 +58,7 @@ function useTyper(lines: Line[], active: boolean, reduced: boolean | null) {
       const next = lines.map((l, i) => {
         const k = Math.max(0, Math.floor((el - starts[i]) / (l.ms * SLOW)));
         if (el >= starts[i] && k < l.text.length && caret === -1) caret = i;
-        return el < starts[i] ? "" : typed(l.text, k, frame, i);
+        return el < starts[i] ? "" : typed(l.text, k, { frame, i });
       });
       setOut(next);
       if (el >= total) {

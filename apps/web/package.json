@@ -11,7 +11,7 @@
     "shoot": "node qa-scripts/shoot.mjs",
     "test": "vitest run",
     "typecheck": "tsc --noEmit -p tsconfig.app.json",
-    "prune": "ts-prune -p tsconfig.app.json --ignore \"sigils/index|textures/index|frame/index|brand.config|api.types\" --error",
+    "prune": "ts-prune -p tsconfig.app.json --ignore \"sigils/index|textures/index|frame/index|specs/index|brand.config|api.types\" --error",
     "depcheck": "depcheck",
     "format": "prettier --write ../.. --ignore-path ../../.prettierignore",
     "format:check": "prettier --check ../.. --ignore-path ../../.prettierignore",
@@ -25,7 +25,8 @@
     "audit:tokens": "node qa-scripts/tokens_gate.mjs",
     "audit:repo": "node ../../scripts/repo_audit.mjs",
     "smoke:functional": "node ../../scripts/functional_smoke.mjs",
-    "gate": "node qa-scripts/os_gate.mjs"
+    "gate": "node qa-scripts/os_gate.mjs",
+    "dup": "jscpd -c ../../.jscpd.json src ../../api/_core --silent"
   },
   "dependencies": {
     "@react-three/drei": "^10.7.8",
@@ -56,6 +57,7 @@
     "concurrently": "^10.0.5",
     "depcheck": "^1.4.7",
     "html-validate": "^11.16.0",
+    "jscpd": "^4.3.0",
     "markdownlint-cli": "^0.49.1",
     "oxlint": "^1.81.0",
     "pa11y-ci": "^4.1.1",

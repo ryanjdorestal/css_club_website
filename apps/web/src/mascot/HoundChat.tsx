@@ -2,7 +2,7 @@ import { useEffect, useRef, useState } from "react";
 import { useLocation, Link } from "react-router-dom";
 import { X, Send } from "lucide-react";
 import { Bloodhound, type Emote } from "./Bloodhound";
-import { matchKb } from "./kbMatch";
+import { matchKb } from "./knowledgeBaseMatch";
 import { brand } from "@brand/brand.config";
 
 type Msg = {

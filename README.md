@@ -114,7 +114,8 @@ content change rather than code: open a **Content** issue; no git needed.
 
 `make check` is CI: ruff · prettier · stylelint · markdownlint · oxlint · mypy --strict · tsc · pytest ·
 vitest · route/image/token/repo audits · env names · `docs/API.md` current · the one-function guard · data +
-inheritance validators · migration and asset policy · ts-prune · depcheck. With `make dev` running: `make a11y`
+inheritance validators · migration and asset policy · function length · banned names · dead code · duplication
+(jscpd) · ts-prune · depcheck. With `make dev` running: `make a11y`
 (pa11y + axe, 0 findings), `make smoke` (the OS gate + a board member's day), `make sim` (a whole semester from
 an empty store, 25 steps), `make break` (16 ways to break it that do not work). Every tool and what it found:
 `docs/SKILLS_ADOPTED.md`. Pushing: `docs/RELEASE.md`.

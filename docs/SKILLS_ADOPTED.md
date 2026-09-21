@@ -103,6 +103,17 @@ Recorded in `docs/LATER.md` with the env names they would need (`DISCORD_BOT_TOK
 An adversarial review panel for research artifacts. Nothing here is a manuscript; the closest need
 (code review) is covered by CI + the PR template.
 
+## clean-code (run 11 — docs/CODE_STANDARDS.md)
+
+| Skill | Decision | Here | Findings |
+|---|---|---|---|
+| clean-code/functions | adopt | oxlint `max-lines-per-function` 40 (`.ts`) / 200 (`.tsx`), `max-params` 3, `complexity` 10 / 25; ruff `C901` 10, `PLR0913` 5; `scripts/check_function_length.py` (Python ≤ 40 lines) | 149 oxlint + 25 ruff + 10 long Python functions → 0 at the enforced thresholds; four `.tsx` components named as debt (#13) |
+| clean-code/files | adopt | oxlint `max-lines` 300 (blank + comments skipped) | 7 files → 0 |
+| clean-code/duplication | adopt | `jscpd` 1.5 % over `apps/web/src` + `api/_core` (`npm run dup` in `make check`, `.jscpd.json`) | 0.55 % (11 clones) → 0.11 % (3) |
+| clean-code/naming | adapt | `scripts/banned_names.mjs`: a declared `data` / `info` / `temp` / `kb` / `helper` … fails | 6 → 0 |
+| clean-code/comments | adapt | `scripts/no_dead_code.mjs`: 3+ consecutive commented-out statements fail; deferred-work markers stay refused by `repo_audit.mjs`; oxlint `no-warning-comments` | 0 → 0 (kept honest) |
+| clean-code/hosting guards | adapt | `scripts/check_migrations.py` (numbering, real statements, guarded drops), `scripts/check_assets.mjs` (WebP/SVG ≤ 400 KB, referenced, `<img>` attrs), `scripts/tests/test_vercel_should_build.py` | 38 asset findings → 0; 5 migrations pass |
+
 ## docs/ (adoption-roadmap, do-not-pull, integration-notes, tier-guide)
 Guidance, not skills. `do-not-pull.md` agrees with the skips above (no bots, no Notion).
 

@@ -35,7 +35,11 @@ check: lint types test audit
 	$(PY) scripts/validate_inheritance.py --quiet
 	$(PY) scripts/check_migrations.py
 	node scripts/check_assets.mjs
-	cd $(WEB) && npx ts-prune -p tsconfig.app.json --ignore "sigils/index|textures/index|frame/index|brand.config|api.types" --error
+	$(PY) scripts/check_function_length.py
+	node scripts/banned_names.mjs
+	node scripts/no_dead_code.mjs
+	cd $(WEB) && npm run --silent dup && echo "jscpd: under 1.5 %"
+	cd $(WEB) && npx ts-prune -p tsconfig.app.json --ignore "sigils/index|textures/index|frame/index|specs/index|brand.config|api.types" --error
 	cd $(WEB) && npx depcheck
 
 lint:

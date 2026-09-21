@@ -11,10 +11,10 @@ const walk = (d) =>
   });
 let bad = 0;
 for (const f of walk(join(ROOT, "apps/web/public"))) {
-  const kb = statSync(f).size / 1024;
-  if (kb > 400 && !f.endsWith(".glb") /* 3D assets are budgeted by Lighthouse, not the image rule */) {
+  const kilobytes = statSync(f).size / 1024;
+  if (kilobytes > 400 && !f.endsWith(".glb") /* 3D assets are budgeted by Lighthouse, not the image rule */) {
     bad++;
-    console.log(`✗ oversize (${kb.toFixed(0)} KB): ${f.replace(ROOT, "")}`);
+    console.log(`✗ oversize (${kilobytes.toFixed(0)} KB): ${f.replace(ROOT, "")}`);
   }
 }
 const src = [...walk(join(ROOT, "apps/web/src")), ...walk(join(ROOT, "api")), ...walk(join(ROOT, "scripts"))].filter((f) => /\.(tsx?|py|mjs|css)$/.test(f));

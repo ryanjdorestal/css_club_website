@@ -1,6 +1,6 @@
 /** Client-side mirror of the Python KB matcher — used when the API is down
     (the widget answers from the bundled KB; the site never shows a dead chat). */
-import kb from "@data/kb.json";
+import knowledgeBase from "@data/kb.json";
 
 type ChatAnswer = {
   answer: string;
@@ -48,35 +48,29 @@ function tokens(text: string): string[] {
     .map(stem);
 }
 
+type Entry = (typeof knowledgeBase.entries)[number];
+
+/** Keyword score: a phrase keyword found in the message = 3, a stemmed word match = 2, the current page listed = 1. */
+type Query = { lower: string; words: Set<string>; page?: string };
+
+function score(entry: Entry, q: Query): number {
+  let total = 0;
+  for (const kw of entry.keywords) {
+    if (kw.includes(" ")) total += q.lower.includes(kw) ? 3 : 0;
+    else total += q.words.has(stem(kw.toLowerCase())) ? 2 : 0;
+  }
+  if (q.page && entry.pages?.some((p: string) => q.page?.startsWith(p))) total += 1;
+  return total;
+}
+
 export function matchKb(message: string, page?: string): ChatAnswer {
-  const msgTokens = new Set(tokens(message));
-  const msgLower = message.toLowerCase();
-  let best: (typeof kb.entries)[number] | null = null;
+  const q: Query = { lower: message.toLowerCase(), words: new Set(tokens(message)), page };
+  let best: Entry | null = null;
   let bestScore = 0;
-  for (const entry of kb.entries) {
-    let score = 0;
-    for (const kw of entry.keywords) {
-      if (kw.includes(" ")) {
-        if (msgLower.includes(kw)) score += 3;
-      } else {
-        const kwStem = stem(kw.toLowerCase());
-        if (msgTokens.has(kwStem)) score += 2;
-      }
-    }
-    if (page && entry.pages?.some((p: string) => page.startsWith(p))) score += 1;
-    if (score > bestScore) {
-      best = entry;
-      bestScore = score;
-    }
+  for (const entry of knowledgeBase.entries) {
+    const s = score(entry, q);
+    if (s > bestScore) [best, bestScore] = [entry, s];
   }
-  if (!best || bestScore < 2) {
-    return { ...kb.fallback, citations: [], source: "static-offline" } as ChatAnswer;
-  }
-  return {
-    answer: best.answer,
-    suggestions: best.suggestions ?? [],
-    citations: best.citations ?? [],
-    emote: best.emote ?? "happy",
-    source: "static-offline",
-  };
+  if (!best || bestScore < 2) return { ...knowledgeBase.fallback, citations: [], source: "static-offline" } as ChatAnswer;
+  return { answer: best.answer, suggestions: best.suggestions ?? [], citations: best.citations ?? [], emote: best.emote ?? "happy", source: "static-offline" };
 }
