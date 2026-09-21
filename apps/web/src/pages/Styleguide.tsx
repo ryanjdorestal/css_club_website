@@ -182,7 +182,7 @@ export default function Styleguide() {
         <p className="t-micro opacity-55 mt-6 tnum">HASH: {hexId("styleguide")} · METER ↓</p>
         <Meter label="loading sequence" value={83} className="max-w-[320px] mt-2" />
       </Band>
-      <FinLine n="00" binary="01010100 01011001 01010000 01000101" />
+      <FinLine n="00" next="/" binary="01010100 01011001 01010000 01000101" />
     </main>
   );
 }

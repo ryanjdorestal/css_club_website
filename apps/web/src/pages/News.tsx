@@ -47,7 +47,7 @@ export function NewsIndex() {
           ]}
         />
       </Band>
-      <FinLine n="08" />
+      <FinLine n="08" next="/join" />
     </main>
   );
 }
@@ -110,7 +110,7 @@ export function NewsArticle() {
           </p>
         </article>
       </section>
-      <FinLine n="08" />
+      <FinLine n="08" next="/join" />
     </main>
   );
 }

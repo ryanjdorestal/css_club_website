@@ -1,8 +1,12 @@
-PASS  4.85:1  (min 4.5)  accent-fg red on navy-600
+PASS  4.61:1  (min 4.5)  accent-fg red on navy-600
 PASS  4.63:1  (min 4.5)  accent-fg green on navy-600
 PASS  4.62:1  (min 4.5)  accent-fg blue on navy-600
 PASS  4.68:1  (min 4.5)  muted(nudged) on navy-600
-PASS  4.16:1  (min 3)  ink on red (CTA)
+PASS  6.19:1  (min 3)  ink on red (CTA)
+PASS  10.17:1  (min 4.5)  ink on red-deep (poster fills)
+INFO  2.61:1  (min 0)  red on navy-900 — INFO: red is a fill/rim/poster colour, never text (run-5 log #2)
+PASS  3.68:1  (min 3)  red-hi on navy-900 (display ≥18px)
+PASS  6.20:1  (min 4.5)  red on paper (labels/marks)
 PASS  3.62:1  (min 3)  ink on blue (CTA)
 PASS  9.24:1  (min 4.5)  ink on navy-600
 PASS  16.13:1  (min 4.5)  ink on navy-900

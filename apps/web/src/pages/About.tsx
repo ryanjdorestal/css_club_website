@@ -187,7 +187,7 @@ export default function About() {
       </Band>
 
       <PosterBand accent="teal" meta="// THE BANNER SAYS IT" lines={["Debug your mind.", { text: "Commit to growth.", className: "text-teal", outline: true }]} />
-      <FinLine n="02" />
+      <FinLine n="02" next="/resources" />
     </main>
   );
 }

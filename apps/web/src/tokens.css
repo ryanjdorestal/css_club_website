@@ -14,7 +14,9 @@
   --color-muted: #A2B4C8; /* DESIGN.md says #9DB0C4; nudged +2% lightness to clear WCAG AA (4.68:1) on navy-600 */
   --color-line: #2A4460;
   --color-teal: #6ED2E6;
-  --color-red: #CE4A4A;
+  --color-red: #B3202A;      /* dark modern red — the accent (Cyberhounds, Events) */
+  --color-red-hi: #E0242C;   /* emissive / hover / eye slits / stencil ghost only */
+  --color-red-deep: #7A1119; /* poster-band fills, chamfer stubs, hound rim shadow */
   --color-green: #40A33F;
   --color-blue: #1E80F0;
   --color-cube-red: #D82028;
@@ -50,7 +52,7 @@
 }
 [data-accent="red"] {
   --accent: var(--color-red);
-  --accent-fg: #EAA3A3;
+  --accent-fg: #EE9A9E;
   --accent-contrast: var(--color-ink);
   --accent-tint: color-mix(in srgb, var(--color-red) 13%, var(--color-light));
 }
@@ -219,3 +221,8 @@ body {
   clip-path: polygon(10px 0, calc(100% - 10px) 0, 100% 10px, 100% calc(100% - 10px),
     calc(100% - 10px) 100%, 10px 100%, 0 calc(100% - 10px), 0 10px);
 }
+
+/* run 5: fin-line terminal caret (block cursor, 1 Hz blink once the line lands) */
+.fin-caret { display: inline-block; margin-left: 0.15em; color: var(--color-teal); }
+@keyframes fin-blink { 0%, 49% { opacity: 1; } 50%, 100% { opacity: 0; } }
+.fin-caret-blink { animation: fin-blink 1s step-end infinite; }

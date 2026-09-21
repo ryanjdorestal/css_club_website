@@ -64,36 +64,7 @@ export function CSSKufic({ size = 24, className = "", style }: { size?: number; 
   );
 }
 
-/** Bloodhound head as a 16×16 pixel sigil (hand-set from the banner pose). */
-const HOUND16 = [
-  "....########....",
-  "...##########...",
-  "..############..",
-  ".#..########..#.",
-  ".#..########..#.",
-  "##..########..##",
-  "##.##########.##",
-  "##.#.######.#.##",
-  "##.##########.##",
-  "##..########..##",
-  ".#..##....##..#.",
-  ".#...######...#.",
-  ".....######.....",
-  "......#..#......",
-  "......####......",
-  "................",
-];
-export function HoundPixel({ size = 24, className = "", color = "currentColor" }: { size?: number; className?: string; color?: string }) {
-  const cells: [number, number][] = [];
-  HOUND16.forEach((row, y) => row.split("").forEach((c, x) => c === "#" && cells.push([x, y])));
-  return (
-    <svg viewBox="0 0 16 16" width={size} height={size} className={className} aria-hidden shapeRendering="crispEdges">
-      {cells.map(([x, y], i) => (
-        <rect key={i} x={x} y={y} width="1.02" height="1.02" fill={color} />
-      ))}
-    </svg>
-  );
-}
+export { HoundPixel } from "./HoundPixel";
 
 export const Flag = (p: P) => (
   <svg {...base(p)}><path d="M6 21 V3 M6 4 H18 L15 8 L18 12 H6" /></svg>

@@ -183,7 +183,7 @@ export default function Home() {
         </CubeAnchor>
 
         {/* /02 EVENTS */}
-        <CubeAnchor id="events" kf={{ x: 0.11, y: 0.52, scale: 0.62, face: "red", glow: "#CE4A4A" }}>
+        <CubeAnchor id="events" kf={{ x: 0.11, y: 0.52, scale: 0.62, face: "red", glow: brand.palette.red }}>
           <Band tone="dark-2" accent="red" index="02 — EVENTS" sigil={<Sg.Flag size={16} />} code="EVT_S25" rail="02 · EVENTS · 01000101 · FALL 2026">
             <div aria-hidden className="absolute -right-24 top-8 opacity-[0.06] pointer-events-none text-red">
               <Sg.CubeSigil face="r" size={420} />
@@ -330,7 +330,7 @@ export default function Home() {
         </CubeAnchor>
 
         {/* /05 CYBERHOUNDS POSTER */}
-        <CubeAnchor id="cyber" kf={{ x: 0.5, y: 0.88, scale: 0.35, face: "edge", glow: "#CE4A4A" }}>
+        <CubeAnchor id="cyber" kf={{ x: 0.5, y: 0.88, scale: 0.35, face: "edge", glow: brand.palette.red }}>
           <section data-tone="dark-3" data-accent="red" className="relative overflow-hidden py-[clamp(96px,12vw,160px)]">
             <Scanlines />
             <Halftone corner="100% 20%" opacity={0.08} />
@@ -351,7 +351,7 @@ export default function Home() {
                     </span>
                   </EdgeCrop>
                 </div>
-                <Sg.HoundPixel size={240} color="var(--color-red)" className="justify-self-center max-md:hidden" />
+                <Sg.HoundPixel size={240} className="justify-self-center max-md:hidden" />
               </div>
               <div className="flex items-center justify-between flex-wrap gap-4 mt-10">
                 <p className="t-label raise !tracking-[0.2em]">PICOCTF · NCL · ANGSTROMCTF · SDCTF</p>
@@ -437,8 +437,8 @@ export default function Home() {
         </CubeAnchor>
 
         {/* fin */}
-        <CubeAnchor id="fin" kf={{ x: 0.5, y: 0.5, scale: 0.5, face: "threeQuarter", glow: "#6ED2E6" }}>
-          <div data-accent="teal"><FinLine n="01" binary="01001010 01001010 01000011 01010011" /></div>
+        <CubeAnchor id="fin" kf={{ x: 0.84, y: 0.5, scale: 0.42, face: "threeQuarter", glow: "#6ED2E6" }}>
+          <div data-accent="teal"><FinLine n="01" next="/events" binary="01001010 01001010 01000011 01010011" /></div>
         </CubeAnchor>
       </main>
     </CubeRailProvider>

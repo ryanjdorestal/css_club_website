@@ -123,7 +123,7 @@ export default function Resources() {
       </Band>
 
       <PosterBand accent="teal" meta="// THE OLD SITE SAID IT BEST" lines={["Not sure where", { text: "to start? Here.", className: "text-teal", outline: true }]} />
-      <FinLine n="06" />
+      <FinLine n="06" next="/news" />
     </main>
   );
 }

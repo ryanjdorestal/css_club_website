@@ -110,7 +110,7 @@ export default function Apps() {
 
       {/* 4 — Submit as spec sheet */}
       <SubmitBand />
-      <FinLine n="04" />
+      <FinLine n="04" next="/cyberhounds" />
     </main>
   );
 }

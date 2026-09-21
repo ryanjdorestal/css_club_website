@@ -27,7 +27,7 @@ export default function Events() {
       <PageHero
         kicker="EVENTS · THE MANIFEST"
         cubeFace="red"
-        cubeGlow="#CE4A4A"
+        cubeGlow={brand.palette.red}
         lines={["Events."]}
         dek="Workshops, general meetings, career prep and panels — every semester ships a new slate. Below: the archive as migrated from the old site, plus the workshop repos that never stopped existing."
         right={
@@ -121,7 +121,7 @@ export default function Events() {
       </Band>
 
       <PosterBand accent="red" meta="// FALL 2026 · FIRST GENERAL MEETING" lines={["See you", { text: "there.", className: "text-red", outline: true }]} />
-      <FinLine n="03" />
+      <FinLine n="03" next="/apps" />
     </main>
   );
 }

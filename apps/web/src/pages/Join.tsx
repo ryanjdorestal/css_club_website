@@ -77,7 +77,7 @@ export default function Join() {
 
       {/* 4 — form + discord */}
       <OnboardBand />
-      <FinLine n="07" />
+      <FinLine n="07" next="/" />
     </main>
   );
 }
