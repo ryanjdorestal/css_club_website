@@ -35,6 +35,8 @@ jobs:
       - name: commit messages are conventional (commitlint)
         run: |
           FROM="${{ github.event.pull_request.base.sha || github.event.before }}"
+          # a first push (before = 0000…) or a dispatch has no range: lint the head commit alone
+          if [ -z "$FROM" ] || ! git cat-file -e "$FROM^{commit}" 2>/dev/null; then FROM="${{ github.sha }}~1"; fi
           cd apps/web && npx commitlint --from "$FROM" --to "${{ github.sha }}" --verbose
       - name: generated types are current
         run: |
@@ -63,6 +65,9 @@ jobs:
     # A board member's day, end to end, against the dev server + API (Tier 1, no accounts):
     # the OS gate (12 checks), the 9-step functional smoke, the 25-step board simulation and the 16-case break pass. All must pass.
     runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      actions: write # upload-artifact
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-node@v4
@@ -81,4 +86,5 @@ jobs:
       - run: make break
       - uses: actions/upload-artifact@v4
         if: always()
+        continue-on-error: true # the screenshots are a convenience, never the gate
         with: { name: smoke-screenshots, path: qa/loops/smoke, retention-days: 7 }

@@ -16,4 +16,9 @@ jobs:
       - uses: actions/setup-node@v4
         with: { node-version-file: .nvmrc, cache: npm, cache-dependency-path: apps/web/package-lock.json }
       - run: npm ci --prefix apps/web && npm run build --prefix apps/web
-      - run: cd apps/web && npx lhci autorun --config=lighthouserc.json
+      - run: npx --prefix apps/web playwright install chromium
+      - name: lhci (Playwright's Chromium — the runner's Chrome is newer than Lighthouse 0.15 speaks to)
+        run: |
+          export CHROME_PATH="$(node -e "console.log(require('playwright').chromium.executablePath())")"
+          npx lhci autorun --config=lighthouserc.json
+        working-directory: apps/web

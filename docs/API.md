@@ -84,7 +84,7 @@ One Vercel function (`api/index.py`). Public reads fall back to the committed JS
 | `POST` | `/api/os/posts/{row_id}/archive` | Archive Row |  |
 | `POST` | `/api/os/posts/{row_id}/duplicate` | Duplicate Row |  |
 | `GET` | `/api/os/posts/{row_id}/next` | Next States |  |
-| `POST` | `/api/os/posts/{row_id}/publish` | Publish |  |
+| `POST` | `/api/os/posts/{row_id}/publish` | Publish | Put a draft (or a post in review) on /news: status → published, the date set once and kept on re-publish. |
 | `POST` | `/api/os/posts/{row_id}/transition` | Transition |  |
 | `POST` | `/api/os/posts/{row_id}/unarchive` | Unarchive Row |  |
 | `GET` | `/api/os/projects` | List Rows |  |
