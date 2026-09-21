@@ -1,0 +1,40 @@
+{
+  "type": "object",
+  "required": [
+    "projects"
+  ],
+  "properties": {
+    "projects": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": [
+          "id",
+          "kind",
+          "title",
+          "status"
+        ],
+        "properties": {
+          "kind": {
+            "enum": [
+              "app",
+              "project",
+              "research",
+              "tool"
+            ]
+          },
+          "status": {
+            "enum": [
+              "submitted",
+              "in_review",
+              "changes_requested",
+              "approved",
+              "published",
+              "archived"
+            ]
+          }
+        }
+      }
+    }
+  }
+}

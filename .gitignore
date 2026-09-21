@@ -21,3 +21,6 @@ apps/web/dist/
 apps/web/test-results/
 apps/web/playwright-report/
 qa/_review/
+
+# OS Tier-1 local tables (never committed; scripts/snapshot.py refreshes the committed JSON)
+data/*.local.json

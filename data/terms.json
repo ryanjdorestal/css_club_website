@@ -1,0 +1,47 @@
+{
+  "note": "Terms for the OS roster + rollover. is_current gates who can log in.",
+  "terms": [
+    {
+      "id": "F26",
+      "label": "Fall 2026",
+      "starts_on": "2026-08-25",
+      "ends_on": "2026-12-22",
+      "is_current": true
+    },
+    {
+      "id": "F24-S25",
+      "label": "Fall 2024 - Spring 2025",
+      "starts_on": null,
+      "ends_on": null,
+      "is_current": false
+    },
+    {
+      "id": "F23-S24",
+      "label": "Fall 2023 - Spring 2024",
+      "starts_on": null,
+      "ends_on": null,
+      "is_current": false
+    },
+    {
+      "id": "F22-S23",
+      "label": "Fall 2022 - Spring 2023",
+      "starts_on": null,
+      "ends_on": null,
+      "is_current": false
+    },
+    {
+      "id": "F21-S22",
+      "label": "Fall 2021 - Spring 2022",
+      "starts_on": null,
+      "ends_on": null,
+      "is_current": false
+    },
+    {
+      "id": "F20-S21",
+      "label": "Fall 2020 - Spring 2021",
+      "starts_on": null,
+      "ends_on": null,
+      "is_current": false
+    }
+  ]
+}

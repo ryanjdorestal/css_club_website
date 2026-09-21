@@ -34,6 +34,9 @@
       ],
       "@content/*": [
         "../../content/*"
+      ],
+      "@docs/*": [
+        "../../docs/*"
       ]
     },
     "resolveJsonModule": true

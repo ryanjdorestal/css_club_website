@@ -1,0 +1,19 @@
+{
+  "type": "object",
+  "required": [
+    "terms"
+  ],
+  "properties": {
+    "terms": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": [
+          "id",
+          "label",
+          "is_current"
+        ]
+      }
+    }
+  }
+}

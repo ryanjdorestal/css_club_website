@@ -1,0 +1,21 @@
+{
+  "type": "object",
+  "required": [
+    "posts"
+  ],
+  "properties": {
+    "posts": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": [
+          "id",
+          "slug",
+          "title",
+          "status",
+          "body_md"
+        ]
+      }
+    }
+  }
+}

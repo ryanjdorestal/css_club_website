@@ -21,6 +21,7 @@ export default defineConfig({
       "@brand": path.resolve(__dirname, "../../brand"),
       "@data": path.resolve(__dirname, "../../data"),
       "@content": path.resolve(__dirname, "../../content"),
+      "@docs": path.resolve(__dirname, "../../docs"),
     },
   },
   server: {

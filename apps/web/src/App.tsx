@@ -22,7 +22,15 @@ const Styleguide = lazy(() => import("@/pages/Styleguide"));
 const OsLayout = lazy(() => import("@/os/OsLayout"));
 const OsLogin = lazy(() => import("@/os/OsLogin"));
 const OsToday = lazy(() => import("@/os/OsToday"));
-const OsQueue = lazy(() => import("@/os/OsQueue"));
+const OsProjects = lazy(() => import("@/os/OsProjects"));
+const OsPosts = lazy(() => import("@/os/OsPosts"));
+const OsEvents = lazy(() => import("@/os/OsEvents"));
+const OsResources = lazy(() => import("@/os/OsResources"));
+const OsMembers = lazy(() => import("@/os/OsMembers"));
+const OsBoard = lazy(() => import("@/os/OsBoard"));
+const OsSite = lazy(() => import("@/os/OsSite"));
+const OsInheritance = lazy(() => import("@/os/OsInheritance"));
+const OsAudit = lazy(() => import("@/os/OsAudit"));
 const News = lazy(() => import("@/pages/News").then((m) => ({ default: m.NewsIndex })));
 const NewsArticle = lazy(() => import("@/pages/News").then((m) => ({ default: m.NewsArticle })));
 
@@ -82,7 +90,16 @@ export default function App() {
           <Route path="os/login" element={<OsLogin />} />
           <Route path="os" element={<OsLayout />}>
             <Route index element={<OsToday />} />
-            <Route path="queue" element={<OsQueue />} />
+            <Route path="projects" element={<OsProjects />} />
+            <Route path="posts" element={<OsPosts />} />
+            <Route path="events" element={<OsEvents />} />
+            <Route path="resources" element={<OsResources />} />
+            <Route path="members" element={<OsMembers />} />
+            <Route path="board" element={<OsBoard />} />
+            <Route path="site" element={<OsSite />} />
+            <Route path="inheritance" element={<OsInheritance />} />
+            <Route path="audit" element={<OsAudit />} />
+            <Route path="queue" element={<OsProjects />} />
           </Route>
           <Route element={<Layout />}>
             <Route index element={<Home />} />

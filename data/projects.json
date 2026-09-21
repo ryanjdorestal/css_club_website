@@ -1,0 +1,108 @@
+{
+  "note": "Example entries only — replaced by real submissions approved in the OS.",
+  "projects": [
+    {
+      "id": "2026/projects/example-study-planner",
+      "kind": "app",
+      "title": "Study Planner",
+      "summary": "Example: a weekly study planner for John Jay CS courses.",
+      "platform": [
+        "web"
+      ],
+      "stack": [
+        "react",
+        "typescript"
+      ],
+      "links": {
+        "web": "",
+        "store": "",
+        "repo": ""
+      },
+      "screenshots": [],
+      "benefits_jj": "Helps students plan around the CSCI course sequence.",
+      "authors": [
+        {
+          "name": "Example",
+          "handle": "",
+          "term": "Fall 2026"
+        }
+      ],
+      "featured": true,
+      "display_order": 0,
+      "term": "Fall 2026",
+      "status": "published",
+      "example": true,
+      "visibility": "public",
+      "created_at": 0,
+      "updated_at": 0
+    },
+    {
+      "id": "2026/projects/example-ctf-notebook",
+      "kind": "app",
+      "title": "CTF Notebook",
+      "summary": "Example: notes + writeup templates for Cyberhounds competitions.",
+      "platform": [
+        "cli"
+      ],
+      "stack": [
+        "python"
+      ],
+      "links": {
+        "web": "",
+        "store": "",
+        "repo": ""
+      },
+      "screenshots": [],
+      "benefits_jj": "Gives new CTF members a starting playbook.",
+      "authors": [
+        {
+          "name": "Example",
+          "handle": "",
+          "term": "Fall 2026"
+        }
+      ],
+      "featured": false,
+      "display_order": 1,
+      "term": "Fall 2026",
+      "status": "published",
+      "example": true,
+      "visibility": "public",
+      "created_at": 0,
+      "updated_at": 0
+    },
+    {
+      "id": "2026/projects/example-campus-map",
+      "kind": "app",
+      "title": "Campus Room Finder",
+      "summary": "Example: find John Jay rooms like 1.114 New Building fast.",
+      "platform": [
+        "ios"
+      ],
+      "stack": [
+        "swift"
+      ],
+      "links": {
+        "web": "",
+        "store": "",
+        "repo": ""
+      },
+      "screenshots": [],
+      "benefits_jj": "First meeting of the semester, nobody can find the room.",
+      "authors": [
+        {
+          "name": "Example",
+          "handle": "",
+          "term": "Fall 2026"
+        }
+      ],
+      "featured": false,
+      "display_order": 2,
+      "term": "Fall 2026",
+      "status": "published",
+      "example": true,
+      "visibility": "public",
+      "created_at": 0,
+      "updated_at": 0
+    }
+  ]
+}

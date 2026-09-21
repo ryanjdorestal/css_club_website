@@ -1,78 +1,81 @@
+/** /os shell: left rail (mono nav with /01…) + content column. Guests are
+    sent to /os/login; admin-only items are hidden for officers (the API
+    enforces the real gate). No cube canvas here — perf. */
 import { useEffect } from "react";
 import { Link, NavLink, Outlet, useNavigate } from "react-router-dom";
 import { brand } from "@brand/brand.config";
 import { MonoLabel } from "@/components/MonoLabel";
+import { OsSessionProvider, useSession } from "./session";
 
-export function getOsRole(): string | null {
-  return sessionStorage.getItem("jjcss-os-role");
-}
-
-const OS_LINKS = [
+export const OS_MODULES = [
   { to: "/os", label: "Today", end: true },
-  { to: "/os/queue", label: "Queue" },
-];
+  { to: "/os/projects", label: "Projects" },
+  { to: "/os/posts", label: "Posts" },
+  { to: "/os/events", label: "Events" },
+  { to: "/os/resources", label: "Resources" },
+  { to: "/os/members", label: "Members" },
+  { to: "/os/board", label: "Board" },
+  { to: "/os/site", label: "Site", admin: true },
+  { to: "/os/inheritance", label: "Inheritance" },
+  { to: "/os/audit", label: "Audit" },
+] as const;
 
-// Same spine as RHEC OS; these land next (listed so the shell shows the shape).
-const PLANNED = ["Members", "Alumni", "Events ops", "Bulletins", "Records", "Handoffs", "Settings"];
-
-/** /os shell — dense, dark, teal accent, John Jay tokens. Tier 1 = local dev
-    role picker; Supabase Auth replaces it when the project is configured. */
-export default function OsLayout() {
+function Shell() {
   const navigate = useNavigate();
-  const role = getOsRole();
+  const { actor, mode, loading, logout } = useSession();
   useEffect(() => {
-    if (!role) navigate("/os/login", { replace: true });
-  }, [role, navigate]);
-  if (!role) return null;
+    if (!loading && (!actor || actor.role === "guest")) navigate("/os/login", { replace: true });
+  }, [actor, loading, navigate]);
+  if (loading || !actor || actor.role === "guest") return null;
   return (
-    <div data-accent="teal" className="min-h-dvh flex bg-navy-900">
-      <aside className="w-52 shrink-0 border-r border-line flex flex-col">
-        <Link to="/" className="flex items-center gap-2.5 px-4 h-14 border-b border-line">
+    <div data-accent="teal" className="min-h-dvh flex flex-col md:flex-row bg-navy-900 text-ink">
+      <aside className="md:w-52 shrink-0 border-b md:border-b-0 md:border-r border-line flex md:flex-col">
+        <Link to="/" className="flex items-center gap-2.5 px-4 h-14 md:border-b border-line shrink-0">
           <img src={brand.logos.svg} alt="" className="w-6 h-6" />
-          <span className="font-display font-extrabold uppercase text-xs" style={{ fontStretch: "115%" }}>
+          <span className="font-display font-extrabold uppercase text-xs">
             {brand.shortName} <span className="text-teal">OS</span>
           </span>
         </Link>
-        <nav className="flex flex-col gap-0.5 p-2">
-          {OS_LINKS.map((l) => (
+        <nav className="flex md:flex-col gap-0.5 p-2 overflow-x-auto grow">
+          {OS_MODULES.filter((m) => !("admin" in m && m.admin) || actor.role === "admin").map((m, i) => (
             <NavLink
-              key={l.to}
-              to={l.to}
-              end={l.end}
-              className={({ isActive }) =>
-                `mono-label px-3 py-2 rounded-(--radius-sm) transition-colors ${
-                  isActive ? "bg-navy-700 text-ink" : "text-muted hover:text-ink"
-                }`
-              }
+              key={m.to}
+              to={m.to}
+              end={"end" in m ? m.end : false}
+              className={({ isActive }) => `mono-label px-3 py-2 whitespace-nowrap transition-colors ${isActive ? "bg-navy-700 text-ink" : "text-muted hover:text-ink"}`}
             >
-              {l.label}
+              <span className="opacity-50 mr-2">/{String(i + 1).padStart(2, "0")}</span>
+              {m.label}
             </NavLink>
           ))}
-          <div className="mt-3 px-3">
-            <MonoLabel>Planned</MonoLabel>
-          </div>
-          {PLANNED.map((p) => (
-            <span key={p} className="mono-label px-3 py-1.5 text-muted/50 cursor-not-allowed">
-              {p}
-            </span>
-          ))}
         </nav>
-        <div className="mt-auto p-4 border-t border-line">
-          <MonoLabel>role · {role}</MonoLabel>
+        <div className="hidden md:block mt-auto p-4 border-t border-line">
+          <p className="text-[13px] text-ink truncate">{actor.name || actor.email}</p>
+          <MonoLabel>
+            {actor.role} · {actor.term ?? "no term"}
+          </MonoLabel>
+          {mode === "local" && <span className="t-micro raise border border-teal/50 text-teal px-1.5 py-0.5 inline-block mt-2">LOCAL_DEV</span>}
           <button
             onClick={() => {
-              sessionStorage.removeItem("jjcss-os-role");
-              navigate("/os/login");
+              void logout().then(() => navigate("/os/login"));
             }}
-            className="mono-label text-teal hover:underline block mt-1 cursor-pointer"
+            className="mono-label text-teal hover:underline block mt-2 cursor-pointer"
           >
-            switch role
+            sign out
           </button>
         </div>
       </aside>
-      <main className="grow p-6 md:p-8 overflow-x-hidden">
+      <main className="grow p-5 md:p-8 overflow-x-hidden min-w-0">
         <Outlet />
       </main>
     </div>
+  );
+}
+
+export default function OsLayout() {
+  return (
+    <OsSessionProvider>
+      <Shell />
+    </OsSessionProvider>
   );
 }

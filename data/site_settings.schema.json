@@ -1,0 +1,9 @@
+{
+  "type": "object",
+  "required": [
+    "taglines",
+    "maintenance_banner",
+    "feature_flags",
+    "ownership"
+  ]
+}

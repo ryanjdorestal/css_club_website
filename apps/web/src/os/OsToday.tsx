@@ -1,65 +1,91 @@
+/** /os — Today. Platform readouts (STATUS · DB · DEPLOY · SNAPSHOT), the
+    "Needs attention" list (every queue's pending count), "This term" sheet,
+    quick links. With Supabase down it still renders with ○ OFFLINE and the
+    inbox counts — every number here has a real source. */
 import { useEffect, useState } from "react";
-import events from "@data/events.json";
-import board from "@data/board.json";
+import { Link } from "react-router-dom";
+import { OsPage, KeyVal } from "./ui/OsPage";
+import { IndexList } from "@/components/cards/IndexList";
+import { StatusChip } from "@/components/cards/StatusChip";
 import { MonoLabel } from "@/components/MonoLabel";
-import { BigStat } from "@/components/cards/SpecSheet";
-import { readInbox } from "./inbox";
+import { OS_MODULES } from "./OsLayout";
+import { osFetch, useSession } from "./session";
 
-/** /os — Today. Honest numbers only: local queue, API status, data snapshot. */
+type Health = { ok: boolean; sha: string; db: string; tier: string; inbox: number; snapshot: string | null; keepalive: string | null };
+type Attention = { term: { id?: string; label?: string; ends_on?: string }; items: { key: string; label: string; count: number; href: string }[]; officers: number; last_post: string; next_event: { title?: string; date_label?: string } | null };
+
 export default function OsToday() {
-  const [api, setApi] = useState<"checking" | "online" | "offline">("checking");
-  const [dbState, setDbState] = useState<string>("–");
-  const inbox = readInbox();
+  const { actor, mode } = useSession();
+  const [health, setHealth] = useState<Health | null | "down">(null);
+  const [att, setAtt] = useState<Attention | null>(null);
   useEffect(() => {
-    fetch("/api/health", { signal: AbortSignal.timeout(2500) })
-      .then((r) => r.json())
-      .then((j) => {
-        setApi("online");
-        setDbState(j.db);
-      })
-      .catch(() => setApi("offline"));
+    void osFetch<Health>("/api/health").then((r) => setHealth(r.ok ? r.data : "down"));
+    void osFetch<Attention>("/api/os/attention").then((r) => r.ok && setAtt(r.data));
   }, []);
-  const today = new Date().toLocaleDateString("en-US", {
-    weekday: "long",
-    month: "long",
-    day: "numeric",
-    year: "numeric",
-  });
+  const h = health && health !== "down" ? health : null;
+  const today = new Date().toLocaleDateString("en-US", { weekday: "long", month: "long", day: "numeric", year: "numeric" });
+  const pending = (att?.items ?? []).filter((i) => i.count > 0);
+
   return (
-    <div className="max-w-4xl">
-      <MonoLabel accent>{"//"} TODAY · {today}</MonoLabel>
-      <h1 className="font-display font-black uppercase text-3xl mt-1 mb-8" style={{ fontStretch: "115%" }}>
-        Operations
-      </h1>
-      <div data-tone="dark-3" className="grid sm:grid-cols-3 gap-px bg-line border border-line mb-8">
-        <div className="bg-navy-900"><BigStat value={inbox.length} label="IN THIS BROWSER'S QUEUE" /></div>
-        <div className="bg-navy-900 px-5 py-4">
-          <span className="font-display font-black text-[clamp(28px,3vw,44px)] leading-none text-teal" style={{ fontStretch: "115%" }}>{api === "checking" ? "…" : api.toUpperCase()}</span>
-          <p className="mono-label opacity-60 mt-1.5">PYTHON API</p>
-        </div>
-        <div className="bg-navy-900 px-5 py-4">
-          <span className="font-display font-black text-[clamp(28px,3vw,44px)] leading-none text-teal" style={{ fontStretch: "115%" }}>{dbState.toUpperCase()}</span>
-          <p className="mono-label opacity-60 mt-1.5">SUPABASE{dbState === "skipped" ? " · TIER 1 — NOT CONFIGURED" : ""}</p>
-        </div>
+    <OsPage
+      kicker={`TODAY · ${today.toUpperCase()}`}
+      title={`Hey ${actor?.name?.split(" ")[0] ?? "board"}.`}
+      notHere={[
+        "No analytics — page views need a third-party account (docs/LATER.md); the numbers here are the club's own data.",
+        "No Discord feed — there is no bot; announcements are posted by a human, tracked on /os/members.",
+        "Nothing here is cached or invented: red means red. Follow the fix line on /os/inheritance.",
+      ]}
+    >
+      <div className="grid grid-cols-2 lg:grid-cols-4 gap-px bg-line border border-line">
+        {[
+          { l: "STATUS", v: health === "down" ? "○ OFFLINE" : h ? "● ONLINE" : "…", s: health === "down" ? "offline" : h ? "live" : "idle" },
+          { l: "DB", v: h ? (h.db === "ok" ? "SUPABASE" : h.db === "skipped" ? "TIER 1 · LOCAL" : "DB ERROR") : "—", s: h?.db === "ok" ? "live" : h?.db === "skipped" ? "idle" : "offline" },
+          { l: "DEPLOY", v: h ? h.sha.slice(0, 7).toUpperCase() : "—", s: "live" },
+          { l: "SNAPSHOT", v: h?.snapshot ? h.snapshot.slice(0, 10) : "NEVER", s: h?.snapshot ? "live" : "idle" },
+        ].map((c) => (
+          <div key={c.l} className="bg-navy-900 px-4 py-3">
+            <div className="flex items-center justify-between"><span className="mono-label text-muted">{c.l}</span><StatusChip state={c.s as "live" | "idle" | "offline"} /></div>
+            <p className="font-display font-black text-[20px] leading-none mt-2 text-teal">{c.v}</p>
+          </div>
+        ))}
       </div>
-      <div className="grid md:grid-cols-2 gap-4">
-        <section className="border border-line rounded-(--radius-md) p-5">
-          <MonoLabel accent>Data snapshot (committed)</MonoLabel>
-          <ul className="text-sm text-muted mt-3 space-y-1.5">
-            <li>{events.semesters.reduce((a, s) => a + s.events.length, 0)} events across {events.semesters.length} semesters</li>
-            <li>{board.terms.reduce((a, t) => a + t.members.length, 0)} board members across {board.terms.length} terms</li>
-            <li>Next event: none scheduled — add Fall 2026 to data/events.json</li>
-          </ul>
+      {mode === "local" && <p className="t-micro text-teal mt-3">LOCAL_DEV · this browser is signed in as {actor?.role} without a server session; everything you write goes to data/*.local.json + the inbox.</p>}
+
+      <div className="grid lg:grid-cols-[3fr_2fr] gap-8 mt-8">
+        <section>
+          <MonoLabel accent>NEEDS ATTENTION · {pending.length}</MonoLabel>
+          <div className="mt-2">
+            {pending.length ? (
+              <IndexList rows={pending.map((i, n) => ({ index: String(n + 1), bracket: true, title: i.label, meta: `${i.count}`, href: i.href, chip: i.key.toUpperCase() }))} />
+            ) : (
+              <div className="border border-dashed border-line px-5 py-6 text-[13px] text-muted">{att ? "Nothing pending. Enjoy it." : "Loading…"}</div>
+            )}
+          </div>
         </section>
-        <section className="border border-line rounded-(--radius-md) p-5">
-          <MonoLabel accent>Runbook</MonoLabel>
-          <ul className="text-sm text-muted mt-3 space-y-1.5 list-disc list-inside">
-            <li>Check the Queue for new submissions</li>
-            <li>Click-test links.json quarterly (Discord invite is from 2021)</li>
-            <li>Keepalive + stale-deploy checks run in GitHub Actions</li>
-          </ul>
+        <section>
+          <MonoLabel accent>THIS TERM</MonoLabel>
+          <div className="mt-2">
+            <KeyVal
+              rows={[
+                { k: "TERM", v: att?.term?.label ? `${att.term.label} (${att.term.id})` : "—" },
+                { k: "ENDS", v: att?.term?.ends_on ?? "—" },
+                { k: "OFFICERS", v: att ? String(att.officers) : "—" },
+                { k: "NEXT EVENT", v: att?.next_event ? `${att.next_event.title} · ${att.next_event.date_label ?? ""}` : "none scheduled — /os/events" },
+                { k: "LAST POST", v: att?.last_post || "—" },
+                { k: "INBOX", v: h ? `${h.inbox} unsynced` : "—" },
+                { k: "KEEPALIVE", v: h?.keepalive ?? "never" },
+              ]}
+            />
+          </div>
+          <MonoLabel accent className="mt-6 block">QUICK LINKS</MonoLabel>
+          <div className="flex flex-wrap gap-2 mt-2">
+            {OS_MODULES.filter((m) => m.to !== "/os").map((m) => (
+              <Link key={m.to} to={m.to} className="t-micro raise border border-line px-2.5 py-1.5 text-muted hover:text-ink hover:border-teal">{m.label}</Link>
+            ))}
+            <a href="/" className="t-micro raise border border-line px-2.5 py-1.5 text-muted hover:text-ink hover:border-teal">public site ↗</a>
+          </div>
         </section>
       </div>
-    </div>
+    </OsPage>
   );
 }

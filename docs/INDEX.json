@@ -1,0 +1,12 @@
+{
+  "docs": [
+    { "path": "README.md", "title": "Start here — the 10-minute local start + repo map", "for": "anyone" },
+    { "path": "ARCHITECTURE.md", "title": "One diagram: site ↔ API ↔ Supabase ↔ Tier-1 JSON/inbox", "for": "developers" },
+    { "path": "CONTRIBUTING.md", "title": "How to add a page, a data field, an endpoint, an OS module", "for": "developers" },
+    { "path": "SETUP.md", "title": "Accounts + env vars to go live", "for": "webmaster" },
+    { "path": "docs/HANDOFF.md", "title": "What the board does each term; account ownership; transferring the repo", "for": "the board" },
+    { "path": "docs/RUNBOOK.md", "title": "What to do when a chip on /os/inheritance is red", "for": "the board" },
+    { "path": "docs/DECISIONS.md", "title": "Why Python, one function, Tier 1, no keys, Unbounded, procedural 3D, snapshot", "for": "developers" },
+    { "path": "docs/LATER.md", "title": "Deferred features that need a third-party account or key", "for": "everyone" }
+  ]
+}

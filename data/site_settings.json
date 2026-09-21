@@ -1,0 +1,140 @@
+{
+  "taglines": {
+    "primary": "Debug Your Mind, Commit To Growth!",
+    "ticker": "Algorithm Thinking | Dev Journeys | Tech Motivation"
+  },
+  "hero_copy": {
+    "kicker": "CSS_01 · JOHN_JAY_COLLEGE · CUNY · COMPUTER_SCIENCE_SOCIETY",
+    "lines": [
+      "Debug",
+      "your mind,",
+      "commit to",
+      "growth."
+    ]
+  },
+  "collaborate": {
+    "openings": [
+      {
+        "role": "President",
+        "status": "open"
+      },
+      {
+        "role": "Vice President",
+        "status": "open"
+      },
+      {
+        "role": "Treasurer",
+        "status": "open"
+      },
+      {
+        "role": "Secretary",
+        "status": "open"
+      },
+      {
+        "role": "Assistant Vice President",
+        "status": "open"
+      },
+      {
+        "role": "Assistant Secretary",
+        "status": "open"
+      },
+      {
+        "role": "Assistant Treasurer",
+        "status": "open"
+      },
+      {
+        "role": "Web Developer",
+        "status": "open"
+      },
+      {
+        "role": "Data Analyst",
+        "status": "open"
+      },
+      {
+        "role": "Journalist",
+        "status": "open"
+      },
+      {
+        "role": "Photographer",
+        "status": "open"
+      }
+    ],
+    "committees": [
+      "Web Application Committee",
+      "Analytics Committee",
+      "Public Relations Committee"
+    ],
+    "ideas": []
+  },
+  "maintenance_banner": {
+    "on": false,
+    "text": ""
+  },
+  "feature_flags": {
+    "projects_public": true,
+    "chat_enabled": true,
+    "ticker_items": [
+      "NEXT EVENT · FALL 2026",
+      "PROJECTS — SUBMISSIONS OPEN",
+      "CYBERHOUNDS · CTF"
+    ]
+  },
+  "ownership": {
+    "accounts": [
+      {
+        "name": "Vercel project",
+        "owner_email": "",
+        "second_owner_email": "",
+        "last_verified": null
+      },
+      {
+        "name": "Supabase project",
+        "owner_email": "",
+        "second_owner_email": "",
+        "last_verified": null
+      },
+      {
+        "name": "GitHub repo",
+        "owner_email": "",
+        "second_owner_email": "",
+        "last_verified": null
+      },
+      {
+        "name": "Domain/DNS",
+        "owner_email": "",
+        "second_owner_email": "",
+        "last_verified": null
+      },
+      {
+        "name": "Google Form",
+        "owner_email": "",
+        "second_owner_email": "",
+        "last_verified": null
+      },
+      {
+        "name": "Discord server",
+        "owner_email": "",
+        "second_owner_email": "",
+        "last_verified": null
+      },
+      {
+        "name": "Linktree",
+        "owner_email": "",
+        "second_owner_email": "",
+        "last_verified": null
+      },
+      {
+        "name": "YouTube",
+        "owner_email": "",
+        "second_owner_email": "",
+        "last_verified": null
+      },
+      {
+        "name": "Club Gmail",
+        "owner_email": "",
+        "second_owner_email": "",
+        "last_verified": null
+      }
+    ]
+  }
+}
