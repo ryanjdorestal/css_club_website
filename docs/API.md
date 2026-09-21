@@ -105,7 +105,7 @@ One Vercel function (`api/index.py`). Public reads fall back to the committed JS
 | `GET` | `/api/os/records` | Records |  |
 | `GET` | `/api/os/resources` | List Rows |  |
 | `POST` | `/api/os/resources` | Create Row |  |
-| `POST` | `/api/os/resources/bulk` | Bulk Paste | One URL per line (optionally `Title | URL`) → parsed preview rows → confirm with dry_run=false. |
+| `POST` | `/api/os/resources/bulk` | Bulk Paste | One URL per line (optionally `Title` then a pipe then the URL) → parsed preview rows → confirm with dry_run=false. |
 | `POST` | `/api/os/resources/category/delete` | Delete Category | Refused while links exist unless `cascade` — then every link goes, named in the audit note. |
 | `POST` | `/api/os/resources/category/rename` | Rename Category |  |
 | `POST` | `/api/os/resources/category/reorder` | Reorder Categories | Category order = a `group_sort` on every link of the group (the public page sorts by it). |

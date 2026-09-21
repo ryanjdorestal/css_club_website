@@ -70,7 +70,7 @@ class BulkIn(BaseModel):
 
 @r.post("/bulk")
 def bulk_paste(body: BulkIn, actor: Actor = Depends(require_role("officer"))) -> dict[str, Any]:
-    """One URL per line (optionally `Title | URL`) → parsed preview rows → confirm with dry_run=false."""
+    """One URL per line (optionally `Title` then a pipe then the URL) → parsed preview rows → confirm with dry_run=false."""
     rows: list[dict[str, Any]] = []
     known = {r["url"] for r in C.resources.list()}
     for line in body.text.splitlines():
