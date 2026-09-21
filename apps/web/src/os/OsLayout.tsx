@@ -12,12 +12,14 @@ import { StatusBar } from "@/components/StatusBar";
 import { ApiStateContext, buildHash, version } from "@/lib/readouts";
 import * as Sg from "@/sigils";
 import { TopStrip, type Cell } from "./ui/TopStrip";
+import { ToastProvider } from "./ui/Toast";
 
 export const OS_MODULES = [
   { to: "/os", label: "Today", end: true },
   { to: "/os/projects", label: "Projects" },
   { to: "/os/posts", label: "Posts" },
   { to: "/os/events", label: "Events" },
+  { to: "/os/workshops", label: "Workshops" },
   { to: "/os/resources", label: "Resources" },
   { to: "/os/members", label: "Members" },
   { to: "/os/board", label: "Board" },
@@ -32,6 +34,7 @@ const SIGIL: Record<string, (p: { size?: number }) => React.ReactElement> = {
   Projects: (p) => <Sg.Terminal {...p} />,
   Posts: (p) => <Sg.Lambda {...p} />,
   Events: (p) => <Sg.Flag {...p} />,
+  Workshops: (p) => <Sg.Chevrons {...p} />,
   Resources: (p) => <Sg.Node {...p} />,
   Members: (p) => <Sg.Crosshair {...p} />,
   Board: (p) => <Sg.Eye {...p} />,
@@ -120,7 +123,9 @@ function Shell() {
 export default function OsLayout() {
   return (
     <OsSessionProvider>
-      <Shell />
+      <ToastProvider>
+        <Shell />
+      </ToastProvider>
     </OsSessionProvider>
   );
 }

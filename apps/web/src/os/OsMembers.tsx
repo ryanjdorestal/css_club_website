@@ -63,6 +63,29 @@ export default function OsMembers() {
     await reload();
     setSel(null);
   }
+  const [picked, setPicked] = useState<Set<string>>(new Set());
+  async function undoImport() {
+    if (!confirm("Undo the LAST import? Every row it added is deleted (changed rows keep their values; the audit has the diff).")) return;
+    const r = await act<{ removed: number; batch: string }>("/api/os/members/import/undo", { method: "POST" });
+    say(r.ok, r.ok ? `Undone — removed ${r.data.removed} row(s) from batch ${r.data.batch}.` : r.msg);
+    await reload();
+  }
+  async function bulkTransition(to: string) {
+    const ids = [...picked];
+    if (!ids.length) return;
+    const r = await act<{ done: number; refused: { id: string; reason: string }[] }>("/api/os/members/bulk-transition", { body: { ids, to } });
+    say(r.ok, r.ok ? `${r.data.done} → ${to}${r.data.refused.length ? ` · ${r.data.refused.length} refused: ${r.data.refused[0].reason}` : ""}` : r.msg);
+    setPicked(new Set());
+    await reload();
+  }
+  async function merge() {
+    const ids = [...picked];
+    if (ids.length !== 2) return say(false, "Pick exactly two rows to merge — the first picked survives.");
+    const r = await act("/api/os/members/merge", { body: { survivor: ids[0], duplicate: ids[1] } });
+    say(r.ok, r.ok ? "Merged — both handles kept on the survivor." : r.msg);
+    setPicked(new Set());
+    await reload();
+  }
   async function runImport(dry: boolean) {
     if (!imp) return;
     setBusy(true);
@@ -106,6 +129,11 @@ export default function OsMembers() {
           <Button variant="ghost" onClick={() => setImp({ csv: "" })}>
             import csv
           </Button>
+          {rows.some((r) => r.import_batch) && (
+            <Button variant="ghost" onClick={() => void undoImport()}>
+              undo last import
+            </Button>
+          )}
           <Button
             variant="ghost"
             onClick={() => {
@@ -168,9 +196,49 @@ export default function OsMembers() {
           ))}
         </div>
       )}
+      {picked.size > 0 && (
+        <div className="mt-4 flex flex-wrap items-center gap-2 border border-teal/40 px-3 py-2" data-testid="bulk-bar">
+          <span className="t-micro raise text-teal">{picked.size} PICKED →</span>
+          {["member", "active", "alumni", "left", "interested"].map((to) => (
+            <button
+              key={to}
+              onClick={() => void bulkTransition(to)}
+              className="t-micro raise border border-line px-2 py-1 text-muted hover:text-ink cursor-pointer"
+            >
+              → {to}
+            </button>
+          ))}
+          <button onClick={() => void merge()} className="t-micro raise border border-line px-2 py-1 text-muted hover:text-ink cursor-pointer">
+            merge two
+          </button>
+          <button onClick={() => setPicked(new Set())} className="t-micro text-muted cursor-pointer ml-auto">
+            clear
+          </button>
+        </div>
+      )}
       <div className="mt-4">
         <OsTable
           cols={[
+            {
+              key: "__pick",
+              label: "",
+              width: "28px",
+              render: (r) => (
+                <input
+                  type="checkbox"
+                  aria-label={`Pick ${String(r.display_name)}`}
+                  checked={picked.has(String(r.id))}
+                  onClick={(e) => e.stopPropagation()}
+                  onChange={(e) => {
+                    const n = new Set(picked);
+                    if (e.target.checked) n.add(String(r.id));
+                    else n.delete(String(r.id));
+                    setPicked(n);
+                  }}
+                  className="accent-(--color-teal)"
+                />
+              ),
+            },
             { key: "display_name", label: "NAME", render: (r) => <span className="text-ink">{String(r.display_name)}</span> },
             { key: "discord_handle", label: "DISCORD", mono: true },
             { key: "status", label: "STATUS", render: (r) => <StatusWord s={r.status} /> },

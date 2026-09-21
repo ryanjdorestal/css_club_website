@@ -25,6 +25,7 @@ const OsToday = lazy(() => import("@/os/OsToday"));
 const OsProjects = lazy(() => import("@/os/OsProjects"));
 const OsPosts = lazy(() => import("@/os/OsPosts"));
 const OsEvents = lazy(() => import("@/os/OsEvents"));
+const OsWorkshops = lazy(() => import("@/os/OsWorkshops"));
 const OsResources = lazy(() => import("@/os/OsResources"));
 const OsMembers = lazy(() => import("@/os/OsMembers"));
 const OsBoard = lazy(() => import("@/os/OsBoard"));
@@ -93,6 +94,7 @@ export default function App() {
             <Route path="projects" element={<OsProjects />} />
             <Route path="posts" element={<OsPosts />} />
             <Route path="events" element={<OsEvents />} />
+            <Route path="workshops" element={<OsWorkshops />} />
             <Route path="resources" element={<OsResources />} />
             <Route path="members" element={<OsMembers />} />
             <Route path="board" element={<OsBoard />} />

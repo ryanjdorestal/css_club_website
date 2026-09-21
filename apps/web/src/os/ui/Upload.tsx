@@ -1,6 +1,6 @@
-/** Image upload field → /api/os/uploads (≤ 2 MB jpg/png/webp, resized to
-    1600 px server-side). Shows the stored path and a thumbnail. Used by the
-    Posts (cover) and Events (flyer) editors. */
+/** Image upload field → /api/os/uploads (≤ 2 MB jpg/png/webp by magic bytes, resized to
+    1600 px, EXIF stripped — run 10 §6.11). Progress state, replace and remove on every image
+    field; refusals show the server's reason. Used by Posts (cover), Events (flyer), Board (photo). */
 import { useState } from "react";
 import { osFetch } from "../session";
 
@@ -25,10 +25,11 @@ export function Upload({ label, value, onChange }: { label: string; value: strin
               setErr(null);
               const form = new FormData();
               form.append("file", f);
-              const r = await osFetch<{ path: string }>("/api/os/uploads", { form });
+              const r = await osFetch<{ path: string; error?: { message: string } }>("/api/os/uploads", { form });
               if (r.ok) onChange(r.data.path);
-              else setErr(r.error ?? "upload failed");
+              else setErr(r.data.error?.message ?? r.error ?? "upload failed");
               setBusy(false);
+              e.target.value = "";
             }}
           />
         </label>
@@ -38,7 +39,11 @@ export function Upload({ label, value, onChange }: { label: string; value: strin
           </button>
         )}
         {value && <span className="font-mono text-[11px] text-muted truncate max-w-[280px]">{value}</span>}
-        {err && <span className="t-micro text-(--color-red-hi)">{err}</span>}
+        {err && (
+          <span className="t-micro text-(--color-red-hi)" data-testid="upload-error">
+            ✗ {err}
+          </span>
+        )}
       </div>
     </div>
   );

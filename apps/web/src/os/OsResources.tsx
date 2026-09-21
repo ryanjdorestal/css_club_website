@@ -26,14 +26,20 @@ export default function OsResources() {
   const [sel, setSel] = useState<Row | "new" | null>(null);
   const [editLink, setEditLink] = useState<Row | null>(null);
   const [check, setCheck] = useState<{ checked: number; dead: Row[] } | null>(null);
+  const [deadOnly, setDeadOnly] = useState(false);
+  const [bulk, setBulk] = useState<{ group: string; text: string; preview?: Row[] } | null>(null);
   const { notice, say } = useNotice();
   const [busy, setBusy] = useState(false);
 
   const groups = useMemo(() => {
     const m = new Map<string, Row[]>();
-    for (const r of [...res.rows].sort((a, b) => Number(a.sort ?? 0) - Number(b.sort ?? 0))) m.set(String(r.group), [...(m.get(String(r.group)) ?? []), r]);
+    const sorted = [...res.rows].sort((a, b) => Number(a.group_sort ?? 0) - Number(b.group_sort ?? 0) || Number(a.sort ?? 0) - Number(b.sort ?? 0));
+    for (const r of sorted) {
+      if (deadOnly && !r.dead) continue;
+      m.set(String(r.group), [...(m.get(String(r.group)) ?? []), r]);
+    }
     return m;
-  }, [res.rows]);
+  }, [res.rows, deadOnly]);
 
   async function save(v: Record<string, unknown>) {
     setBusy(true);
@@ -56,6 +62,52 @@ export default function OsResources() {
     [ids[i], ids[i + dir]] = [ids[i + dir], ids[i]];
     await act("/api/os/resources/reorder", { body: { ids } });
     await res.reload();
+  }
+  async function checkOne(row: Row) {
+    const r = await act<{ dead: boolean; status: number | null }>(`/api/os/resources/${row.id}/check`, { method: "POST" });
+    say(r.ok, r.ok ? (r.data.dead ? `Still dead (${r.data.status ?? "no response"}) — fix the URL.` : `Alive (${r.data.status}).`) : r.msg);
+    await res.reload();
+  }
+  async function renameCategory(g: string) {
+    const to = prompt(`Rename category "${g}" to:`, g);
+    if (!to || to === g) return;
+    const r = await act("/api/os/resources/category/rename", { body: { group: g, to } });
+    say(r.ok, r.ok ? `Renamed — /resources shows "${to}".` : r.msg);
+    await res.reload();
+  }
+  async function deleteCategory(g: string) {
+    const first = await act("/api/os/resources/category/delete", { body: { group: g } });
+    if (first.ok) {
+      say(true, "Category removed.");
+    } else if (first.status === 409) {
+      const names = ((first.err?.links as string[]) ?? []).join(", ");
+      if (!confirm(`"${g}" still holds: ${names}. Delete the category AND every link in it?`)) return;
+      const r = await act("/api/os/resources/category/delete", { body: { group: g, cascade: true } });
+      say(r.ok, r.ok ? `Deleted the category and ${String((r.data as { deleted?: number }).deleted ?? 0)} link(s).` : r.msg);
+    } else say(false, first.msg);
+    await res.reload();
+  }
+  async function moveCategory(g: string, dir: -1 | 1) {
+    const order = [...groups.keys()];
+    const i = order.indexOf(g);
+    if (i + dir < 0 || i + dir >= order.length) return;
+    [order[i], order[i + dir]] = [order[i + dir], order[i]];
+    await act("/api/os/resources/category/reorder", { body: { groups: order } });
+    await res.reload();
+  }
+  async function runBulk(commit: boolean) {
+    if (!bulk) return;
+    setBusy(true);
+    const r = await act<{ rows?: Row[]; created?: number; skipped?: number }>("/api/os/resources/bulk", {
+      body: { group: bulk.group, text: bulk.text, dry_run: !commit },
+    });
+    setBusy(false);
+    if (!r.ok) return say(false, r.msg);
+    if (commit) {
+      say(true, `Added ${r.data.created} link(s), skipped ${r.data.skipped}.`);
+      setBulk(null);
+      await res.reload();
+    } else setBulk({ ...bulk, preview: r.data.rows ?? [] });
   }
   async function runCheck() {
     setBusy(true);
@@ -98,6 +150,59 @@ export default function OsResources() {
       ]}
     >
       {notice && <Notice kind={notice.kind}>{notice.text}</Notice>}
+      <div className="flex flex-wrap gap-2 mt-4">
+        <Button variant="ghost" onClick={() => setBulk({ group: [...groups.keys()][0] ?? "General", text: "" })}>
+          bulk paste urls
+        </Button>
+        <button
+          onClick={() => setDeadOnly(!deadOnly)}
+          aria-pressed={deadOnly}
+          className={`t-micro raise border px-3 py-1.5 cursor-pointer ${deadOnly ? "border-(--color-red-hi) text-(--color-red-hi)" : "border-line text-muted"}`}
+        >
+          dead only
+        </button>
+      </div>
+      {bulk && (
+        <div className="mt-4 border border-line p-4 max-w-[820px]" data-testid="bulk">
+          <p className="mono-label text-muted">BULK PASTE · one URL per line, or `Title | URL`</p>
+          <div className="flex gap-3 mt-2 flex-wrap">
+            <input
+              value={bulk.group}
+              onChange={(e) => setBulk({ ...bulk, group: e.target.value })}
+              aria-label="Category"
+              placeholder="category"
+              className="bg-transparent border-b border-line px-1 py-1 font-mono text-[12px] text-ink outline-none focus:border-teal"
+            />
+          </div>
+          <textarea
+            value={bulk.text}
+            onChange={(e) => setBulk({ ...bulk, text: e.target.value, preview: undefined })}
+            rows={5}
+            aria-label="URLs"
+            className="mt-2 w-full bg-transparent border border-line px-3 py-2 font-mono text-[12px] text-ink outline-none focus:border-teal"
+          />
+          {bulk.preview && (
+            <ul className="mt-2 text-[12px] font-mono space-y-0.5" data-testid="bulk-preview">
+              {bulk.preview.map((r, i) => (
+                <li key={i} className={r.ok && !r.duplicate ? "text-green" : "text-(--color-red-hi)"}>
+                  {r.ok ? (r.duplicate ? "DUP " : "OK  ") : "BAD "} {String(r.title)} · {String(r.url)}
+                </li>
+              ))}
+            </ul>
+          )}
+          <div className="flex gap-2 mt-3">
+            <Button variant="ghost" disabled={busy || !bulk.text.trim()} onClick={() => runBulk(false)}>
+              preview
+            </Button>
+            <Button variant="primary" disabled={busy || !bulk.preview} onClick={() => runBulk(true)}>
+              confirm · add {bulk.preview?.filter((r) => r.ok && !r.duplicate).length ?? 0}
+            </Button>
+            <Button variant="ghost" onClick={() => setBulk(null)}>
+              cancel
+            </Button>
+          </div>
+        </div>
+      )}
       {check && (
         <div className="mt-4 max-w-[640px]">
           <Meter label="dead links" value={check.dead.length} max={Math.max(check.checked, 1)} />
@@ -145,6 +250,20 @@ export default function OsResources() {
           className="mt-6"
         >
           <div className="-mt-1">
+            <div className="flex gap-3 mb-2 t-micro" data-testid={`category-${g}`}>
+              <button onClick={() => renameCategory(g)} className="text-teal u-draw cursor-pointer">
+                rename
+              </button>
+              <button onClick={() => moveCategory(g, -1)} className="text-muted hover:text-ink cursor-pointer" aria-label={`Move ${g} up`}>
+                ▲ up
+              </button>
+              <button onClick={() => moveCategory(g, 1)} className="text-muted hover:text-ink cursor-pointer" aria-label={`Move ${g} down`}>
+                ▼ down
+              </button>
+              <button onClick={() => deleteCategory(g)} className="text-(--color-red-hi) cursor-pointer">
+                delete category
+              </button>
+            </div>
             <OsTable
               cols={[
                 { key: "title", label: "TITLE", render: (r) => <span className="text-ink">{String(r.title)}</span> },
@@ -172,6 +291,11 @@ export default function OsResources() {
               ]}
               rows={rows}
               onRow={setSel}
+              actions={[
+                { label: "EDIT", onClick: (r) => setSel(r) },
+                { label: "RE-CHECK", onClick: (r) => void checkOne(r) },
+                { label: "DELETE", onClick: (r) => void remove(String(r.id)), danger: true },
+              ]}
             />
           </div>
         </FolderCard>

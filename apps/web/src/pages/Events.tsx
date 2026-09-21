@@ -15,6 +15,33 @@ import { Reveal, RevealGroup, RevealItem } from "@/motion/Reveal";
 import { brand } from "@brand/brand.config";
 import * as Sg from "@/sigils";
 
+type Session = {
+  id: string;
+  title: string;
+  session_no: number;
+  date?: string | null;
+  time?: string | null;
+  location?: string | null;
+  level?: string | null;
+  materials?: { label: string; url: string }[];
+  recording_url?: string | null;
+};
+type WorkshopsPayload = { series: { series: string; sessions: Session[] }[] };
+/** Tier-1 fallback: the old-site list grouped by topic (one session per topic), until the board files real series. */
+const WORKSHOPS_FALLBACK: WorkshopsPayload = {
+  series: Object.entries(
+    workshops.workshops.reduce<Record<string, Session[]>>((acc, w, i) => {
+      (acc[w.topic] ??= []).push({
+        id: `legacy-${i}`,
+        title: w.name,
+        session_no: (acc[w.topic]?.length ?? 0) + 1,
+        materials: [{ label: "Repo", url: w.repo }],
+      });
+      return acc;
+    }, {}),
+  ).map(([series, sessions]) => ({ series, sessions })),
+};
+
 const SERIES: { name: string; topic: string[] }[] = [
   { name: "Security series", topic: ["Security"] },
   { name: "Web & mobile series", topic: ["Web", "Mobile", "Tools", "Systems", "Cloud"] },
@@ -23,6 +50,7 @@ const SERIES: { name: string; topic: string[] }[] = [
 
 export default function Events() {
   const { data: events } = useApi<typeof eventsData>("/api/events", eventsData);
+  const { data: live } = useApi<WorkshopsPayload>("/api/workshops", WORKSHOPS_FALLBACK);
   const nEvents = events.semesters.reduce((a, s) => a + s.events.length, 0);
   return (
     <main>
@@ -127,15 +155,64 @@ export default function Events() {
         ))}
       </Band>
 
-      {/* 4 — Workshops as spec sheets */}
+      {/* 4 — Workshops: the OS entity (series → sessions) first, the legacy repo sheets under it */}
       <Band
         tone="light"
         accent="red"
-        index="03 — PREVIOUS WORKSHOPS · LIVE ON GITHUB"
+        index="03 — WORKSHOPS · BY SERIES"
         sigil={<Sg.Terminal size={16} />}
         code="REPOS"
         rail="03 · WORKSHOPS · 01010111 · 2021 →"
       >
+        <div id="workshops" className="grid md:grid-cols-2 lg:grid-cols-3 gap-6 mb-10" data-testid="workshop-series">
+          {live.series.length === 0 && (
+            <SlotCard n="01" label="Workshop series — filed on /os/workshops" action="propose one ↗" href="/join" className="min-h-[160px]" />
+          )}
+          {live.series.map((s, i) => (
+            <Reveal key={s.series}>
+              <FolderCard
+                as="article"
+                tab={`WS · ${String(i + 1).padStart(2, "0")} · ${s.series.toUpperCase()}`}
+                tone="paper"
+                edgeLabel={`//WS_${String(i + 1).padStart(2, "0")} · ${s.sessions.length}_SESSIONS`}
+              >
+                <ol className="space-y-2">
+                  {s.sessions.map((w) => (
+                    <li key={String(w.id)} className="grid grid-cols-[28px_1fr] gap-2 text-[14px]">
+                      <span className="t-micro opacity-60 tnum pt-1">[{w.session_no}]</span>
+                      <span>
+                        <span className="text-ink-on-paper font-medium">{w.title}</span>
+                        <span className="block t-micro opacity-60 mt-0.5">
+                          {w.date ?? "TBD"}
+                          {w.time ? ` · ${w.time} ET` : ""}
+                          {w.location ? ` · ${w.location}` : ""}
+                          {w.level ? ` · ${String(w.level).toUpperCase()}` : ""}
+                        </span>
+                        {(w.materials?.length || w.recording_url) && (
+                          <span className="flex gap-3 mt-1 flex-wrap">
+                            {(w.materials ?? []).map((m) => (
+                              <a key={m.url} href={m.url} target="_blank" rel="noreferrer noopener" className="t-micro text-(--accent-paper) u-draw">
+                                {m.label} ↗
+                              </a>
+                            ))}
+                            {w.recording_url && (
+                              <a href={w.recording_url} target="_blank" rel="noreferrer noopener" className="t-micro text-(--accent-paper) u-draw">
+                                RECORDING ↗
+                              </a>
+                            )}
+                          </span>
+                        )}
+                      </span>
+                    </li>
+                  ))}
+                </ol>
+              </FolderCard>
+            </Reveal>
+          ))}
+        </div>
+        <p className="mono-label mb-4" style={{ color: "var(--tone-muted)" }}>
+          PREVIOUS WORKSHOPS · LIVE ON GITHUB
+        </p>
         <div className="grid md:grid-cols-3 gap-6">
           {SERIES.map((s) => {
             const rows = workshops.workshops.filter((w) => s.topic.includes(w.topic));

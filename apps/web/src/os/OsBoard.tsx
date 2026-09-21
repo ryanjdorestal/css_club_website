@@ -32,6 +32,7 @@ export default function OsBoard() {
   const current = terms.rows.find((t) => t.is_current);
   const [term, setTerm] = useState<string>("current");
   const [sel, setSel] = useState<Row | "new" | null>(null);
+  const [termPanel, setTermPanel] = useState<Row | "new" | null>(null);
   const [roll, setRoll] = useState<null | {
     step: 1 | 2 | 3;
     next_id: string;
@@ -55,6 +56,47 @@ export default function OsBoard() {
     setBusy(false);
     await board.reload();
     if (r.ok) setSel(null);
+  }
+  async function saveTerm(v: Record<string, unknown>) {
+    setBusy(true);
+    const tid = String(v.__id ?? (termPanel !== "new" && termPanel ? termPanel.id : ""));
+    const r =
+      termPanel === "new" && !v.__id
+        ? await act("/api/os/terms", {
+            body: {
+              id: String(v.id ?? "").toUpperCase(),
+              label: v.label,
+              starts_on: v.starts_on || null,
+              ends_on: v.ends_on || null,
+              is_current: !!v.is_current,
+            },
+          })
+        : await act(`/api/os/terms/${tid}`, {
+            method: "PATCH",
+            body: { label: v.label, starts_on: v.starts_on || null, ends_on: v.ends_on || null, is_current: !!v.is_current },
+            expect: null,
+          });
+    say(r.ok, r.ok ? (v.is_current ? "Term saved and set current — /about shows it." : "Term saved.") : r.msg);
+    setBusy(false);
+    await terms.reload();
+    if (r.ok) {
+      setTermPanel(null);
+      if (v.is_current) setTerm("current");
+    }
+  }
+  async function deleteTerm(t: Row) {
+    if (!confirm(`Delete term ${String(t.id)}? Refused if it is current or still holds officers/records.`)) return;
+    const r = await act(`/api/os/terms/${String(t.id)}`, { method: "DELETE" });
+    say(r.ok, r.ok ? "Term deleted." : r.msg);
+    await terms.reload();
+  }
+  async function moveSeat(r: Row, dir: -1 | 1) {
+    const i = rows.findIndex((x) => x.id === r.id);
+    const j = i + dir;
+    if (i < 0 || j < 0 || j >= rows.length) return;
+    await act(`/api/os/board/${r.id}`, { method: "PATCH", body: { name: r.name, sort: j }, expect: null });
+    await act(`/api/os/board/${rows[j].id}`, { method: "PATCH", body: { name: rows[j].name, sort: i }, expect: null });
+    await board.reload();
   }
   async function doRollover() {
     if (!roll) return;
@@ -93,6 +135,11 @@ export default function OsBoard() {
           {admin && (
             <Button variant="ghost" onClick={() => setRoll({ step: 1, next_id: "", next_label: "", starts_on: "", ends_on: "", continuing: [] })}>
               term rollover
+            </Button>
+          )}
+          {admin && (
+            <Button variant="ghost" onClick={() => setTermPanel("new")}>
+              + new term
             </Button>
           )}
         </>
@@ -151,9 +198,83 @@ export default function OsBoard() {
           ]}
           rows={rows}
           onRow={admin ? setSel : undefined}
+          actions={
+            admin
+              ? [
+                  { label: "EDIT", onClick: (r) => setSel(r) },
+                  { label: "▲ UP", onClick: (r) => void moveSeat(r, -1) },
+                  { label: "▼ DOWN", onClick: (r) => void moveSeat(r, 1) },
+                  {
+                    label: "REMOVE",
+                    danger: true,
+                    onClick: (r) => {
+                      if (!confirm(`Remove ${String(r.name)} from ${shownTerm}? An officer who filed a handoff is archived instead.`)) return;
+                      void act(`/api/os/board/${r.id}`, { method: "DELETE" }).then(async (res) => {
+                        say(res.ok || res.status === 409, res.ok ? "Removed." : res.msg);
+                        await board.reload();
+                      });
+                    },
+                  },
+                ]
+              : undefined
+          }
           empty="No officers on this term yet. Admin: add the first row (your own email) or run scripts/bootstrap_admin.py."
         />
       </div>
+      <section className="mt-8" data-testid="terms">
+        <p className="mono-label text-muted mb-2">TERMS · {terms.rows.length} on file · exactly one is current</p>
+        <OsTable
+          cols={[
+            { key: "id", label: "ID", mono: true },
+            { key: "label", label: "LABEL", render: (t) => <span className="text-ink">{String(t.label)}</span> },
+            { key: "starts_on", label: "STARTS", mono: true },
+            { key: "ends_on", label: "ENDS", mono: true },
+            { key: "is_current", label: "CURRENT", render: (t) => (t.is_current ? <StatusWord s="active" /> : "") },
+          ]}
+          rows={[...terms.rows].sort((a, b) => String(b.id).localeCompare(String(a.id)))}
+          onRow={admin ? (t) => setTermPanel(t) : undefined}
+          actions={
+            admin
+              ? [
+                  { label: "EDIT DATES", onClick: (t) => setTermPanel(t) },
+                  {
+                    label: "SET CURRENT",
+                    onClick: (t) =>
+                      void saveTerm({ label: t.label, starts_on: t.starts_on, ends_on: t.ends_on, is_current: true, __id: t.id }).then(() =>
+                        setTermPanel(null),
+                      ),
+                    hidden: (t) => !!t.is_current,
+                  },
+                  { label: "DELETE", onClick: (t) => void deleteTerm(t), danger: true, hidden: (t) => !!t.is_current },
+                ]
+              : undefined
+          }
+          empty="No terms on file — create one (admin)."
+        />
+      </section>
+      {termPanel && admin && (
+        <Panel title={termPanel === "new" ? "NEW TERM" : `TERM · ${String(termPanel.id)}`} onClose={() => setTermPanel(null)}>
+          <OsForm
+            key={termPanel === "new" ? "new" : String(termPanel.id)}
+            fields={[
+              ...(termPanel === "new"
+                ? [{ name: "id", label: "ID", required: true, max: 12, placeholder: "F26", help: "F = fall, S = spring, two-digit year" } as Field]
+                : []),
+              { name: "label", label: "LABEL", required: true, max: 60, placeholder: "Fall 2026" },
+              { name: "starts_on", label: "STARTS", type: "date" },
+              { name: "ends_on", label: "ENDS", type: "date" },
+              { name: "is_current", label: "CURRENT", type: "toggle", help: "moves the current flag here; the roster gate and /about follow it" },
+            ]}
+            initial={
+              termPanel === "new"
+                ? { is_current: false }
+                : { label: termPanel.label, starts_on: termPanel.starts_on, ends_on: termPanel.ends_on, is_current: termPanel.is_current }
+            }
+            busy={busy}
+            onSubmit={saveTerm}
+          />
+        </Panel>
+      )}
       {sel && admin && (
         <Panel title={sel === "new" ? "ADD OFFICER" : `OFFICER · ${String(sel.name)}`} onClose={() => setSel(null)}>
           <OsForm

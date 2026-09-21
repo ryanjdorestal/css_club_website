@@ -150,6 +150,48 @@ export function eventsSpec(rows: Row[], loaded: boolean, termId?: string): Spec 
   };
 }
 
+export function workshopsSpec(rows: Row[], loaded: boolean): Spec {
+  const pub = rows.filter((r) => st(r) === "published");
+  const series = [...new Set(rows.map((r) => String(r.series ?? "")))].filter(Boolean);
+  const withRec = pub.filter((r) => r.recording_url);
+  const upcoming = pub.filter((r) => String(r.date ?? "") >= new Date().toISOString().slice(0, 10));
+  return {
+    a: { title: "UPCOMING", value: n(upcoming.length, loaded), denom: "sessions" },
+    b: { title: "SERIES", value: n(series.length, loaded), denom: `${rows.length} sessions` },
+    c: {
+      title: "PUBLISHED",
+      value: n(pub.length, loaded),
+      denom: `${rows.length}`,
+      rows: [{ k: "NEXT", v: upcoming[0] ? String(upcoming[0].title ?? "").slice(0, 26) : "none" }],
+    },
+    d: { title: "SESSIONS", rows, field: "date", unit: "sessions" },
+    e: {
+      title: "RECORDINGS",
+      value: n(withRec.length, loaded),
+      denom: "on file",
+      thumbsLabel: "SERIES",
+      thumbs: series.slice(0, 6).map((c) => ({ key: c, text: c.toUpperCase().slice(0, 22), href: "/os/workshops" })),
+      href: "/events#workshops",
+    },
+    f: {
+      title: "HOW WORKSHOPS RUN",
+      pages: [
+        "A series (INTRO TO GIT) holds numbered sessions; each session has a date, a room and a level.",
+        "Materials are links (repo, slides, Drive). A recording link makes the session replayable on /events.",
+        "Publish needs a date. The public Events page groups published sessions by series.",
+      ],
+    },
+    g: {
+      title: "RECORDED",
+      value: pct(withRec.length, pub.length) === null ? null : `${pct(withRec.length, pub.length)}%`,
+      denom: "published",
+      progress: pub.length ? { value: withRec.length, max: pub.length } : null,
+    },
+    h: { value: pct(pub.length, rows.length), label: "PUBLISHED" },
+    i: { title: "NEW SESSION", meta: `${series.length} SERIES`, href: "/os/workshops#new" },
+  };
+}
+
 export function resourcesSpec(rows: Row[], links: Row[], loaded: boolean): Spec {
   const all = [...rows, ...links];
   const dead = all.filter((r) => r.dead);
