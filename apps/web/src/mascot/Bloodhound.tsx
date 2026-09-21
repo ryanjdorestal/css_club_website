@@ -25,7 +25,7 @@ export function Bloodhound({ emote = "idle", size = 128, className = "" }: { emo
         .bh-eye { transform-origin: center; transform-box: fill-box; }
         .bh-blink .bh-eye { animation: bh-blink 6s infinite; }
         @keyframes bh-blink { 0%, 95%, 100% { transform: scaleY(1); } 97% { transform: scaleY(0.1); } }
-        .bh-z { font-family: var(--font-pixel, monospace); fill: ${TEAL}; opacity: 0; }
+        .bh-z { font-family: var(--font-legacy, monospace); fill: ${TEAL}; opacity: 0; }
         .bh-z1 { animation: bh-z 2.8s infinite 0s; }
         .bh-z2 { animation: bh-z 2.8s infinite 0.7s; }
         .bh-z3 { animation: bh-z 2.8s infinite 1.4s; }

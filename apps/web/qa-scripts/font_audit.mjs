@@ -7,25 +7,26 @@ const routes = process.argv.slice(2).length
   ? process.argv.slice(2)
   : ["/", "/events", "/projects", "/cyberhounds", "/about", "/resources", "/news", "/join", "/styleguide", "/os/login", "/os", "/os/members", "/os/audit"];
 
-// Public realm: hero + poster words are the drawn S01 alphabet (SVG, no font); Unbounded stays the
-// H1/H2 face (§2.1 fallback path, logged in 38_RUN9_LOG). Space Mono = --font-mono-display (deks, ticker,
-// readouts, labels ≥ 12 px). Unbounded at small sizes is still sanctioned for buttons / logotype / units.
-// OS realm: VT323 = --font-os-display (titles, login headline), Space Mono numerals + readouts.
-const REALMS = {
-  public: {
-    display: new Set(["Unbounded", "Space Mono"]),
-    mid: new Set(["Unbounded", "Space Grotesk", "JetBrains Mono", "Space Mono"]),
-    micro: new Set(["JetBrains Mono"]),
-  },
-  os: {
-    display: new Set(["VT323", "Space Mono", "Unbounded"]),
-    mid: new Set(["Space Mono", "JetBrains Mono", "Space Grotesk", "Unbounded", "VT323"]),
-    micro: new Set(["JetBrains Mono"]),
-  },
-};
+// Type v5 (run 10 §3.6): nothing ≥ 28 px in any face but Turret Road (Michroma where §2 assigns it);
+// deks / ticker / readouts / labels ≥ 11 px are Martian Mono; long prose is Space Grotesk; < 12 px is
+// JetBrains Mono (labels at exactly 11 px are Martian Mono by §3.3, so micro allows both).
+// OS realm: Silkscreen titles, Turret Road KPIs, Martian Mono labels.
 // VT323 is exempt wherever it appears (rings/ticker digits only, decorative)
 const EXEMPT = new Set(["VT323"]);
-
+const REALMS = {
+  public: {
+    display: new Set(["Turret Road", "Michroma"]),
+    mid: new Set(["Turret Road", "Michroma", "Martian Mono", "Space Grotesk", "JetBrains Mono"]),
+    micro: new Set(["JetBrains Mono", "Martian Mono"]),
+  },
+  os: {
+    display: new Set(["Silkscreen", "Turret Road", "Martian Mono"]),
+    mid: new Set(["Silkscreen", "Turret Road", "Martian Mono", "JetBrains Mono", "Space Grotesk", "Michroma"]), // Michroma: the public nav logotype on /os/login
+    micro: new Set(["JetBrains Mono", "Martian Mono"]),
+  },
+};
+// /styleguide shows the OS face in its specimen — the one public page allowed Silkscreen ≥ 28 px
+const STYLEGUIDE_EXTRA = new Set(["Silkscreen"]);
 const browser = await chromium.launch();
 const page = await browser.newPage({ viewport: { width: 1440, height: 900 } });
 let fail = 0;
@@ -68,7 +69,7 @@ for (const route of routes) {
   delete buckets.__offenders;
   let pageFail = false;
   for (const [bucket, fams] of Object.entries(buckets)) {
-    const extra = Object.keys(fams).filter((f) => !ALLOW[bucket].has(f) && !EXEMPT.has(f));
+    const extra = Object.keys(fams).filter((f) => !ALLOW[bucket].has(f) && !EXEMPT.has(f) && !(route === "/styleguide" && STYLEGUIDE_EXTRA.has(f)));
     if (extra.length) {
       pageFail = true;
       fail++;

@@ -1,10 +1,11 @@
 import { EdgeCrop } from "@/components/type/EdgeCrop";
+import { Ghost } from "@/components/type/Outline";
+import { Stencil } from "@/components/type/Stencil";
 import { Halftone } from "@/textures";
 import { CubeSpot } from "@/cube/CubeSpot";
-import { S01Word } from "@/type/glyphs/S01Word";
 
-/** Poster movement v4 (context/26 §4, type v4): the S01 alphabet, solid + ghost +
-    edge crop + stencil bars, cube edge-on behind the word. */
+/** Poster movement (context/26 §4, type v5): Turret Road 800, solid + ghost + edge
+    crop + stencil bars, cube edge-on behind the word. */
 export function PosterBand({
   lines,
   meta,
@@ -26,22 +27,16 @@ export function PosterBand({
         {lines.map((l, i) => {
           const text = (typeof l === "string" ? l : l.text).toUpperCase();
           const o: { className?: string; outline?: boolean; ghost?: boolean; stencil?: boolean } = typeof l === "string" ? {} : l;
-          const bars = o.stencil ? [0.4, 0.66] : undefined;
-          const word =
-            o.ghost || o.outline ? (
-              <span className="relative inline-block">
-                <span aria-hidden className="absolute opacity-60" style={{ left: "0.05em", top: "0.05em" }}>
-                  <S01Word outlineFrom={0}>{text}</S01Word>
-                </span>
-                <S01Word className="relative" bars={bars}>
-                  {text}
-                </S01Word>
-              </span>
-            ) : (
-              <S01Word bars={bars}>{text}</S01Word>
+          let word: React.ReactNode = text;
+          if (o.ghost || o.outline) word = <Ghost>{text}</Ghost>;
+          if (o.stencil)
+            word = (
+              <Stencil bars={[0.38, 0.64]} barColor="var(--color-navy-900)">
+                {word as never}
+              </Stencil>
             );
           return (
-            <EdgeCrop key={i} side="right" className={`leading-[0.95] ${o.className ?? ""}`}>
+            <EdgeCrop key={i} side="right" className={o.className}>
               {word}
             </EdgeCrop>
           );

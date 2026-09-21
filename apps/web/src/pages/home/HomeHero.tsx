@@ -5,7 +5,9 @@ import { Readout } from "@/components/cards/StatChip";
 import { ButtonLink } from "@/components/Button";
 import { Label } from "@/components/type/Label";
 import { Decode } from "@/components/type/Decode";
-import { S01Word } from "@/type/glyphs/S01Word";
+import { Stencil } from "@/components/type/Stencil";
+import { Outline } from "@/components/type/Outline";
+import { SplitFill } from "@/components/type/SplitFill";
 import { Brackets } from "@/components/frame";
 import { CodeRain } from "@/textures";
 import { HairGrid48, HalftoneBlock, OutlinePath, ScrollBracket } from "@/components/DossierHero";
@@ -15,7 +17,7 @@ import { CubeAnchor } from "@/cube/CubeRailContext";
 import { CubeSpot } from "@/cube/CubeSpot";
 import { COORDS, counts, version, buildHash } from "@/lib/readouts";
 
-import { heroDek } from "./data";
+import { heroDekShort } from "./data";
 
 /** Home section: /01 HERO. Composed by pages/Home.tsx. */
 export function HomeHero() {
@@ -82,24 +84,22 @@ export function HomeHero() {
                   <Decode text="SCN_01 · JOHN_JAY_COLLEGE · CUNY · COMPUTER_SCIENCE_SOCIETY" />
                 </Label>
               </Reveal>
-              {/* type v4: the S01 alphabet (drawn) — stencil · outline · solid · split-fill, as before */}
-              <h1 className="t-hero leading-[0.95]" style={{ fontSize: "clamp(44px, 6.4vw, 96px)" }}>
+              {/* type v5: Turret Road 800 — stencil · outline · solid · split-fill (the mock_turret composition) */}
+              <h1 className="t-hero" style={{ fontSize: "clamp(40px, 5.6vw, 84px)" }}>
                 <span className="block">
-                  <S01Word bars={[0.4, 0.64]}>DEBUG</S01Word>
+                  <Stencil bars={[0.38, 0.64]}>DEBUG</Stencil>
                 </span>
                 <span className="block">
-                  <S01Word outlineFrom={0}>YOUR MIND,</S01Word>
+                  <Outline>YOUR MIND,</Outline>
                 </span>
-                <span className="block">
-                  <S01Word>COMMIT TO</S01Word>
-                </span>
+                <span className="block">COMMIT TO</span>
                 <span className="block text-teal">
-                  <S01Word outlineFrom={3}>GROWTH.</S01Word>
+                  <SplitFill word="GROWTH." at={3} />
                 </span>
               </h1>
               <Reveal delay={0.3}>
-                {/* > 3 lines → stays body sentence-case (type v4 rule); PageHero deks (1–2 lines) take .t-dek */}
-                <p className="text-[15px] text-muted leading-[1.6] max-w-[52ch] mt-5">{heroDek}</p>
+                {/* the mock's dek register: Martian Mono caps, three lines — the first two sentences of the old-site paragraph */}
+                <p className="t-dek text-muted mt-5 !max-w-[52ch] !text-[15px]">{heroDekShort}</p>
               </Reveal>
               <Reveal delay={0.4}>
                 <div className="flex flex-wrap gap-3 mt-7" data-accent="blue">

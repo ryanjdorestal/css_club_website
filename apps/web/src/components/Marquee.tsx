@@ -1,4 +1,4 @@
-/** Ticker: mono-display caps (type v4: Space Mono, 12 px), // separators, ▮ block glyphs. */
+/** Ticker: mono-display caps (Martian Mono, 12 px), // separators, ▮ block glyphs. */
 export function Marquee({ items }: { items: string[] }) {
   const strip = (
     <>

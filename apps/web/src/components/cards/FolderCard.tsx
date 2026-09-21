@@ -6,7 +6,7 @@
     label on the right edge and a barcode. Never used on TicketCard / PosterCard surfaces.
     Path is measured at runtime (clip-path: path() needs px) via ResizeObserver. */
 import { useLayoutEffect, useRef, useState, type ReactNode } from "react";
-import { pathOf } from "@/type/glyphs/glyphs";
+import { pathOf } from "@/components/frame/roundedPath";
 import { BarcodeStrip } from "@/components/BarcodeStrip";
 
 type FolderTone = "navy" | "paper" | "red" | "teal" | "os" | "slate";

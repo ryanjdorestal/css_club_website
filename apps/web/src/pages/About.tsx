@@ -75,7 +75,7 @@ export default function About() {
             <SplitLines
               as="h2"
               lines={["The club shines when", "everyone shines."]}
-              className="font-display font-black tracking-tight leading-[0.95] mb-6"
+              className="font-display font-extrabold tracking-tight leading-[0.95] mb-6"
               lineClass="text-[clamp(32px,4.4vw,64px)]"
             />
             <Reveal>
@@ -129,7 +129,7 @@ export default function About() {
             <SplitLines
               as="h2"
               lines={["The server is the", "clubhouse."]}
-              className="font-display font-black tracking-tight leading-[0.95] mb-5"
+              className="font-display font-extrabold tracking-tight leading-[0.95] mb-5"
               lineClass="text-[clamp(32px,4.4vw,64px)]"
             />
             <Reveal>

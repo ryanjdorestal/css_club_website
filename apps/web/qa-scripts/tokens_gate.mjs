@@ -6,6 +6,7 @@ const ROOT = new URL("../", import.meta.url).pathname;
 const ALLOW = [
   "src/tokens.css",
   "src/type.css",
+  "src/fonts/fonts.css", // the @font-face declarations (type v5, self-hosted)
   "src/mascot/CyberhoundCanvas.tsx",
   "src/cube/cubeCommon.ts",
   "src/cube/CubeSpotCanvas.tsx",
@@ -23,7 +24,9 @@ for (const f of walk(join(ROOT, "src"))) {
   const rel = f.replace(ROOT, "");
   if (ALLOW.includes(rel) || rel.endsWith("cyberhoundHeadPath.ts")) continue;
   const s = readFileSync(f, "utf8");
-  for (const m of s.matchAll(/#[0-9a-fA-F]{6}\b|font-family\s*:|["'](Unbounded|Space Grotesk|JetBrains Mono|VT323)["']/g)) {
+  for (const m of s.matchAll(
+    /#[0-9a-fA-F]{6}\b|font-family\s*:|["'](Turret Road|Michroma|Martian Mono|Silkscreen|Orbitron|Space Grotesk|JetBrains Mono|VT323)["']/g,
+  )) {
     bad++;
     console.log(`✗ ${rel}: ${m[0]}`);
   }

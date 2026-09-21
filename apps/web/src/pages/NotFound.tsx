@@ -4,7 +4,7 @@ import { CSSKufic } from "@/sigils";
 import { Brackets } from "@/components/frame";
 import { Decode } from "@/components/type/Decode";
 
-/** 404 — Unbounded 900 at poster scale, Kufic behind, viewport brackets. */
+/** 404 — the display face at poster scale, Kufic behind, viewport brackets. */
 export default function NotFound() {
   return (
     <main data-accent="blue" data-tone="light" className="relative grow flex items-center justify-center overflow-hidden py-32 bg-paper">

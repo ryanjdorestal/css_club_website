@@ -35,7 +35,7 @@ export function BinaryRings({ opacity = 0.08 }: { opacity?: number }) {
               d={`M ${ring.r},${ring.r} m -${ring.r - 14},0 a ${ring.r - 14},${ring.r - 14} 0 1,1 ${(ring.r - 14) * 2},0 a ${ring.r - 14},${ring.r - 14} 0 1,1 -${(ring.r - 14) * 2},0`}
             />
           </defs>
-          <text className="fill-ink" style={{ fontFamily: "var(--font-pixel)", fontSize: 20, letterSpacing: 4 }}>
+          <text className="fill-ink" style={{ fontFamily: "var(--font-legacy)", fontSize: 20, letterSpacing: 4 }}>
             <textPath href={`#ring-${i}`}>{ring.text.repeat(6)}</textPath>
           </text>
         </svg>

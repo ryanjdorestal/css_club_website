@@ -16,8 +16,8 @@ with them.
 Already in the repo and unchanged: **JetBrains Mono** (labels < 12 px, code, tables),
 **Space Grotesk** (long body paragraphs), **VT323** (binary rings, ticker digits).
 
-Retired: **Unbounded** (geometric, not squared — the reason headlines read generic) and the
-hand-drawn SVG alphabet from run 9 (`apps/web/src/type/glyphs/`) — delete both.
+Retired: the run-4 geometric display face (round bowls, not squared — the reason headlines read generic) and the
+hand-drawn SVG alphabet from run 9 — both deleted in run 10 (`grep` gate: 0 hits).
 
 Evidence: `~/Desktop/jjay_css_refs/run10/` holds the DEMON overlay comparison
 (`demon_compare.png`), the 24-face specimen sheet (`spec_sheet.png`), the 12-face mono sheet

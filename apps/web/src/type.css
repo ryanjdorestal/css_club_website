@@ -1,15 +1,17 @@
-/* type.css — run 3 type system v2 (context/23 §2). Loaded after tokens.css. */
+/* type.css — type system v5 (run 10 §3.3): Turret Road is ~8 % wider than the retired face at the same px,
+   so every size is re-fit here; the treatments and the label grammar are unchanged. Loaded after tokens.css. */
 
 /* ---- scale ---- */
 :root {
-  --type-hero: clamp(56px, 9.5vw, 160px); /* v4: the S01 words are narrower than Unbounded; 3 lines at 1440 */
-  --type-poster: clamp(80px, 15vw, 260px);
-  --type-h1: clamp(44px, 6.5vw, 104px);
-  --type-h2: clamp(30px, 3.8vw, 52px);
-  --type-h3: clamp(20px, 2vw, 27px);
-  --type-stat: clamp(48px, 6vw, 96px);
+  --type-hero: clamp(52px, 8.8vw, 148px);
+  --type-poster: clamp(76px, 14vw, 240px);
+  --type-h1: clamp(40px, 6vw, 96px);
+  --type-h2: clamp(28px, 3.6vw, 48px);
+  --type-h3: clamp(19px, 2vw, 26px);
+  --type-stat: clamp(44px, 5.6vw, 88px);
+  --type-dek: 17px;
   --type-body-lg: 18px;
-  --type-body: 15px;
+  --type-body: 16px;
   --type-label: 11px;
   --type-micro: 9px;
   --type-pixel: clamp(18px, 2vw, 28px);
@@ -46,17 +48,17 @@ kbd {
 /* ---- role classes ---- */
 .t-hero {
   font-family: var(--font-display);
-  font-weight: 900;
+  font-weight: 800;
   font-size: var(--type-hero);
-  line-height: 0.88;
-  letter-spacing: -0.035em;
+  line-height: 0.92;
+  letter-spacing: -0.03em;
   text-transform: uppercase;
 }
 .t-poster {
   font-family: var(--font-display);
-  font-weight: 900;
+  font-weight: 800;
   font-size: var(--type-poster);
-  line-height: 0.84;
+  line-height: 0.88;
   text-transform: uppercase;
   letter-spacing: -0.04em;
 }
@@ -64,26 +66,27 @@ kbd {
   font-family: var(--font-display);
   font-weight: 800;
   font-size: var(--type-h1);
-  line-height: 0.9;
-  letter-spacing: -0.03em;
+  line-height: 0.94;
+  letter-spacing: -0.025em;
   text-transform: uppercase;
 }
 .t-h2 {
   font-family: var(--font-display);
-  font-weight: 800;
+  font-weight: 700;
   font-size: var(--type-h2);
-  line-height: 0.95;
+  line-height: 0.98;
   letter-spacing: -0.02em;
 }
 .t-h3 {
-  font-family: var(--font-body);
-  font-weight: 500;
-  font-size: var(--type-h3);
-  line-height: 1.15;
-}
-.t-wide {
   font-family: var(--font-display);
-  font-weight: 900;
+  font-weight: 700;
+  font-size: var(--type-h3);
+  line-height: 1.12;
+}
+/* the wide face: fin lines, the footer brandmark, single-word rails (Michroma, one weight) */
+.t-wide {
+  font-family: var(--font-display-wide);
+  font-weight: 400;
   text-transform: uppercase;
 }
 .t-stat {
@@ -99,7 +102,8 @@ kbd {
   font-weight: 600;
 }
 .t-label {
-  font-family: var(--font-mono);
+  font-family: var(--font-mono-display);
+  font-weight: 500;
   font-size: var(--type-label);
   line-height: 1;
   letter-spacing: 0.14em;
@@ -114,43 +118,45 @@ kbd {
 }
 .t-pixel {
   font-family: var(--font-display);
-  font-weight: 900;
+  font-weight: 800;
   font-size: var(--type-pixel);
   line-height: 1;
   text-transform: uppercase;
 }
 
-/* ---- type v4 (run 9): the S01 body-mono register + the OS realm ---- */
-/* deks, protocol lines, ticker, fin lines: the S01 body look (caps, wide mono, +.04em) — never for
-   paragraphs over 3 lines (those stay Space Grotesk sentence-case) */
+/* ---- the S01 body-mono register + the OS realm (type v5: Martian Mono, Silkscreen) ---- */
+/* deks, protocol lines, ticker, fin lines: caps, wide mono, +.03em — never for paragraphs over 3
+   lines (those stay Space Grotesk sentence-case) */
 .t-dek {
   font-family: var(--font-mono-display);
-  font-size: clamp(15px, 1.1vw, 18px);
-  line-height: 1.5;
-  letter-spacing: 0.04em;
+  font-weight: 500;
+  font-size: var(--type-dek);
+  line-height: 1.6;
+  letter-spacing: 0.03em;
   text-transform: uppercase;
-  max-width: 64ch;
+  max-width: 62ch;
 }
 .t-mono-display {
   font-family: var(--font-mono-display);
+  font-weight: 500;
   font-feature-settings:
     "zero" 1,
     "tnum" 1;
   font-variant-numeric: tabular-nums slashed-zero;
 }
-/* OS page titles, the login headline, empty-state words — never under 20 px (VT323 rule; the
+/* OS page titles, the login headline, empty-state words — Silkscreen 700, never under 20 px (the
    size is set at the call site, ≥ 20 px, and font_audit flags anything smaller) */
 .t-os-display {
   font-family: var(--font-os-display);
-  font-weight: 400;
+  font-weight: 700;
   line-height: 0.9;
   text-transform: uppercase;
   letter-spacing: 0.01em;
 }
-/* OS numerals: rounded mono, tabular, slashed zero (R9_06's 1.8 · 24 · 1.592) */
+/* OS numerals: the display face at 800, tabular, slashed zero (R9_06's 1.8 · 24 · 1.592) */
 .t-kpi {
-  font-family: var(--font-mono-display);
-  font-weight: 700;
+  font-family: var(--font-display);
+  font-weight: 800;
   line-height: 0.9;
   letter-spacing: -0.02em;
   font-feature-settings:
@@ -189,15 +195,16 @@ kbd {
 }
 
 /* outline text — fill transparent, stroke inherits the text color */
+/* v5: 3 px on dark / 3.5 px on paper — thinner vanishes against Turret Road's chamfers */
 .t-outline {
   color: inherit;
   -webkit-text-fill-color: transparent;
-  -webkit-text-stroke: 2px currentColor;
+  -webkit-text-stroke: 3px currentColor;
 }
 [data-tone="light"] .t-outline,
 [data-tone="light-2"] .t-outline,
 [data-tone="tinted"] .t-outline {
-  -webkit-text-stroke-width: 2.5px;
+  -webkit-text-stroke-width: 3.5px;
 }
 
 /* status-bar caret blink */

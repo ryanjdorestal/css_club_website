@@ -120,11 +120,11 @@ export default function OsInheritance() {
           />
         </div>
         <div className="bg-navy-900 px-5 py-4">
-          <span className="font-display font-black text-[22px] leading-none text-teal">{idx?.stats.last_date || "—"}</span>
+          <span className="font-display font-extrabold text-[22px] leading-none text-teal">{idx?.stats.last_date || "—"}</span>
           <p className="mono-label opacity-60 mt-1.5">LAST RECORD</p>
         </div>
         <div className="bg-navy-900 px-5 py-4">
-          <span className="font-display font-black text-[22px] leading-none text-teal">{terms.length}</span>
+          <span className="font-display font-extrabold text-[22px] leading-none text-teal">{terms.length}</span>
           <p className="mono-label opacity-60 mt-1.5">TERMS ON FILE</p>
         </div>
       </div>

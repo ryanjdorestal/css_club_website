@@ -13,7 +13,8 @@ import { BinaryRings } from "@/components/BinaryRings";
 import { Reveal, RevealGroup, RevealItem } from "@/motion/Reveal";
 import { Outline } from "@/components/type/Outline";
 import { EdgeCrop } from "@/components/type/EdgeCrop";
-import { S01Word } from "@/type/glyphs/S01Word";
+import { Decode } from "@/components/type/Decode";
+import { Stencil } from "@/components/type/Stencil";
 import { HairGrid48, HalftoneBlock, OutlinePath, ScrollBracket } from "@/components/DossierHero";
 import { Label } from "@/components/type/Label";
 import { Scanlines, Halftone } from "@/textures";
@@ -88,18 +89,20 @@ export default function Cyberhounds() {
             <span className="t-micro opacity-50 tnum hidden md:block">EST. SPRING_2023</span>
           </div>
           <div className="grid md:grid-cols-[minmax(0,1fr)_auto] gap-8 items-center">
-            <h1 className="t-poster min-w-0 leading-[0.95]" style={{ fontSize: "clamp(60px, 9.6vw, 160px)" }}>
+            <h1 className="t-poster min-w-0" style={{ fontSize: "clamp(56px, 8.8vw, 148px)" }}>
               <EdgeCrop side="right">
-                <S01Word>CYBER</S01Word>
+                <Decode text="CYBER" />
               </EdgeCrop>
               <EdgeCrop side="right">
-                <span className="text-red relative inline-block">
-                  <span aria-hidden className="absolute text-ink" style={{ left: "0.06em", top: "0.06em" }}>
-                    <S01Word outlineFrom={0}>HOUNDS</S01Word>
-                  </span>
-                  <S01Word className="relative" bars={[0.4, 0.66]}>
-                    HOUNDS
-                  </S01Word>
+                <span className="text-red">
+                  <Stencil bars={[0.38, 0.64]} barColor="var(--color-navy-900)">
+                    <span className="relative inline-block">
+                      <span aria-hidden className="t-outline absolute text-ink" style={{ left: 6, top: 6 }}>
+                        HOUNDS
+                      </span>
+                      <span className="relative">HOUNDS</span>
+                    </span>
+                  </Stencil>
                 </span>
               </EdgeCrop>
             </h1>

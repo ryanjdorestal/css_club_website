@@ -24,18 +24,19 @@
   --color-cube-blue: #2058a0;
   --color-light: #f5f7fa;
   --color-seam: #1a1618;
-  /* type v4 (run 9): two realms, one audit. Public: Unbounded for H1/H2 (hero + poster words are
-     the drawn S01 alphabet, type/glyphs/), Space Mono for deks · ticker · protocol · fin · readouts
-     (labels ≥ 12 px), JetBrains Mono for code · tables · labels < 12 px. OS: VT323 for page titles
-     and the login headline (T03 match), Space Mono numerals. */
-  --font-display: "Unbounded", system-ui, sans-serif;
-  --font-wide: "Unbounded", system-ui, sans-serif;
-  --font-body: "Space Grotesk", system-ui, sans-serif;
-  --font-mono-display: "Space Mono", "JetBrains Mono", ui-monospace, monospace;
+  /* type v5 (run 10): the real game face, everywhere. Faces self-hosted in src/fonts/ (FONTS.md).
+     Display = Turret Road (every headline ≥ 28 px, poster words, buttons, KPI numerals); display-wide =
+     Michroma (fin lines, brandmark, single-word rails); mono-display = Martian Mono (deks, protocol lines,
+     ticker, readouts, labels ≥ 11 px); mono = JetBrains Mono (micro labels, code, tables, forms); body =
+     Space Grotesk (paragraphs over 3 lines); os-display = Silkscreen (OS titles, the login headline);
+     legacy = VT323 (binary rings, ticker digits). */
+  --font-display: "Turret Road", system-ui, sans-serif;
+  --font-display-wide: "Michroma", "Turret Road", sans-serif;
+  --font-mono-display: "Martian Mono", "JetBrains Mono", ui-monospace, monospace;
   --font-mono: "JetBrains Mono", ui-monospace, monospace;
-  --font-pixel: "Unbounded", sans-serif; /* pixel role retired (run 4); Unbounded 900 */
+  --font-body: "Space Grotesk", system-ui, sans-serif;
+  --font-os-display: "Silkscreen", "VT323", monospace;
   --font-legacy: "VT323", monospace;
-  --font-os-display: "VT323", "JetBrains Mono", monospace;
   --radius-sm: 4px;
   --radius-md: 8px;
   --radius-lg: 14px;
@@ -108,18 +109,19 @@ body {
   font-family: var(--font-display);
 }
 
-/* Mono label — JetBrains Mono, uppercase, 11px, 0.08em (DESIGN.md) */
+/* Mono label — Martian Mono 500, uppercase, 11px (type v5: labels ≥ 11 px are mono-display) */
 .mono-label {
-  font-family: var(--font-mono);
+  font-family: var(--font-mono-display);
+  font-weight: 500;
   font-size: var(--label-size);
   letter-spacing: var(--label-tracking);
   text-transform: uppercase;
 }
 
-/* pixel role retired (run 4): big counters are Unbounded 900 */
+/* big counters: the display face at 800 (the pixel role is the OS realm's, --font-os-display) */
 .pixel {
   font-family: var(--font-display);
-  font-weight: 900;
+  font-weight: 800;
   font-size: max(18px, 1em);
 }
 /* VT323 stays only for binary rings + ticker digits */

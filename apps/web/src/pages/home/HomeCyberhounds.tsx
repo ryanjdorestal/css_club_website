@@ -2,7 +2,7 @@ import { Link } from "react-router-dom";
 import { brand } from "@brand/brand.config";
 import { Label } from "@/components/type/Label";
 import { EdgeCrop } from "@/components/type/EdgeCrop";
-import { S01Word } from "@/type/glyphs/S01Word";
+import { Decode } from "@/components/type/Decode";
 import { Halftone, Scanlines } from "@/textures";
 import * as Sg from "@/sigils";
 import { CubeAnchor } from "@/cube/CubeRailContext";
@@ -21,16 +21,18 @@ export function HomeCyberhounds() {
               <span className="t-micro opacity-50 tnum hidden md:block">2026</span>
             </div>
             <div className="grid md:grid-cols-[8fr_4fr] gap-10 items-center">
-              <div className="t-poster leading-[0.95]" style={{ fontSize: "clamp(60px, 10.5vw, 175px)" }}>
+              <div className="t-poster" style={{ fontSize: "clamp(56px, 9.6vw, 160px)" }}>
                 <EdgeCrop side="right">
-                  <S01Word>CYBER</S01Word>
+                  <Decode text="CYBER" />
                 </EdgeCrop>
                 <EdgeCrop side="right">
-                  <span className="text-red relative inline-block">
-                    <span aria-hidden className="absolute text-ink" style={{ left: "0.06em", top: "0.06em" }}>
-                      <S01Word outlineFrom={0}>HOUNDS</S01Word>
+                  <span className="text-red">
+                    <span className="relative inline-block">
+                      <span aria-hidden className="t-outline absolute text-ink" style={{ left: 6, top: 6 }}>
+                        HOUNDS
+                      </span>
+                      <span className="relative">HOUNDS</span>
                     </span>
-                    <S01Word className="relative">HOUNDS</S01Word>
                   </span>
                 </EdgeCrop>
               </div>

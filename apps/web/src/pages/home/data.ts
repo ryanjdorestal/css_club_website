@@ -13,6 +13,12 @@ export function bandCopy(title: string): string {
   return i >= 0 && home.blocks[i + 1]?.type === "p" ? home.blocks[i + 1].text : "";
 }
 export const heroDek = home.blocks.find((b) => b.type === "p")?.text ?? "";
+/** The hero sets the first two sentences (mock_turret: three caps lines); the full paragraph lives on /about. */
+export const heroDekShort = heroDek
+  .split(/(?<=\.)\s+/)
+  .slice(0, 2)
+  .join(" ")
+  .replace(/ with all the necessary skills to succeed in their career/, " succeed in their career");
 export const exampleApps = projectsData.projects;
 
 export const GALLERY = [

@@ -39,7 +39,7 @@ export function PosterCard({
           {mark}
         </span>
       )}
-      <span className="absolute bottom-4 left-0 right-0 t-wide uppercase leading-[0.85] text-[clamp(30px,3.6vw,58px)]">
+      <span className="absolute bottom-4 left-0 right-0 font-display font-extrabold uppercase leading-[0.9] text-[clamp(30px,3.6vw,58px)]">
         <span className="relative block px-4">
           <span
             aria-hidden
