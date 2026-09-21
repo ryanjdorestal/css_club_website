@@ -29,41 +29,60 @@ export function useOsList<T extends Row = Row>(path: string) {
 
 export const newClientId = () => (typeof crypto !== "undefined" && "randomUUID" in crypto ? crypto.randomUUID() : `${Date.now()}-${Math.random()}`);
 
+type WriteInit = { method?: string; body?: unknown; form?: FormData; expect?: number | null; undo?: boolean };
+const SERVER_OWNED = ["id", "created_at", "updated_at", "created_by", "archived_from", "history"];
+const OFFLINE_MSG = "SAVED_LOCALLY · WILL_SYNC — the API is unreachable; your change is queued in this browser and replays when it is back";
+
+/** What the server needs from a write body and nothing more: a client_id on creates (idempotent), the
+    expected_updated_at on patches (409 when stale), and none of the columns the server owns. */
+function prepareBody(body: unknown, method: string, expect: number | null | undefined): unknown {
+  if (!body || typeof body !== "object" || Array.isArray(body)) return body;
+  const b = { ...(body as Record<string, unknown>) };
+  if (method === "POST" && !("client_id" in b)) b.client_id = newClientId();
+  if (method === "PATCH") stampExpectedVersion(b, expect);
+  for (const k of SERVER_OWNED) delete b[k];
+  return b;
+}
+
+/** `expect: null` = overwrite on purpose; a number = that version; undefined = the row's own updated_at. */
+function stampExpectedVersion(b: Record<string, unknown>, expect: number | null | undefined) {
+  if (expect === null) return;
+  const exp = expect ?? (typeof b.updated_at === "number" ? b.updated_at : undefined);
+  if (exp !== undefined) b.expected_updated_at = exp;
+}
+
+/** The session died mid-edit (run 10 §9 case 10): the draft stays in sessionStorage; come back to the same page. */
+function bounceToLogin() {
+  if (typeof location === "undefined" || location.pathname.startsWith("/os/login")) return;
+  markSessionExpired();
+  location.assign(`/os/login?next=${encodeURIComponent(location.pathname + location.search)}&reason=session_expired`);
+}
+
 /** Run a write and get a one-line notice back — plus the parsed envelope on failure. */
 export async function act<T = Record<string, unknown>>(
   path: string,
-  init?: { method?: string; body?: unknown; form?: FormData; expect?: number | null; undo?: boolean },
+  init: WriteInit = {},
 ): Promise<{ ok: boolean; status: number; msg: string; data: T; err?: ApiError }> {
-  let body = init?.body;
-  const method = init?.method ?? (body || init?.form ? "POST" : "GET");
-  if (body && typeof body === "object" && !Array.isArray(body)) {
-    const b = { ...(body as Record<string, unknown>) };
-    if (method === "POST" && !("client_id" in b)) b.client_id = newClientId();
-    if (method === "PATCH" && init?.expect !== null) {
-      const exp = init?.expect ?? (typeof b.updated_at === "number" ? b.updated_at : undefined);
-      if (exp !== undefined) b.expected_updated_at = exp;
-    }
-    for (const k of ["id", "created_at", "updated_at", "created_by", "archived_from", "history"]) delete b[k];
-    body = b;
-  }
-  const r = await osFetch<T & { error?: ApiError }>(path, { method, body, form: init?.form });
-  if (r.status === 0 && method !== "GET" && !init?.form) {
-    // the API is unreachable mid-write (run 10 §9 case 07): keep the write in this browser's outbox;
-    // it replays (same client_id → idempotent) when the API answers again
-    outboxPush({ path, method, body, at: Date.now() });
-  }
-  if (r.status === 401 && typeof location !== "undefined" && !location.pathname.startsWith("/os/login")) {
-    // the session died mid-edit (§9 case 10): the draft stays in sessionStorage; come back to the same page
-    markSessionExpired();
-    location.assign(`/os/login?next=${encodeURIComponent(location.pathname + location.search)}&reason=session_expired`);
-  }
-  const err = !r.ok ? ((r.data as { error?: ApiError }).error ?? { code: `http_${r.status}`, message: r.error ?? `HTTP ${r.status}` }) : undefined;
-  const msg = r.ok
-    ? "SAVED ✓"
-    : r.status === 0
-      ? "SAVED_LOCALLY · WILL_SYNC — the API is unreachable; your change is queued in this browser and replays when it is back"
-      : `${err?.message ?? "failed"}`;
-  return { ok: r.ok, status: r.status, msg, data: r.data, err };
+  const { form, expect } = init;
+  const method = init.method ?? methodFor(init);
+  const body = prepareBody(init.body, method, expect);
+  const r = await osFetch<T & { error?: ApiError }>(path, { method, body, form });
+  if (r.status === 0 && method !== "GET" && !form) queueForReplay({ path, method, body, at: Date.now() });
+  if (r.status === 401) bounceToLogin();
+  if (r.ok) return { ok: true, status: r.status, msg: "SAVED ✓", data: r.data };
+  const err = failureOf(r);
+  return { ok: false, status: r.status, msg: r.status === 0 ? OFFLINE_MSG : err.message, data: r.data, err };
+}
+
+const methodFor = (init: WriteInit) => (init.body || init.form ? "POST" : "GET");
+
+/** The API is unreachable mid-write (run 10 §9 case 07): keep the write in this browser's outbox;
+    it replays (same client_id → idempotent) when the API answers again. */
+const queueForReplay = (item: Outbox) => outboxPush(item);
+
+function failureOf(r: { status: number; data: unknown; error?: string }): ApiError {
+  const envelope = (r.data as { error?: ApiError }).error;
+  return envelope ?? { code: `http_${r.status}`, message: r.error ?? `HTTP ${r.status}` };
 }
 
 /** The browser outbox: writes that could not reach the API. Replayed by `replayOutbox()` (the OS shell

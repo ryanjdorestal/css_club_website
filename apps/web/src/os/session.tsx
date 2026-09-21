@@ -92,10 +92,10 @@ export async function osFetch<T = Record<string, unknown>>(
       body: init.form ?? (init.body !== undefined ? JSON.stringify(init.body) : undefined),
       signal: AbortSignal.timeout(12000),
     });
-    const data = (await res.json().catch(() => ({}))) as T & { detail?: unknown };
-    const detail = data.detail;
+    const payload = (await res.json().catch(() => ({}))) as T & { detail?: unknown };
+    const detail = payload.detail;
     const error = typeof detail === "string" ? detail : detail ? JSON.stringify(detail) : undefined;
-    return { ok: res.ok, status: res.status, data, error: res.ok ? undefined : (error ?? `HTTP ${res.status}`) };
+    return { ok: res.ok, status: res.status, data: payload, error: res.ok ? undefined : (error ?? `HTTP ${res.status}`) };
   } catch (e) {
     return { ok: false, status: 0, data: {} as T, error: `API unreachable (${String(e).slice(0, 60)})` };
   }

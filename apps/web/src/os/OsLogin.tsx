@@ -37,6 +37,48 @@ function Plus({ className }: { className: string }) {
   );
 }
 
+/** The dev-build role picker under the login form: sets the X-Local-Role header the API honours only off Vercel. */
+function LocalDevStrip({ onPick }: { onPick: (r: Role) => void }) {
+  return (
+    <div className="mt-3 flex items-center gap-3 flex-wrap px-1 t-micro raise" data-testid="local-dev">
+      <span className="text-teal">LOCAL_DEV</span>
+      <span className="opacity-60">· no auth configured · dev build only · pick a role →</span>
+      {(["officer", "admin"] as Role[]).map((r) => (
+        <button
+          key={r}
+          data-testid={`local-${r}`}
+          onClick={() => onPick(r)}
+          className="t-micro raise px-3 py-1.5 border border-line text-muted hover:text-ink hover:border-teal transition-colors cursor-pointer"
+        >
+          {r.toUpperCase()}
+        </button>
+      ))}
+    </div>
+  );
+}
+
+/** What the form shows when there is no Supabase Auth: a plain explanation on Vercel, a disabled field in dev. */
+function NoAuthNotice({ mode }: { mode: string }) {
+  if (mode === "unconfigured")
+    return (
+      <div>
+        <MonoLabel accent>OS NOT CONFIGURED</MonoLabel>
+        <p className="text-[13px] text-muted mt-2 leading-relaxed">
+          This deployment has no Supabase Auth env vars, so there is no way to sign in yet. The public site works regardless. SETUP.md turns this on in 8 steps.
+        </p>
+      </div>
+    );
+  if (mode === "local")
+    return (
+      <div>
+        <MonoLabel accent>_school_email</MonoLabel>
+        <input className={input} type="email" placeholder="you@jjay.cuny.edu" disabled aria-label="School email (disabled: no auth configured)" />
+        <p className="t-micro opacity-50 mt-3">Email login turns on with the Supabase env vars (SETUP.md). In this dev build use the LOCAL_DEV strip below.</p>
+      </div>
+    );
+  return null;
+}
+
 function Gate() {
   const navigate = useNavigate();
   const [params] = useSearchParams();
@@ -200,24 +242,7 @@ function Gate() {
                 {msg && <p className="t-micro text-(--color-red-hi) mt-5">{msg}</p>}
               </form>
             )}
-            {mode === "unconfigured" && (
-              <div>
-                <MonoLabel accent>OS NOT CONFIGURED</MonoLabel>
-                <p className="text-[13px] text-muted mt-2 leading-relaxed">
-                  This deployment has no Supabase Auth env vars, so there is no way to sign in yet. The public site works regardless. SETUP.md turns this on in
-                  8 steps.
-                </p>
-              </div>
-            )}
-            {mode === "local" && (
-              <div>
-                <MonoLabel accent>_school_email</MonoLabel>
-                <input className={input} type="email" placeholder="you@jjay.cuny.edu" disabled aria-label="School email (disabled: no auth configured)" />
-                <p className="t-micro opacity-50 mt-3">
-                  Email login turns on with the Supabase env vars (SETUP.md). In this dev build use the LOCAL_DEV strip below.
-                </p>
-              </div>
-            )}
+            <NoAuthNotice mode={mode} />
           </div>
 
           <p className="t-micro opacity-40 mt-6">
@@ -234,20 +259,7 @@ function Gate() {
         </div>
 
         {mode === "local" && !import.meta.env.PROD && (
-          <div className="mt-3 flex items-center gap-3 flex-wrap px-1 t-micro raise" data-testid="local-dev">
-            <span className="text-teal">LOCAL_DEV</span>
-            <span className="opacity-60">· no auth configured · dev build only · pick a role →</span>
-            {(["officer", "admin"] as Role[]).map((r) => (
-              <button
-                key={r}
-                data-testid={`local-${r}`}
-                onClick={() => void loginLocal(r).then(() => navigate(next.startsWith("/os") ? next : "/os"))}
-                className="t-micro raise px-3 py-1.5 border border-line text-muted hover:text-ink hover:border-teal transition-colors cursor-pointer"
-              >
-                {r.toUpperCase()}
-              </button>
-            ))}
-          </div>
+          <LocalDevStrip onPick={(r) => void loginLocal(r).then(() => navigate(next.startsWith("/os") ? next : "/os"))} />
         )}
       </div>
     </div>

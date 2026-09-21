@@ -10,8 +10,10 @@ import { OsTable, StatusWord, type Row } from "./ui/OsTable";
 import { OsForm, type Field } from "./ui/OsForm";
 import { act, useNotice, useOsList } from "./ui/useOs";
 import { Button } from "@/components/Button";
-import { Meter } from "@/components/cards/Meter";
 import { MonoLabel } from "@/components/MonoLabel";
+import { BulkPaste, type Bulk } from "./resources/BulkPaste";
+import { DeadLinkReport } from "./resources/DeadLinkReport";
+import { useResourceWrites } from "./resources/useResourceWrites";
 
 const FIELDS: Field[] = [
   { name: "group", label: "GROUP", required: true, placeholder: "General Knowledge" },
@@ -27,7 +29,7 @@ export default function OsResources() {
   const [editLink, setEditLink] = useState<Row | null>(null);
   const [check, setCheck] = useState<{ checked: number; dead: Row[] } | null>(null);
   const [deadOnly, setDeadOnly] = useState(false);
-  const [bulk, setBulk] = useState<{ group: string; text: string; preview?: Row[] } | null>(null);
+  const [bulk, setBulk] = useState<Bulk | null>(null);
   const { notice, say } = useNotice();
   const [busy, setBusy] = useState(false);
 
@@ -41,74 +43,8 @@ export default function OsResources() {
     return m;
   }, [res.rows, deadOnly]);
 
-  async function save(v: Record<string, unknown>) {
-    setBusy(true);
-    const r = sel === "new" ? await act("/api/os/resources", { body: v }) : await act(`/api/os/resources/${(sel as Row).id}`, { method: "PATCH", body: v });
-    say(r.ok, r.msg);
-    setBusy(false);
-    await res.reload();
-    if (r.ok) setSel(null);
-  }
-  async function remove(id: string) {
-    const r = await act(`/api/os/resources/${id}`, { method: "DELETE" });
-    say(r.ok, r.ok ? "Removed." : r.msg);
-    await res.reload();
-    setSel(null);
-  }
-  async function move(row: Row, dir: -1 | 1) {
-    const ids = (groups.get(String(row.group)) ?? []).map((r) => String(r.id));
-    const i = ids.indexOf(String(row.id));
-    if (i + dir < 0 || i + dir >= ids.length) return;
-    [ids[i], ids[i + dir]] = [ids[i + dir], ids[i]];
-    await act("/api/os/resources/reorder", { body: { ids } });
-    await res.reload();
-  }
-  async function checkOne(row: Row) {
-    const r = await act<{ dead: boolean; status: number | null }>(`/api/os/resources/${row.id}/check`, { method: "POST" });
-    say(r.ok, r.ok ? (r.data.dead ? `Still dead (${r.data.status ?? "no response"}) — fix the URL.` : `Alive (${r.data.status}).`) : r.msg);
-    await res.reload();
-  }
-  async function renameCategory(g: string) {
-    const to = prompt(`Rename category "${g}" to:`, g);
-    if (!to || to === g) return;
-    const r = await act("/api/os/resources/category/rename", { body: { group: g, to } });
-    say(r.ok, r.ok ? `Renamed — /resources shows "${to}".` : r.msg);
-    await res.reload();
-  }
-  async function deleteCategory(g: string) {
-    const first = await act("/api/os/resources/category/delete", { body: { group: g } });
-    if (first.ok) {
-      say(true, "Category removed.");
-    } else if (first.status === 409) {
-      const names = ((first.err?.links as string[]) ?? []).join(", ");
-      if (!confirm(`"${g}" still holds: ${names}. Delete the category AND every link in it?`)) return;
-      const r = await act("/api/os/resources/category/delete", { body: { group: g, cascade: true } });
-      say(r.ok, r.ok ? `Deleted the category and ${String((r.data as { deleted?: number }).deleted ?? 0)} link(s).` : r.msg);
-    } else say(false, first.msg);
-    await res.reload();
-  }
-  async function moveCategory(g: string, dir: -1 | 1) {
-    const order = [...groups.keys()];
-    const i = order.indexOf(g);
-    if (i + dir < 0 || i + dir >= order.length) return;
-    [order[i], order[i + dir]] = [order[i + dir], order[i]];
-    await act("/api/os/resources/category/reorder", { body: { groups: order } });
-    await res.reload();
-  }
-  async function runBulk(commit: boolean) {
-    if (!bulk) return;
-    setBusy(true);
-    const r = await act<{ rows?: Row[]; created?: number; skipped?: number }>("/api/os/resources/bulk", {
-      body: { group: bulk.group, text: bulk.text, dry_run: !commit },
-    });
-    setBusy(false);
-    if (!r.ok) return say(false, r.msg);
-    if (commit) {
-      say(true, `Added ${r.data.created} link(s), skipped ${r.data.skipped}.`);
-      setBulk(null);
-      await res.reload();
-    } else setBulk({ ...bulk, preview: r.data.rows ?? [] });
-  }
+  const writes = useResourceWrites({ reload: res.reload, groups, say, setBusy, sel, bulk, setBulk, setSel });
+  const { save, remove, move, checkOne, renameCategory, deleteCategory, moveCategory, runBulk } = writes;
   async function runCheck() {
     setBusy(true);
     const r = await act<{ checked: number; dead: Row[] }>("/api/os/links/check", { method: "POST" });
@@ -162,61 +98,8 @@ export default function OsResources() {
           dead only
         </button>
       </div>
-      {bulk && (
-        <div className="mt-4 border border-line p-4 max-w-[820px]" data-testid="bulk">
-          <p className="mono-label text-muted">BULK PASTE · one URL per line, or `Title | URL`</p>
-          <div className="flex gap-3 mt-2 flex-wrap">
-            <input
-              value={bulk.group}
-              onChange={(e) => setBulk({ ...bulk, group: e.target.value })}
-              aria-label="Category"
-              placeholder="category"
-              className="bg-transparent border-b border-line px-1 py-1 font-mono text-[12px] text-ink outline-none focus:border-teal"
-            />
-          </div>
-          <textarea
-            value={bulk.text}
-            onChange={(e) => setBulk({ ...bulk, text: e.target.value, preview: undefined })}
-            rows={5}
-            aria-label="URLs"
-            className="mt-2 w-full bg-transparent border border-line px-3 py-2 font-mono text-[12px] text-ink outline-none focus:border-teal"
-          />
-          {bulk.preview && (
-            <ul className="mt-2 text-[12px] font-mono space-y-0.5" data-testid="bulk-preview">
-              {bulk.preview.map((r, i) => (
-                <li key={i} className={r.ok && !r.duplicate ? "text-green" : "text-(--color-red-hi)"}>
-                  {r.ok ? (r.duplicate ? "DUP " : "OK  ") : "BAD "} {String(r.title)} · {String(r.url)}
-                </li>
-              ))}
-            </ul>
-          )}
-          <div className="flex gap-2 mt-3">
-            <Button variant="ghost" disabled={busy || !bulk.text.trim()} onClick={() => runBulk(false)}>
-              preview
-            </Button>
-            <Button variant="primary" disabled={busy || !bulk.preview} onClick={() => runBulk(true)}>
-              confirm · add {bulk.preview?.filter((r) => r.ok && !r.duplicate).length ?? 0}
-            </Button>
-            <Button variant="ghost" onClick={() => setBulk(null)}>
-              cancel
-            </Button>
-          </div>
-        </div>
-      )}
-      {check && (
-        <div className="mt-4 max-w-[640px]">
-          <Meter label="dead links" value={check.dead.length} max={Math.max(check.checked, 1)} />
-          {check.dead.length > 0 && (
-            <ul className="mt-2 text-[13px] text-muted space-y-1">
-              {check.dead.map((d) => (
-                <li key={String(d.id)} className="font-mono text-[12px]">
-                  <span className="text-(--color-red-hi)">{String(d.status ?? "ERR")}</span> · {String(d.url)}
-                </li>
-              ))}
-            </ul>
-          )}
-        </div>
-      )}
+      {bulk && <BulkPaste bulk={bulk} setBulk={setBulk} busy={busy} onRun={runBulk} />}
+      {check && <DeadLinkReport check={check} />}
 
       <section className="mt-6">
         <MonoLabel accent>SITE LINKS · edit in place</MonoLabel>

@@ -4,13 +4,14 @@
     up/down reorder. "Add on behalf of a student" uses the same fields. */
 import { useMemo, useState } from "react";
 import { projectsSpec } from "./ui/specs";
-import { OsPage, Chips, KeyVal, Panel, Notice, Empty } from "./ui/OsPage";
+import { OsPage, Chips, Panel, Notice, Empty } from "./ui/OsPage";
 import { OsTable, StatusWord, ago, type Row } from "./ui/OsTable";
 import { OsForm, type Field } from "./ui/OsForm";
-import { act, useNotice, useOsList } from "./ui/useOs";
+import { useNotice, useOsList } from "./ui/useOs";
 import { useEntity } from "./ui/useEntity";
+import { ReviewPanel } from "./projects/ReviewPanel";
+import { useProjectWrites } from "./projects/useProjectWrites";
 import { ListTools, useListTools } from "./ui/OsTable";
-import { Button } from "@/components/Button";
 
 const VIEWS = ["queue", "published", "archived", "add"] as const;
 const KINDS = ["app", "project", "research", "tool"] as const;
@@ -46,86 +47,8 @@ export default function OsProjects() {
     };
   }, [rows]);
 
-  async function decide(id: string, decision: string) {
-    if (decision === "request_changes" && !note.trim()) return say(false, "A note is required when requesting changes.");
-    setBusy(true);
-    const r = await act(`/api/os/projects/${id}/decide`, { body: { decision, note } });
-    say(r.ok, r.ok ? `Decision recorded: ${decision.replace("_", " ")}.` : r.msg);
-    setBusy(false);
-    await reload();
-    setSel(null);
-  }
-  async function publish(id: string) {
-    const r = await act(`/api/os/projects/${id}/publish`, { method: "POST" });
-    say(r.ok, r.ok ? "Published to /projects." : r.msg);
-    await reload();
-    setSel(null);
-  }
-  async function move(id: string, dir: -1 | 1) {
-    const ids = groups.published.map((r) => String(r.id));
-    const i = ids.indexOf(id);
-    if (i < 0 || i + dir < 0 || i + dir >= ids.length) return;
-    [ids[i], ids[i + dir]] = [ids[i + dir], ids[i]];
-    await act("/api/os/projects/reorder", { body: { ids } });
-    await reload();
-  }
-  async function toggleFeatured(r: Row) {
-    const res = r.featured
-      ? await act(`/api/os/projects/${r.id}/unfeature`, { method: "POST" })
-      : await act(`/api/os/projects/${r.id}/feature`, { method: "POST" });
-    say(res.ok, res.ok ? (r.featured ? "Unfeatured." : "Featured — pinned to the top three on /projects.") : res.msg);
-    await reload();
-    setSel(null);
-  }
-  async function unpublish(r: Row) {
-    const res = await act(`/api/os/projects/${r.id}/unpublish`, { method: "POST" });
-    say(res.ok, res.ok ? "Unpublished — back to approved; /projects no longer lists it." : res.msg);
-    await reload();
-    setSel(null);
-  }
-  async function saveEdit(v: Record<string, unknown>) {
-    if (!editing) return;
-    const authors = (Array.isArray(v.authors_text) ? v.authors_text : []).map((n) => ({ name: String(n) }));
-    const r = await E.save(String(editing.id), {
-      title: v.title,
-      kind: v.kind,
-      summary: v.summary,
-      platform: v.platform ?? [],
-      stack: v.stack ?? [],
-      links: { repo: v.repo ?? "", live: v.live ?? "" },
-      benefits_jj: v.benefits_jj ?? "",
-      authors,
-      term: v.term ?? "",
-      updated_at: editing.updated_at,
-    });
-    if (r.ok) {
-      setEditing(null);
-      setSel(null);
-    }
-  }
-  async function add(v: Record<string, unknown>) {
-    setBusy(true);
-    const authors = (Array.isArray(v.authors_text) ? v.authors_text : []).map((n) => ({ name: String(n) }));
-    const r = await act("/api/os/projects", {
-      body: {
-        title: v.title,
-        kind: v.kind,
-        summary: v.summary,
-        platform: v.platform ?? [],
-        stack: v.stack ?? [],
-        links: { repo: v.repo ?? "", live: v.live ?? "" },
-        benefits_jj: v.benefits_jj ?? "",
-        authors,
-        term: v.term ?? "",
-        status: "approved",
-        client_id: v.client_id,
-      },
-    });
-    say(r.ok, r.ok ? "Added — it is in the queue as approved; publish it when ready." : r.msg);
-    setBusy(false);
-    await reload();
-    setView("queue");
-  }
+  const writes = useProjectWrites({ reload, say, setBusy, setSel, setEditing, setView, note, editing, published: groups.published, save: E.save });
+  const { decide, publish, move, toggleFeatured, unpublish, saveEdit, add } = writes;
 
   const cols = [
     { key: "title", label: "TITLE", render: (r: Row) => <span className="text-ink">{String(r.title)}</span> },
@@ -196,107 +119,19 @@ export default function OsProjects() {
       )}
 
       {sel && (
-        <Panel title={`PROJECT · ${String(sel.kind).toUpperCase()} · ${String(sel.id).slice(-8)}`} onClose={() => setSel(null)} wide>
-          <h2 className="font-display font-bold text-xl mb-4">{String(sel.title)}</h2>
-          <KeyVal
-            rows={[
-              { k: "STATUS", v: <StatusWord s={sel.status} /> },
-              { k: "SUMMARY", v: String(sel.summary ?? "") },
-              { k: "AUTHORS", v: Array.isArray(sel.authors) ? sel.authors.map((a) => (a as { name: string }).name).join(", ") : "—" },
-              { k: "EMAIL", v: String(sel.author_email ?? "—") },
-              { k: "PLATFORM", v: Array.isArray(sel.platform) ? sel.platform.join(" · ") : "—" },
-              {
-                k: "LINKS",
-                v: Object.entries((sel.links as Record<string, string>) ?? {})
-                  .filter(([, u]) => u)
-                  .map(([k, u]) => (
-                    <a key={k} href={u} target="_blank" rel="noreferrer" className="text-teal u-draw mr-3">
-                      {k} ↗
-                    </a>
-                  )),
-              },
-              { k: "FOR JOHN JAY", v: String(sel.benefits_jj ?? "") },
-              { k: "REVIEW NOTES", v: String(sel.review_notes ?? "") },
-              { k: "REVIEWED BY", v: String(sel.reviewed_by ?? "") },
-              {
-                k: "HISTORY",
-                v:
-                  Array.isArray(sel.history) && sel.history.length ? (
-                    <ul className="space-y-0.5">
-                      {(sel.history as { at: number; by: string; to: string; note?: string }[]).map((h, i) => (
-                        <li key={i} className="t-micro">
-                          {new Date(h.at * 1000).toISOString().slice(0, 10)} · {h.by} → {h.to}
-                          {h.note ? ` — ${h.note}` : ""}
-                        </li>
-                      ))}
-                    </ul>
-                  ) : (
-                    "—"
-                  ),
-              },
-            ]}
-          />
-          <div className="flex gap-2 mt-3">
-            <Button variant="ghost" onClick={() => setEditing(sel)}>
-              edit fields
-            </Button>
-          </div>
-          {String(sel.status) !== "published" && String(sel.status) !== "archived" && (
-            <div className="mt-5">
-              <label className="block mb-3">
-                <span className="mono-label text-muted">NOTE TO THE STUDENT (required for request-changes)</span>
-                <textarea
-                  value={note}
-                  onChange={(e) => setNote(e.target.value)}
-                  rows={3}
-                  className="w-full bg-transparent border border-line px-3 py-2 font-mono text-[13px] text-ink focus:border-teal outline-none mt-1"
-                />
-              </label>
-              <div className="flex flex-wrap gap-2">
-                {String(sel.status) === "submitted" && (
-                  <Button variant="ghost" disabled={busy} onClick={() => decide(String(sel.id), "in_review")}>
-                    start review
-                  </Button>
-                )}
-                {String(sel.status) !== "approved" && (
-                  <Button variant="ghost" disabled={busy} onClick={() => decide(String(sel.id), "approve")}>
-                    approve
-                  </Button>
-                )}
-                <Button variant="ghost" disabled={busy} onClick={() => decide(String(sel.id), "request_changes")}>
-                  request changes
-                </Button>
-                {String(sel.status) === "approved" && (
-                  <Button variant="primary" disabled={busy} onClick={() => publish(String(sel.id))}>
-                    publish
-                  </Button>
-                )}
-                <Button variant="ghost" disabled={busy} onClick={() => decide(String(sel.id), "archive")}>
-                  archive
-                </Button>
-              </div>
-            </div>
-          )}
-          {String(sel.status) === "published" && (
-            <div className="flex flex-wrap gap-2 mt-5">
-              <Button variant="ghost" onClick={() => toggleFeatured(sel)}>
-                {sel.featured ? "unfeature" : "feature"}
-              </Button>
-              <Button variant="ghost" onClick={() => unpublish(sel)}>
-                unpublish
-              </Button>
-              <Button variant="ghost" onClick={() => move(String(sel.id), -1)}>
-                ↑ up
-              </Button>
-              <Button variant="ghost" onClick={() => move(String(sel.id), 1)}>
-                ↓ down
-              </Button>
-              <Button variant="ghost" onClick={() => decide(String(sel.id), "archive")}>
-                archive
-              </Button>
-            </div>
-          )}
-        </Panel>
+        <ReviewPanel
+          project={sel}
+          note={note}
+          setNote={setNote}
+          busy={busy}
+          onClose={() => setSel(null)}
+          onEdit={() => setEditing(sel)}
+          onDecide={(decision) => decide(String(sel.id), decision)}
+          onPublish={() => publish(String(sel.id))}
+          onFeature={() => toggleFeatured(sel)}
+          onUnpublish={() => unpublish(sel)}
+          onMove={(dir) => move(String(sel.id), dir)}
+        />
       )}
       {editing && (
         <Panel title={`EDIT · ${String(editing.title)}`} onClose={() => setEditing(null)} wide>

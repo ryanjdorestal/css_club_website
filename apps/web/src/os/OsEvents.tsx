@@ -4,11 +4,12 @@
     from the date. Published rows drive /events and Home §4 through /api/events. */
 import { useState } from "react";
 import { eventsSpec } from "./ui/specs";
-import { OsPage, Chips, ConflictBlock, Empty, Panel } from "./ui/OsPage";
+import { OsPage, Chips, Empty, Panel } from "./ui/OsPage";
 import { ListTools, OsTable, StatusWord, useListTools, type Row } from "./ui/OsTable";
 import { OsForm, type Field } from "./ui/OsForm";
 import { useOsList } from "./ui/useOs";
 import { useEntity } from "./ui/useEntity";
+import { EntityConflict, PublishButtons } from "./ui/EntityPanel";
 import { Button } from "@/components/Button";
 import { Upload } from "./ui/Upload";
 
@@ -103,7 +104,8 @@ export default function OsEvents() {
             { label: "PUBLISH", onClick: (r) => void E.publish(r), hidden: (r) => r.status !== "draft" },
             {
               label: "DUPLICATE → NEXT TERM",
-              onClick: (r) => void E.run(`/api/os/events/${r.id}/duplicate`, { method: "POST" }, "Duplicated as a draft — set the new date and semester"),
+              onClick: (r) =>
+                void E.run(`/api/os/events/${r.id}/duplicate`, { method: "POST" }, { ok: "Duplicated as a draft — set the new date and semester" }),
               hidden: (r) => r.status !== "published",
             },
           ])}
@@ -116,17 +118,7 @@ export default function OsEvents() {
       </div>
       {sel && (
         <Panel title={sel === "new" ? "NEW EVENT" : `EVENT · ${String(sel.id).slice(-12)}`} onClose={() => setSel(null)} wide>
-          {E.conflict && (
-            <ConflictBlock
-              err={E.conflict}
-              onReload={() => {
-                E.setConflict(null);
-                const fresh = rows.find((r) => r.id === (sel as Row).id);
-                if (fresh) open(fresh);
-              }}
-              onOverwrite={() => void save(initial, true)}
-            />
-          )}
+          <EntityConflict entity={E} rows={rows} selected={sel as Row} open={open} onOverwrite={() => void save(initial, true)} />
           <Upload label="FLYER" value={flyer} onChange={setFlyer} />
           <OsForm
             key={sel === "new" ? "new" : String(sel.id)}
@@ -138,20 +130,11 @@ export default function OsEvents() {
             onSubmit={(v) => save(v)}
             extra={
               <>
-                {sel !== "new" && String(sel.status) === "draft" && (
-                  <Button type="button" variant="primary" disabled={E.busy} onClick={() => void E.publish(sel).then(() => setSel(null))}>
-                    publish
-                  </Button>
-                )}
+                <PublishButtons entity={E} row={sel} onDone={() => setSel(null)} />
                 {sel !== "new" && String(sel.status) === "published" && (
-                  <>
-                    <Button type="button" variant="ghost" disabled={E.busy} onClick={() => void E.unpublish(sel).then(() => setSel(null))}>
-                      unpublish
-                    </Button>
-                    <a href="/events" target="_blank" rel="noreferrer" className="t-micro raise text-teal u-draw">
-                      → /events ↗
-                    </a>
-                  </>
+                  <a href="/events" target="_blank" rel="noreferrer" className="t-micro raise text-teal u-draw">
+                    → /events ↗
+                  </a>
                 )}
               </>
             }

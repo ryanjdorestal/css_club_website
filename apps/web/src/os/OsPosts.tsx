@@ -1,18 +1,27 @@
-/** /os/posts — write News posts. List (status · author · date, searchable, sortable, CSV) →
-    editor with a markdown toolbar + live preview (same md.ts as /news), word count, cover
-    upload/replace/remove, slug with a live uniqueness check, save draft / review / publish /
-    unpublish / archive / unarchive / duplicate / delete draft, PREVIEW ↗, 409 on stale saves. */
+/** The Posts module of CSS OS (`/os/posts`) — where the board writes the news that `/news` shows.
+    How it is put together, top to bottom:
+      · FIELDS says which inputs the editor has and the rule under each one (OsForm renders them).
+      · `useOsList` loads the rows from GET /api/os/posts; `useEntity` gives every write the board
+        expects — save (with a 409 when someone else saved first), publish, unpublish, archive,
+        duplicate, delete — each with a toast and an UNDO.
+      · The page renders: filter tabs → search/sort/CSV tools → the table → a side panel with the
+        form when a row (or "new") is selected. The panel's conflict block and publish buttons are
+        shared with Events and Workshops (ui/EntityPanel.tsx).
+    A post is a markdown body plus a slug; the slug must be unique, and the editor checks that live. */
 import { useState } from "react";
 import { postsSpec } from "./ui/specs";
-import { OsPage, Chips, ConflictBlock, Empty, Panel } from "./ui/OsPage";
+import { OsPage, Chips, Empty, Panel } from "./ui/OsPage";
 import { ListTools, OsTable, StatusWord, ago, useListTools, type Row } from "./ui/OsTable";
 import { OsForm, type Field } from "./ui/OsForm";
 import { useOsList } from "./ui/useOs";
 import { useEntity } from "./ui/useEntity";
+import { EntityConflict, PublishButtons } from "./ui/EntityPanel";
 import { Button } from "@/components/Button";
 import { Upload } from "./ui/Upload";
 
+// the filter tabs above the table, in the order a post moves through
 const VIEWS = ["all", "draft", "review", "published", "archived"] as const;
+// the editor's inputs: name = the API field, label = what the officer sees, the rest = the rules OsForm prints and checks
 const FIELDS: Field[] = [
   { name: "title", label: "TITLE", required: true, max: 200 },
   { name: "slug", label: "SLUG", pattern: "slug", max: 120, help: "auto from the title; editable before the first publish", placeholder: "fall-kickoff" },
@@ -111,17 +120,7 @@ export default function OsPosts() {
       </div>
       {sel && (
         <Panel title={sel === "new" ? "NEW POST" : `POST · ${String(sel.slug)}`} onClose={() => setSel(null)} wide>
-          {E.conflict && (
-            <ConflictBlock
-              err={E.conflict}
-              onReload={() => {
-                E.setConflict(null);
-                const fresh = rows.find((r) => r.id === (sel as Row).id);
-                if (fresh) open(fresh);
-              }}
-              onOverwrite={() => void save(initial, undefined, true)}
-            />
-          )}
+          <EntityConflict entity={E} rows={rows} selected={sel as Row} open={open} onOverwrite={() => void save(initial, undefined, true)} />
           {sel !== "new" && String(sel.status) === "published" && (
             <p className="t-micro text-green mb-3">
               Published to{" "}
@@ -147,16 +146,7 @@ export default function OsPosts() {
                     send to review
                   </Button>
                 )}
-                {sel !== "new" && ["draft", "review"].includes(String(sel.status)) && (
-                  <Button type="button" variant="primary" disabled={E.busy} onClick={() => void E.publish(sel).then(() => setSel(null))}>
-                    publish
-                  </Button>
-                )}
-                {sel !== "new" && String(sel.status) === "published" && (
-                  <Button type="button" variant="ghost" disabled={E.busy} onClick={() => void E.unpublish(sel).then(() => setSel(null))}>
-                    unpublish
-                  </Button>
-                )}
+                <PublishButtons entity={E} row={sel} onDone={() => setSel(null)} publishFrom={["draft", "review"]} />
               </>
             }
           />

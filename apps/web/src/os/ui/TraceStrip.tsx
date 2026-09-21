@@ -49,7 +49,7 @@ export function TraceStrip({
   height?: number;
 }) {
   const ref = useRef<HTMLCanvasElement>(null);
-  const data = useMemo(() => {
+  const channelsToDraw = useMemo(() => {
     const groups = [...new Set(rows.map((r) => String(r[groupBy] ?? "all")))].slice(0, channels);
     const names = labels ?? (groups.length ? groups : ["ALL"]);
     const series = names.map((_, i) => dayCounts(rows, field, labels ? undefined : (r) => String(r[groupBy] ?? "all") === groups[i]));
@@ -67,13 +67,13 @@ export function TraceStrip({
       const w = (c.width = c.clientWidth * devicePixelRatio);
       const hgt = (c.height = c.clientHeight * devicePixelRatio);
       ctx.clearRect(0, 0, w, hgt);
-      const n = data.series.length || 1;
+      const n = channelsToDraw.series.length || 1;
       const lane = hgt / n;
       const step = w / (DAYS - 1);
       const drift = reduced ? 0 : (((now - start) / 1000) * 8 * devicePixelRatio) % step;
       ctx.lineWidth = devicePixelRatio;
       ctx.strokeStyle = getComputedStyle(c).color;
-      data.series.forEach((s, i) => {
+      channelsToDraw.series.forEach((s, i) => {
         const max = Math.max(1, ...s);
         const base = lane * i + lane * 0.8;
         ctx.beginPath();
@@ -89,13 +89,13 @@ export function TraceStrip({
     };
     raf = requestAnimationFrame(draw);
     return () => cancelAnimationFrame(raf);
-  }, [data]);
-  const summary = data.names.map((n, i) => `${n}: ${data.series[i].reduce((a, v) => a + v, 0)} in ${DAYS} days`).join("; ");
+  }, [channelsToDraw]);
+  const summary = channelsToDraw.names.map((n, i) => `${n}: ${channelsToDraw.series[i].reduce((a, v) => a + v, 0)} in ${DAYS} days`).join("; ");
   return (
     <div className={`relative text-teal pointer-events-none ${className}`} style={height ? { height } : undefined}>
       <canvas ref={ref} aria-hidden className="absolute inset-0 w-full h-full" />
       <ul aria-hidden className="absolute left-0 inset-y-0 flex flex-col justify-around t-micro opacity-70">
-        {data.names.map((n, i) => (
+        {channelsToDraw.names.map((n, i) => (
           <li key={n} className="tnum">
             {String(n).slice(0, 3).toUpperCase()}-{String(i + 1).padStart(2, "0")}
           </li>

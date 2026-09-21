@@ -2,16 +2,17 @@
     term rollover wizard (confirm dates → who continues → done). */
 import { useState } from "react";
 import { boardSpec } from "./ui/specs";
-import { DossierCard } from "./ui/DossierCard";
-import { FolderCard } from "@/components/cards/FolderCard";
-import { OsPage, Chips, KeyVal, Notice, Panel } from "./ui/OsPage";
-import { OsTable, StatusWord, type Row } from "./ui/OsTable";
+import { OsPage, Chips, Notice, Panel } from "./ui/OsPage";
+import { OsTable, StatusWord, type Row, type RowAction } from "./ui/OsTable";
 import { OsForm, type Field } from "./ui/OsForm";
 import { act, useNotice, useOsList } from "./ui/useOs";
 import { useSession } from "./session";
 import { Button } from "@/components/Button";
 import { Upload } from "./ui/Upload";
-import { MonoLabel } from "@/components/MonoLabel";
+import { RolloverWizard, type Rollover } from "./board/RolloverWizard";
+import { TermPanel } from "./board/TermPanel";
+import { OfficerFolders, TermsTable } from "./board/BoardViews";
+import { useBoardWrites } from "./board/useBoardWrites";
 
 const FIELDS: Field[] = [
   { name: "name", label: "NAME", required: true },
@@ -24,6 +25,40 @@ const FIELDS: Field[] = [
   { name: "sort", label: "SORT", type: "number" },
 ];
 
+const EMPTY_ROLLOVER: Rollover = { step: 1, next_id: "", next_label: "", starts_on: "", ends_on: "", continuing: [] };
+
+function AdminActions({ onAddOfficer, onRollover, onNewTerm }: { onAddOfficer: () => void; onRollover: () => void; onNewTerm: () => void }) {
+  return (
+    <>
+      <Button variant="ghost" onClick={onAddOfficer}>
+        + add officer
+      </Button>
+      <Button variant="ghost" onClick={onRollover}>
+        term rollover
+      </Button>
+      <Button variant="ghost" onClick={onNewTerm}>
+        + new term
+      </Button>
+    </>
+  );
+}
+
+/** EDIT · ▲ UP · ▼ DOWN · REMOVE (an officer who filed a handoff is archived by the API instead — 409). */
+function officerActions(h: { term: string; open: (r: Row) => void; moveSeat: (r: Row, dir: -1 | 1) => Promise<void>; remove: (r: Row) => void }): RowAction[] {
+  return [
+    { label: "EDIT", onClick: h.open },
+    { label: "▲ UP", onClick: (r) => void h.moveSeat(r, -1) },
+    { label: "▼ DOWN", onClick: (r) => void h.moveSeat(r, 1) },
+    {
+      label: "REMOVE",
+      danger: true,
+      onClick: (r) => {
+        if (confirm(`Remove ${String(r.name)} from ${h.term}? An officer who filed a handoff is archived instead.`)) h.remove(r);
+      },
+    },
+  ];
+}
+
 export default function OsBoard() {
   const { actor } = useSession();
   const admin = actor?.role === "admin";
@@ -34,90 +69,23 @@ export default function OsBoard() {
   const [sel, setSel] = useState<Row | "new" | null>(null);
   const [termPanel, setTermPanel] = useState<Row | "new" | null>(null);
   const [photo, setPhoto] = useState("");
-  const [roll, setRoll] = useState<null | {
-    step: 1 | 2 | 3;
-    next_id: string;
-    next_label: string;
-    starts_on: string;
-    ends_on: string;
-    continuing: string[];
-    result?: Row;
-  }>(null);
+  const [roll, setRoll] = useState<Rollover | null>(null);
   const { notice, say } = useNotice();
-  const [busy, setBusy] = useState(false);
   const termIds = ["current", ...terms.rows.map((t) => String(t.id))];
   const shownTerm = term === "current" ? String(current?.id ?? "") : term;
   const rows = board.rows.filter((r) => r.term === shownTerm).sort((a, b) => Number(a.sort ?? 0) - Number(b.sort ?? 0));
 
-  async function save(v: Record<string, unknown>) {
-    setBusy(true);
-    const body = { ...v, term: v.term || shownTerm, photo_path: photo || null, active: v.active ?? true };
-    const r = sel === "new" ? await act("/api/os/board", { body }) : await act(`/api/os/board/${(sel as Row).id}`, { method: "PATCH", body });
-    say(r.ok, r.msg);
-    setBusy(false);
-    await board.reload();
-    if (r.ok) setSel(null);
-  }
-  async function saveTerm(v: Record<string, unknown>) {
-    setBusy(true);
-    const tid = String(v.__id ?? (termPanel !== "new" && termPanel ? termPanel.id : ""));
-    const r =
-      termPanel === "new" && !v.__id
-        ? await act("/api/os/terms", {
-            body: {
-              id: String(v.id ?? "").toUpperCase(),
-              label: v.label,
-              starts_on: v.starts_on || null,
-              ends_on: v.ends_on || null,
-              is_current: !!v.is_current,
-            },
-          })
-        : await act(`/api/os/terms/${tid}`, {
-            method: "PATCH",
-            body: { label: v.label, starts_on: v.starts_on || null, ends_on: v.ends_on || null, is_current: !!v.is_current },
-            expect: null,
-          });
-    say(r.ok, r.ok ? (v.is_current ? "Term saved and set current — /about shows it." : "Term saved.") : r.msg);
-    setBusy(false);
-    await terms.reload();
-    if (r.ok) {
-      setTermPanel(null);
-      if (v.is_current) setTerm("current");
-    }
-  }
-  async function deleteTerm(t: Row) {
-    if (!confirm(`Delete term ${String(t.id)}? Refused if it is current or still holds officers/records.`)) return;
-    const r = await act(`/api/os/terms/${String(t.id)}`, { method: "DELETE" });
-    say(r.ok, r.ok ? "Term deleted." : r.msg);
-    await terms.reload();
-  }
-  async function moveSeat(r: Row, dir: -1 | 1) {
-    const i = rows.findIndex((x) => x.id === r.id);
-    const j = i + dir;
-    if (i < 0 || j < 0 || j >= rows.length) return;
-    await act(`/api/os/board/${r.id}`, { method: "PATCH", body: { name: r.name, sort: j }, expect: null });
-    await act(`/api/os/board/${rows[j].id}`, { method: "PATCH", body: { name: rows[j].name, sort: i }, expect: null });
-    await board.reload();
-  }
-  async function doRollover() {
-    if (!roll) return;
-    setBusy(true);
-    const r = await act<Row>("/api/os/terms/rollover", {
-      body: {
-        next_id: roll.next_id,
-        next_label: roll.next_label,
-        starts_on: roll.starts_on || null,
-        ends_on: roll.ends_on || null,
-        continuing_ids: roll.continuing,
-      },
+  const openOfficer = (r: Row | "new" = "new") => {
+    setPhoto(r === "new" ? "" : String(r.photo_path ?? ""));
+    setSel(r);
+  };
+  const writes = useBoardWrites({ board, terms, rows, shownTerm, sel, termPanel, photo, roll, say, setSel, setTermPanel, setTerm, setRoll });
+  const { busy, save, saveTerm, deleteTerm, moveSeat, doRollover } = writes;
+  const removeOfficer = (r: Row) =>
+    void act(`/api/os/board/${r.id}`, { method: "DELETE" }).then(async (res) => {
+      say(res.ok || res.status === 409, res.ok ? "Removed." : res.msg);
+      await board.reload();
     });
-    setBusy(false);
-    if (r.ok) {
-      setRoll({ ...roll, step: 3, result: r.data });
-      await Promise.all([board.reload(), terms.reload()]);
-      setTerm("current");
-    } else say(false, r.msg);
-  }
 
   return (
     <OsPage
@@ -128,27 +96,7 @@ export default function OsBoard() {
       actions={
         <>
           <Chips options={termIds} value={term} onChange={setTerm} />
-          {admin && (
-            <Button
-              variant="ghost"
-              onClick={() => {
-                setPhoto("");
-                setSel("new");
-              }}
-            >
-              + add officer
-            </Button>
-          )}
-          {admin && (
-            <Button variant="ghost" onClick={() => setRoll({ step: 1, next_id: "", next_label: "", starts_on: "", ends_on: "", continuing: [] })}>
-              term rollover
-            </Button>
-          )}
-          {admin && (
-            <Button variant="ghost" onClick={() => setTermPanel("new")}>
-              + new term
-            </Button>
-          )}
+          {admin && <AdminActions onAddOfficer={() => openOfficer("new")} onRollover={() => setRoll(EMPTY_ROLLOVER)} onNewTerm={() => setTermPanel("new")} />}
         </>
       }
       notHere={[
@@ -165,36 +113,7 @@ export default function OsBoard() {
         <p className="t-micro opacity-60 mb-2">
           TERM {shownTerm || "—"} {current && String(current.id) === shownTerm && "· CURRENT"} · {rows.filter((r) => r.active).length} can sign in
         </p>
-        {/* run 9: officers as folders (T11) with the dossier layout inside (R9_05) */}
-        {rows.length > 0 && (
-          <div className="grid sm:grid-cols-2 xl:grid-cols-3 gap-4 mb-5" data-testid="officer-folders">
-            {rows.map((r, i) => (
-              <FolderCard
-                key={String(r.id)}
-                tab={String(r.role_title ?? "OFFICER").toUpperCase()}
-                tone="os"
-                tabFrac={0.5}
-                edgeLabel={`BRD-${shownTerm}-${String(i + 1).padStart(2, "0")}`}
-              >
-                <DossierCard
-                  n={i + 1}
-                  name={String(r.name ?? "")}
-                  photo={r.photo_path ? String(r.photo_path) : null}
-                  code={`BRD-${shownTerm}-${String(i + 1).padStart(2, "0")}`}
-                  rows={[
-                    { k: "ROLE", v: String(r.role_title ?? "").toUpperCase() },
-                    { k: "TERM", v: shownTerm },
-                    { k: "EMAIL", v: r.email ? String(r.email) : null },
-                    { k: "STATUS", v: r.active ? "● ACTIVE" : "○ INACTIVE" },
-                    { k: "OS", v: String(r.os_role ?? "").toUpperCase() },
-                  ]}
-                  className="!border-0 !bg-transparent !p-0 [&_.brackets]:hidden"
-                  compact
-                />
-              </FolderCard>
-            ))}
-          </div>
-        )}
+        <OfficerFolders rows={rows} term={shownTerm} />
         <OsTable
           cols={[
             { key: "name", label: "NAME", render: (r) => <span className="text-ink">{String(r.name)}</span> },
@@ -204,97 +123,21 @@ export default function OsBoard() {
             { key: "active", label: "ACTIVE", render: (r) => (r.active ? <StatusWord s="active" /> : <StatusWord s="inactive" />) },
           ]}
           rows={rows}
-          onRow={
-            admin
-              ? (r) => {
-                  setPhoto(String(r.photo_path ?? ""));
-                  setSel(r);
-                }
-              : undefined
-          }
-          actions={
-            admin
-              ? [
-                  {
-                    label: "EDIT",
-                    onClick: (r) => {
-                      setPhoto(String(r.photo_path ?? ""));
-                      setSel(r);
-                    },
-                  },
-                  { label: "▲ UP", onClick: (r) => void moveSeat(r, -1) },
-                  { label: "▼ DOWN", onClick: (r) => void moveSeat(r, 1) },
-                  {
-                    label: "REMOVE",
-                    danger: true,
-                    onClick: (r) => {
-                      if (!confirm(`Remove ${String(r.name)} from ${shownTerm}? An officer who filed a handoff is archived instead.`)) return;
-                      void act(`/api/os/board/${r.id}`, { method: "DELETE" }).then(async (res) => {
-                        say(res.ok || res.status === 409, res.ok ? "Removed." : res.msg);
-                        await board.reload();
-                      });
-                    },
-                  },
-                ]
-              : undefined
-          }
+          onRow={admin ? openOfficer : undefined}
+          actions={admin ? officerActions({ term: shownTerm, open: openOfficer, moveSeat, remove: removeOfficer }) : undefined}
           empty="No officers on this term yet. Admin: add the first row (your own email) or run scripts/bootstrap_admin.py."
         />
       </div>
-      <section className="mt-8" data-testid="terms">
-        <p className="mono-label text-muted mb-2">TERMS · {terms.rows.length} on file · exactly one is current</p>
-        <OsTable
-          cols={[
-            { key: "id", label: "ID", mono: true },
-            { key: "label", label: "LABEL", render: (t) => <span className="text-ink">{String(t.label)}</span> },
-            { key: "starts_on", label: "STARTS", mono: true },
-            { key: "ends_on", label: "ENDS", mono: true },
-            { key: "is_current", label: "CURRENT", render: (t) => (t.is_current ? <StatusWord s="active" /> : "") },
-          ]}
-          rows={[...terms.rows].sort((a, b) => String(b.id).localeCompare(String(a.id)))}
-          onRow={admin ? (t) => setTermPanel(t) : undefined}
-          actions={
-            admin
-              ? [
-                  { label: "EDIT DATES", onClick: (t) => setTermPanel(t) },
-                  {
-                    label: "SET CURRENT",
-                    onClick: (t) =>
-                      void saveTerm({ label: t.label, starts_on: t.starts_on, ends_on: t.ends_on, is_current: true, __id: t.id }).then(() =>
-                        setTermPanel(null),
-                      ),
-                    hidden: (t) => !!t.is_current,
-                  },
-                  { label: "DELETE", onClick: (t) => void deleteTerm(t), danger: true, hidden: (t) => !!t.is_current },
-                ]
-              : undefined
-          }
-          empty="No terms on file — create one (admin)."
-        />
-      </section>
-      {termPanel && admin && (
-        <Panel title={termPanel === "new" ? "NEW TERM" : `TERM · ${String(termPanel.id)}`} onClose={() => setTermPanel(null)}>
-          <OsForm
-            key={termPanel === "new" ? "new" : String(termPanel.id)}
-            fields={[
-              ...(termPanel === "new"
-                ? [{ name: "id", label: "ID", required: true, max: 12, placeholder: "F26", help: "F = fall, S = spring, two-digit year" } as Field]
-                : []),
-              { name: "label", label: "LABEL", required: true, max: 60, placeholder: "Fall 2026" },
-              { name: "starts_on", label: "STARTS", type: "date" },
-              { name: "ends_on", label: "ENDS", type: "date" },
-              { name: "is_current", label: "CURRENT", type: "toggle", help: "moves the current flag here; the roster gate and /about follow it" },
-            ]}
-            initial={
-              termPanel === "new"
-                ? { is_current: false }
-                : { label: termPanel.label, starts_on: termPanel.starts_on, ends_on: termPanel.ends_on, is_current: termPanel.is_current }
-            }
-            busy={busy}
-            onSubmit={saveTerm}
-          />
-        </Panel>
-      )}
+      <TermsTable
+        terms={terms.rows}
+        admin={admin}
+        onEdit={setTermPanel}
+        onSetCurrent={(t) =>
+          void saveTerm({ label: t.label, starts_on: t.starts_on, ends_on: t.ends_on, is_current: true, __id: t.id }).then(() => setTermPanel(null))
+        }
+        onDelete={(t) => void deleteTerm(t)}
+      />
+      {termPanel && admin && <TermPanel term={termPanel} busy={busy} onClose={() => setTermPanel(null)} onSubmit={saveTerm} />}
       {sel && admin && (
         <Panel title={sel === "new" ? "ADD OFFICER" : `OFFICER · ${String(sel.name)}`} onClose={() => setSel(null)}>
           <Upload label="PHOTO" value={photo} onChange={setPhoto} />
@@ -309,75 +152,14 @@ export default function OsBoard() {
         </Panel>
       )}
       {roll && admin && (
-        <Panel title={`TERM ROLLOVER · STEP ${roll.step}/3`} onClose={() => setRoll(null)}>
-          {roll.step === 1 && (
-            <div className="space-y-4">
-              <KeyVal rows={[{ k: "CLOSING", v: `${current?.label ?? "—"} (${current?.id ?? "—"})` }]} />
-              {[
-                ["next_id", "NEXT TERM ID", "S27"],
-                ["next_label", "NEXT TERM LABEL", "Spring 2027"],
-                ["starts_on", "STARTS (YYYY-MM-DD)", "2027-01-25"],
-                ["ends_on", "ENDS (YYYY-MM-DD)", "2027-05-20"],
-              ].map(([k, l, ph]) => (
-                <label key={k} className="block">
-                  <span className="mono-label text-muted">{l}</span>
-                  <input
-                    className="w-full bg-transparent border-0 border-b border-line px-1 py-2 font-mono text-[13px] text-ink focus:border-teal outline-none"
-                    placeholder={ph}
-                    value={String(roll[k as "next_id"])}
-                    onChange={(e) => setRoll({ ...roll, [k]: e.target.value })}
-                  />
-                </label>
-              ))}
-              <Button variant="ghost" disabled={!roll.next_id || !roll.next_label} onClick={() => setRoll({ ...roll, step: 2 })}>
-                next: who continues →
-              </Button>
-            </div>
-          )}
-          {roll.step === 2 && (
-            <div className="space-y-3">
-              <MonoLabel>Who continues into {roll.next_label}? (cloned as inactive — you confirm each after)</MonoLabel>
-              {board.rows
-                .filter((r) => r.term === current?.id)
-                .map((o) => (
-                  <label key={String(o.id)} className="flex items-center gap-3 text-[13px] cursor-pointer">
-                    <input
-                      type="checkbox"
-                      checked={roll.continuing.includes(String(o.id))}
-                      onChange={(e) =>
-                        setRoll({ ...roll, continuing: e.target.checked ? [...roll.continuing, String(o.id)] : roll.continuing.filter((x) => x !== o.id) })
-                      }
-                    />
-                    <span className="text-ink">{String(o.name)}</span>
-                    <span className="text-muted">{String(o.role_title ?? "")}</span>
-                  </label>
-                ))}
-              <div className="flex gap-2 pt-2">
-                <Button variant="ghost" onClick={() => setRoll({ ...roll, step: 1 })}>
-                  ← back
-                </Button>
-                <Button variant="primary" disabled={busy} onClick={doRollover}>
-                  {busy ? "rolling…" : "roll the term"}
-                </Button>
-              </div>
-            </div>
-          )}
-          {roll.step === 3 && (
-            <div className="space-y-3">
-              <Notice kind="ok">
-                Closed {String(roll.result?.closed)} · opened {roll.next_id} · {String((roll.result?.cloned as unknown[] | undefined)?.length ?? 0)} continuing
-                · {String(roll.result?.handoff_stubs)} handoff stubs filed.
-              </Notice>
-              <p className="text-[13px] text-muted">
-                Next: open each continuing officer and set ACTIVE on; add the new officers with their emails; ask everyone from the closed term to file their
-                handoff on /os/inheritance.
-              </p>
-              <Button variant="ghost" onClick={() => setRoll(null)}>
-                done
-              </Button>
-            </div>
-          )}
-        </Panel>
+        <RolloverWizard
+          roll={roll}
+          setRoll={setRoll}
+          current={current}
+          officers={board.rows.filter((r) => r.term === current?.id)}
+          busy={busy}
+          onRun={doRollover}
+        />
       )}
     </OsPage>
   );

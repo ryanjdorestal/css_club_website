@@ -4,11 +4,12 @@
     (next session) / delete draft. Published sessions show on /events#workshops grouped by series. */
 import { useState } from "react";
 import { workshopsSpec } from "./ui/specs";
-import { OsPage, Chips, ConflictBlock, Empty, Panel } from "./ui/OsPage";
+import { OsPage, Chips, Empty, Panel } from "./ui/OsPage";
 import { ListTools, OsTable, StatusWord, useListTools, type Row } from "./ui/OsTable";
 import { OsForm, type Field } from "./ui/OsForm";
 import { useOsList } from "./ui/useOs";
 import { useEntity } from "./ui/useEntity";
+import { EntityConflict, PublishButtons } from "./ui/EntityPanel";
 import { Button } from "@/components/Button";
 
 const VIEWS = ["all", "draft", "published", "archived"] as const;
@@ -110,17 +111,7 @@ export default function OsWorkshops() {
       </div>
       {sel && (
         <Panel title={sel === "new" ? "NEW SESSION" : `SESSION · ${String(sel.id).slice(-12)}`} onClose={() => setSel(null)} wide>
-          {E.conflict && (
-            <ConflictBlock
-              err={E.conflict}
-              onReload={() => {
-                E.setConflict(null);
-                const fresh = rows.find((r) => r.id === (sel as Row).id);
-                if (fresh) open(fresh);
-              }}
-              onOverwrite={() => void save(initial, true)}
-            />
-          )}
+          <EntityConflict entity={E} rows={rows} selected={sel as Row} open={open} onOverwrite={() => void save(initial, true)} />
           <div className="border border-line border-b-0 px-4 py-3">
             <p className="mono-label text-muted">MATERIALS · links only</p>
             {materials.map((m, i) => (
@@ -165,20 +156,7 @@ export default function OsWorkshops() {
             serverError={E.serverError}
             draftKey={sel === "new" ? "workshop-new" : `workshop-${String(sel.id)}`}
             onSubmit={(v) => save(v)}
-            extra={
-              <>
-                {sel !== "new" && String(sel.status) === "draft" && (
-                  <Button type="button" variant="primary" disabled={E.busy} onClick={() => void E.publish(sel).then(() => setSel(null))}>
-                    publish
-                  </Button>
-                )}
-                {sel !== "new" && String(sel.status) === "published" && (
-                  <Button type="button" variant="ghost" disabled={E.busy} onClick={() => void E.unpublish(sel).then(() => setSel(null))}>
-                    unpublish
-                  </Button>
-                )}
-              </>
-            }
+            extra={<PublishButtons entity={E} row={sel} onDone={() => setSel(null)} />}
           />
         </Panel>
       )}

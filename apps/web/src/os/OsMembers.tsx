@@ -8,8 +8,9 @@ import { Meter } from "@/components/cards/Meter";
 import { OsPage, Chips, Notice, Panel, KeyVal } from "./ui/OsPage";
 import { OsTable, StatusWord, ago, type Row } from "./ui/OsTable";
 import { OsForm, type Field } from "./ui/OsForm";
-import { act, useNotice, useOsList } from "./ui/useOs";
-import { osFetch } from "./session";
+import { useNotice, useOsList } from "./ui/useOs";
+import { ImportPanel, type Import } from "./members/ImportPanel";
+import { useMemberWrites } from "./members/useMemberWrites";
 import { Button } from "@/components/Button";
 import { Readout } from "@/components/cards/StatChip";
 
@@ -36,68 +37,16 @@ export default function OsMembers() {
   const [q, setQ] = useState("");
   const [sel, setSel] = useState<Row | "new" | null>(null);
   const [next, setNext] = useState<string[]>([]);
-  const [imp, setImp] = useState<{ csv: string; result?: Row } | null>(null);
+  const [imp, setImp] = useState<Import | null>(null);
   const { notice, say } = useNotice();
   const [busy, setBusy] = useState(false);
 
   const counts = useMemo(() => Object.fromEntries(STATUSES.map((s) => [s, s === "all" ? rows.length : rows.filter((r) => r.status === s).length])), [rows]);
   const shown = rows.filter((r) => (status === "all" || r.status === status) && (!q || JSON.stringify(r).toLowerCase().includes(q.toLowerCase())));
 
-  async function open(r: Row) {
-    setSel(r);
-    const n = await osFetch<{ next: string[] }>(`/api/os/members/${r.id}/next`);
-    setNext(n.ok ? n.data.next : []);
-  }
-  async function save(v: Record<string, unknown>) {
-    setBusy(true);
-    const r = sel === "new" ? await act("/api/os/members", { body: v }) : await act(`/api/os/members/${(sel as Row).id}`, { method: "PATCH", body: v });
-    say(r.ok, r.msg);
-    setBusy(false);
-    await reload();
-    if (r.ok) setSel(null);
-  }
-  async function transition(to: string) {
-    if (!sel || sel === "new") return;
-    const r = await act(`/api/os/members/${sel.id}/transition`, { body: { to } });
-    say(r.ok, r.ok ? `Now ${to}.` : r.msg);
-    await reload();
-    setSel(null);
-  }
   const [picked, setPicked] = useState<Set<string>>(new Set());
-  async function undoImport() {
-    if (!confirm("Undo the LAST import? Every row it added is deleted (changed rows keep their values; the audit has the diff).")) return;
-    const r = await act<{ removed: number; batch: string }>("/api/os/members/import/undo", { method: "POST" });
-    say(r.ok, r.ok ? `Undone — removed ${r.data.removed} row(s) from batch ${r.data.batch}.` : r.msg);
-    await reload();
-  }
-  async function bulkTransition(to: string) {
-    const ids = [...picked];
-    if (!ids.length) return;
-    const r = await act<{ done: number; refused: { id: string; reason: string }[] }>("/api/os/members/bulk-transition", { body: { ids, to } });
-    say(r.ok, r.ok ? `${r.data.done} → ${to}${r.data.refused.length ? ` · ${r.data.refused.length} refused: ${r.data.refused[0].reason}` : ""}` : r.msg);
-    setPicked(new Set());
-    await reload();
-  }
-  async function merge() {
-    const ids = [...picked];
-    if (ids.length !== 2) return say(false, "Pick exactly two rows to merge — the first picked survives.");
-    const r = await act("/api/os/members/merge", { body: { survivor: ids[0], duplicate: ids[1] } });
-    say(r.ok, r.ok ? "Merged — both handles kept on the survivor." : r.msg);
-    setPicked(new Set());
-    await reload();
-  }
-  async function runImport(dry: boolean) {
-    if (!imp) return;
-    setBusy(true);
-    const r = await act<Row>("/api/os/members/import", { body: { csv: imp.csv, dry_run: dry } });
-    setBusy(false);
-    if (r.ok) setImp({ ...imp, result: r.data });
-    say(
-      r.ok,
-      r.ok ? (dry ? "Dry run done — review the diff, then commit." : `Imported: ${String(r.data.added)} added, ${String(r.data.changed)} changed.`) : r.msg,
-    );
-    if (!dry) await reload();
-  }
+  const writes = useMemberWrites({ reload, say, setBusy, sel, setSel, setNext, imp, setImp, picked, setPicked });
+  const { open, save, transition, undoImport, bulkTransition, merge, runImport } = writes;
 
   return (
     <OsPage
@@ -276,49 +225,7 @@ export default function OsMembers() {
           <OsForm key={sel === "new" ? "new" : String(sel.id)} fields={FIELDS} initial={sel === "new" ? {} : sel} busy={busy} onSubmit={save} />
         </Panel>
       )}
-      {imp && (
-        <Panel title="IMPORT CSV · dry run first" onClose={() => setImp(null)} wide>
-          <p className="t-micro opacity-60 mb-2">
-            columns: display_name, discord_handle, email, status, joined_term (extra columns ignored; Discord's export works as-is)
-          </p>
-          <textarea
-            value={imp.csv}
-            onChange={(e) => setImp({ csv: e.target.value })}
-            rows={10}
-            className="w-full bg-transparent border border-line px-3 py-2 font-mono text-[12px] text-ink focus:border-teal outline-none"
-            placeholder="display_name,discord_handle,email,status,joined_term"
-          />
-          <div className="flex gap-2 mt-3">
-            <Button variant="ghost" disabled={busy || !imp.csv.trim()} onClick={() => runImport(true)}>
-              dry run
-            </Button>
-            <Button variant="primary" disabled={busy || !imp.result} onClick={() => runImport(false)}>
-              commit import
-            </Button>
-          </div>
-          {imp.result && (
-            <div className="mt-4">
-              <KeyVal
-                rows={[
-                  { k: "ADDED", v: String(imp.result.added) },
-                  { k: "CHANGED", v: String(imp.result.changed) },
-                  { k: "UNCHANGED", v: String(imp.result.unchanged) },
-                ]}
-              />
-              <OsTable
-                cols={[
-                  { key: "display_name", label: "NAME" },
-                  { key: "discord_handle", label: "DISCORD", mono: true },
-                  { key: "school_email", label: "EMAIL", mono: true },
-                  { key: "status", label: "STATUS" },
-                ]}
-                rows={(imp.result.preview as Row[]) ?? []}
-                rowKey="display_name"
-              />
-            </div>
-          )}
-        </Panel>
-      )}
+      {imp && <ImportPanel imp={imp} setImp={setImp} busy={busy} onRun={runImport} />}
     </OsPage>
   );
 }

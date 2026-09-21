@@ -27,6 +27,54 @@ const daysAgo = (iso: string | null | undefined): string => {
 
 const mb = (bytes: number): string => `${(bytes / 1048576).toFixed(1)} MB`;
 
+const percent = (n: number, warn: number) => <span className={n >= warn ? "text-(--color-red-hi)" : n >= warn / 2 ? "text-teal" : "text-green"}>{n} %</span>;
+
+function deploysToday(runs: RunSummary | null): string {
+  if (runs === null) return "…";
+  if (!runs.ok || runs.deploymentsToday === null) return "UNKNOWN (GitHub API: private repo or offline)";
+  return `${runs.deploymentsToday} of 100`;
+}
+
+function lastRun(runs: RunSummary | null, run: RunSummary["lastKeepalive"]): string {
+  if (runs === null) return "…";
+  return run ? `${run.conclusion ?? "running"} · ${daysAgo(run.created_at)}` : "no run yet";
+}
+
+/** The eight readouts, each measured or "…" while loading; usage rows fall back to the API's reason. */
+function readouts(hosting: Hosting | null, runs: RunSummary | null) {
+  if (!hosting) return [{ k: "HOSTING", v: "…" }];
+  const usage = hosting.usage;
+  const warn = hosting.warn_at_pct;
+  return [
+    { k: "DEPLOYS_TODAY", v: deploysToday(runs) },
+    { k: "LAST_DB_WRITE", v: hosting.days_since_last_write === null ? "never" : `${hosting.days_since_last_write} d ago` },
+    { k: "KEEPALIVE", v: daysAgo(hosting.keepalive) },
+    { k: "KEEPALIVE_RUN", v: lastRun(runs, runs?.lastKeepalive ?? null) },
+    { k: "SNAPSHOT", v: daysAgo(hosting.snapshot) },
+    {
+      k: "DATABASE",
+      v: usage ? (
+        <>
+          {mb(usage.db_bytes)} of 500 MB · {percent(usage.db_pct, warn)}
+        </>
+      ) : (
+        hosting.usage_reason
+      ),
+    },
+    {
+      k: "STORAGE",
+      v: usage ? (
+        <>
+          {mb(usage.storage_bytes)} of 1 GB · {percent(usage.storage_pct, warn)}
+        </>
+      ) : (
+        hosting.usage_reason
+      ),
+    },
+    { k: "SOURCE", v: hosting.tier === "db" ? "SUPABASE · hosting_usage()" : "TIER 1 · local tables on disk" },
+  ];
+}
+
 export function HostingPanel() {
   const [hosting, setHosting] = useState<Hosting | null>(null);
   const [runs, setRuns] = useState<RunSummary | null>(null);
@@ -36,74 +84,13 @@ export function HostingPanel() {
     void readGithubRuns().then(setRuns);
   }, []);
 
-  const usage = hosting?.usage ?? null;
   const warn = hosting?.warn_at_pct ?? 70;
-  const pct = (n: number) => <span className={n >= warn ? "text-(--color-red-hi)" : n >= warn / 2 ? "text-teal" : "text-green"}>{n} %</span>;
-  const deploys =
-    runs === null ? "…" : runs.ok && runs.deploymentsToday !== null ? `${runs.deploymentsToday} of 100` : "UNKNOWN (GitHub API: private repo or offline)";
-
   return (
     <section className="mt-8" data-testid="hosting">
       <MonoLabel accent>5 · HOSTING · free-tier budget (docs/HOSTING_LIMITS.md)</MonoLabel>
       <div className="grid lg:grid-cols-2 gap-5 mt-2 items-start">
-        <KeyVal
-          rows={[
-            { k: "DEPLOYS_TODAY", v: deploys },
-            { k: "LAST_DB_WRITE", v: hosting ? (hosting.days_since_last_write === null ? "never" : `${hosting.days_since_last_write} d ago`) : "…" },
-            { k: "KEEPALIVE", v: hosting ? daysAgo(hosting.keepalive) : "…" },
-            {
-              k: "KEEPALIVE_RUN",
-              v:
-                runs === null
-                  ? "…"
-                  : runs.lastKeepalive
-                    ? `${runs.lastKeepalive.conclusion ?? "running"} · ${daysAgo(runs.lastKeepalive.created_at)}`
-                    : "no run yet",
-            },
-            { k: "SNAPSHOT", v: hosting ? daysAgo(hosting.snapshot) : "…" },
-            {
-              k: "DATABASE",
-              v: usage ? (
-                <>
-                  {mb(usage.db_bytes)} of 500 MB · {pct(usage.db_pct)}
-                </>
-              ) : (
-                (hosting?.usage_reason ?? "…")
-              ),
-            },
-            {
-              k: "STORAGE",
-              v: usage ? (
-                <>
-                  {mb(usage.storage_bytes)} of 1 GB · {pct(usage.storage_pct)}
-                </>
-              ) : (
-                (hosting?.usage_reason ?? "…")
-              ),
-            },
-            { k: "SOURCE", v: hosting ? (hosting.tier === "db" ? "SUPABASE · hosting_usage()" : "TIER 1 · local tables on disk") : "…" },
-          ]}
-        />
-        <div className="border border-line divide-y divide-line text-[12px]">
-          <div className="grid grid-cols-[1fr_70px_80px] gap-2 px-3 py-1.5 t-micro opacity-60">
-            <span>LIMIT</span>
-            <span>FREE</span>
-            <span>OURS</span>
-          </div>
-          {(hosting?.limits ?? []).map((l) => (
-            <div key={l.what} className="px-3 py-1.5">
-              <div className="grid grid-cols-[1fr_70px_80px] gap-2">
-                <span className="text-ink">
-                  <span className="t-micro opacity-50 mr-1.5">{l.host.toUpperCase()}</span>
-                  {l.what}
-                </span>
-                <span className="font-mono text-muted">{l.limit}</span>
-                <span className="font-mono text-muted">{l.ours}</span>
-              </div>
-              <p className="text-muted/80 mt-0.5">if exceeded: {l.exceed}</p>
-            </div>
-          ))}
-        </div>
+        <KeyVal rows={readouts(hosting, runs)} />
+        <LimitsTable limits={hosting?.limits ?? []} />
       </div>
       <p className="t-micro text-muted mt-2">
         Past {warn} % the keepalive workflow turns red in the Actions tab; prune audit records on /os/audit or move files out of Storage.{" "}
@@ -114,5 +101,30 @@ export function HostingPanel() {
         )}
       </p>
     </section>
+  );
+}
+
+function LimitsTable({ limits }: { limits: Limit[] }) {
+  return (
+    <div className="border border-line divide-y divide-line text-[12px]">
+      <div className="grid grid-cols-[1fr_70px_80px] gap-2 px-3 py-1.5 t-micro opacity-60">
+        <span>LIMIT</span>
+        <span>FREE</span>
+        <span>OURS</span>
+      </div>
+      {limits.map((l) => (
+        <div key={l.what} className="px-3 py-1.5">
+          <div className="grid grid-cols-[1fr_70px_80px] gap-2">
+            <span className="text-ink">
+              <span className="t-micro opacity-50 mr-1.5">{l.host.toUpperCase()}</span>
+              {l.what}
+            </span>
+            <span className="font-mono text-muted">{l.limit}</span>
+            <span className="font-mono text-muted">{l.ours}</span>
+          </div>
+          <p className="text-muted/80 mt-0.5">if exceeded: {l.exceed}</p>
+        </div>
+      ))}
+    </div>
   );
 }
