@@ -19,9 +19,22 @@ from ..auth import Actor, require_role
 r = APIRouter(prefix="/os/uploads")
 MAX_BYTES = 2 * 1024 * 1024
 TYPES = {"image/jpeg": "jpg", "image/png": "png", "image/webp": "webp"}
+MIN_SIDE = 16  # a 1×1 tracking pixel is not a cover
+
+
+def sniff(data: bytes) -> str | None:
+    """The real type from the magic bytes (run 10 §6.11) — an .exe renamed .png is refused here."""
+    if data[:8] == b"\x89PNG\r\n\x1a\n":
+        return "png"
+    if data[:3] == b"\xff\xd8\xff":
+        return "jpg"
+    if data[:4] == b"RIFF" and data[8:12] == b"WEBP":
+        return "webp"
+    return None
 
 
 def resize(data: bytes, ext: str) -> bytes:
+    """Longest edge → 1600 px, EXIF stripped (a fresh image carries no metadata), re-encoded."""
     try:
         from PIL import Image  # optional at runtime; the file is stored as-is without it
     except Exception:
@@ -30,21 +43,25 @@ def resize(data: bytes, ext: str) -> bytes:
         im = Image.open(io.BytesIO(data))
         im.load()
     except Exception:
-        raise HTTPException(415, "not a valid image") from None
+        raise HTTPException(415, {"message": "not a valid image (the file is truncated or not really a jpg/png/webp)", "field": "file"}) from None
+    if im.width < MIN_SIDE or im.height < MIN_SIDE:
+        raise HTTPException(422, {"message": f"image too small ({im.width}×{im.height}) — at least {MIN_SIDE} px on each side", "field": "file"})
     im.thumbnail((1600, 1600))
+    clean = Image.new(im.mode if im.mode in ("RGB", "RGBA") else "RGB", im.size)
+    clean.paste(im.convert(clean.mode))
     out = io.BytesIO()
-    im.save(out, format={"jpg": "JPEG", "png": "PNG", "webp": "WEBP"}[ext], quality=86)
+    clean.save(out, format={"jpg": "JPEG", "png": "PNG", "webp": "WEBP"}[ext], quality=86)
     return out.getvalue()
 
 
 @r.post("")
 async def upload(file: UploadFile = File(...), actor: Actor = Depends(require_role("officer"))) -> dict[str, Any]:
-    ext = TYPES.get(file.content_type or "")
-    if not ext:
-        raise HTTPException(415, "jpg, png or webp only")
     data = await file.read()
     if len(data) > MAX_BYTES:
-        raise HTTPException(413, "2 MB max")
+        raise HTTPException(413, {"message": f"{len(data) / 1024 / 1024:.1f} MB — the limit is 2 MB; export a smaller jpg/webp", "field": "file"})
+    ext = sniff(data)
+    if not ext:
+        raise HTTPException(415, {"message": "jpg, png or webp only — the file's bytes are not one of those (the extension does not count)", "field": "file"})
     data = resize(data, ext)
     stem = re.sub(r"[^a-z0-9]+", "-", (file.filename or "upload").rsplit(".", 1)[0].lower()).strip("-")[:60] or "upload"
     name = f"{int(time.time())}-{stem}.{ext}"

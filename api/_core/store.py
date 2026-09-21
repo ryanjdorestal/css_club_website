@@ -4,6 +4,7 @@ Supabase when configured and reachable; otherwise data/<table>.local.json
 replayed. Every write is audited. Routers never talk to db/tier1 directly."""
 from __future__ import annotations
 
+import logging
 import time
 import uuid
 from collections.abc import Callable
@@ -17,6 +18,18 @@ Seed = Callable[[], Rows]
 
 def now() -> int:
     return int(time.time())
+
+
+class Conflict(Exception):
+    """A stale write: the row changed since the client read it (run 10 §6.10)."""
+
+    def __init__(self, current: dict[str, Any], attempted: dict[str, Any]) -> None:
+        super().__init__("changed elsewhere")
+        self.current = current
+        self.attempted = attempted
+
+
+log = logging.getLogger("jjcss")
 
 
 class Collection:
@@ -51,8 +64,19 @@ class Collection:
         return "db" if config.supabase_configured() and db.reachable() else "local"
 
     # ----------------------------------------------------------- writes
+    def by_client_id(self, client_id: str) -> dict[str, Any] | None:
+        """The row a previous create with this client_id produced (idempotent replays)."""
+        return next((r for r in self.list() if r.get("client_id") == client_id), None)
+
     def create(self, row: dict[str, Any], actor: str, client_id: str | None = None) -> dict[str, Any]:
+        t0 = time.time()
+        if client_id:
+            existing = self.by_client_id(client_id)
+            if existing:
+                return existing  # a double-click or a replay: exactly one row
         row = {**row}
+        if client_id:
+            row["client_id"] = client_id
         row.setdefault(self.id_field, str(uuid.uuid4()))
         row.setdefault("created_at", now())
         row["updated_at"] = now()
@@ -64,14 +88,18 @@ class Collection:
             tier1.inbox_append(self.table, "create", row, client_id)
             saved = row
         audit.record(actor, "create", self.table, str(saved.get(self.id_field)), None, saved)
+        log.info("write actor=%s entity=%s action=create ms=%d tier=%s", actor, self.table, (time.time() - t0) * 1000, self.source())
         return saved
 
-    def patch(self, row_id: str, changes: dict[str, Any], actor: str, action: str = "update") -> dict[str, Any] | None:
+    def patch(self, row_id: str, changes: dict[str, Any], actor: str, action: str = "update", expected_updated_at: int | None = None) -> dict[str, Any] | None:
+        t0 = time.time()
         before = self.get(row_id)
         if before is None:
             return None
-        changes = {k: v for k, v in changes.items() if k != self.id_field}
-        changes["updated_at"] = now()
+        if expected_updated_at is not None and int(before.get("updated_at") or 0) != int(expected_updated_at):
+            raise Conflict(before, changes)
+        changes = {k: v for k, v in changes.items() if k not in (self.id_field, "expected_updated_at", "client_id")}
+        changes["updated_at"] = max(now(), int(before.get("updated_at") or 0) + 1)
         saved = db.update(self.table, row_id, changes, self.id_field)
         if saved is None:
             rows = self._local()
@@ -85,7 +113,33 @@ class Collection:
             tier1.local_write(self.table, rows)
             tier1.inbox_append(self.table, "patch", {self.id_field: row_id, **changes})
         audit.record(actor, action, self.table, str(row_id), before, saved)
+        log.info("write actor=%s entity=%s action=%s ms=%d tier=%s", actor, self.table, action, (time.time() - t0) * 1000, self.source())
         return saved
+
+    def archive(self, row_id: str, actor: str, undo: bool = False) -> dict[str, Any] | None:
+        """Archive = status 'archived' (remembering where it came from) or an `archived` flag on
+        tables without a lifecycle; undo restores the previous status / clears the flag."""
+        before = self.get(row_id)
+        if before is None:
+            return None
+        changes: dict[str, Any]
+        if "status" in before:
+            changes = {"status": str(before.get("archived_from") or "draft"), "archived_from": None} if undo else {"status": "archived", "archived_from": before.get("status")}
+        else:
+            changes = {"archived": not undo}
+        return self.patch(row_id, changes, actor, action="unarchive" if undo else "archive")
+
+    def duplicate(self, row_id: str, actor: str, initial_status: str | None = None) -> dict[str, Any] | None:
+        before = self.get(row_id)
+        if before is None:
+            return None
+        copy = {k: v for k, v in before.items() if k not in (self.id_field, "created_at", "updated_at", "client_id", "published_at", "slug", "archived_from")}
+        if "title" in copy:
+            copy["title"] = f"{copy['title']} (copy)"
+        if initial_status:
+            copy["status"] = initial_status
+        copy["featured"] = False if "featured" in copy else copy.get("featured")
+        return self.create({k: v for k, v in copy.items() if v is not None or k != "featured"}, actor)
 
     def delete(self, row_id: str, actor: str) -> bool:
         before = self.get(row_id)

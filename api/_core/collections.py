@@ -17,5 +17,6 @@ terms = Collection("terms", seeds.terms)
 members = Collection("members", seeds.members)
 settings = Collection("site_settings", seeds.site_settings, id_field="key")
 onboarding = Collection("onboarding_requests")
+workshops = Collection("workshops", seeds.workshops)
 
-ALL = {c.table: c for c in (projects, submissions, posts, events, resources, links, board, terms, members, settings, onboarding)}
+ALL = {c.table: c for c in (projects, submissions, posts, events, resources, links, board, terms, members, settings, onboarding, workshops)}

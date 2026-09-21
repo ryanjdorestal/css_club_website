@@ -4,7 +4,6 @@ Runs against the FastAPI app with a temp data/ + inbox (no Supabase, no keys).
 from __future__ import annotations
 
 import json
-import shutil
 import sys
 from pathlib import Path
 
@@ -19,26 +18,6 @@ from _core import config  # noqa: E402
 
 OFFICER = {"X-Local-Role": "officer"}
 ADMIN = {"X-Local-Role": "admin"}
-
-
-@pytest.fixture()
-def client(tmp_path: Path, monkeypatch: pytest.MonkeyPatch) -> TestClient:
-    """A fresh data/ copy (committed JSON only, no .local tables) per test."""
-    data = tmp_path / "data"
-    shutil.copytree(ROOT / "data", data, ignore=shutil.ignore_patterns("*.local.json"))
-    monkeypatch.setattr(config, "DATA", data)
-    monkeypatch.setattr(config, "INBOX", tmp_path / "inbox")
-    monkeypatch.setattr(config, "UPLOADS", tmp_path / "uploads")
-    monkeypatch.setattr(config, "SUPABASE_URL", "")
-    monkeypatch.setattr(config, "SUPABASE_KEY", "")
-    monkeypatch.setattr(config, "IS_VERCEL", False)
-    from _core import spine as sp
-
-    shutil.copytree(ROOT / "content/inheritance", tmp_path / "inheritance")
-    monkeypatch.setattr(sp, "DIR", tmp_path / "inheritance")  # rollover + spine writes stay out of the repo
-    from index import app  # noqa: WPS433
-
-    return TestClient(app)
 
 
 # ------------------------------------------------------------ auth / whoami

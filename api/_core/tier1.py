@@ -38,8 +38,27 @@ def local_read(table: str) -> list[dict[str, Any]] | None:
 
 
 def local_write(table: str, rows: list[dict[str, Any]]) -> None:
+    """Atomic: write a temp file, keep the previous version as one .bak, then os.replace."""
+    import os
+
     config.DATA.mkdir(parents=True, exist_ok=True)
-    _local_path(table).write_text(json.dumps(rows, indent=2, ensure_ascii=False) + "\n")
+    p = _local_path(table)
+    tmp = p.with_suffix(".json.tmp")
+    tmp.write_text(json.dumps(rows, indent=2, ensure_ascii=False) + "\n")
+    if p.exists():
+        os.replace(p, p.with_suffix(".json.bak"))
+    os.replace(tmp, p)
+
+
+def local_restore(table: str) -> bool:
+    """Roll back the last write of one table (from its .bak). `make restore`."""
+    import os
+
+    bak = _local_path(table).with_suffix(".json.bak")
+    if not bak.exists():
+        return False
+    os.replace(bak, _local_path(table))
+    return True
 
 
 def local_reset(table: str) -> None:

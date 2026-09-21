@@ -122,3 +122,19 @@ def members() -> Rows:
 def content_news_files() -> list[str]:
     d = config.CONTENT / "news"
     return sorted(p.name for p in d.glob("*.md")) if d.exists() else []
+
+
+# ------------------------------------------------------------ workshops
+def workshops() -> Rows:
+    """data/workshops.json (the old-site list: name · repo · topic) → first-class rows (run 10 §7).
+    Each old entry is one session-1 record in the series named by its topic."""
+    data = tier1.read_json("workshops.json", {"workshops": []})
+    rows: Rows = []
+    for i, w in enumerate(data.get("workshops", [])):
+        rows.append({
+            "id": f"legacy/{slug(w['name'])}", "title": w["name"], "series": w.get("topic", "General"), "session_no": 1,
+            "date": None, "time": None, "location": None, "level": "intro", "description_md": "",
+            "materials": [{"label": "Repo", "url": w["repo"]}] if w.get("repo") else [], "recording_url": None,
+            "status": "published", "sort": i,
+        })
+    return rows

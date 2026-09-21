@@ -33,6 +33,64 @@ def create_term(body: TermIn, actor: Actor = Depends(require_role("admin"))) -> 
     return {"ok": True, "row": C.terms.create(clean(body), actor.email)}
 
 
+class TermPatch(BaseModel):
+    label: str | None = Field(default=None, min_length=2, max_length=60)
+    starts_on: str | None = None
+    ends_on: str | None = None
+    is_current: bool | None = None
+
+
+@terms_r.patch("/{term_id}")
+def patch_term(term_id: str, body: TermPatch, actor: Actor = Depends(require_role("admin"))) -> dict[str, Any]:
+    """Edit dates / label; `is_current: true` moves the current flag here (exactly one current term)."""
+    if not C.terms.get(term_id):
+        raise HTTPException(404, "no such term")
+    changes = clean(body)
+    if changes.get("is_current"):
+        for t in C.terms.list():
+            if t.get("is_current") and t["id"] != term_id:
+                C.terms.patch(t["id"], {"is_current": False}, actor.email, action="term:unset-current")
+    row = C.terms.patch(term_id, changes, actor.email, action="term:edit")
+    return {"ok": True, "row": row}
+
+
+@terms_r.delete("/{term_id}")
+def delete_term(term_id: str, actor: Actor = Depends(require_role("admin"))) -> dict[str, Any]:
+    """Refused for the current term and for any term that still has officers or spine records."""
+    t = C.terms.get(term_id)
+    if not t:
+        raise HTTPException(404, "no such term")
+    if t.get("is_current"):
+        raise HTTPException(409, {"message": "the current term cannot be deleted — set another term current first", "field": "is_current"})
+    officers = C.board.list(term=term_id)
+    records = spine.list_records(term_id)
+    if officers or records:
+        raise HTTPException(409, {"message": f"{term_id} still has {len(officers)} officer(s) and {len(records)} record(s) — remove or move them first",
+                                  "officers": len(officers), "records": len(records)})
+    C.terms.delete(term_id, actor.email)
+    return {"ok": True}
+
+
+# the generic delete from make_router is replaced by the guarded one below (FastAPI matches in order)
+r.routes[:] = [rt for rt in r.routes if not (getattr(rt, "path", "") == "/os/board/{row_id:path}" and "DELETE" in getattr(rt, "methods", set()))]
+
+
+@r.delete("/{row_id:path}")
+def delete_officer(row_id: str, actor: Actor = Depends(require_role("admin"))) -> dict[str, Any]:
+    """An officer who filed a handoff is archived (kept for the term history), never deleted."""
+    o = C.board.get(row_id)
+    if not o:
+        raise HTTPException(404, "not found")
+    role = str(o.get("role_title") or "").lower()
+    filed = any(h.get("type") == "handoff" and str(h.get("role") or "").lower() == role for h in spine.list_records(str(o.get("term") or "")))
+    if filed:
+        C.board.patch(row_id, {"active": False, "archived": True}, actor.email, action="archive")
+        raise HTTPException(409, {"message": f"{o.get('name')} filed a handoff for {o.get('term')} — the seat was archived instead of deleted (history kept)",
+                                  "archived": True})
+    C.board.delete(row_id, actor.email)
+    return {"ok": True}
+
+
 class RolloverIn(BaseModel):
     next_id: str = Field(min_length=2, max_length=12)
     next_label: str = Field(min_length=2, max_length=60)

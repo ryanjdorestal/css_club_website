@@ -5,10 +5,13 @@ from __future__ import annotations
 
 import csv
 import io
+import uuid
 from typing import Any
 
-from fastapi import APIRouter, Depends
+from fastapi import APIRouter, Depends, HTTPException
+from pydantic import BaseModel
 
+from .. import audit, lifecycle
 from .. import collections as C
 from ..auth import Actor, require_role
 from ..crud import make_router
@@ -64,8 +67,66 @@ def import_members(body: ImportIn, actor: Actor = Depends(require_role("officer"
               "preview": (added + [c["after"] for c in changed])[:20]}
     if body.dry_run:
         return result
+    batch = str(uuid.uuid4())[:8]
     for m in added:
-        C.members.create({**m, "source": "import", "tags": [], "notes": ""}, actor.email)
+        C.members.create({**m, "source": "import", "tags": [], "notes": "", "import_batch": batch}, actor.email)
     for c in changed:
         C.members.patch(c["id"], {k: v for k, v in c["after"].items() if k not in ("id", "created_at")}, actor.email, action="import")
-    return result
+    audit.record(actor.email, "import", "members", batch, None, {"added": len(added), "changed": len(changed)}, note=f"batch {batch}")
+    return {**result, "batch": batch}
+
+
+@r.post("/import/undo")
+def undo_import(actor: Actor = Depends(require_role("officer"))) -> dict[str, Any]:
+    """Delete every row the LAST import added (changed rows keep their new values — the audit has the diff)."""
+    rows = [m for m in C.members.list() if m.get("import_batch")]
+    if not rows:
+        raise HTTPException(404, "no import to undo")
+    last = max(rows, key=lambda m: int(m.get("created_at") or 0)).get("import_batch")
+    removed = 0
+    for m in rows:
+        if m.get("import_batch") == last:
+            C.members.delete(m["id"], actor.email)
+            removed += 1
+    audit.record(actor.email, "undo:import", "members", str(last), None, {"removed": removed})
+    return {"ok": True, "batch": last, "removed": removed}
+
+
+class BulkTransition(BaseModel):
+    ids: list[str]
+    to: str
+
+
+@r.post("/bulk-transition")
+def bulk_transition(body: BulkTransition, actor: Actor = Depends(require_role("officer"))) -> dict[str, Any]:
+    """Honours the allowed-transition map per row; the rest are refused with the reason."""
+    done, refused = [], []
+    for mid in body.ids:
+        m = C.members.get(mid)
+        if not m:
+            refused.append({"id": mid, "reason": "not found"})
+        elif not lifecycle.allowed("members", str(m.get("status")), body.to):
+            refused.append({"id": mid, "reason": f"{m.get('status')} → {body.to} is not allowed (allowed: {', '.join(lifecycle.next_states('members', str(m.get('status')))) or 'none'})"})
+        else:
+            C.members.patch(mid, {"status": body.to}, actor.email, action=f"transition:{body.to}")
+            done.append(mid)
+    return {"ok": True, "done": len(done), "refused": refused}
+
+
+class MergeIn(BaseModel):
+    survivor: str
+    duplicate: str
+
+
+@r.post("/merge")
+def merge(body: MergeIn, actor: Actor = Depends(require_role("officer"))) -> dict[str, Any]:
+    """Fold `duplicate` into `survivor`: keeps both handles/emails (the extra one lands in notes + tags), audited."""
+    a, b = C.members.get(body.survivor), C.members.get(body.duplicate)
+    if not a or not b:
+        raise HTTPException(404, "member not found")
+    tags = sorted({*(a.get("tags") or []), *(b.get("tags") or []), "merged"})
+    notes = "\n".join(x for x in [str(a.get("notes") or ""), f"merged {b.get('display_name')} ({b.get('discord_handle') or '—'} · {b.get('school_email') or '—'})", str(b.get("notes") or "")] if x)
+    changes = {"tags": tags, "notes": notes[:4000], "discord_handle": a.get("discord_handle") or b.get("discord_handle"), "school_email": a.get("school_email") or b.get("school_email")}
+    row = C.members.patch(body.survivor, changes, actor.email, action="merge")
+    C.members.delete(body.duplicate, actor.email)
+    return {"ok": True, "row": row}

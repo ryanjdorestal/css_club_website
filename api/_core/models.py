@@ -9,7 +9,15 @@ from typing import Any, Literal
 from pydantic import BaseModel, Field, field_validator
 
 
-class MemberIn(BaseModel):
+class WriteMeta(BaseModel):
+    """Every OS write may carry these (run 10 §6.4 / §6.10): a client-generated idempotency key
+    and the `updated_at` the client read — a stale write gets a 409, never a silent clobber."""
+
+    client_id: str | None = Field(default=None, max_length=80)
+    expected_updated_at: int | None = None
+
+
+class MemberIn(WriteMeta):
     display_name: str = Field(min_length=1, max_length=120)
     discord_handle: str | None = Field(default=None, max_length=80)
     school_email: str | None = Field(default=None, max_length=200)
@@ -21,7 +29,7 @@ class MemberIn(BaseModel):
     source: Literal["form", "import", "manual"] | None = None
 
 
-class PostIn(BaseModel):
+class PostIn(WriteMeta):
     title: str = Field(min_length=1, max_length=200)
     slug: str | None = Field(default=None, max_length=120)
     dek: str | None = Field(default=None, max_length=400)
@@ -37,7 +45,7 @@ class ProjectAuthor(BaseModel):
     term: str | None = None
 
 
-class ProjectIn(BaseModel):
+class ProjectIn(WriteMeta):
     title: str = Field(min_length=1, max_length=120)
     kind: Literal["app", "project", "research", "tool"] | None = None
     summary: str | None = Field(default=None, max_length=2000)
@@ -54,7 +62,7 @@ class ProjectIn(BaseModel):
     review_notes: str | None = Field(default=None, max_length=4000)
 
 
-class EventIn(BaseModel):
+class EventIn(WriteMeta):
     title: str = Field(min_length=1, max_length=160)
     semester: str | None = None
     summary: str | None = Field(default=None, max_length=2000)
@@ -70,7 +78,27 @@ class EventIn(BaseModel):
     sort: int | None = None
 
 
-class ResourceIn(BaseModel):
+class Material(BaseModel):
+    label: str = Field(min_length=1, max_length=80)
+    url: str = Field(min_length=4, max_length=600)
+
+
+class WorkshopIn(WriteMeta):
+    title: str = Field(min_length=1, max_length=160)
+    series: str | None = Field(default=None, max_length=80)
+    session_no: int | None = Field(default=None, ge=1, le=99)
+    date: str | None = Field(default=None, max_length=10)  # YYYY-MM-DD
+    time: str | None = Field(default=None, max_length=20)  # HH:MM, America/New_York
+    location: str | None = Field(default=None, max_length=160)
+    level: Literal["intro", "intermediate"] | None = None
+    description_md: str | None = Field(default=None, max_length=20000)
+    materials: list[Material] | None = None
+    recording_url: str | None = Field(default=None, max_length=600)
+    status: Literal["draft", "published", "archived"] | None = None
+    sort: int | None = None
+
+
+class ResourceIn(WriteMeta):
     group: str = Field(min_length=1, max_length=80)
     title: str = Field(min_length=1, max_length=160)
     url: str = Field(min_length=4, max_length=600)
@@ -78,12 +106,12 @@ class ResourceIn(BaseModel):
     sort: int | None = None
 
 
-class LinkIn(BaseModel):
+class LinkIn(WriteMeta):
     url: str = Field(min_length=1, max_length=600)
     label: str | None = Field(default=None, max_length=80)
 
 
-class BoardProfileIn(BaseModel):
+class BoardProfileIn(WriteMeta):
     name: str = Field(min_length=1, max_length=120)
     term: str | None = None
     role_title: str | None = Field(default=None, max_length=80)
@@ -97,7 +125,7 @@ class BoardProfileIn(BaseModel):
     os_role: Literal["officer", "admin"] | None = None
 
 
-class TermIn(BaseModel):
+class TermIn(WriteMeta):
     id: str = Field(min_length=2, max_length=12)
     label: str = Field(min_length=2, max_length=60)
     starts_on: str | None = None
@@ -105,7 +133,7 @@ class TermIn(BaseModel):
     is_current: bool | None = None
 
 
-class HandoffIn(BaseModel):
+class HandoffIn(WriteMeta):
     term: str | None = None
     body_md: str | None = Field(default=None, max_length=30000)
     status: Literal["draft", "filed", "acknowledged"] | None = None

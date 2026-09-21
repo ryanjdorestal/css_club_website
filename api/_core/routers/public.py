@@ -10,7 +10,7 @@ import time
 from collections import defaultdict, deque
 from typing import Any
 
-from fastapi import APIRouter, Request
+from fastapi import APIRouter, HTTPException, Request
 from fastapi.responses import JSONResponse, RedirectResponse
 
 from .. import audit, config, db, tier1
@@ -44,10 +44,20 @@ def health() -> dict[str, Any]:
         dbstate = "ok" if db.reachable() else "error"
     keepalive = tier1.read_json("../qa/keepalive.json", {})
     snapshot = tier1.read_json("snapshot.json", {})
+    counts: dict[str, int] = {}
+    last_write = 0
+    for name, col in C.ALL.items():
+        try:
+            rows = col.list()
+        except Exception:
+            rows = []
+        counts[name] = len(rows)
+        last_write = max([last_write, *(int(r.get("updated_at") or 0) for r in rows)])
     return {
         "ok": True, "sha": config.GIT_SHA, "db": dbstate, "ts": int(time.time()),
         "db_last_ok": db.last_ok, "keepalive": keepalive.get("last_run"), "snapshot": snapshot.get("generated_at"),
         "inbox": tier1.inbox_count(), "tier": "db" if dbstate == "ok" else "local",
+        "counts": counts, "last_write": last_write or None,
     }
 
 
@@ -128,8 +138,27 @@ def projects_submit(body: ProjectSubmit, request: Request) -> Any:
     row = {"title": body.title, "kind": body.kind, "summary": body.summary, "platform": platform[:5], "stack": [],
            "links": {"repo": body.link or ""}, "authors": [{"name": body.author, "handle": "", "term": ""}], "author_email": body.email,
            "status": "submitted", "featured": False, "display_order": 999, "source": "site-projects-form"}
+    # a resubmit (same slug = same title from the same email, currently changes_requested) keeps the row and its history
+    slug = re.sub(r"[^a-z0-9]+", "-", body.title.lower()).strip("-")
+    prior = next((p for p in C.projects.list(status="changes_requested")
+                  if re.sub(r"[^a-z0-9]+", "-", str(p.get("title", "")).lower()).strip("-") == slug and p.get("author_email") == body.email), None)
+    if prior:
+        history = list(prior.get("history") or []) + [{"at": int(time.time()), "by": body.email, "to": "submitted", "note": "resubmitted"}]
+        saved = C.projects.patch(str(prior["id"]), {**{k: v for k, v in row.items() if k not in ("status",)}, "status": "submitted", "history": history},
+                                 "public", action="resubmit") or prior
+        return {"ok": True, "stored": "db" if C.projects.source() == "db" else "local", "id": saved.get("id"), "resubmitted": True,
+                "reviewer_note": prior.get("review_notes") or ""}
     saved = C.projects.create(row, actor="public")
     return {"ok": True, "stored": "db" if C.projects.source() == "db" else "local", "id": saved.get("id")}
+
+
+@r.get("/projects/submission/{pid}")
+def submission_status(pid: str) -> dict[str, Any]:
+    """What a student sees on resubmit: status + the reviewer's note (never internal fields)."""
+    p = C.projects.get(pid)
+    if not p:
+        raise HTTPException(404, "not found")
+    return {"ok": True, "id": pid, "status": p.get("status"), "reviewer_note": p.get("review_notes") or "", "title": p.get("title")}
 
 
 @r.post("/apps/submit")
@@ -147,6 +176,18 @@ def projects() -> dict[str, Any]:
     rows = [p for p in C.projects.list(status="published") if p.get("visibility", "public") == "public"]
     rows.sort(key=lambda p: (not p.get("featured"), p.get("display_order", 0)))
     return {"ok": True, "source": _source(C.projects), "projects": rows}
+
+
+@r.get("/workshops")
+def workshops() -> dict[str, Any]:
+    """Published workshops grouped by series (the Events page's Workshops section)."""
+    from .workshops import public_rows
+
+    rows = public_rows()
+    series: dict[str, list[dict[str, Any]]] = {}
+    for w in rows:
+        series.setdefault(str(w.get("series") or "General"), []).append(w)
+    return {"ok": True, "source": _source(C.workshops), "workshops": rows, "series": [{"series": k, "sessions": v} for k, v in series.items()]}
 
 
 @r.get("/apps")

@@ -4,7 +4,7 @@ SHELL := /bin/bash
 PY    := .venv/bin/python
 WEB   := apps/web
 
-.PHONY: help install dev check test snapshot lint types shots clean hooks format a11y audit smoke api-docs links
+.PHONY: help install dev check test snapshot lint types shots clean hooks format a11y audit smoke api-docs links restore restore-empty sim break
 
 help:
 	@echo "make install   node deps + python venv (once)"
@@ -79,3 +79,16 @@ clean:
 hooks:
 	git config core.hooksPath .githooks
 	@echo "pre-commit hook installed (ruff + tsc + vitest)"
+
+# run 10: Tier-1 store durability
+restore:
+	$(PY) -c "import sys; sys.path.insert(0,'api'); from _core import tier1, collections as C; print([t for t in C.ALL if tier1.local_restore(t)] or 'nothing to restore')"
+
+restore-empty:
+	rm -f data/*.local.json data/*.local.json.bak && rm -rf .cache/inbox .cache/uploads && rm -rf content/inheritance/_sim && echo "Tier-1 store emptied (committed JSON stays)"
+
+sim:
+	cd $(WEB) && node ../../scripts/board_sim.mjs
+
+break:
+	cd $(WEB) && node ../../scripts/board_break.mjs

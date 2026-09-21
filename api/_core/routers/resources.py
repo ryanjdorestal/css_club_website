@@ -10,6 +10,7 @@ from typing import Any
 
 import httpx
 from fastapi import APIRouter, Depends, HTTPException
+from pydantic import BaseModel, Field
 
 from .. import collections as C
 from ..auth import Actor, require_role
@@ -18,6 +19,88 @@ from ..models import LinkIn, ReorderIn, ResourceIn
 
 r: APIRouter = make_router("/os/resources", C.resources, ResourceIn, filters=("group",), delete_role="officer", order_by="sort")
 links_r = APIRouter(prefix="/os/links")
+
+
+class CategoryIn(BaseModel):
+    group: str = Field(min_length=1, max_length=80)
+    to: str | None = Field(default=None, min_length=1, max_length=80)
+    cascade: bool = False
+
+
+@r.post("/category/rename")
+def rename_category(body: CategoryIn, actor: Actor = Depends(require_role("officer"))) -> dict[str, Any]:
+    if not body.to:
+        raise HTTPException(422, {"message": "new name required", "field": "to"})
+    rows = C.resources.list(group=body.group)
+    if not rows:
+        raise HTTPException(404, "no such category")
+    for row in rows:
+        C.resources.patch(row["id"], {"group": body.to}, actor.email, action="category:rename")
+    return {"ok": True, "moved": len(rows)}
+
+
+@r.post("/category/delete")
+def delete_category(body: CategoryIn, actor: Actor = Depends(require_role("officer"))) -> dict[str, Any]:
+    """Refused while links exist unless `cascade` — then every link goes, named in the audit note."""
+    rows = C.resources.list(group=body.group)
+    if rows and not body.cascade:
+        raise HTTPException(409, {"message": f"'{body.group}' still holds {len(rows)} link(s) — move them or confirm the cascade (every link in it is deleted)",
+                                  "links": [row["title"] for row in rows]})
+    for row in rows:
+        C.resources.delete(row["id"], actor.email)
+    return {"ok": True, "deleted": len(rows)}
+
+
+class CategoryOrder(BaseModel):
+    groups: list[str]
+
+
+@r.post("/category/reorder")
+def reorder_categories(body: CategoryOrder, actor: Actor = Depends(require_role("officer"))) -> dict[str, Any]:
+    """Category order = a `group_sort` on every link of the group (the public page sorts by it)."""
+    n = 0
+    for i, g in enumerate(body.groups):
+        for row in C.resources.list(group=g):
+            C.resources.patch(row["id"], {"group_sort": i}, actor.email, action="category:reorder")
+            n += 1
+    return {"ok": True, "count": n}
+
+
+class BulkIn(BaseModel):
+    group: str = Field(min_length=1, max_length=80)
+    text: str = Field(min_length=1, max_length=20000)
+    dry_run: bool = True
+
+
+@r.post("/bulk")
+def bulk_paste(body: BulkIn, actor: Actor = Depends(require_role("officer"))) -> dict[str, Any]:
+    """One URL per line (optionally `Title | URL`) → parsed preview rows → confirm with dry_run=false."""
+    rows: list[dict[str, Any]] = []
+    known = {r["url"] for r in C.resources.list()}
+    for line in body.text.splitlines():
+        line = line.strip()
+        if not line:
+            continue
+        title, url = (line.split("|", 1) + [""])[:2] if "|" in line else ("", line)
+        url = url.strip() or title.strip()
+        title = title.strip() or url.replace("https://", "").replace("http://", "").split("/")[0]
+        ok = url.startswith("http://") or url.startswith("https://")
+        rows.append({"title": title[:160], "url": url[:600], "group": body.group, "ok": ok, "duplicate": url in known})
+    if body.dry_run:
+        return {"ok": True, "dry_run": True, "rows": rows}
+    created = [C.resources.create({"group": body.group, "title": r["title"], "url": r["url"], "description": "", "sort": 999}, actor.email)
+               for r in rows if r["ok"] and not r["duplicate"]]
+    return {"ok": True, "dry_run": False, "created": len(created), "skipped": len(rows) - len(created)}
+
+
+@r.post("/{row_id:path}/check")
+def check_one(row_id: str, actor: Actor = Depends(require_role("officer"))) -> dict[str, Any]:
+    row = C.resources.get(row_id)
+    if not row:
+        raise HTTPException(404, "not found")
+    status, is_dead = probe(str(row["url"]))
+    saved = C.resources.patch(row_id, {"last_checked": int(time.time()), "last_status": status, "dead": is_dead}, actor.email, action="linkcheck")
+    return {"ok": True, "row": saved, "dead": is_dead, "status": status}
 
 
 @r.post("/reorder")

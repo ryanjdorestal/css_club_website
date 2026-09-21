@@ -17,8 +17,13 @@ TRANSITIONS: dict[str, dict[str, set[str]]] = {
         "in_review": {"changes_requested", "approved", "archived"},
         "changes_requested": {"in_review", "archived"},
         "approved": {"published", "archived"},
-        "published": {"archived"},
-        "archived": {"approved"},
+        "published": {"archived", "approved"},
+        "archived": {"approved", "submitted"},
+    },
+    "workshops": {
+        "draft": {"published", "archived"},
+        "published": {"archived", "draft"},
+        "archived": {"draft"},
     },
     "posts": {
         "draft": {"review", "published", "archived"},
@@ -48,5 +53,5 @@ def next_states(table: str, from_state: str) -> list[str]:
 
 
 def initial_state(table: str) -> str:
-    first = {"members": "interested", "projects": "submitted", "posts": "draft", "events": "draft", "handoffs": "draft"}
+    first = {"members": "interested", "projects": "submitted", "posts": "draft", "events": "draft", "workshops": "draft", "handoffs": "draft"}
     return first.get(table, "draft")

@@ -70,7 +70,7 @@ def _save(body: RecordIn, actor: Actor, rid: str | None = None) -> dict[str, Any
     meta.setdefault("term", (current_term() or {}).get("id"))
     row, errs = spine.save_record(meta, body.body_md, actor.email, roster_names(str(meta.get("term") or "")) or None)
     if errs:
-        raise HTTPException(422, {"errors": errs})
+        raise HTTPException(422, {"message": errs[0], "field": errs[0].split(":")[-1].strip().split(" ")[-1] if "field" in errs[0] else None, "errors": errs})
     return {"ok": True, "row": row}
 
 
