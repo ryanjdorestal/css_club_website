@@ -26,3 +26,6 @@ Loop 0 committed (cbd0111). Loop 1: build_hound.py v5 (9.2k tris, SEG 36), viewe
 Loop 2 sweep: all 9 routes shot full-page (qa/loops/run5/sweep/), no page errors; fins typed on every route, footer hound on every route; two `tsc -b` errors fixed (unused brand import, HoundPixel color prop in Styleguide). Prod build green. Lighthouse desktop (prod dist, --preset=desktop): **Home 98** (LCP 0.9 s, TBT 10 ms, CLS 0.008) · **Cyberhounds 91** (LCP 1.5 s, TBT 100 ms, CLS 0.002) — gate ≥ 83 held with the bust + bloom live. Fin motion frames captured with ?finslow=6 (qa/loops/run5/fin-motion-sheet.png).
 | 11 | Bust v6 shipped over v5 (skull taper −10 %, jowl flare +10 %, median furrow, slits 0.07) | side-by-side (renders/v5-* vs v6-*): wider jaw + narrower crown reads more pitbull, slits brighter from the front; 6 builds total, all under the 60-min box |
 | 12 | Cyberhounds hero <md: HoundPixel 120 px under the H1 | the frame is hidden on mobile; the page had no hound at all on phones |
+
+## Run complete (21:36 — 61 min of the 150-min budget)
+Three commits: cbd0111 (loop 0), 196bd15 (loop 1 bust), 419393f (sweep). Never pushed. Rubric 5/5/5/4/4/5 (qa/REPORT_RUN5.md). The 3D box closed at minute 32; six builds total; v6 shipped. Bloodhound = John Jay's mark, noted in SOURCES.md + DESIGN.md as board-owned. No questions asked.
