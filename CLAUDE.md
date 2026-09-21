@@ -1,3 +1,4 @@
+<!-- CLAUDE.md stays at the repo root on purpose: it is the entry point for the coding agent (Claude Code). Humans start at README.md. -->
 # jjay_css — John Jay Computer Science Society: site + board platform
 
 **Status: feature-complete and audited (2026-09-21). Public site (`/`) + board

@@ -4,4 +4,4 @@ qa
 assets
 .venv
 apps/web/node_modules
-KICKOFF_PROMPT_*.md
+docs/archive/prompts

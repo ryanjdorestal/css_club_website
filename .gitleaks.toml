@@ -16,4 +16,4 @@ regex = '''discord(?:app)?\.com/api/webhooks/\d+/[A-Za-z0-9_-]{30,}'''
 [allowlist]
 description = "Names of env vars and example placeholders are fine; values are not."
 paths = [ '''docs/archive/.*''', '''qa/.*''', '''package-lock\.json''', '''\.gitleaks\.toml''' ]
-regexes = [ '''SUPABASE_[A-Z_]+''', '''VITE_SUPABASE_[A-Z_]+''', '''you@jjay\.cuny\.edu''', '''example\.(org|com)''', '''***REMOVED***''' ]
+regexes = [ '''SUPABASE_[A-Z_]+''', '''VITE_SUPABASE_[A-Z_]+''', '''you@jjay\.cuny\.edu''', '''example\.(org|com)''' ]

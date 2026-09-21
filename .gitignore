@@ -8,12 +8,16 @@ __pycache__/
 dist/
 apps/web/dist/
 
-# env — never committed
+# env — never committed (the example with names only is the exception)
 .env
 .env.*
+!.env.example
 
 # caches
 .cache/
+.mypy_cache/
+.pytest_cache/
+.ruff_cache/
 .DS_Store
 *.log
 
