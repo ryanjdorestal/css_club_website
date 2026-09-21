@@ -52,7 +52,7 @@ Example: `/os/sponsors`.
    `r = make_router("/os/sponsors", C.sponsors, SponsorIn)` + any actions;
    include it in `api/index.py`.
 3. Page `apps/web/src/os/OsSponsors.tsx`: `OsPage` + `useOsList("/api/os/sponsors")`
-   + `OsTable` + `Panel` with `OsForm` — copy `os/OsResources.tsx`. End with the
+   - `OsTable` + `Panel` with `OsForm` — copy `os/OsResources.tsx`. End with the
    "What is not here, and why" list (required).
 4. Route in `App.tsx` under `os/`; nav entry in `os/OsLayout.tsx::OS_MODULES`.
 5. Tests (§3) and shots (`node qa-scripts/shoot_os.mjs`).
@@ -70,3 +70,18 @@ paste a credential. `content/inheritance/HOW-TO.md` has the five steps.
 - A 1–3 line header comment on every file: what it is, where it's used.
 - No `any` without a comment. No run numbers or `_v2` names outside `docs/archive`.
 - Tokens only: `var(--accent)`, `brand.*` — never literal club names or hex.
+
+## Before you push — the gates
+1. `make check` — what CI runs: ruff, prettier, stylelint, markdownlint, oxlint, mypy
+   --strict, tsc, pytest, vitest, the one-function guard, `validate_data`,
+   `validate_inheritance`, routes/images/tokens/repo audits, env names, `docs/API.md`
+   current, ts-prune, depcheck.
+2. `make a11y` — pa11y + axe over every route and the OS. Must stay at 0.
+3. `make smoke` — the OS gate (12) + the functional smoke (9): a board member's day
+   against your dev server. CI runs it too (`functional` job).
+4. Commit message in conventional form (`feat:`, `fix:`, `content:`, `inheritance:`,
+   `chore:`, `docs:`) — commitlint checks the pushed range.
+5. Nothing secret in the diff — `gitleaks protect --staged`; CI scans history weekly.
+6. New UI? Tick the manual keyboard/screen-reader list in `docs/SKILLS_ADOPTED.md`
+   in the PR template.
+Each tool's origin and what it found on adoption: `docs/SKILLS_ADOPTED.md`.

@@ -34,12 +34,20 @@ function useTyper(lines: Line[], active: boolean, reduced: boolean | null) {
   const [done, setDone] = useState(!!reduced);
   useEffect(() => {
     if (!active) return;
-    if (reduced) { setOut(full); setCursor(lines.length - 2); setDone(true); return; }
+    if (reduced) {
+      setOut(full);
+      setCursor(lines.length - 2);
+      setDone(true);
+      return;
+    }
     let raf = 0;
     let frame = 0;
     const starts: number[] = [];
     let t = 0;
-    lines.forEach((l) => { starts.push(t); t += l.text.length * l.ms * SLOW + GAP_MS; });
+    lines.forEach((l) => {
+      starts.push(t);
+      t += l.text.length * l.ms * SLOW + GAP_MS;
+    });
     const total = t - GAP_MS;
     const t0 = performance.now();
     const step = (now: number) => {
@@ -89,15 +97,7 @@ function Slot({ text, shown, caret, blink, align = "center" }: { text: string; s
   );
 }
 
-export function FinLine({
-  n = "01",
-  next = "/",
-  binary = "01001010 01001010",
-}: {
-  n?: string;
-  next?: string;
-  binary?: string;
-}) {
+export function FinLine({ n = "01", next = "/", binary = "01001010 01001010" }: { n?: string; next?: string; binary?: string }) {
   const ref = useRef<HTMLElement>(null);
   const inView = useInView(ref, { once: true, margin: "-12% 0px" });
   const reduced = useReducedMotion();
@@ -110,13 +110,7 @@ export function FinLine({
   const label = `End of section ${n}. Next: ${next}`;
   const draw = { duration: 0.6, ease: EASE };
   return (
-    <section
-      ref={ref}
-      data-tone="dark-3"
-      className="py-14 text-center border-t border-line"
-      aria-label={label}
-      data-fin-done={done || undefined}
-    >
+    <section ref={ref} data-tone="dark-3" className="py-14 text-center border-t border-line" aria-label={label} data-fin-done={done || undefined}>
       <div className="flex items-center gap-6 max-w-[1280px] mx-auto px-10">
         <motion.span
           aria-hidden

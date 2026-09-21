@@ -65,14 +65,26 @@ export default function OsProjects() {
     await reload();
   }
   async function toggleFeatured(r: Row) {
-    await act(`/api/os/projects/${r.id}`, { method: "PATCH", body: { title: r.title, featured: !r.featured } });
+    if (r.featured) await act(`/api/os/projects/${r.id}`, { method: "PATCH", body: { title: r.title, featured: false } });
+    else await act(`/api/os/projects/${r.id}/feature`, { method: "POST" });
     await reload();
   }
   async function add(v: Record<string, unknown>) {
     setBusy(true);
     const authors = (Array.isArray(v.authors_text) ? v.authors_text : []).map((n) => ({ name: String(n) }));
     const r = await act("/api/os/projects", {
-      body: { title: v.title, kind: v.kind, summary: v.summary, platform: v.platform ?? [], stack: v.stack ?? [], links: { repo: v.repo ?? "", live: v.live ?? "" }, benefits_jj: v.benefits_jj ?? "", authors, term: v.term ?? "", status: "approved" },
+      body: {
+        title: v.title,
+        kind: v.kind,
+        summary: v.summary,
+        platform: v.platform ?? [],
+        stack: v.stack ?? [],
+        links: { repo: v.repo ?? "", live: v.live ?? "" },
+        benefits_jj: v.benefits_jj ?? "",
+        authors,
+        term: v.term ?? "",
+        status: "approved",
+      },
     });
     say(r.ok, r.ok ? "Added — it is in the queue as approved; publish it when ready." : r.msg);
     setBusy(false);
@@ -93,7 +105,14 @@ export default function OsProjects() {
       kicker="PROJECTS · APPS · ONE QUEUE"
       title="Projects"
       source={source}
-      actions={<Chips options={VIEWS} value={view} onChange={setView} counts={{ queue: groups.queue.length, published: groups.published.length, archived: groups.archived.length }} />}
+      actions={
+        <Chips
+          options={VIEWS}
+          value={view}
+          onChange={setView}
+          counts={{ queue: groups.queue.length, published: groups.published.length, archived: groups.archived.length }}
+        />
+      }
       notHere={[
         "No GitHub sync — the repo link is whatever the student typed; the board click-tests it before publishing.",
         "No screenshot uploads yet — screenshots are URLs (or /api/os/uploads paths) until the board asks for a gallery.",
@@ -127,7 +146,16 @@ export default function OsProjects() {
               { k: "AUTHORS", v: Array.isArray(sel.authors) ? sel.authors.map((a) => (a as { name: string }).name).join(", ") : "—" },
               { k: "EMAIL", v: String(sel.author_email ?? "—") },
               { k: "PLATFORM", v: Array.isArray(sel.platform) ? sel.platform.join(" · ") : "—" },
-              { k: "LINKS", v: Object.entries((sel.links as Record<string, string>) ?? {}).filter(([, u]) => u).map(([k, u]) => <a key={k} href={u} target="_blank" rel="noreferrer" className="text-teal u-draw mr-3">{k} ↗</a>) },
+              {
+                k: "LINKS",
+                v: Object.entries((sel.links as Record<string, string>) ?? {})
+                  .filter(([, u]) => u)
+                  .map(([k, u]) => (
+                    <a key={k} href={u} target="_blank" rel="noreferrer" className="text-teal u-draw mr-3">
+                      {k} ↗
+                    </a>
+                  )),
+              },
               { k: "FOR JOHN JAY", v: String(sel.benefits_jj ?? "") },
               { k: "REVIEW NOTES", v: String(sel.review_notes ?? "") },
               { k: "REVIEWED BY", v: String(sel.reviewed_by ?? "") },
@@ -137,23 +165,52 @@ export default function OsProjects() {
             <div className="mt-5">
               <label className="block mb-3">
                 <span className="mono-label text-muted">NOTE TO THE STUDENT (required for request-changes)</span>
-                <textarea value={note} onChange={(e) => setNote(e.target.value)} rows={3} className="w-full bg-transparent border border-line px-3 py-2 font-mono text-[13px] text-ink focus:border-teal outline-none mt-1" />
+                <textarea
+                  value={note}
+                  onChange={(e) => setNote(e.target.value)}
+                  rows={3}
+                  className="w-full bg-transparent border border-line px-3 py-2 font-mono text-[13px] text-ink focus:border-teal outline-none mt-1"
+                />
               </label>
               <div className="flex flex-wrap gap-2">
-                {String(sel.status) === "submitted" && <Button variant="ghost" disabled={busy} onClick={() => decide(String(sel.id), "in_review")}>start review</Button>}
-                {String(sel.status) !== "approved" && <Button variant="ghost" disabled={busy} onClick={() => decide(String(sel.id), "approve")}>approve</Button>}
-                <Button variant="ghost" disabled={busy} onClick={() => decide(String(sel.id), "request_changes")}>request changes</Button>
-                {String(sel.status) === "approved" && <Button variant="primary" disabled={busy} onClick={() => publish(String(sel.id))}>publish</Button>}
-                <Button variant="ghost" disabled={busy} onClick={() => decide(String(sel.id), "archive")}>archive</Button>
+                {String(sel.status) === "submitted" && (
+                  <Button variant="ghost" disabled={busy} onClick={() => decide(String(sel.id), "in_review")}>
+                    start review
+                  </Button>
+                )}
+                {String(sel.status) !== "approved" && (
+                  <Button variant="ghost" disabled={busy} onClick={() => decide(String(sel.id), "approve")}>
+                    approve
+                  </Button>
+                )}
+                <Button variant="ghost" disabled={busy} onClick={() => decide(String(sel.id), "request_changes")}>
+                  request changes
+                </Button>
+                {String(sel.status) === "approved" && (
+                  <Button variant="primary" disabled={busy} onClick={() => publish(String(sel.id))}>
+                    publish
+                  </Button>
+                )}
+                <Button variant="ghost" disabled={busy} onClick={() => decide(String(sel.id), "archive")}>
+                  archive
+                </Button>
               </div>
             </div>
           )}
           {String(sel.status) === "published" && (
             <div className="flex flex-wrap gap-2 mt-5">
-              <Button variant="ghost" onClick={() => toggleFeatured(sel)}>{sel.featured ? "unfeature" : "feature"}</Button>
-              <Button variant="ghost" onClick={() => move(String(sel.id), -1)}>↑ up</Button>
-              <Button variant="ghost" onClick={() => move(String(sel.id), 1)}>↓ down</Button>
-              <Button variant="ghost" onClick={() => decide(String(sel.id), "archive")}>archive</Button>
+              <Button variant="ghost" onClick={() => toggleFeatured(sel)}>
+                {sel.featured ? "unfeature" : "feature"}
+              </Button>
+              <Button variant="ghost" onClick={() => move(String(sel.id), -1)}>
+                ↑ up
+              </Button>
+              <Button variant="ghost" onClick={() => move(String(sel.id), 1)}>
+                ↓ down
+              </Button>
+              <Button variant="ghost" onClick={() => decide(String(sel.id), "archive")}>
+                archive
+              </Button>
             </div>
           )}
         </Panel>

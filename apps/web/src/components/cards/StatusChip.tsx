@@ -1,15 +1,6 @@
 /** ● LIVE / ○ IDLE / ● ARCHIVED — dot w/ halo, 1px border at 40%, zero radius. */
-export function StatusChip({
-  state,
-  label,
-  className = "",
-}: {
-  state: "live" | "idle" | "archived" | "offline";
-  label?: string;
-  className?: string;
-}) {
-  const color =
-    state === "live" ? "var(--color-teal)" : state === "archived" ? "var(--accent)" : "currentColor";
+export function StatusChip({ state, label, className = "" }: { state: "live" | "idle" | "archived" | "offline"; label?: string; className?: string }) {
+  const color = state === "live" ? "var(--color-teal)" : state === "archived" ? "var(--accent)" : "currentColor";
   const hollow = state === "idle" || state === "offline";
   return (
     <span
@@ -20,7 +11,8 @@ export function StatusChip({
         aria-hidden
         className={state === "live" ? "animate-pulse" : ""}
         style={{
-          width: 6, height: 6,
+          width: 6,
+          height: 6,
           background: hollow ? "transparent" : color,
           border: hollow ? `1px solid ${color}` : "none",
           boxShadow: hollow ? "none" : `0 0 0 2px color-mix(in srgb, ${color} 25%, transparent)`,

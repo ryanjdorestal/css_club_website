@@ -57,7 +57,15 @@ export default function OsEvents() {
       actions={
         <>
           <Chips options={VIEWS} value={view} onChange={setView} />
-          <Button variant="ghost" onClick={() => { setFlyer(""); setSel("new"); }}>+ new event</Button>
+          <Button
+            variant="ghost"
+            onClick={() => {
+              setFlyer("");
+              setSel("new");
+            }}
+          >
+            + new event
+          </Button>
         </>
       }
       notHere={[
@@ -78,7 +86,10 @@ export default function OsEvents() {
             { key: "flyer_path", label: "FLYER", render: (r) => (r.flyer_path ? "✓" : <span className="text-(--color-red-hi)">none</span>) },
           ]}
           rows={shown}
-          onRow={(r) => { setFlyer(String(r.flyer_path ?? "")); setSel(r); }}
+          onRow={(r) => {
+            setFlyer(String(r.flyer_path ?? ""));
+            setSel(r);
+          }}
         />
       </div>
       {sel && (
@@ -92,8 +103,16 @@ export default function OsEvents() {
             onSubmit={(v) => save(v)}
             extra={
               <>
-                {sel !== "new" && String(sel.status) === "draft" && <Button type="button" variant="primary" disabled={busy} onClick={() => publish(String(sel.id))}>publish</Button>}
-                {sel !== "new" && String(sel.status) === "published" && <Button type="button" variant="ghost" disabled={busy} onClick={() => save(initial, "archived")}>archive</Button>}
+                {sel !== "new" && String(sel.status) === "draft" && (
+                  <Button type="button" variant="primary" disabled={busy} onClick={() => publish(String(sel.id))}>
+                    publish
+                  </Button>
+                )}
+                {sel !== "new" && String(sel.status) === "published" && (
+                  <Button type="button" variant="ghost" disabled={busy} onClick={() => save(initial, "archived")}>
+                    archive
+                  </Button>
+                )}
               </>
             }
           />

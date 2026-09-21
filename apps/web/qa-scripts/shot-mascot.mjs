@@ -9,7 +9,7 @@ await strip.screenshot({ path: "../../qa/shots/04-mascot-emotes.png" });
 await page.goto("http://localhost:5173/", { waitUntil: "networkidle" });
 await page.click('button[aria-label="Open the Hound chat"]');
 await page.waitForTimeout(600);
-await page.click('text=How do I join?');
+await page.click("text=How do I join?");
 await page.waitForTimeout(900);
 await page.screenshot({ path: "../../qa/shots/04-chat-widget.png", clip: { x: 1000, y: 300, width: 440, height: 600 } });
 console.log("mascot + chat shots saved");

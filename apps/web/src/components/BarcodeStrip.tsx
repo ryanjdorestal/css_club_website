@@ -15,13 +15,7 @@ export function BarcodeStrip({ seed, height = 22, className = "" }: { seed: stri
     x += w + gap;
   }
   return (
-    <svg
-      aria-hidden
-      viewBox="0 0 100 10"
-      preserveAspectRatio="none"
-      className={className}
-      style={{ height, width: "100%", display: "block" }}
-    >
+    <svg aria-hidden viewBox="0 0 100 10" preserveAspectRatio="none" className={className} style={{ height, width: "100%", display: "block" }}>
       {bars.map((b, i) => (
         <rect key={i} x={b.x} y="0" width={b.w} height="10" fill="currentColor" />
       ))}

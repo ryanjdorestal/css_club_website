@@ -45,6 +45,17 @@ def publish(row_id: str, actor: Actor = Depends(require_role("officer"))) -> dic
     return {"ok": True, "row": row}
 
 
+@r.post("/{row_id:path}/feature")
+def feature(row_id: str, actor: Actor = Depends(require_role("officer"))) -> dict[str, Any]:
+    """Make this the featured project (the public page shows one); clears the others."""
+    if not C.projects.get(row_id):
+        raise HTTPException(404, "not found")
+    for other in C.projects.list():
+        if other.get("featured") and str(other.get("id")) != str(row_id):
+            C.projects.patch(str(other["id"]), {"featured": False}, actor.email, action="unfeature")
+    return {"ok": True, "row": C.projects.patch(row_id, {"featured": True, "display_order": 0}, actor.email, action="feature")}
+
+
 @r.post("/reorder")
 def reorder(body: ReorderIn, actor: Actor = Depends(require_role("officer"))) -> dict[str, Any]:
     for i, pid in enumerate(body.ids):

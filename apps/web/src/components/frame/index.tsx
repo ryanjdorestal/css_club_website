@@ -30,10 +30,22 @@ export function Brackets({ size = 12, inset = 0, accent = true, className = "" }
   const s = { width: size, height: size } as CSSProperties;
   return (
     <span aria-hidden className={`absolute pointer-events-none ${className}`} style={{ inset }}>
-      <span className={`absolute top-0 left-0 border-t border-l ${c} transition-all duration-200 group-hover:translate-x-1 group-hover:translate-y-1`} style={s} />
-      <span className={`absolute top-0 right-0 border-t border-r ${c} transition-all duration-200 group-hover:-translate-x-1 group-hover:translate-y-1`} style={s} />
-      <span className={`absolute bottom-0 left-0 border-b border-l ${c} transition-all duration-200 group-hover:translate-x-1 group-hover:-translate-y-1`} style={s} />
-      <span className={`absolute bottom-0 right-0 border-b border-r ${c} transition-all duration-200 group-hover:-translate-x-1 group-hover:-translate-y-1`} style={s} />
+      <span
+        className={`absolute top-0 left-0 border-t border-l ${c} transition-all duration-200 group-hover:translate-x-1 group-hover:translate-y-1`}
+        style={s}
+      />
+      <span
+        className={`absolute top-0 right-0 border-t border-r ${c} transition-all duration-200 group-hover:-translate-x-1 group-hover:translate-y-1`}
+        style={s}
+      />
+      <span
+        className={`absolute bottom-0 left-0 border-b border-l ${c} transition-all duration-200 group-hover:translate-x-1 group-hover:-translate-y-1`}
+        style={s}
+      />
+      <span
+        className={`absolute bottom-0 right-0 border-b border-r ${c} transition-all duration-200 group-hover:-translate-x-1 group-hover:-translate-y-1`}
+        style={s}
+      />
     </span>
   );
 }
@@ -41,13 +53,23 @@ export function Brackets({ size = 12, inset = 0, accent = true, className = "" }
 /** + marks at the four corners of a section (paper bands), 40%. */
 export function Registration({ className = "", inset = 14 }: { className?: string; inset?: number }) {
   const P = ({ x, y }: { x: string; y: string }) => (
-    <svg aria-hidden viewBox="0 0 12 12" width="12" height="12" className="absolute opacity-40" style={{ [x.split(":")[0]]: inset, [y.split(":")[0]]: inset } as CSSProperties}>
+    <svg
+      aria-hidden
+      viewBox="0 0 12 12"
+      width="12"
+      height="12"
+      className="absolute opacity-40"
+      style={{ [x.split(":")[0]]: inset, [y.split(":")[0]]: inset } as CSSProperties}
+    >
       <path d="M6 1 V11 M1 6 H11" stroke="currentColor" strokeWidth="1" />
     </svg>
   );
   return (
     <span aria-hidden className={`absolute inset-0 pointer-events-none ${className}`}>
-      <P x="left:0" y="top:0" /><P x="right:0" y="top:0" /><P x="left:0" y="bottom:0" /><P x="right:0" y="bottom:0" />
+      <P x="left:0" y="top:0" />
+      <P x="right:0" y="top:0" />
+      <P x="left:0" y="bottom:0" />
+      <P x="right:0" y="bottom:0" />
     </span>
   );
 }

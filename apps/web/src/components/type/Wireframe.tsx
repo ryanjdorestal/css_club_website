@@ -13,7 +13,15 @@ export function CubeWireSvg({ className = "", stroke = "var(--accent)" }: { clas
         {/* face notches — the C and S cuts, abstracted */}
         <path d="M22 38 h18 M22 58 h12 M64 40 h16 M68 60 h12" opacity="0.5" />
         {/* vertex dots (T06 radar) */}
-        {[[50,4],[91,27],[91,73],[50,96],[9,73],[9,27],[50,50]].map(([x, y], i) => (
+        {[
+          [50, 4],
+          [91, 27],
+          [91, 73],
+          [50, 96],
+          [9, 73],
+          [9, 27],
+          [50, 50],
+        ].map(([x, y], i) => (
           <rect key={i} x={x - 1.4} y={y - 1.4} width="2.8" height="2.8" fill={stroke} stroke="none" />
         ))}
       </g>

@@ -1,0 +1,15 @@
+name: Feature
+description: Something the site or CSS OS should do
+labels: [feature]
+body:
+  - type: textarea
+    attributes: { label: The problem, description: "Who needs this and what they do today instead" }
+    validations: { required: true }
+  - type: textarea
+    attributes: { label: Proposed change }
+  - type: checkboxes
+    attributes:
+      {
+        label: Constraints (see docs/DECISIONS.md),
+        options: [{ label: "Needs no API key, no LLM, no third-party account" }, { label: "Works in Tier 1 (no Supabase)" }],
+      }

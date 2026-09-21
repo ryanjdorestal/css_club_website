@@ -10,7 +10,12 @@ export function SectionIndex({ label, title, sigil, code }: { label: string; tit
       {sigil && <span className="shrink-0 text-(--accent-ink) opacity-80">{sigil}</span>}
       {text && <span className="t-label whitespace-nowrap shrink-0">{text.toUpperCase().replace(/ /g, "_")}</span>}
       <span aria-hidden className="h-px grow bg-(--accent) opacity-40" />
-      {code && <span className="t-micro opacity-50 shrink-0">{"//"}{code}</span>}
+      {code && (
+        <span className="t-micro opacity-50 shrink-0">
+          {"//"}
+          {code}
+        </span>
+      )}
     </div>
   );
 }

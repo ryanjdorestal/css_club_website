@@ -16,7 +16,13 @@ async function page(w, h = 900) {
 async function settle(p, route) {
   await p.goto(`http://localhost:5173${route}`, { waitUntil: "networkidle" });
   await p.waitForTimeout(1200);
-  await p.evaluate(async () => { for (let y = 0; y <= document.body.scrollHeight; y += 700) { window.scrollTo(0, y); await new Promise((r) => setTimeout(r, 30)); } window.scrollTo(0, 0); });
+  await p.evaluate(async () => {
+    for (let y = 0; y <= document.body.scrollHeight; y += 700) {
+      window.scrollTo(0, y);
+      await new Promise((r) => setTimeout(r, 30));
+    }
+    window.scrollTo(0, 0);
+  });
   await p.waitForTimeout(500);
 }
 // --- Home: fin motion frames + footer bottom
@@ -24,14 +30,21 @@ async function settle(p, route) {
   const p = await page(1440);
   await p.goto("http://localhost:5173/", { waitUntil: "networkidle" });
   await p.waitForTimeout(1200);
-  const finY = await p.evaluate(() => { const el = document.querySelector('section[aria-label^="End of section"]'); const r = el.getBoundingClientRect(); return r.top + window.scrollY - 300; });
+  const finY = await p.evaluate(() => {
+    const el = document.querySelector('section[aria-label^="End of section"]');
+    const r = el.getBoundingClientRect();
+    return r.top + window.scrollY - 300;
+  });
   await p.evaluate((y) => window.scrollTo({ top: y }), finY);
   for (const ms of [120, 420, 800, 1600]) {
     await p.waitForTimeout(ms === 120 ? 120 : ms - [120, 420, 800, 1600][[120, 420, 800, 1600].indexOf(ms) - 1]);
-    const box = await p.evaluate(() => { const r = document.querySelector('section[aria-label^="End of section"]').getBoundingClientRect(); return { x: 0, y: Math.max(0, r.top), width: 1440, height: Math.min(r.height, 900 - r.top) }; });
+    const box = await p.evaluate(() => {
+      const r = document.querySelector('section[aria-label^="End of section"]').getBoundingClientRect();
+      return { x: 0, y: Math.max(0, r.top), width: 1440, height: Math.min(r.height, 900 - r.top) };
+    });
     await p.screenshot({ path: `${base}/${tag}-home-fin-${ms}ms.png`, clip: box });
   }
-  const done = await p.evaluate(() => !!document.querySelector('section[data-fin-done]'));
+  const done = await p.evaluate(() => !!document.querySelector("section[data-fin-done]"));
   console.log("fin done attr:", done);
   await p.evaluate(() => window.scrollTo({ top: document.body.scrollHeight }));
   await p.waitForTimeout(1400);
@@ -44,7 +57,10 @@ async function settle(p, route) {
   await settle(p, "/cyberhounds");
   await p.waitForTimeout(800);
   await p.screenshot({ path: `${base}/${tag}-cyber-vp0.png` });
-  const y = await p.evaluate(() => { const el = [...document.querySelectorAll("section")].find((s) => s.textContent.includes("COMPETITIONS")); return el.getBoundingClientRect().top + window.scrollY - 40; });
+  const y = await p.evaluate(() => {
+    const el = [...document.querySelectorAll("section")].find((s) => s.textContent.includes("COMPETITIONS"));
+    return el.getBoundingClientRect().top + window.scrollY - 40;
+  });
   await p.evaluate((y) => window.scrollTo({ top: y }), y);
   await p.waitForTimeout(900);
   await p.screenshot({ path: `${base}/${tag}-cyber-posters.png` });

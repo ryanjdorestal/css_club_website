@@ -1,0 +1,13 @@
+name: Inheritance record
+description: Add or correct a record in content/inheritance/ (roster, handoff, decision, project, event, contact, lesson, minutes)
+labels: [inheritance]
+body:
+  - type: dropdown
+    attributes: { label: Type, options: [roster, handoff, decision, project, event, contact, lesson, minutes] }
+    validations: { required: true }
+  - type: input
+    attributes: { label: Term, placeholder: "F26" }
+    validations: { required: true }
+  - type: textarea
+    attributes: { label: What should the record say, description: "Or link the draft. Never paste passwords, keys, or private contact details." }
+    validations: { required: true }

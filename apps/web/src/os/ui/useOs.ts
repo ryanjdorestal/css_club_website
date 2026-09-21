@@ -24,7 +24,10 @@ export function useOsList<T extends Row = Row>(path: string) {
 }
 
 /** Run a write and get a one-line notice back. */
-export async function act<T = Record<string, unknown>>(path: string, init?: { method?: string; body?: unknown; form?: FormData }): Promise<{ ok: boolean; msg: string; data: T }> {
+export async function act<T = Record<string, unknown>>(
+  path: string,
+  init?: { method?: string; body?: unknown; form?: FormData },
+): Promise<{ ok: boolean; msg: string; data: T }> {
   const r = await osFetch<T>(path, init);
   return { ok: r.ok, msg: r.ok ? "Saved." : `Failed: ${r.error}`, data: r.data };
 }

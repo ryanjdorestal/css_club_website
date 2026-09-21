@@ -29,7 +29,12 @@ export function PosterBand({
           const o: { className?: string; outline?: boolean; ghost?: boolean; stencil?: boolean } = typeof l === "string" ? {} : l;
           let word: React.ReactNode = text;
           if (o.ghost || o.outline) word = <Ghost>{text}</Ghost>;
-          if (o.stencil) word = <Stencil bars={[0.4, 0.66]} barColor="var(--color-navy-900)">{word as never}</Stencil>;
+          if (o.stencil)
+            word = (
+              <Stencil bars={[0.4, 0.66]} barColor="var(--color-navy-900)">
+                {word as never}
+              </Stencil>
+            );
           return (
             <EdgeCrop key={i} side="right" className={o.className}>
               {word}

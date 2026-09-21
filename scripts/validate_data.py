@@ -62,8 +62,41 @@ def main() -> int:
                 print(f"  {e}")
         else:
             print(f"OK   {target.name}")
-    print(f"\n{len(schemas) - failures}/{len(schemas)} schemas pass")
-    return 1 if failures else 0
+    xerrs = cross_checks()
+    for e in xerrs:
+        print(f"CROSS {e}")
+    print(f"\n{len(schemas) - failures}/{len(schemas)} schemas pass · {len(xerrs)} cross-check error(s)")
+    return 1 if failures or xerrs else 0
+
+
+def cross_checks() -> list[str]:
+    """content-indexer, adapted: references between data/, content/ and public/ resolve."""
+    import json as _json
+
+    public = ROOT / "apps/web/public"
+    errs: list[str] = []
+    events = _json.loads((DATA / "events.json").read_text())
+    for sem in events["semesters"]:
+        for ev in sem["events"]:
+            fl = ev.get("flyer")
+            if fl and not (public / fl).exists():
+                errs.append(f"events.json: flyer missing in public/: {fl}")
+    board = _json.loads((DATA / "board.json").read_text())
+    for t in board["terms"]:
+        for m in t["members"]:
+            ph = m.get("photo")
+            if ph and not (public / ph).exists():
+                errs.append(f"board.json: photo missing in public/: {ph}")
+    posts = _json.loads((DATA / "posts.json").read_text())["posts"]
+    for p in posts:
+        if not (ROOT / "content/news" / f"{p['slug']}.md").exists():
+            errs.append(f"posts.json: content/news/{p['slug']}.md missing (run scripts/snapshot.py)")
+    projects = _json.loads((DATA / "projects.json").read_text())["projects"]
+    for pr in projects:
+        for sc in pr.get("screenshots", []):
+            if sc.startswith("/") and not (public / sc.lstrip("/")).exists():
+                errs.append(f"projects.json: screenshot missing: {sc}")
+    return errs
 
 
 if __name__ == "__main__":

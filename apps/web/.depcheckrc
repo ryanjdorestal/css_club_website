@@ -1,5 +1,6 @@
 # depcheck: tailwindcss is used through @tailwindcss/vite + `@import "tailwindcss"` in tokens.css;
-# the dev tools are invoked from the Makefile / package.json scripts, not imported.
-ignores: ["tailwindcss", "concurrently", "depcheck", "prettier", "ts-prune", "vitest", "@playwright/test", "oxlint", "sharp", "@types/*"]
+# the dev tools are invoked from the Makefile / package.json scripts / .github workflows, not imported
+# (axe from qa-scripts, commitlint + lhci from CI, the stylelint/markdownlint configs at the repo root).
+ignores: ["tailwindcss", "concurrently", "depcheck", "prettier", "ts-prune", "vitest", "@playwright/test", "oxlint", "sharp", "@types/*", "@axe-core/playwright", "@commitlint/cli", "@commitlint/config-conventional", "@lhci/cli", "html-validate", "pa11y-ci", "stylelint", "stylelint-config-standard", "markdownlint-cli"]
 ignorePatterns: ["dist", "qa-scripts"]
 skip-missing: true  # @data/@content/@brand/@docs are Vite path aliases, not packages

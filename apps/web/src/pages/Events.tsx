@@ -14,7 +14,6 @@ import { Reveal, RevealGroup, RevealItem } from "@/motion/Reveal";
 import { brand } from "@brand/brand.config";
 import * as Sg from "@/sigils";
 
-
 const SERIES: { name: string; topic: string[] }[] = [
   { name: "Security series", topic: ["Security"] },
   { name: "Web & mobile series", topic: ["Web", "Mobile", "Tools", "Systems", "Cloud"] },
@@ -35,9 +34,20 @@ export default function Events() {
         right={
           <div className="relative">
             {/* jj_06/T02: sigil cubes floating through the type */}
-            <span className="absolute -top-24 -left-20 text-red opacity-80 rotate-12"><Sg.CubeSigil face="r" size={56} /></span>
-            <span className="absolute -top-8 right-2 text-red opacity-50 -rotate-6"><Sg.CubeSigil face="r" size={34} /></span>
-            <DossierMeta rows={[["TERM", "FALL 2026"], ["ARCHIVED", `${nEvents} EVENTS`], ["VENUE", "NB · HYBRID"], ["SERIES", `${workshops.workshops.length} WORKSHOPS`]]} />
+            <span className="absolute -top-24 -left-20 text-red opacity-80 rotate-12">
+              <Sg.CubeSigil face="r" size={56} />
+            </span>
+            <span className="absolute -top-8 right-2 text-red opacity-50 -rotate-6">
+              <Sg.CubeSigil face="r" size={34} />
+            </span>
+            <DossierMeta
+              rows={[
+                ["TERM", "FALL 2026"],
+                ["ARCHIVED", `${nEvents} EVENTS`],
+                ["VENUE", "NB · HYBRID"],
+                ["SERIES", `${workshops.workshops.length} WORKSHOPS`],
+              ]}
+            />
           </div>
         }
         stats={[
@@ -49,27 +59,44 @@ export default function Events() {
       />
 
       {/* 2 — Upcoming */}
-      <Band tone="tinted" accent="red" index="01 — UPCOMING · FALL 2026" sigil={<Sg.Flag size={16} />} code="F26" rail="01 · UPCOMING · 01000101 · TBD BY BOARD">
+      <Band
+        tone="tinted"
+        accent="red"
+        index="01 — UPCOMING · FALL 2026"
+        sigil={<Sg.Flag size={16} />}
+        code="F26"
+        rail="01 · UPCOMING · 01000101 · TBD BY BOARD"
+      >
         <div className="grid md:grid-cols-3 gap-5 items-stretch">
           <SlotCard n="01" label="Next event — Open" action="propose one ↗" href="/join" className="min-h-[160px]" />
           <SlotCard n="02" label="Open" className="min-h-[160px]" />
           <Reveal className="flex flex-col justify-center border border-(--tone-line) p-6">
             <p className="text-sm leading-relaxed" style={{ color: "var(--tone-muted)" }}>
-              Nothing scheduled yet — the board sets the Fall 2026 slate at the first
-              general meeting. Want something taught? Propose it and the board will
-              slot it in.
+              Nothing scheduled yet — the board sets the Fall 2026 slate at the first general meeting. Want something taught? Propose it and the board will slot
+              it in.
             </p>
           </Reveal>
         </div>
       </Band>
 
       {/* 3 — Previous by semester */}
-      <Band tone="dark-2" accent="red" index="02 — PREVIOUS EVENTS · BY SEMESTER" sigil={<Sg.CubeSigil size={16} />} code="ARCHIVE" rail="02 · ARCHIVE · 01000001 · 2024-2025">
+      <Band
+        tone="dark-2"
+        accent="red"
+        index="02 — PREVIOUS EVENTS · BY SEMESTER"
+        sigil={<Sg.CubeSigil size={16} />}
+        code="ARCHIVE"
+        rail="02 · ARCHIVE · 01000001 · 2024-2025"
+      >
         <Watermark src={brand.logos.svg} side="right" width="36vw" opacity={0.05} />
         {events.semesters.map((sem) => (
           <div key={sem.semester} className="mb-14 last:mb-0">
             <div className="flex items-baseline gap-4 mb-6">
-              <span className="t-pixel text-(--accent-fg)">{"//"}{sem.semester.slice(0, 1)}{sem.semester.slice(-2)}</span>
+              <span className="t-pixel text-(--accent-fg)">
+                {"//"}
+                {sem.semester.slice(0, 1)}
+                {sem.semester.slice(-2)}
+              </span>
               <h2 className="t-h2 uppercase">{sem.semester}</h2>
               <span className="t-micro opacity-55 tnum">{sem.events.length} EVENTS · ARCHIVED</span>
             </div>
@@ -95,13 +122,22 @@ export default function Events() {
       </Band>
 
       {/* 4 — Workshops as spec sheets */}
-      <Band tone="light" accent="red" index="03 — PREVIOUS WORKSHOPS · LIVE ON GITHUB" sigil={<Sg.Terminal size={16} />} code="REPOS" rail="03 · WORKSHOPS · 01010111 · 2021 →">
+      <Band
+        tone="light"
+        accent="red"
+        index="03 — PREVIOUS WORKSHOPS · LIVE ON GITHUB"
+        sigil={<Sg.Terminal size={16} />}
+        code="REPOS"
+        rail="03 · WORKSHOPS · 01010111 · 2021 →"
+      >
         <div className="grid md:grid-cols-3 gap-6">
           {SERIES.map((s) => {
             const rows = workshops.workshops.filter((w) => s.topic.includes(w.topic));
             return (
               <Reveal key={s.name}>
-                <SpecSheet tag={`${rows.length}`} title={s.name}
+                <SpecSheet
+                  tag={`${rows.length}`}
+                  title={s.name}
                   rows={rows.map((w) => ({
                     k: w.topic.toUpperCase(),
                     v: (

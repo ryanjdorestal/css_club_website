@@ -5,12 +5,7 @@
   },
   "hero_copy": {
     "kicker": "CSS_01 · JOHN_JAY_COLLEGE · CUNY · COMPUTER_SCIENCE_SOCIETY",
-    "lines": [
-      "Debug",
-      "your mind,",
-      "commit to",
-      "growth."
-    ]
+    "lines": ["Debug", "your mind,", "commit to", "growth."]
   },
   "collaborate": {
     "openings": [
@@ -59,11 +54,7 @@
         "status": "open"
       }
     ],
-    "committees": [
-      "Web Application Committee",
-      "Analytics Committee",
-      "Public Relations Committee"
-    ],
+    "committees": ["Web Application Committee", "Analytics Committee", "Public Relations Committee"],
     "ideas": []
   },
   "maintenance_banner": {
@@ -73,11 +64,7 @@
   "feature_flags": {
     "projects_public": true,
     "chat_enabled": true,
-    "ticker_items": [
-      "NEXT EVENT · FALL 2026",
-      "PROJECTS — SUBMISSIONS OPEN",
-      "CYBERHOUNDS · CTF"
-    ]
+    "ticker_items": ["NEXT EVENT · FALL 2026", "PROJECTS — SUBMISSIONS OPEN", "CYBERHOUNDS · CTF"]
   },
   "ownership": {
     "accounts": [

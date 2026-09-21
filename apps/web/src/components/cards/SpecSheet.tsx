@@ -53,17 +53,7 @@ export function SpecSheet({
   );
 }
 
-export function BigStat({
-  value,
-  suffix = "",
-  label,
-  className = "",
-}: {
-  value: number;
-  suffix?: string;
-  label: string;
-  className?: string;
-}) {
+export function BigStat({ value, suffix = "", label, className = "" }: { value: number; suffix?: string; label: string; className?: string }) {
   return (
     <div className={`px-5 py-4 ${className}`}>
       <span className="t-stat text-(--accent-ink)">

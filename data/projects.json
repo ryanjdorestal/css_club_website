@@ -6,13 +6,8 @@
       "kind": "app",
       "title": "Study Planner",
       "summary": "Example: a weekly study planner for John Jay CS courses.",
-      "platform": [
-        "web"
-      ],
-      "stack": [
-        "react",
-        "typescript"
-      ],
+      "platform": ["web"],
+      "stack": ["react", "typescript"],
       "links": {
         "web": "",
         "store": "",
@@ -41,12 +36,8 @@
       "kind": "app",
       "title": "CTF Notebook",
       "summary": "Example: notes + writeup templates for Cyberhounds competitions.",
-      "platform": [
-        "cli"
-      ],
-      "stack": [
-        "python"
-      ],
+      "platform": ["cli"],
+      "stack": ["python"],
       "links": {
         "web": "",
         "store": "",
@@ -75,12 +66,8 @@
       "kind": "app",
       "title": "Campus Room Finder",
       "summary": "Example: find John Jay rooms like 1.114 New Building fast.",
-      "platform": [
-        "ios"
-      ],
-      "stack": [
-        "swift"
-      ],
+      "platform": ["ios"],
+      "stack": ["swift"],
       "links": {
         "web": "",
         "store": "",

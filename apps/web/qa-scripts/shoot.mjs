@@ -7,7 +7,7 @@ import { mkdirSync, rmSync, readdirSync, renameSync } from "node:fs";
 
 const args = process.argv.slice(2);
 const page_ = args[args.indexOf("--page") + 1] ?? "/";
-const name = args.includes("--name") ? args[args.indexOf("--name") + 1] : (page_ === "/" ? "home" : page_.replaceAll("/", "-").replace(/^-/, ""));
+const name = args.includes("--name") ? args[args.indexOf("--name") + 1] : page_ === "/" ? "home" : page_.replaceAll("/", "-").replace(/^-/, "");
 const base = `../../qa/loops/${name}`;
 mkdirSync(`${base}/motion`, { recursive: true });
 
@@ -18,7 +18,16 @@ for (const w of [1440, 390]) {
   const p = await browser.newPage({ viewport: { width: w, height: 900 } });
   await p.goto(`http://localhost:5173${page_}`, { waitUntil: "networkidle" });
   await p.waitForTimeout(1800);
-  await p.waitForFunction(() => ![...document.querySelectorAll('[aria-label]')].some((el) => el.textContent && el.getAttribute('data-decode-done') === null && el.className.includes && false), {}, { timeout: 2000 }).catch(() => {});
+  await p
+    .waitForFunction(
+      () =>
+        ![...document.querySelectorAll("[aria-label]")].some(
+          (el) => el.textContent && el.getAttribute("data-decode-done") === null && el.className.includes && false,
+        ),
+      {},
+      { timeout: 2000 },
+    )
+    .catch(() => {});
   // force all reveals: scroll through, then back
   await p.evaluate(async () => {
     for (let y = 0; y <= document.body.scrollHeight; y += 600) {

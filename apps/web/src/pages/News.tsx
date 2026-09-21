@@ -16,7 +16,18 @@ import { Registration } from "@/components/frame";
 import { Contour } from "@/textures";
 import { Label } from "@/components/type/Label";
 
-type Post = { id: string; slug: string; title: string; dek?: string; body_md?: string; author_name?: string; published_at?: string; tags?: string[]; source?: string; cover_path?: string | null };
+type Post = {
+  id: string;
+  slug: string;
+  title: string;
+  dek?: string;
+  body_md?: string;
+  author_name?: string;
+  published_at?: string;
+  tags?: string[];
+  source?: string;
+  cover_path?: string | null;
+};
 const FALLBACK = { posts: (postsData as { posts: Post[] }).posts };
 
 function issue(i: number) {
@@ -45,7 +56,9 @@ export function NewsIndex() {
         <IndexList
           rows={[
             ...posts.map((p, i) => ({ index: issue(i), title: p.title, dek: p.dek || " ", meta: dateLabel(p), href: `/news/${p.slug}` })),
-            ...(posts.length < 2 ? [{ index: issue(posts.length), title: "Fall 2026 kickoff bulletin", dek: "Pending — written by the board in the OS", chip: "PLANNED" }] : []),
+            ...(posts.length < 2
+              ? [{ index: issue(posts.length), title: "Fall 2026 kickoff bulletin", dek: "Pending — written by the board in the OS", chip: "PLANNED" }]
+              : []),
           ]}
         />
       </Band>
@@ -64,7 +77,9 @@ export function NewsArticle() {
       <main className="pt-[120px]" data-tone="dark">
         <div className="max-w-[720px] mx-auto px-5 py-20 text-center">
           <p className="pixel text-teal text-4xl">{source === "loading" && !post ? "LOADING" : "NO SUCH BULLETIN"}</p>
-          <Link to="/news" className="mono-label text-teal u-draw mt-6 inline-block">← BACK TO THE ISSUE LOG</Link>
+          <Link to="/news" className="mono-label text-teal u-draw mt-6 inline-block">
+            ← BACK TO THE ISSUE LOG
+          </Link>
         </div>
       </main>
     );
@@ -79,7 +94,9 @@ export function NewsArticle() {
         <article className="relative max-w-[720px] mx-auto px-5">
           <Reveal y={10}>
             <div className="flex items-center gap-4 mb-6">
-              <Label pfx="/" className="raise text-(--accent)">ISSUE_{issue(idx >= 0 ? idx : FALLBACK.posts.length)}</Label>
+              <Label pfx="/" className="raise text-(--accent-ink)">
+                ISSUE_{issue(idx >= 0 ? idx : FALLBACK.posts.length)}
+              </Label>
               <span className="h-px grow bg-(--tone-line)" />
               <span className="t-micro opacity-55 tnum">{dateLabel(post)}</span>
             </div>
@@ -95,19 +112,27 @@ export function NewsArticle() {
           </Reveal>
           {doc.blocks.map((b, i) =>
             b.type === "h2" ? (
-              <h2 key={i} className="font-display font-bold text-xl mt-10 mb-3">{b.text}</h2>
+              <h2 key={i} className="font-display font-bold text-xl mt-10 mb-3">
+                {b.text}
+              </h2>
             ) : i === 2 && doc.blocks.length > 4 ? (
               <div key={i}>
                 <Pullquote>{b.text.split(".")[0] + "."}</Pullquote>
-                <p className="text-[17px] leading-[1.7] mb-5 mt-6" style={{ color: "var(--tone-muted)" }}>{b.text}</p>
+                <p className="text-[17px] leading-[1.7] mb-5 mt-6" style={{ color: "var(--tone-muted)" }}>
+                  {b.text}
+                </p>
               </div>
             ) : (
-              <p key={i} className="text-[17px] leading-[1.7] mb-5" style={{ color: "var(--tone-muted)" }}>{b.text}</p>
+              <p key={i} className="text-[17px] leading-[1.7] mb-5" style={{ color: "var(--tone-muted)" }}>
+                {b.text}
+              </p>
             ),
           )}
           <p className="mono-label mt-12 pt-6 border-t border-(--tone-line)" style={{ color: "var(--tone-muted)" }}>
             {post.source === "legacy" ? "MIGRATED FROM CSS_WEBSITE@A8FCA55 · " : "PUBLISHED FROM THE OS · "}
-            <Link to="/news" className="text-(--accent) u-draw">← ISSUE LOG</Link>
+            <Link to="/news" className="text-(--accent) u-draw">
+              ← ISSUE LOG
+            </Link>
           </p>
         </article>
       </section>

@@ -13,7 +13,11 @@ export function Decode({ text, className = "", as: Tag = "span" }: { text: strin
   const [done, setDone] = useState(reduced);
   useEffect(() => {
     if (!inView) return;
-    if (reduced) { setOut(text); setDone(true); return; }
+    if (reduced) {
+      setOut(text);
+      setDone(true);
+      return;
+    }
     let iv: ReturnType<typeof setInterval>;
     let cancelled = false;
     const total = 600;
@@ -26,21 +30,35 @@ export function Decode({ text, className = "", as: Tag = "span" }: { text: strin
         frame++;
         const settled = Math.floor((frame * 16 - scrambleMs) / perChar);
         setOut(
-          text.split("").map((ch, i) => {
-            if (ch === " ") return " ";
-            if (i <= settled) return ch;
-            return GLYPHS[(i * 7 + frame * 3) % GLYPHS.length];
-          }).join(""),
+          text
+            .split("")
+            .map((ch, i) => {
+              if (ch === " ") return " ";
+              if (i <= settled) return ch;
+              return GLYPHS[(i * 7 + frame * 3) % GLYPHS.length];
+            })
+            .join(""),
         );
-        if (settled >= text.length) { clearInterval(iv); setDone(true); }
+        if (settled >= text.length) {
+          clearInterval(iv);
+          setDone(true);
+        }
       }, 16);
     });
-    return () => { cancelled = true; clearInterval(iv); };
+    return () => {
+      cancelled = true;
+      clearInterval(iv);
+    };
   }, [inView, text, reduced]);
   return (
-    <Tag ref={ref as never} className={`relative inline-block ${className}`} aria-label={text} data-decode-done={done || undefined}>
-      <span aria-hidden className="invisible">{text}</span>
-      <span aria-hidden className="absolute inset-0">{out}</span>
+    <Tag ref={ref as never} className={`relative inline-block ${className}`} data-decode-done={done || undefined}>
+      <span className="sr-only">{text}</span>
+      <span aria-hidden className="invisible">
+        {text}
+      </span>
+      <span aria-hidden className="absolute inset-0">
+        {out}
+      </span>
     </Tag>
   );
 }

@@ -1,0 +1,12 @@
+name: Bug
+description: Something on the site or in CSS OS is broken
+labels: [bug]
+body:
+  - type: input
+    attributes: { label: Where, description: "URL or OS page", placeholder: "/os/projects" }
+    validations: { required: true }
+  - type: textarea
+    attributes: { label: What happened, description: "What you did, what you expected, what you saw" }
+    validations: { required: true }
+  - type: input
+    attributes: { label: Browser / device }

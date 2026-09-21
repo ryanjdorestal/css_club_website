@@ -29,7 +29,15 @@ export default function OsBoard() {
   const current = terms.rows.find((t) => t.is_current);
   const [term, setTerm] = useState<string>("current");
   const [sel, setSel] = useState<Row | "new" | null>(null);
-  const [roll, setRoll] = useState<null | { step: 1 | 2 | 3; next_id: string; next_label: string; starts_on: string; ends_on: string; continuing: string[]; result?: Row }>(null);
+  const [roll, setRoll] = useState<null | {
+    step: 1 | 2 | 3;
+    next_id: string;
+    next_label: string;
+    starts_on: string;
+    ends_on: string;
+    continuing: string[];
+    result?: Row;
+  }>(null);
   const { notice, say } = useNotice();
   const [busy, setBusy] = useState(false);
   const termIds = ["current", ...terms.rows.map((t) => String(t.id))];
@@ -48,7 +56,15 @@ export default function OsBoard() {
   async function doRollover() {
     if (!roll) return;
     setBusy(true);
-    const r = await act<Row>("/api/os/terms/rollover", { body: { next_id: roll.next_id, next_label: roll.next_label, starts_on: roll.starts_on || null, ends_on: roll.ends_on || null, continuing_ids: roll.continuing } });
+    const r = await act<Row>("/api/os/terms/rollover", {
+      body: {
+        next_id: roll.next_id,
+        next_label: roll.next_label,
+        starts_on: roll.starts_on || null,
+        ends_on: roll.ends_on || null,
+        continuing_ids: roll.continuing,
+      },
+    });
     setBusy(false);
     if (r.ok) {
       setRoll({ ...roll, step: 3, result: r.data });
@@ -65,20 +81,32 @@ export default function OsBoard() {
       actions={
         <>
           <Chips options={termIds} value={term} onChange={setTerm} />
-          {admin && <Button variant="ghost" onClick={() => setSel("new")}>+ add officer</Button>}
-          {admin && <Button variant="ghost" onClick={() => setRoll({ step: 1, next_id: "", next_label: "", starts_on: "", ends_on: "", continuing: [] })}>term rollover</Button>}
+          {admin && (
+            <Button variant="ghost" onClick={() => setSel("new")}>
+              + add officer
+            </Button>
+          )}
+          {admin && (
+            <Button variant="ghost" onClick={() => setRoll({ step: 1, next_id: "", next_label: "", starts_on: "", ends_on: "", continuing: [] })}>
+              term rollover
+            </Button>
+          )}
         </>
       }
       notHere={[
         "No self-signup — an admin adds each officer's email here; only active rows on the current term can sign in.",
         "No password resets — sign-in is a one-time email code, so there is nothing to reset.",
         "Photos are paths under public/img/board (or an upload path); the About page reads the same rows.",
-        admin ? "Rollover clones continuing officers as inactive — confirm each one after the wizard." : "Adding officers and rollover are admin-only (president + webmaster).",
+        admin
+          ? "Rollover clones continuing officers as inactive — confirm each one after the wizard."
+          : "Adding officers and rollover are admin-only (president + webmaster).",
       ]}
     >
       {notice && <Notice kind={notice.kind}>{notice.text}</Notice>}
       <div className="mt-4">
-        <p className="t-micro opacity-60 mb-2">TERM {shownTerm || "—"} {current && String(current.id) === shownTerm && "· CURRENT"} · {rows.filter((r) => r.active).length} can sign in</p>
+        <p className="t-micro opacity-60 mb-2">
+          TERM {shownTerm || "—"} {current && String(current.id) === shownTerm && "· CURRENT"} · {rows.filter((r) => r.active).length} can sign in
+        </p>
         <OsTable
           cols={[
             { key: "name", label: "NAME", render: (r) => <span className="text-ink">{String(r.name)}</span> },
@@ -94,7 +122,13 @@ export default function OsBoard() {
       </div>
       {sel && admin && (
         <Panel title={sel === "new" ? "ADD OFFICER" : `OFFICER · ${String(sel.name)}`} onClose={() => setSel(null)}>
-          <OsForm key={sel === "new" ? "new" : String(sel.id)} fields={FIELDS} initial={sel === "new" ? { term: shownTerm, os_role: "officer", active: true } : sel} busy={busy} onSubmit={save} />
+          <OsForm
+            key={sel === "new" ? "new" : String(sel.id)}
+            fields={FIELDS}
+            initial={sel === "new" ? { term: shownTerm, os_role: "officer", active: true } : sel}
+            busy={busy}
+            onSubmit={save}
+          />
         </Panel>
       )}
       {roll && admin && (
@@ -102,36 +136,68 @@ export default function OsBoard() {
           {roll.step === 1 && (
             <div className="space-y-4">
               <KeyVal rows={[{ k: "CLOSING", v: `${current?.label ?? "—"} (${current?.id ?? "—"})` }]} />
-              {[["next_id", "NEXT TERM ID", "S27"], ["next_label", "NEXT TERM LABEL", "Spring 2027"], ["starts_on", "STARTS (YYYY-MM-DD)", "2027-01-25"], ["ends_on", "ENDS (YYYY-MM-DD)", "2027-05-20"]].map(([k, l, ph]) => (
+              {[
+                ["next_id", "NEXT TERM ID", "S27"],
+                ["next_label", "NEXT TERM LABEL", "Spring 2027"],
+                ["starts_on", "STARTS (YYYY-MM-DD)", "2027-01-25"],
+                ["ends_on", "ENDS (YYYY-MM-DD)", "2027-05-20"],
+              ].map(([k, l, ph]) => (
                 <label key={k} className="block">
                   <span className="mono-label text-muted">{l}</span>
-                  <input className="w-full bg-transparent border-0 border-b border-line px-1 py-2 font-mono text-[13px] text-ink focus:border-teal outline-none" placeholder={ph} value={String(roll[k as "next_id"])} onChange={(e) => setRoll({ ...roll, [k]: e.target.value })} />
+                  <input
+                    className="w-full bg-transparent border-0 border-b border-line px-1 py-2 font-mono text-[13px] text-ink focus:border-teal outline-none"
+                    placeholder={ph}
+                    value={String(roll[k as "next_id"])}
+                    onChange={(e) => setRoll({ ...roll, [k]: e.target.value })}
+                  />
                 </label>
               ))}
-              <Button variant="ghost" disabled={!roll.next_id || !roll.next_label} onClick={() => setRoll({ ...roll, step: 2 })}>next: who continues →</Button>
+              <Button variant="ghost" disabled={!roll.next_id || !roll.next_label} onClick={() => setRoll({ ...roll, step: 2 })}>
+                next: who continues →
+              </Button>
             </div>
           )}
           {roll.step === 2 && (
             <div className="space-y-3">
               <MonoLabel>Who continues into {roll.next_label}? (cloned as inactive — you confirm each after)</MonoLabel>
-              {board.rows.filter((r) => r.term === current?.id).map((o) => (
-                <label key={String(o.id)} className="flex items-center gap-3 text-[13px] cursor-pointer">
-                  <input type="checkbox" checked={roll.continuing.includes(String(o.id))} onChange={(e) => setRoll({ ...roll, continuing: e.target.checked ? [...roll.continuing, String(o.id)] : roll.continuing.filter((x) => x !== o.id) })} />
-                  <span className="text-ink">{String(o.name)}</span>
-                  <span className="text-muted">{String(o.role_title ?? "")}</span>
-                </label>
-              ))}
+              {board.rows
+                .filter((r) => r.term === current?.id)
+                .map((o) => (
+                  <label key={String(o.id)} className="flex items-center gap-3 text-[13px] cursor-pointer">
+                    <input
+                      type="checkbox"
+                      checked={roll.continuing.includes(String(o.id))}
+                      onChange={(e) =>
+                        setRoll({ ...roll, continuing: e.target.checked ? [...roll.continuing, String(o.id)] : roll.continuing.filter((x) => x !== o.id) })
+                      }
+                    />
+                    <span className="text-ink">{String(o.name)}</span>
+                    <span className="text-muted">{String(o.role_title ?? "")}</span>
+                  </label>
+                ))}
               <div className="flex gap-2 pt-2">
-                <Button variant="ghost" onClick={() => setRoll({ ...roll, step: 1 })}>← back</Button>
-                <Button variant="primary" disabled={busy} onClick={doRollover}>{busy ? "rolling…" : "roll the term"}</Button>
+                <Button variant="ghost" onClick={() => setRoll({ ...roll, step: 1 })}>
+                  ← back
+                </Button>
+                <Button variant="primary" disabled={busy} onClick={doRollover}>
+                  {busy ? "rolling…" : "roll the term"}
+                </Button>
               </div>
             </div>
           )}
           {roll.step === 3 && (
             <div className="space-y-3">
-              <Notice kind="ok">Closed {String(roll.result?.closed)} · opened {roll.next_id} · {String((roll.result?.cloned as unknown[] | undefined)?.length ?? 0)} continuing · {String(roll.result?.handoff_stubs)} handoff stubs filed.</Notice>
-              <p className="text-[13px] text-muted">Next: open each continuing officer and set ACTIVE on; add the new officers with their emails; ask everyone from the closed term to file their handoff on /os/inheritance.</p>
-              <Button variant="ghost" onClick={() => setRoll(null)}>done</Button>
+              <Notice kind="ok">
+                Closed {String(roll.result?.closed)} · opened {roll.next_id} · {String((roll.result?.cloned as unknown[] | undefined)?.length ?? 0)} continuing
+                · {String(roll.result?.handoff_stubs)} handoff stubs filed.
+              </Notice>
+              <p className="text-[13px] text-muted">
+                Next: open each continuing officer and set ACTIVE on; add the new officers with their emails; ask everyone from the closed term to file their
+                handoff on /os/inheritance.
+              </p>
+              <Button variant="ghost" onClick={() => setRoll(null)}>
+                done
+              </Button>
             </div>
           )}
         </Panel>

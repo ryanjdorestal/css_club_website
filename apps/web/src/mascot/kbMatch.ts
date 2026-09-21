@@ -10,7 +10,31 @@ type ChatAnswer = {
   source: "static-offline";
 };
 
-const STOP = new Set(["the","a","an","is","are","do","i","how","what","when","where","who","to","of","in","on","for","and","or","it","you","we","can"]);
+const STOP = new Set([
+  "the",
+  "a",
+  "an",
+  "is",
+  "are",
+  "do",
+  "i",
+  "how",
+  "what",
+  "when",
+  "where",
+  "who",
+  "to",
+  "of",
+  "in",
+  "on",
+  "for",
+  "and",
+  "or",
+  "it",
+  "you",
+  "we",
+  "can",
+]);
 
 function stem(w: string): string {
   return w.replace(/(ing|ers|er|ies|s)$/i, "");

@@ -20,13 +20,13 @@ manager, Vercel settings), not *what* it is.
 
 ## Each term
 - **Week 1** — /os/board: add the new officers (their email + ACTIVE on); set
-  the term dates. /os/inheritance → Ownership: update owners, set
+  the term dates. /os/system → Ownership: update owners, set
   `last_verified`. /os/events: publish the semester's events as they are set.
 - **Ongoing** — /os/projects: review submissions within two weeks (write the
   note). /os/posts: a bulletin when something happens. /os/members: import the
   Discord export once a semester. /os/resources: "Check all links" once a
   semester and fix the dead ones.
-- **Green means green** — glance at /os/inheritance monthly. A red chip has a
+- **Green means green** — glance at /os/system monthly. A red chip has a
   one-line fix next to it and a runbook entry (docs/RUNBOOK.md).
 - **Last 4 weeks** — every officer files a handoff on /os/inheritance → New record →
   handoff (what I ran, where things are, what's unfinished, who to call, advice).
@@ -72,3 +72,9 @@ data back; the public site kept working the whole time (Tier 1).
 The developer who built this (Ryan Dorestal, ryanjdorestal@gmail.com) will
 answer questions for the first year. After that: README.md → CONTRIBUTING.md
 → docs/RUNBOOK.md, in that order — and any CS student who can read Python.
+
+## What "green" means (for the board, no code)
+Every change to the site goes through the checks in GitHub (the `CI`, `a11y` and
+`functional` badges on a pull request). Green = the site renders on every page, a board
+member can still publish a post, a project, an event and a record end to end, and no
+secret was committed. If a check is red, the change waits — ask in Discord before merging.

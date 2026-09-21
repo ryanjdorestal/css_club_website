@@ -2,7 +2,20 @@
 // Starts vite preview on the built dist; the API is not required (fallbacks answer).
 import { chromium } from "@playwright/test";
 import { spawn } from "node:child_process";
-const ROUTES = ["/", "/events", "/projects", "/apps", "/cyberhounds", "/about", "/resources", "/news", "/news/grad-school-events", "/join", "/os/login", "/nope-404"];
+const ROUTES = [
+  "/",
+  "/events",
+  "/projects",
+  "/apps",
+  "/cyberhounds",
+  "/about",
+  "/resources",
+  "/news",
+  "/news/grad-school-events",
+  "/join",
+  "/os/login",
+  "/nope-404",
+];
 const server = spawn("npx", ["vite", "preview", "--port", "4173", "--strictPort"], { stdio: "ignore" });
 await new Promise((r) => setTimeout(r, 2500));
 const browser = await chromium.launch();
@@ -20,5 +33,7 @@ for (const route of ROUTES) {
 }
 await browser.close();
 server.kill();
-if (errors.length) { console.log(errors.join("\n")); }
+if (errors.length) {
+  console.log(errors.join("\n"));
+}
 process.exit(failed || errors.length ? 1 : 0);

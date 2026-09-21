@@ -13,7 +13,6 @@ export function bandCopy(title: string): string {
   return i >= 0 && home.blocks[i + 1]?.type === "p" ? home.blocks[i + 1].text : "";
 }
 export const heroDek = home.blocks.find((b) => b.type === "p")?.text ?? "";
-export const pastEvents = events.semesters[0].events.slice(0, 2);
 export const exampleApps = projectsData.projects;
 
 export const GALLERY = [
@@ -25,4 +24,4 @@ export const GALLERY = [
   { src: "/img/photos/cybersecurity.webp", cap: "SECURITY_WORKSHOP" },
 ];
 
-export { resources, links, collaborate };
+export { events, resources, links, collaborate };

@@ -1,20 +1,12 @@
 {
   "type": "object",
-  "required": [
-    "posts"
-  ],
+  "required": ["posts"],
   "properties": {
     "posts": {
       "type": "array",
       "items": {
         "type": "object",
-        "required": [
-          "id",
-          "slug",
-          "title",
-          "status",
-          "body_md"
-        ]
+        "required": ["id", "slug", "title", "status", "body_md"]
       }
     }
   }

@@ -1,0 +1,6 @@
+# lychee — weekly link sweep over the built site, the data, and the content.
+timeout = 20
+max_retries = 2
+accept = ["200..299", "403", "429"]   # bot-blocked (403) / rate-limited (429) hosts are not dead
+exclude = ["^mailto:", "^tel:", "localhost", "127\\.0\\.0\\.1", "discord\\.gg/", "linktr\\.ee/", "instagram\\.com", "facebook\\.com", "linkedin\\.com", "example\\.org", "example\\.com", "drive\\.google\\.com/x"]
+exclude_path = ["node_modules", ".venv", "docs/archive", "qa"]

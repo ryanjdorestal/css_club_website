@@ -75,14 +75,22 @@ export function Nav() {
           <div className="hidden lg:flex items-center mx-auto">
             {LINKS.map((l, i) => (
               <span key={l.to} className="flex items-center">
-                {i > 0 && <span aria-hidden className="t-micro opacity-30 px-2.5">/</span>}
+                {i > 0 && (
+                  <span aria-hidden className="t-micro opacity-30 px-2.5">
+                    /
+                  </span>
+                )}
                 <NavLink to={l.to} className="relative py-2 t-label !tracking-[0.12em] !text-[12px] hover:!opacity-100 transition-opacity">
                   {({ isActive }) => (
                     <>
                       {isActive && <span className="pfx mr-1">&gt;</span>}
                       <span className={isActive ? "raise" : ""}>{l.label}</span>
                       {isActive && (
-                        <motion.span layoutId="nav-underline" className="absolute left-0 right-0 -bottom-px h-[2px] bg-(--accent)" transition={{ duration: 0.35, ease: [0.22, 1, 0.36, 1] }} />
+                        <motion.span
+                          layoutId="nav-underline"
+                          className="absolute left-0 right-0 -bottom-px h-[2px] bg-(--accent)"
+                          transition={{ duration: 0.35, ease: [0.22, 1, 0.36, 1] }}
+                        />
                       )}
                     </>
                   )}
@@ -91,7 +99,9 @@ export function Nav() {
             ))}
           </div>
           <div className="flex items-center gap-4 ml-auto lg:ml-0">
-            <span className="t-micro raise tnum hidden xl:block opacity-70">SYS.TIME {time.hms} {time.utc}</span>
+            <span className="t-micro raise tnum hidden xl:block opacity-70">
+              SYS.TIME {time.hms} {time.utc}
+            </span>
             <span className={`t-micro raise hidden md:block ${api.live ? "text-teal" : "opacity-50"}`}>
               {api.live === null ? "○ --" : api.live ? "● LIVE" : "○ OFFLINE"}
             </span>

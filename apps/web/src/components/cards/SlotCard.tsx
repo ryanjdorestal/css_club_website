@@ -16,8 +16,12 @@ export function SlotCard({
   className?: string;
 }) {
   const inner = (
-    <div className={`group relative flex flex-col justify-between border border-dashed border-(--tone-line) p-4 min-h-[110px] opacity-40 hover:opacity-100 transition-opacity duration-200 ${className}`}>
-      <span className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity"><Brackets size={10} inset={3} /></span>
+    <div
+      className={`group relative flex flex-col justify-between border border-dashed border-(--tone-line) p-4 min-h-[110px] opacity-100 transition-opacity duration-200 ${className}`}
+    >
+      <span className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity">
+        <Brackets size={10} inset={3} />
+      </span>
       <Perforation className="absolute top-0 left-3 right-3" />
       <span className="t-micro opacity-70 mt-2">SLOT_{n}</span>
       <div className="flex items-end justify-between gap-2">
@@ -26,5 +30,11 @@ export function SlotCard({
       </div>
     </div>
   );
-  return href ? <Link to={href} className="block h-full">{inner}</Link> : inner;
+  return href ? (
+    <Link to={href} className="block h-full">
+      {inner}
+    </Link>
+  ) : (
+    inner
+  );
 }

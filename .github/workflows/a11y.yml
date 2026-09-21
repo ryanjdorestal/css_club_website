@@ -1,0 +1,22 @@
+name: a11y
+# WCAG 2 AA on every public route + the OS (LOCAL_DEV admin): pa11y-ci and axe (Playwright).
+on:
+  pull_request:
+  push:
+    branches: [main, master]
+jobs:
+  a11y:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with: { node-version-file: .nvmrc, cache: npm, cache-dependency-path: apps/web/package-lock.json }
+      - uses: actions/setup-python@v5
+        with: { python-version-file: .python-version }
+      - run: npm ci --prefix apps/web && python -m venv .venv && .venv/bin/pip install -q -r api/requirements.txt
+      - run: npx --prefix apps/web playwright install --with-deps chromium
+      - name: start web + api (Tier 1)
+        run: |
+          (.venv/bin/uvicorn api.index:app --port 8000 &) ; (npm run dev --prefix apps/web -- --port 5173 &)
+          for i in $(seq 1 60); do curl -fsS http://localhost:5173/ >/dev/null 2>&1 && break; sleep 1; done
+      - run: make a11y

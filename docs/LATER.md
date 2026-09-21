@@ -4,7 +4,10 @@ Each line: what · why not now · what it would take.
 
 - **Discord sync** (member list, announcement feed) · needs a bot token = a key
   the club must own and rotate · a Discord app under the club account, a
-  `DISCORD_BOT_TOKEN` env in Vercel, a `/api/os/members/sync` endpoint.
+  `DISCORD_BOT_TOKEN` env in Vercel, a `/api/os/members/sync` endpoint. The
+  skipped skills (`discord/interaction-handler`, `slash-commands`, `webhook-relay`)
+  would also need `DISCORD_PUBLIC_KEY` and `DISCORD_WEBHOOK_URL` — see
+  `docs/SKILLS_ADOPTED.md`.
 - **Analytics on Today** (page views) · every provider needs an account; the
   numbers here are the club's own data · Vercel Analytics toggle (no code) or a
   self-hosted counter.
@@ -12,8 +15,10 @@ Each line: what · why not now · what it would take.
   · Resend/Postmark under the club Gmail, one `send()` in `_core`.
 - **Rich screenshots / gallery on Projects** · uploads exist (≤ 2 MB, resized);
   a gallery needs a cropper and an ordering UI · extend `Upload` + `screenshots[]`.
-- **Prerender for mobile Lighthouse** · a CSR SPA pays its JS on slow 4G · a
-  `vite-plugin-prerender` pass or moving public pages to static HTML at build.
+- **Prerender for mobile Lighthouse** · measured 2026-09-21: desktop 97, mobile 60
+  (LCP 5.5 s, TBT 480 ms, 450 KB JS on slow 4G) — a CSR SPA pays its JS up front ·
+  a `vite-plugin-prerender` pass for the 8 public routes, or split R3F (cube, bust)
+  behind `IntersectionObserver` so the hero paints before three.js loads.
 - **Vercel build dry-run in CI** · needs `VERCEL_TOKEN` · set the secret +
   `VERCEL_DRY_RUN=true` (already wired in `ci.yml`).
 - **Cube head-turn on scroll for the Cyberhound** · nice-to-have · share the

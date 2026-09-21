@@ -29,7 +29,15 @@ export default function OsPosts() {
 
   async function save(v: Record<string, unknown>, status?: string) {
     setBusy(true);
-    const body = { title: v.title, slug: v.slug || undefined, dek: v.dek ?? "", tags: v.tags ?? [], body_md: v.body_md ?? "", cover_path: cover || undefined, ...(status ? { status } : {}) };
+    const body = {
+      title: v.title,
+      slug: v.slug || undefined,
+      dek: v.dek ?? "",
+      tags: v.tags ?? [],
+      body_md: v.body_md ?? "",
+      cover_path: cover || undefined,
+      ...(status ? { status } : {}),
+    };
     const r = sel === "new" ? await act("/api/os/posts", { body }) : await act(`/api/os/posts/${(sel as Row).id}`, { method: "PATCH", body });
     say(r.ok, r.ok ? `Saved${status ? ` as ${status}` : ""}.` : r.msg);
     setBusy(false);
@@ -52,7 +60,15 @@ export default function OsPosts() {
       actions={
         <>
           <Chips options={VIEWS} value={view} onChange={setView} />
-          <Button variant="ghost" onClick={() => { setCover(""); setSel("new"); }}>+ new post</Button>
+          <Button
+            variant="ghost"
+            onClick={() => {
+              setCover("");
+              setSel("new");
+            }}
+          >
+            + new post
+          </Button>
         </>
       }
       notHere={[
@@ -73,7 +89,10 @@ export default function OsPosts() {
             { key: "updated_at", label: "UPDATED", mono: true, render: (r) => ago(r.updated_at) },
           ]}
           rows={shown}
-          onRow={(r) => { setCover(String(r.cover_path ?? "")); setSel(r); }}
+          onRow={(r) => {
+            setCover(String(r.cover_path ?? ""));
+            setSel(r);
+          }}
           empty="No posts yet. The grad-school article is the only legacy post; write the Fall kickoff bulletin here."
         />
       </div>
@@ -81,7 +100,10 @@ export default function OsPosts() {
         <Panel title={sel === "new" ? "NEW POST" : `POST · ${String(sel.slug)}`} onClose={() => setSel(null)} wide>
           {sel !== "new" && String(sel.status) === "published" && (
             <p className="t-micro text-green mb-3">
-              Published to <a className="u-draw" href={`/news/${String(sel.slug)}`} target="_blank" rel="noreferrer">/news/{String(sel.slug)} ↗</a>
+              Published to{" "}
+              <a className="u-draw" href={`/news/${String(sel.slug)}`} target="_blank" rel="noreferrer">
+                /news/{String(sel.slug)} ↗
+              </a>
             </p>
           )}
           <Upload label="COVER IMAGE" value={cover} onChange={setCover} />
@@ -94,9 +116,21 @@ export default function OsPosts() {
             submitLabel=">_save_draft"
             extra={
               <>
-                {sel !== "new" && String(sel.status) === "draft" && <Button type="button" variant="ghost" disabled={busy} onClick={() => save(initial, "review")}>send to review</Button>}
-                {sel !== "new" && ["draft", "review"].includes(String(sel.status)) && <Button type="button" variant="primary" disabled={busy} onClick={() => publish(String(sel.id))}>publish</Button>}
-                {sel !== "new" && String(sel.status) === "published" && <Button type="button" variant="ghost" disabled={busy} onClick={() => save(initial, "archived")}>archive</Button>}
+                {sel !== "new" && String(sel.status) === "draft" && (
+                  <Button type="button" variant="ghost" disabled={busy} onClick={() => save(initial, "review")}>
+                    send to review
+                  </Button>
+                )}
+                {sel !== "new" && ["draft", "review"].includes(String(sel.status)) && (
+                  <Button type="button" variant="primary" disabled={busy} onClick={() => publish(String(sel.id))}>
+                    publish
+                  </Button>
+                )}
+                {sel !== "new" && String(sel.status) === "published" && (
+                  <Button type="button" variant="ghost" disabled={busy} onClick={() => save(initial, "archived")}>
+                    archive
+                  </Button>
+                )}
               </>
             }
           />

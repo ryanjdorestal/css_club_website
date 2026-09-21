@@ -3,12 +3,12 @@ import { createContext, useContext, useEffect, useRef, type ReactNode, type RefO
 export type Face = "red" | "green" | "blue" | "threeQuarter" | "edge" | null;
 
 export type CubeKeyframe = {
-  x: number;        // viewport fraction from left
-  y: number;        // viewport fraction from top
-  scale: number;    // relative to hero size
+  x: number; // viewport fraction from left
+  y: number; // viewport fraction from top
+  scale: number; // relative to hero size
   face: Face;
-  glow?: string;    // css color for the rim
-  spin?: boolean;   // free idle spin (hero)
+  glow?: string; // css color for the rim
+  spin?: boolean; // free idle spin (hero)
 };
 
 type Entry = { id: string; el: HTMLElement; kf: CubeKeyframe };

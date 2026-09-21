@@ -4,7 +4,7 @@ SHELL := /bin/bash
 PY    := .venv/bin/python
 WEB   := apps/web
 
-.PHONY: help install dev check test snapshot lint types shots clean hooks
+.PHONY: help install dev check test snapshot lint types shots clean hooks format a11y audit smoke api-docs links
 
 help:
 	@echo "make install   node deps + python venv (once)"
@@ -13,6 +13,10 @@ help:
 	@echo "make test      pytest + vitest only"
 	@echo "make snapshot  Supabase (or local tables) → data/*.json + content/"
 	@echo "make shots     re-shoot the public pages into qa/shots/"
+	@echo "make a11y      pa11y + axe over every route (needs make dev running)"
+	@echo "make smoke     the board-member functional smoke, 9 steps (needs make dev running)"
+	@echo "make audit     routes · images · tokens · repo · env · API docs (no server needed)"
+	@echo "make links     lychee over the built site + data + content + docs (network)"
 
 install:
 	npm install --prefix $(WEB)
@@ -24,7 +28,7 @@ dev:
 	  "npm run dev --prefix $(WEB)" \
 	  ".venv/bin/uvicorn api.index:app --port 8000 --reload"
 
-check: lint types test
+check: lint types test audit
 	$(PY) scripts/check_api_count.py
 	$(PY) scripts/validate_data.py
 	$(PY) scripts/validate_inheritance.py --quiet
@@ -33,7 +37,27 @@ check: lint types test
 
 lint:
 	.venv/bin/ruff check api scripts
-	cd $(WEB) && npm run lint
+	cd $(WEB) && npm run lint && npm run format:check && npm run lint:css && npm run lint:md
+
+format:
+	cd $(WEB) && npm run format
+
+audit:
+	cd $(WEB) && npm run audit:routes && npm run audit:images && npm run audit:tokens && npm run audit:repo
+	$(PY) scripts/env_validate.py
+	$(PY) scripts/gen_api_docs.py && git diff --quiet -- docs/API.md || (echo "docs/API.md changed — commit it" && exit 1)
+
+a11y:
+	cd $(WEB) && npm run a11y:pa11y && npm run a11y:axe
+
+smoke:
+	cd $(WEB) && npm run gate && npm run smoke:functional
+
+api-docs:
+	$(PY) scripts/gen_api_docs.py
+
+links:
+	lychee --config lychee.toml --root-dir $(CURDIR)/$(WEB)/dist $(WEB)/dist data content docs README.md CONTRIBUTING.md DESIGN.md
 
 types:
 	.venv/bin/mypy

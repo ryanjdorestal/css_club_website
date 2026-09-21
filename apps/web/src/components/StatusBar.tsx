@@ -41,7 +41,7 @@ export function StatusBar() {
   return (
     <div
       data-tone="dark-3"
-      className="hidden md:flex fixed bottom-0 left-0 right-0 h-[28px] z-40 bg-navy-900/90 border-t border-line items-stretch"
+      className="hidden md:flex fixed bottom-0 left-0 right-0 h-[28px] z-40 bg-navy-900/90 border-t border-line items-stretch pointer-events-none"
       style={{ backdropFilter: "blur(8px)", WebkitBackdropFilter: "blur(8px)" }}
       aria-hidden
     >
@@ -51,19 +51,23 @@ export function StatusBar() {
         </span>
       </Cell>
       <Cell grow>
-        <span className="text-(--accent-fg)">&gt; ACCESS GRANTED<span className="caret-blink">_</span></span>
+        <span className="text-(--accent-fg)">
+          &gt; ACCESS GRANTED<span className="caret-blink">_</span>
+        </span>
       </Cell>
-      <Cell><span className="tnum">SCN: {String(scnN).padStart(4, "0")}</span></Cell>
+      <Cell>
+        <span className="tnum">SCN: {String(scnN).padStart(4, "0")}</span>
+      </Cell>
       <Cell>{node(pathname)}</Cell>
-      <Cell><span className="tnum">SYS.TIME {time.hms} {time.utc}</span></Cell>
+      <Cell>
+        <span className="tnum">
+          SYS.TIME {time.hms} {time.utc}
+        </span>
+      </Cell>
     </div>
   );
 }
 
 function Cell({ children, grow = false }: { children: React.ReactNode; grow?: boolean }) {
-  return (
-    <span className={`t-micro raise flex items-center px-4 border-r border-line last:border-r-0 ${grow ? "grow" : ""}`}>
-      {children}
-    </span>
-  );
+  return <span className={`t-micro raise flex items-center px-4 border-r border-line last:border-r-0 ${grow ? "grow" : ""}`}>{children}</span>;
 }

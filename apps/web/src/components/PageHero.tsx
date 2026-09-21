@@ -40,14 +40,21 @@ export function PageHero({
       <HairGrid opacity={0.045} />
       <BinaryRings opacity={0.05} />
       <div className="absolute top-[88px] right-5 md:right-10 text-right space-y-1 z-10">
-        <p className="t-micro raise tnum">X_{COORDS.x} / Y_{COORDS.y}</p>
+        <p className="t-micro raise tnum">
+          X_{COORDS.x} / Y_{COORDS.y}
+        </p>
         <p className="t-micro opacity-55">{COORDS.place}</p>
       </div>
       <div className="relative max-w-[1280px] mx-auto px-5 md:px-10 pb-12">
         <div className="grid md:grid-cols-[8fr_4fr] gap-10 items-end">
           <div>
             <Reveal y={10}>
-              <Label pfx="//" className="mb-6 block">{kicker.toUpperCase().replace(/ · /g, " · ").replace(/ (?!·)/g, "_")}</Label>
+              <Label pfx="//" className="mb-6 block">
+                {kicker
+                  .toUpperCase()
+                  .replace(/ · /g, " · ")
+                  .replace(/ (?!·)/g, "_")}
+              </Label>
             </Reveal>
             <h1 className="t-hero" style={{ fontSize: "clamp(52px, 9.5vw, 152px)" }}>
               {lines.map((l, i) => {
@@ -56,7 +63,9 @@ export function PageHero({
                 return (
                   <span key={i} className={`block ${o.className ?? ""}`}>
                     {o.stencil ? (
-                      <Stencil bars={[0.4, 0.64]} barColor={tone === "dark-3" ? "var(--color-navy-900)" : "var(--color-navy-600)"}>{text}</Stencil>
+                      <Stencil bars={[0.4, 0.64]} barColor={tone === "dark-3" ? "var(--color-navy-900)" : "var(--color-navy-600)"}>
+                        {text}
+                      </Stencil>
                     ) : o.outline ? (
                       <Outline>{text}</Outline>
                     ) : o.split ? (
@@ -89,7 +98,9 @@ export function PageHero({
             </Reveal>
           )}
         </div>
-        <p className="t-micro opacity-50 tnum mt-6 text-right">VERSION {version()}-{buildHash().toUpperCase()}</p>
+        <p className="t-micro opacity-50 tnum mt-6 text-right">
+          VERSION {version()}-{buildHash().toUpperCase()}
+        </p>
         {children}
       </div>
       {stats && stats.length > 0 && (

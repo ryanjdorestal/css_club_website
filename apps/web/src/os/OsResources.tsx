@@ -80,8 +80,12 @@ export default function OsResources() {
       source={res.source}
       actions={
         <>
-          <Button variant="ghost" disabled={busy} onClick={runCheck}>{busy ? "checking…" : "check all links"}</Button>
-          <Button variant="ghost" onClick={() => setSel("new")}>+ add link</Button>
+          <Button variant="ghost" disabled={busy} onClick={runCheck}>
+            {busy ? "checking…" : "check all links"}
+          </Button>
+          <Button variant="ghost" onClick={() => setSel("new")}>
+            + add link
+          </Button>
         </>
       }
       notHere={[
@@ -97,7 +101,9 @@ export default function OsResources() {
           {check.dead.length > 0 && (
             <ul className="mt-2 text-[13px] text-muted space-y-1">
               {check.dead.map((d) => (
-                <li key={String(d.id)} className="font-mono text-[12px]"><span className="text-(--color-red-hi)">{String(d.status ?? "ERR")}</span> · {String(d.url)}</li>
+                <li key={String(d.id)} className="font-mono text-[12px]">
+                  <span className="text-(--color-red-hi)">{String(d.status ?? "ERR")}</span> · {String(d.url)}
+                </li>
               ))}
             </ul>
           )}
@@ -114,7 +120,9 @@ export default function OsResources() {
                 <span className="flex items-center gap-3 flex-wrap">
                   <span className="font-mono text-[12px] break-all">{String(l.url)}</span>
                   {l.dead ? <StatusWord s="dead" /> : l.last_status ? <StatusWord s={`${l.last_status}`} /> : null}
-                  <button onClick={() => setEditLink(l)} className="t-micro text-teal u-draw cursor-pointer">edit</button>
+                  <button onClick={() => setEditLink(l)} className="t-micro text-teal u-draw cursor-pointer">
+                    edit
+                  </button>
                 </span>
               ),
             }))}
@@ -124,19 +132,34 @@ export default function OsResources() {
 
       {[...groups.entries()].map(([g, rows]) => (
         <section key={g} className="mt-8">
-          <MonoLabel accent>{g.toUpperCase()} · {rows.length}</MonoLabel>
+          <MonoLabel accent>
+            {g.toUpperCase()} · {rows.length}
+          </MonoLabel>
           <div className="mt-2">
             <OsTable
               cols={[
                 { key: "title", label: "TITLE", render: (r) => <span className="text-ink">{String(r.title)}</span> },
                 { key: "url", label: "URL", mono: true, render: (r) => <span className="break-all">{String(r.url)}</span> },
-                { key: "last_status", label: "LAST CHECK", render: (r) => (r.dead ? <StatusWord s="dead" /> : r.last_status ? <StatusWord s={String(r.last_status)} /> : "—") },
-                { key: "sort", label: "", width: "90px", render: (r) => (
-                  <span className="flex gap-2" onClick={(e) => e.stopPropagation()}>
-                    <button onClick={() => move(r, -1)} className="text-muted hover:text-ink cursor-pointer">↑</button>
-                    <button onClick={() => move(r, 1)} className="text-muted hover:text-ink cursor-pointer">↓</button>
-                  </span>
-                ) },
+                {
+                  key: "last_status",
+                  label: "LAST CHECK",
+                  render: (r) => (r.dead ? <StatusWord s="dead" /> : r.last_status ? <StatusWord s={String(r.last_status)} /> : "—"),
+                },
+                {
+                  key: "sort",
+                  label: "",
+                  width: "90px",
+                  render: (r) => (
+                    <span className="flex gap-2" onClick={(e) => e.stopPropagation()}>
+                      <button onClick={() => move(r, -1)} className="text-muted hover:text-ink cursor-pointer">
+                        ↑
+                      </button>
+                      <button onClick={() => move(r, 1)} className="text-muted hover:text-ink cursor-pointer">
+                        ↓
+                      </button>
+                    </span>
+                  ),
+                },
               ]}
               rows={rows}
               onRow={setSel}
@@ -147,13 +170,33 @@ export default function OsResources() {
 
       {sel && (
         <Panel title={sel === "new" ? "ADD LINK" : `LINK · ${String(sel.id)}`} onClose={() => setSel(null)}>
-          <OsForm key={sel === "new" ? "new" : String(sel.id)} fields={FIELDS} initial={sel === "new" ? {} : sel} busy={busy} onSubmit={save}
-            extra={sel !== "new" && <Button type="button" variant="ghost" onClick={() => remove(String(sel.id))}>delete</Button>} />
+          <OsForm
+            key={sel === "new" ? "new" : String(sel.id)}
+            fields={FIELDS}
+            initial={sel === "new" ? {} : sel}
+            busy={busy}
+            onSubmit={save}
+            extra={
+              sel !== "new" && (
+                <Button type="button" variant="ghost" onClick={() => remove(String(sel.id))}>
+                  delete
+                </Button>
+              )
+            }
+          />
         </Panel>
       )}
       {editLink && (
         <Panel title={`SITE LINK · ${String(editLink.key)}`} onClose={() => setEditLink(null)}>
-          <OsForm fields={[{ name: "label", label: "LABEL" }, { name: "url", label: "URL", required: true }]} initial={editLink} busy={busy} onSubmit={saveLink} />
+          <OsForm
+            fields={[
+              { name: "label", label: "LABEL" },
+              { name: "url", label: "URL", required: true },
+            ]}
+            initial={editLink}
+            busy={busy}
+            onSubmit={saveLink}
+          />
         </Panel>
       )}
     </OsPage>

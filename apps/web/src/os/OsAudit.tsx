@@ -9,7 +9,21 @@ import { useSession } from "./session";
 import { Button } from "@/components/Button";
 import { MonoLabel } from "@/components/MonoLabel";
 
-const TABLES = ["all", "projects", "posts", "events", "resources", "links", "board_profiles", "terms", "members", "site_settings", "handoffs", "uploads", "inbox"] as const;
+const TABLES = [
+  "all",
+  "projects",
+  "posts",
+  "events",
+  "resources",
+  "links",
+  "board_profiles",
+  "terms",
+  "members",
+  "site_settings",
+  "handoffs",
+  "uploads",
+  "inbox",
+] as const;
 
 function Diff({ before, after }: { before: Row | null; after: Row | null }) {
   const keys = [...new Set([...Object.keys(before ?? {}), ...Object.keys(after ?? {})])].filter((k) => !["updated_at"].includes(k));
@@ -41,7 +55,10 @@ export default function OsAudit() {
   async function replay() {
     setBusy(true);
     const r = await act<{ ok?: boolean; replayed: number; failed: string[]; error?: string }>("/api/os/inbox/replay", { body: {} });
-    say(r.ok && r.data.ok !== false, r.data.error ? `Not replayed: ${r.data.error}` : `Replayed ${r.data.replayed ?? 0}; ${(r.data.failed ?? []).length} failed.`);
+    say(
+      r.ok && r.data.ok !== false,
+      r.data.error ? `Not replayed: ${r.data.error}` : `Replayed ${r.data.replayed ?? 0}; ${(r.data.failed ?? []).length} failed.`,
+    );
     setBusy(false);
     await inbox.reload();
   }
@@ -62,11 +79,24 @@ export default function OsAudit() {
       <section className="mt-4">
         <div className="flex items-center justify-between">
           <MonoLabel accent>INBOX · {inbox.rows.length} unsynced Tier-1 write(s)</MonoLabel>
-          {actor?.role === "admin" && inbox.rows.length > 0 && <Button variant="ghost" disabled={busy} onClick={replay}>{busy ? "replaying…" : "replay to DB"}</Button>}
+          {actor?.role === "admin" && inbox.rows.length > 0 && (
+            <Button variant="ghost" disabled={busy} onClick={replay}>
+              {busy ? "replaying…" : "replay to DB"}
+            </Button>
+          )}
         </div>
         <div className="mt-2">
           {inbox.rows.length ? (
-            <OsTable cols={[{ key: "ts", label: "WHEN", mono: true, render: (r) => ago(r.ts) }, { key: "table", label: "TABLE", mono: true }, { key: "action", label: "ACTION", mono: true }, { key: "client_id", label: "CLIENT ID", mono: true, render: (r) => String(r.client_id).slice(0, 8) }]} rows={inbox.rows} rowKey="client_id" />
+            <OsTable
+              cols={[
+                { key: "ts", label: "WHEN", mono: true, render: (r) => ago(r.ts) },
+                { key: "table", label: "TABLE", mono: true },
+                { key: "action", label: "ACTION", mono: true },
+                { key: "client_id", label: "CLIENT ID", mono: true, render: (r) => String(r.client_id).slice(0, 8) },
+              ]}
+              rows={inbox.rows}
+              rowKey="client_id"
+            />
           ) : (
             <Empty>Inbox is empty — every write is in the database (or nothing has been written offline yet).</Empty>
           )}
@@ -91,7 +121,14 @@ export default function OsAudit() {
       </section>
       {sel && (
         <Panel title={`RECORD · ${String(sel.action)} · ${String(sel.table_name)}`} onClose={() => setSel(null)} wide>
-          <KeyVal rows={[{ k: "WHO", v: String(sel.actor) }, { k: "ROW", v: String(sel.row_id ?? "") }, { k: "WHEN", v: new Date(Number(sel.created_at) * 1000).toLocaleString() }, { k: "NOTE", v: String(sel.note ?? "") }]} />
+          <KeyVal
+            rows={[
+              { k: "WHO", v: String(sel.actor) },
+              { k: "ROW", v: String(sel.row_id ?? "") },
+              { k: "WHEN", v: new Date(Number(sel.created_at) * 1000).toLocaleString() },
+              { k: "NOTE", v: String(sel.note ?? "") },
+            ]}
+          />
           <p className="mono-label text-muted mt-5 mb-2">BEFORE → AFTER</p>
           <Diff before={(sel.before as Row) ?? null} after={(sel.after as Row) ?? null} />
         </Panel>

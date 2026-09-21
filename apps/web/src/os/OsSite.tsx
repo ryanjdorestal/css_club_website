@@ -72,18 +72,40 @@ export default function OsSite() {
                 </div>
                 {admin && (
                   <div className="flex gap-2">
-                    {isBanner && <Button variant="ghost" onClick={() => toggleBanner(row)}>{(v as { on?: boolean })?.on ? "turn off" : "turn on"}</Button>}
-                    <Button variant="ghost" onClick={() => { setEditing(key); setText(JSON.stringify(v, null, 2)); setErr(null); }}>edit</Button>
+                    {isBanner && (
+                      <Button variant="ghost" onClick={() => toggleBanner(row)}>
+                        {(v as { on?: boolean })?.on ? "turn off" : "turn on"}
+                      </Button>
+                    )}
+                    <Button
+                      variant="ghost"
+                      onClick={() => {
+                        setEditing(key);
+                        setText(JSON.stringify(v, null, 2));
+                        setErr(null);
+                      }}
+                    >
+                      edit
+                    </Button>
                   </div>
                 )}
               </div>
               {editing === key ? (
                 <div className="p-4">
-                  <textarea value={text} onChange={(e) => setText(e.target.value)} rows={Math.min(24, text.split("\n").length + 2)} className="w-full bg-transparent border border-line px-3 py-2 font-mono text-[12px] text-ink focus:border-teal outline-none" />
+                  <textarea
+                    value={text}
+                    onChange={(e) => setText(e.target.value)}
+                    rows={Math.min(24, text.split("\n").length + 2)}
+                    className="w-full bg-transparent border border-line px-3 py-2 font-mono text-[12px] text-ink focus:border-teal outline-none"
+                  />
                   {err && <p className="t-micro text-(--color-red-hi) mt-2">{err}</p>}
                   <div className="flex gap-2 mt-3">
-                    <Button variant="primary" onClick={() => save(key)}>save</Button>
-                    <Button variant="ghost" onClick={() => setEditing(null)}>cancel</Button>
+                    <Button variant="primary" onClick={() => save(key)}>
+                      save
+                    </Button>
+                    <Button variant="ghost" onClick={() => setEditing(null)}>
+                      cancel
+                    </Button>
                   </div>
                 </div>
               ) : (
@@ -91,7 +113,10 @@ export default function OsSite() {
                   className="border-0"
                   rows={
                     v && typeof v === "object" && !Array.isArray(v)
-                      ? Object.entries(v as Record<string, unknown>).map(([k, val]) => ({ k, v: <span className="font-mono text-[12px] whitespace-pre-wrap break-all">{typeof val === "string" ? val : JSON.stringify(val)}</span> }))
+                      ? Object.entries(v as Record<string, unknown>).map(([k, val]) => ({
+                          k,
+                          v: <span className="font-mono text-[12px] whitespace-pre-wrap break-all">{typeof val === "string" ? val : JSON.stringify(val)}</span>,
+                        }))
                       : [{ k: "value", v: <span className="font-mono text-[12px]">{JSON.stringify(v)}</span> }]
                   }
                 />

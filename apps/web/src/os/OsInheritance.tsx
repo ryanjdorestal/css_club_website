@@ -13,8 +13,23 @@ import { StatusWord } from "./ui/OsTable";
 import { RecordEditor, RecordView, type Rec } from "./ui/SpineRecord";
 import { osFetch, osHeaders, useSession } from "./session";
 
-type Index = { rows: Rec[]; terms: string[]; current: string | null; types: string[]; stats: { records: number; handoffs_filed: number; officers: number; last_date: string } };
-const TYPE_LABEL: Record<string, string> = { roster: "ROSTER", handoff: "HANDOFFS", decision: "DECISIONS", project: "PROJECTS", event: "EVENTS", contact: "CONTACTS", lesson: "LESSONS", minutes: "MEETINGS" };
+type Index = {
+  rows: Rec[];
+  terms: string[];
+  current: string | null;
+  types: string[];
+  stats: { records: number; handoffs_filed: number; officers: number; last_date: string };
+};
+const TYPE_LABEL: Record<string, string> = {
+  roster: "ROSTER",
+  handoff: "HANDOFFS",
+  decision: "DECISIONS",
+  project: "PROJECTS",
+  event: "EVENTS",
+  contact: "CONTACTS",
+  lesson: "LESSONS",
+  minutes: "MEETINGS",
+};
 
 const BLURB =
   "Student clubs lose everything every two to four semesters: logins, contacts, why a decision was made, what a project was for. Inheritance is where each board writes down what the next board needs — in plain files that outlive the platform. The platform just organizes them.";
@@ -69,13 +84,19 @@ export default function OsInheritance() {
       source="files"
       actions={
         <>
-          <Button variant="ghost" onClick={exportZip}>EXPORT_SPINE.zip</Button>
-          <Button variant="ghost" onClick={() => setHowto(true)}>HOW_TO_WRITE_ONE</Button>
-          <Button variant="primary" onClick={() => setEditing({ type: "decision", template: templates?.templates.decision ?? "" })}>+ new record</Button>
+          <Button variant="ghost" onClick={exportZip}>
+            EXPORT_SPINE.zip
+          </Button>
+          <Button variant="ghost" onClick={() => setHowto(true)}>
+            HOW_TO_WRITE_ONE
+          </Button>
+          <Button variant="primary" onClick={() => setEditing({ type: "decision", template: templates?.templates.decision ?? "" })}>
+            + new record
+          </Button>
         </>
       }
       notHere={[
-        "No secrets — pointer records only (\"the Drive folder is at…\"), never a credential; the validator refuses secret-shaped strings.",
+        'No secrets — pointer records only ("the Drive folder is at…"), never a credential; the validator refuses secret-shaped strings.',
         "No uploads — attach a doc by pasting a link (Drive, the club Gmail, GitHub, a PDF URL). Files stay where you keep them.",
         "No per-member data — that is /os/members; contact records hold a name, a role and a public email at most.",
         "Platform health and account ownership are on /os/system.",
@@ -85,20 +106,42 @@ export default function OsInheritance() {
       {notice && <Notice kind={notice.kind}>{notice.text}</Notice>}
 
       <div className="grid grid-cols-2 sm:grid-cols-4 gap-px bg-line border border-line mt-6 max-w-[900px]">
-        <div className="bg-navy-900"><Readout value={idx?.stats.records ?? 0} label={`RECORDS · ${term || "—"}`} /></div>
-        <div className="bg-navy-900"><Readout value={idx?.stats.handoffs_filed ?? 0} label={`HANDOFFS FILED / ${idx?.stats.officers ?? 0} OFFICERS`} meter={idx?.stats.officers ? (idx.stats.handoffs_filed ?? 0) / idx.stats.officers : 0} /></div>
-        <div className="bg-navy-900 px-5 py-4"><span className="font-display font-black text-[22px] leading-none text-teal">{idx?.stats.last_date || "—"}</span><p className="mono-label opacity-60 mt-1.5">LAST RECORD</p></div>
-        <div className="bg-navy-900 px-5 py-4"><span className="font-display font-black text-[22px] leading-none text-teal">{terms.length}</span><p className="mono-label opacity-60 mt-1.5">TERMS ON FILE</p></div>
+        <div className="bg-navy-900">
+          <Readout value={idx?.stats.records ?? 0} label={`RECORDS · ${term || "—"}`} />
+        </div>
+        <div className="bg-navy-900">
+          <Readout
+            value={idx?.stats.handoffs_filed ?? 0}
+            label={`HANDOFFS FILED / ${idx?.stats.officers ?? 0} OFFICERS`}
+            meter={idx?.stats.officers ? (idx.stats.handoffs_filed ?? 0) / idx.stats.officers : 0}
+          />
+        </div>
+        <div className="bg-navy-900 px-5 py-4">
+          <span className="font-display font-black text-[22px] leading-none text-teal">{idx?.stats.last_date || "—"}</span>
+          <p className="mono-label opacity-60 mt-1.5">LAST RECORD</p>
+        </div>
+        <div className="bg-navy-900 px-5 py-4">
+          <span className="font-display font-black text-[22px] leading-none text-teal">{terms.length}</span>
+          <p className="mono-label opacity-60 mt-1.5">TERMS ON FILE</p>
+        </div>
       </div>
 
       <div className="grid md:grid-cols-[160px_1fr] gap-8 mt-8">
         <aside>
           <MonoLabel accent>TERMS</MonoLabel>
-          <div className="mt-2"><Chips options={chipTerms.length ? chipTerms : ["—"]} value={term || "—"} onChange={(t) => setTerm(t)} /></div>
-          <MonoLabel accent className="mt-6 block">NEW RECORD</MonoLabel>
+          <div className="mt-2">
+            <Chips options={chipTerms.length ? chipTerms : ["—"]} value={term || "—"} onChange={(t) => setTerm(t)} />
+          </div>
+          <MonoLabel accent className="mt-6 block">
+            NEW RECORD
+          </MonoLabel>
           <div className="flex flex-col gap-1 mt-2">
             {Object.keys(TYPE_LABEL).map((t) => (
-              <button key={t} onClick={() => setEditing({ type: t, template: templates?.templates[t] ?? "" })} className="text-left mono-label px-2 py-1.5 border border-line text-muted hover:text-ink hover:border-teal cursor-pointer">
+              <button
+                key={t}
+                onClick={() => setEditing({ type: t, template: templates?.templates[t] ?? "" })}
+                className="text-left mono-label px-2 py-1.5 border border-line text-muted hover:text-ink hover:border-teal cursor-pointer"
+              >
                 + {t}
               </button>
             ))}
@@ -112,7 +155,9 @@ export default function OsInheritance() {
           ) : (
             rowsByType.map(([type, rows], i) => (
               <section key={type} className={i ? "mt-8" : ""}>
-                <MonoLabel accent>/{String(i + 1).padStart(2, "0")} {TYPE_LABEL[type] ?? type.toUpperCase()} · {rows.length}</MonoLabel>
+                <MonoLabel accent>
+                  /{String(i + 1).padStart(2, "0")} {TYPE_LABEL[type] ?? type.toUpperCase()} · {rows.length}
+                </MonoLabel>
                 <div className="mt-2">
                   <IndexList
                     rows={rows.map((r, n) => ({
@@ -133,7 +178,13 @@ export default function OsInheritance() {
 
       {open && (
         <Panel title={`${open.type.toUpperCase()} · ${open.id}`} onClose={() => setOpen(null)} wide>
-          <RecordView rec={open} onEdit={() => { setEditing(open); setOpen(null); }} />
+          <RecordView
+            rec={open}
+            onEdit={() => {
+              setEditing(open);
+              setOpen(null);
+            }}
+          />
         </Panel>
       )}
       {editing && (
@@ -142,7 +193,11 @@ export default function OsInheritance() {
             initial={editing}
             term={term || idx?.current || ""}
             actorName={actor?.name ?? ""}
-            onSaved={(row) => { setEditing(null); setNotice({ kind: "ok", text: `Saved ${row.path}` }); void load(term); }}
+            onSaved={(row) => {
+              setEditing(null);
+              setNotice({ kind: "ok", text: `Saved ${row.path}` });
+              void load(term);
+            }}
           />
         </Panel>
       )}
@@ -160,11 +215,32 @@ function HowTo({ text }: { text: string }) {
   return (
     <div className="text-[13px] leading-relaxed text-muted space-y-3">
       {body.split(/\n{2,}/).map((chunk, i) =>
-        chunk.startsWith("## ") ? <p key={i} className="mono-label text-teal mt-4">{chunk.slice(3)}</p>
-        : chunk.startsWith("|") ? <pre key={i} className="font-mono text-[11px] whitespace-pre-wrap border border-line p-3">{chunk}</pre>
-        : <p key={i}>{chunk}</p>,
+        chunk.startsWith("## ") ? (
+          <p key={i} className="mono-label text-teal mt-4">
+            {chunk.slice(3)}
+          </p>
+        ) : chunk.startsWith("|") ? (
+          <pre key={i} className="font-mono text-[11px] whitespace-pre-wrap border border-line p-3">
+            {chunk}
+          </pre>
+        ) : (
+          <p key={i}>{chunk}</p>
+        ),
       )}
-      <KeyVal rows={[{ k: "STATUS", v: <span className="flex gap-2"><StatusWord s="draft" /><StatusWord s="final" /><StatusWord s="superseded" /></span> }]} />
+      <KeyVal
+        rows={[
+          {
+            k: "STATUS",
+            v: (
+              <span className="flex gap-2">
+                <StatusWord s="draft" />
+                <StatusWord s="final" />
+                <StatusWord s="superseded" />
+              </span>
+            ),
+          },
+        ]}
+      />
     </div>
   );
 }

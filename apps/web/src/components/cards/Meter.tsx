@@ -2,17 +2,7 @@ import { useRef } from "react";
 import { motion, useInView, useReducedMotion } from "motion/react";
 
 /** Segmented meter (T04/T06): 6px on / 2px off; dim beyond value; mono readout. */
-export function Meter({
-  label,
-  value,
-  max = 100,
-  className = "",
-}: {
-  label: string;
-  value: number;
-  max?: number;
-  className?: string;
-}) {
+export function Meter({ label, value, max = 100, className = "" }: { label: string; value: number; max?: number; className?: string }) {
   const ref = useRef<HTMLDivElement>(null);
   const inView = useInView(ref, { once: true, margin: "-5% 0px" });
   const reduced = useReducedMotion();

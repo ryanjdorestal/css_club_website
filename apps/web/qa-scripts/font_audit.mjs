@@ -24,7 +24,10 @@ for (const route of routes) {
   await page.goto(`http://localhost:5173${route}`, { waitUntil: "networkidle" });
   await page.waitForTimeout(1200);
   await page.evaluate(async () => {
-    for (let y = 0; y <= document.body.scrollHeight; y += 800) { window.scrollTo(0, y); await new Promise((r) => setTimeout(r, 30)); }
+    for (let y = 0; y <= document.body.scrollHeight; y += 800) {
+      window.scrollTo(0, y);
+      await new Promise((r) => setTimeout(r, 30));
+    }
   });
   const buckets = await page.evaluate(() => {
     const out = { display: {}, mid: {}, micro: {} };
@@ -52,8 +55,15 @@ for (const route of routes) {
   let pageFail = false;
   for (const [bucket, fams] of Object.entries(buckets)) {
     const extra = Object.keys(fams).filter((f) => !ALLOW[bucket].has(f) && !EXEMPT.has(f));
-    if (extra.length) { pageFail = true; fail++; }
-    console.log(`${route.padEnd(14)} ${bucket.padEnd(8)} { ${Object.entries(fams).map(([f, c]) => `${f}:${c}`).join(", ")} }${extra.length ? "  ✗ EXTRA: " + extra.join(",") : ""}`);
+    if (extra.length) {
+      pageFail = true;
+      fail++;
+    }
+    console.log(
+      `${route.padEnd(14)} ${bucket.padEnd(8)} { ${Object.entries(fams)
+        .map(([f, c]) => `${f}:${c}`)
+        .join(", ")} }${extra.length ? "  ✗ EXTRA: " + extra.join(",") : ""}`,
+    );
   }
   offenders.slice(0, 6).forEach((o) => console.log(`   ↳ ${o}`));
   if (!pageFail) console.log(`${route.padEnd(14)} OK`);

@@ -24,6 +24,18 @@ from _core.routers import audit, board, events, inheritance, members, posts, pro
 
 app = FastAPI(title="jjcss-api", docs_url=None, redoc_url=None)
 
+
+@app.on_event("startup")
+def _env_check() -> None:
+    """One line at boot: which tier the env vars describe (names only, never values)."""
+    import importlib.util
+
+    spec = importlib.util.spec_from_file_location("env_validate", Path(__file__).resolve().parents[1] / "scripts" / "env_validate.py")
+    if spec and spec.loader:
+        mod = importlib.util.module_from_spec(spec)
+        spec.loader.exec_module(mod)
+        print(mod.check()[1])
+
 for router in (
     public.r,
     projects.r,

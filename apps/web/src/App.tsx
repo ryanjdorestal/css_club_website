@@ -48,8 +48,7 @@ const ACCENT_BY_PATH: Record<string, "red" | "green" | "blue" | "teal"> = {
 
 function Layout() {
   const { pathname } = useLocation();
-  const accent =
-    Object.entries(ACCENT_BY_PATH).find(([p]) => pathname.startsWith(p))?.[1] ?? "teal";
+  const accent = Object.entries(ACCENT_BY_PATH).find(([p]) => pathname.startsWith(p))?.[1] ?? "teal";
   const [api, setApi] = useState<ApiState>({ live: null, ms: null });
   useEffect(() => {
     const t0 = performance.now();
@@ -60,25 +59,25 @@ function Layout() {
   }, []);
   return (
     <ApiStateContext.Provider value={api}>
-    <div data-accent={accent} className="min-h-dvh flex flex-col bg-navy-600">
-      <ProgressBar />
-      <Nav />
-      <AnimatePresence mode="wait" initial={false}>
-        <motion.div
-          key={pathname}
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          exit={{ opacity: 0, transition: { duration: 0.2 } }}
-          transition={{ duration: 0.35 }}
-          className="grow flex flex-col"
-        >
-          <Outlet />
-          <Footer />
-        </motion.div>
-      </AnimatePresence>
-      <HoundChat />
-      <StatusBar />
-    </div>
+      <div data-accent={accent} className="min-h-dvh flex flex-col bg-navy-600">
+        <ProgressBar />
+        <Nav />
+        <AnimatePresence mode="wait" initial={false}>
+          <motion.div
+            key={pathname}
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0, transition: { duration: 0.2 } }}
+            transition={{ duration: 0.35 }}
+            className="grow flex flex-col"
+          >
+            <Outlet />
+            <Footer />
+          </motion.div>
+        </AnimatePresence>
+        <HoundChat />
+        <StatusBar />
+      </div>
     </ApiStateContext.Provider>
   );
 }

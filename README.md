@@ -57,6 +57,11 @@ live), **docs/HANDOFF.md** (the board's side).
 - No API keys for features. No LLMs. The chatbot is a static keyword KB.
 - Palette, type and voice: `DESIGN.md`. One accent per section.
 
+## The gates (what green means)
+`make check` is CI. `make a11y` (pa11y + axe, 0 findings), `make smoke` (the OS gate + the
+9-step board-member smoke) and `make links` need `make dev` running. Every tool, where it
+came from and what it found: `docs/SKILLS_ADOPTED.md`. Pushing: `docs/RELEASE.md`.
+
 ## Where to ask
 computersocjjay@gmail.com · the club Discord · issues on this repo. Built by
 Ryan Dorestal (2026) and handed to the board; content from the old site is MIT

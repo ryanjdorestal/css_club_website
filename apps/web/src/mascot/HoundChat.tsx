@@ -20,11 +20,7 @@ export function HoundChat() {
   const [emote, setEmote] = useState<Emote>("idle");
   const [msgs, setMsgs] = useState<Msg[]>([]);
   const [input, setInput] = useState("");
-  const [suggestions, setSuggestions] = useState<string[]>([
-    "What events are coming up?",
-    "How do I join?",
-    "What is Cyberhounds?",
-  ]);
+  const [suggestions, setSuggestions] = useState<string[]>(["What events are coming up?", "How do I join?", "What is Cyberhounds?"]);
   const { pathname } = useLocation();
   const scroller = useRef<HTMLDivElement>(null);
 
@@ -82,14 +78,10 @@ export function HoundChat() {
                 {brand.mascot.name}
               </p>
               <p className="mono-label text-muted">
-                {"//"} HOUND · STATIC{" "}
-                {online === false && <span className="text-teal">· ANSWERING OFFLINE</span>}
+                {"//"} HOUND · STATIC {online === false && <span className="text-teal">· ANSWERING OFFLINE</span>}
               </p>
             </div>
-            <span
-              aria-label={online ? "online" : "offline"}
-              className={`w-2 h-2 rounded-full ${online ? "bg-teal" : "bg-muted"}`}
-            />
+            <span aria-label={online ? "online" : "offline"} className={`w-2 h-2 rounded-full ${online ? "bg-teal" : "bg-muted"}`} />
             <button onClick={() => setOpen(false)} aria-label="Close chat" className="text-muted hover:text-ink p-1 cursor-pointer">
               <X size={16} />
             </button>
@@ -97,8 +89,7 @@ export function HoundChat() {
           <div ref={scroller} className="h-72 overflow-y-auto px-4 py-3 flex flex-col gap-3">
             {msgs.length === 0 && (
               <p className="text-xs text-muted leading-relaxed">
-                Woof. Ask me about events, joining, apps, Cyberhounds, resources — I
-                answer from the club's own notes, no AI cloud involved.
+                Woof. Ask me about events, joining, apps, Cyberhounds, resources — I answer from the club's own notes, no AI cloud involved.
               </p>
             )}
             {msgs.map((m, i) => (

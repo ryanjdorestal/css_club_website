@@ -6,7 +6,9 @@ import path from "node:path";
 import { execSync } from "node:child_process";
 
 let sha = "dev";
-try { sha = execSync("git rev-parse --short HEAD").toString().trim(); } catch {}
+try {
+  sha = execSync("git rev-parse --short HEAD").toString().trim();
+} catch {}
 
 // https://vite.dev/config/
 export default defineConfig({

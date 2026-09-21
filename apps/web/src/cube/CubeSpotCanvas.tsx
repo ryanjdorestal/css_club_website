@@ -6,17 +6,7 @@ import { useNavigate } from "react-router-dom";
 import { easing } from "maath";
 import { FACE_QUAT, FACE_ROUTE, applyCubeMaterials } from "./cubeCommon";
 
-function SpotCube({
-  face,
-  glow = "#6ED2E6",
-  interactive,
-  paused,
-}: {
-  face: keyof typeof FACE_QUAT;
-  glow?: string;
-  interactive: boolean;
-  paused: boolean;
-}) {
+function SpotCube({ face, glow = "#6ED2E6", interactive, paused }: { face: keyof typeof FACE_QUAT; glow?: string; interactive: boolean; paused: boolean }) {
   const { scene } = useGLTF("/cube/cs_cube.glb");
   const cloned = useMemo(() => {
     const c = scene.clone(true);

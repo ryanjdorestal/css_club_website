@@ -7,7 +7,9 @@ mkdirSync("/Users/ryandorestal/Desktop/jjay_css/assets/hound3d/renders", { recur
 const b = await chromium.launch({ args: ["--use-gl=angle", "--use-angle=swiftshader", "--enable-unsafe-swiftshader"] });
 for (const view of ["front", "three", "side"]) {
   const p = await b.newPage({ viewport: { width: 900, height: 900 } });
-  const errs = []; p.on("pageerror", (e) => errs.push(e.message)); p.on("console", (m) => m.type() === "error" && errs.push(m.text()));
+  const errs = [];
+  p.on("pageerror", (e) => errs.push(e.message));
+  p.on("console", (m) => m.type() === "error" && errs.push(m.text()));
   await p.goto(`http://localhost:8787/assets/hound3d/viewer.html?view=${view}&${extra}`);
   await p.waitForFunction(() => window.__ready === true, null, { timeout: 30000 }).catch(() => console.log("timeout", view, errs));
   await p.waitForTimeout(300);

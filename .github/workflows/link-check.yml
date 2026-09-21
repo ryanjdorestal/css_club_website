@@ -1,0 +1,17 @@
+name: link-check
+# Weekly lychee sweep over the built site, data/*.json and content/**/*.md (+ on demand).
+on:
+  schedule: [{ cron: "0 8 * * 1" }]
+  workflow_dispatch:
+jobs:
+  lychee:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with: { node-version-file: .nvmrc }
+      - run: npm ci --prefix apps/web && npm run build --prefix apps/web
+      - uses: lycheeverse/lychee-action@v2
+        with:
+          args: --config lychee.toml --root-dir ${{ github.workspace }}/apps/web/dist --no-progress 'apps/web/dist/**/*.html' 'data/*.json' 'content/**/*.md' 'README.md' 'docs/*.md'
+          fail: true

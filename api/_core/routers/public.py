@@ -169,18 +169,27 @@ def post(slug: str) -> Any:
     return {"ok": True, "source": _source(C.posts), "post": rows[0]}
 
 
+def semester_key(label: str) -> tuple[int, int]:
+    """'Fall 2026' → (2026, 2): newest term first, Fall after Spring within a year."""
+    parts = label.split()
+    year = int(parts[-1]) if parts and parts[-1].isdigit() else 0
+    season = {"spring": 1, "summer": 1, "fall": 2, "winter": 3}.get(parts[0].lower(), 0) if parts else 0
+    return (year, season)
+
+
 @r.get("/events")
 def events() -> dict[str, Any]:
     rows = [e for e in C.events.list(status="published")]
     by_sem: dict[str, list[dict[str, Any]]] = {}
-    for e in sorted(rows, key=lambda e: (e.get("semester", ""), e.get("sort", 0))):
+    # within a semester: dated events by date, then newest-created first, then the migrated order
+    for e in sorted(rows, key=lambda e: (e.get("semester", ""), -(int(e.get("created_at") or 0)), e.get("sort", 0))):
         by_sem.setdefault(e.get("semester", ""), []).append({
             "title": e.get("title"), "semester": e.get("semester"), "summary": e.get("summary", ""), "date": e.get("date_label", ""),
             "time": e.get("time_label", ""), "room": e.get("location", ""), "status": e.get("when", "past"),
             "flyer": e.get("flyer_path", ""), "rsvp_url": e.get("rsvp_url", ""), "id": e.get("id"),
         })
     semesters: list[dict[str, Any]] = [{"semester": s, "events": evs} for s, evs in by_sem.items()]
-    semesters.sort(key=lambda s: s["semester"], reverse=True)
+    semesters.sort(key=lambda s: semester_key(str(s["semester"])), reverse=True)
     return {"ok": True, "source": _source(C.events), "semesters": semesters}
 
 

@@ -12,9 +12,7 @@
       "author_name": "The Board",
       "status": "published",
       "published_at": "2023-01-01",
-      "tags": [
-        "article"
-      ],
+      "tags": ["article"],
       "source": "legacy",
       "created_at": 0,
       "updated_at": 0

@@ -45,7 +45,10 @@ export default function About() {
       <PageHero
         kicker="ABOUT · WHO WE ARE · WHAT WE DO"
         cubeFace="threeQuarter"
-        lines={[{ text: "Who", stencil: true }, { text: "we are.", outline: true }]}
+        lines={[
+          { text: "Who", stencil: true },
+          { text: "we are.", outline: true },
+        ]}
         dek={who.slice(0, 260) + "…"}
         stats={[
           { v: board.terms.reduce((a, t) => a + t.members.length, 0), l: "OFFICERS · ALL TERMS" },
@@ -75,7 +78,9 @@ export default function About() {
               lineClass="text-[clamp(32px,4.4vw,64px)]"
             />
             <Reveal>
-              <p className="text-[16px] leading-relaxed max-w-[60ch]" style={{ color: "var(--tone-muted)" }}>{who}</p>
+              <p className="text-[16px] leading-relaxed max-w-[60ch]" style={{ color: "var(--tone-muted)" }}>
+                {who}
+              </p>
             </Reveal>
             <Reveal delay={0.1}>
               <div className="mt-8">
@@ -87,7 +92,14 @@ export default function About() {
       </Band>
 
       {/* 3 — What We Do During The Semester */}
-      <Band tone="dark-2" accent="red" index="02 — WHAT WE DO DURING THE SEMESTER" sigil={<Sg.Chevrons size={16} />} code="SEMESTER" rail="02 · SEMESTER · 01010111 · WEEKLY">
+      <Band
+        tone="dark-2"
+        accent="red"
+        index="02 — WHAT WE DO DURING THE SEMESTER"
+        sigil={<Sg.Chevrons size={16} />}
+        code="SEMESTER"
+        rail="02 · SEMESTER · 01010111 · WEEKLY"
+      >
         <Watermark src={brand.logos.svg} side="left" width="34vw" opacity={0.05} />
         <IndexList
           rows={ACTIVITIES.map((a, i) => ({
@@ -103,7 +115,14 @@ export default function About() {
       </Band>
 
       {/* 4 — Discussion With Your Peers */}
-      <Band tone="tinted" accent="blue" index="03 — DISCUSSION WITH YOUR PEERS" sigil={<Sg.Terminal size={16} />} code="DSC_2021" rail="03 · DISCORD · 01000100 · EST. 2021">
+      <Band
+        tone="tinted"
+        accent="blue"
+        index="03 — DISCUSSION WITH YOUR PEERS"
+        sigil={<Sg.Terminal size={16} />}
+        code="DSC_2021"
+        rail="03 · DISCORD · 01000100 · EST. 2021"
+      >
         <div className="grid md:grid-cols-[7fr_5fr] gap-10 items-center">
           <div>
             <SplitLines
@@ -128,7 +147,12 @@ export default function About() {
                 { k: "STATUS", v: "CLICK-TEST PENDING" },
               ]}
               footer={
-                <a href={links.discord} target="_blank" rel="noreferrer noopener" className="inline-flex items-center gap-2 px-5 py-2.5 rounded-(--radius-sm) bg-(--accent) text-(--accent-contrast) text-sm font-semibold hover:brightness-110 transition-all">
+                <a
+                  href={links.discord}
+                  target="_blank"
+                  rel="noreferrer noopener"
+                  className="inline-flex items-center gap-2 px-5 py-2.5 rounded-(--radius-sm) bg-(--accent) text-(--accent-contrast) text-sm font-semibold hover:brightness-110 transition-all"
+                >
                   Join the Discord <ArrowUpRight size={14} />
                 </a>
               }
@@ -138,7 +162,15 @@ export default function About() {
       </Band>
 
       {/* 5 — The Board + term history */}
-      <Band tone="light-2" accent="green" sigil={<Sg.Eye size={16} />} code="INHERITANCE" index="04 — THE BOARD" title={`${current.term.toUpperCase()} · MOST RECENT ON RECORD`} rail="04 · BOARD · 01000010 · INHERITANCE">
+      <Band
+        tone="light-2"
+        accent="green"
+        sigil={<Sg.Eye size={16} />}
+        code="INHERITANCE"
+        index="04 — THE BOARD"
+        title={`${current.term.toUpperCase()} · MOST RECENT ON RECORD`}
+        rail="04 · BOARD · 01000010 · INHERITANCE"
+      >
         <RevealGroup className="grid grid-cols-2 md:grid-cols-4 gap-5 mb-14">
           {current.members.slice(0, 8).map((m) => (
             <RevealItem key={m.name}>
@@ -147,18 +179,18 @@ export default function About() {
                   <span className="t-micro opacity-55">BRD-F24-{String(current.members.indexOf(m) + 1).padStart(2, "0")}</span>
                   <span aria-hidden className="w-1.5 h-1.5 bg-(--accent)" />
                 </div>
-                {m.photo && (
-                  <img src={`/${m.photo}`} alt={m.name} loading="lazy" className="w-full aspect-square object-cover object-top" />
-                )}
+                {m.photo && <img src={`/${m.photo}`} alt={m.name} loading="lazy" className="w-full aspect-square object-cover object-top" />}
                 <figcaption className="pt-2 px-1 pb-1">
                   <p className="t-h3 !text-[14px] !font-medium leading-tight">{m.name}</p>
-                  <p className="t-micro raise text-(--accent) mt-1">_role {m.role.toUpperCase()}</p>
+                  <p className="t-micro raise text-(--accent-ink) mt-1">_role {m.role.toUpperCase()}</p>
                 </figcaption>
               </figure>
             </RevealItem>
           ))}
         </RevealGroup>
-        <p className="mono-label mb-4" style={{ color: "var(--tone-muted)" }}>TERM HISTORY · FALL 2020 → · THE INHERITANCE</p>
+        <p className="mono-label mb-4" style={{ color: "var(--tone-muted)" }}>
+          TERM HISTORY · FALL 2020 → · THE INHERITANCE
+        </p>
         <div className="border-t border-(--tone-line)">
           {alumni.map((t) => (
             <div key={t.term} className="border-b border-(--tone-line)">
@@ -168,16 +200,26 @@ export default function About() {
                 className="w-full flex items-center gap-6 py-4 cursor-pointer group"
               >
                 <span className="mono-label text-(--accent-ink) w-8 text-left">{open === t.term ? "−" : "+"}</span>
-                <span className="font-display font-bold text-lg" style={{ fontStretch: "108%" }}>{t.term}</span>
-                <span className="mono-label ml-auto" style={{ color: "var(--tone-muted)" }}>{t.members.length} MEMBERS</span>
+                <span className="font-display font-bold text-lg" style={{ fontStretch: "108%" }}>
+                  {t.term}
+                </span>
+                <span className="mono-label ml-auto" style={{ color: "var(--tone-muted)" }}>
+                  {t.members.length} MEMBERS
+                </span>
               </button>
               {open === t.term && (
                 <div className="grid grid-cols-2 md:grid-cols-5 gap-4 pb-6">
                   {t.members.map((m) => (
                     <div key={m.name} className="border border-(--tone-line) bg-paper p-3">
-                      <p className="font-display font-bold text-sm leading-tight" style={{ fontStretch: "108%" }}>{m.name}</p>
+                      <p className="font-display font-bold text-sm leading-tight" style={{ fontStretch: "108%" }}>
+                        {m.name}
+                      </p>
                       <MonoLabel className="!text-(--accent)">{m.role}</MonoLabel>
-                      {m.bio && <p className="text-xs mt-2 line-clamp-3" style={{ color: "var(--tone-muted)" }}>{m.bio}</p>}
+                      {m.bio && (
+                        <p className="text-xs mt-2 line-clamp-3" style={{ color: "var(--tone-muted)" }}>
+                          {m.bio}
+                        </p>
+                      )}
                     </div>
                   ))}
                 </div>
@@ -187,7 +229,11 @@ export default function About() {
         </div>
       </Band>
 
-      <PosterBand accent="teal" meta="// THE BANNER SAYS IT" lines={["Debug your mind.", { text: "Commit to growth.", className: "text-teal", outline: true }]} />
+      <PosterBand
+        accent="teal"
+        meta="// THE BANNER SAYS IT"
+        lines={["Debug your mind.", { text: "Commit to growth.", className: "text-teal", outline: true }]}
+      />
       <FinLine n="02" next="/resources" />
     </main>
   );

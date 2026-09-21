@@ -5,30 +5,30 @@
 @import "tailwindcss";
 
 @theme {
-  --color-navy-900: #0C183C;
-  --color-navy-800: #12294A;
-  --color-navy-700: #183C60;
-  --color-navy-600: #1E4664;
+  --color-navy-900: #0c183c;
+  --color-navy-800: #12294a;
+  --color-navy-700: #183c60;
+  --color-navy-600: #1e4664;
   --color-navy-500: #305484;
-  --color-ink: #F4F7FB;
-  --color-muted: #A2B4C8; /* DESIGN.md says #9DB0C4; nudged +2% lightness to clear WCAG AA (4.68:1) on navy-600 */
-  --color-line: #2A4460;
-  --color-teal: #6ED2E6;
-  --color-red: #B3202A;      /* dark modern red — the accent (Cyberhounds, Events) */
-  --color-red-hi: #E0242C;   /* emissive / hover / eye slits / stencil ghost only */
-  --color-red-deep: #7A1119; /* poster-band fills, chamfer stubs, hound rim shadow */
-  --color-green: #40A33F;
-  --color-blue: #1E80F0;
-  --color-cube-red: #D82028;
-  --color-cube-green: #70B840;
-  --color-cube-blue: #2058A0;
-  --color-light: #F5F7FA;
-  --color-seam: #1A1618;
+  --color-ink: #f4f7fb;
+  --color-muted: #a2b4c8; /* DESIGN.md says #9DB0C4; nudged +2% lightness to clear WCAG AA (4.68:1) on navy-600 */
+  --color-line: #2a4460;
+  --color-teal: #6ed2e6;
+  --color-red: #b3202a; /* dark modern red — the accent (Cyberhounds, Events) */
+  --color-red-hi: #e0242c; /* emissive / hover / eye slits / stencil ghost only */
+  --color-red-deep: #7a1119; /* poster-band fills, chamfer stubs, hound rim shadow */
+  --color-green: #40a33f;
+  --color-blue: #1e80f0;
+  --color-cube-red: #d82028;
+  --color-cube-green: #70b840;
+  --color-cube-blue: #2058a0;
+  --color-light: #f5f7fa;
+  --color-seam: #1a1618;
   --font-display: "Unbounded", system-ui, sans-serif;
   --font-wide: "Unbounded", system-ui, sans-serif;
   --font-body: "Space Grotesk", system-ui, sans-serif;
   --font-mono: "JetBrains Mono", ui-monospace, monospace;
-  --font-pixel: "Unbounded", sans-serif;  /* pixel role retired; Unbounded 900 */
+  --font-pixel: "Unbounded", sans-serif; /* pixel role retired; Unbounded 900 */
   --font-legacy: "VT323", monospace;
   --radius-sm: 4px;
   --radius-md: 8px;
@@ -47,25 +47,29 @@
   --accent: var(--color-teal);
   --accent-ink: var(--color-teal);
   --accent-fg: var(--color-teal);
+  --accent-paper: #0b6b7c; /* teal as text on paper: 5.7:1 */
   --accent-contrast: var(--color-navy-900);
   --accent-tint: color-mix(in srgb, var(--color-teal) 14%, var(--color-light));
 }
 [data-accent="red"] {
   --accent: var(--color-red);
-  --accent-fg: #EE9A9E;
+  --accent-fg: #ee9a9e;
+  --accent-paper: var(--color-red); /* 6.2:1 on paper */
   --accent-contrast: var(--color-ink);
   --accent-tint: color-mix(in srgb, var(--color-red) 13%, var(--color-light));
 }
 [data-accent="green"] {
   --accent: var(--color-green);
-  --accent-fg: #6FC46E;
+  --accent-fg: #6fc46e;
+  --accent-paper: #27702a; /* green as text on paper: 5.7:1 */
   --accent-contrast: var(--color-navy-900);
   --accent-tint: color-mix(in srgb, var(--color-green) 13%, var(--color-light));
 }
 [data-accent="blue"] {
   --accent: var(--color-blue);
-  --accent-fg: #7FB4F7;
-  --accent-contrast: var(--color-ink);
+  --accent-fg: #7fb4f7;
+  --accent-paper: #155fb5; /* blue as text on paper: 5.9:1 */
+  --accent-contrast: #06122b; /* ink on #1E80F0 was 3.6:1 (pa11y); near-black navy is 4.7:1 */
   --accent-tint: color-mix(in srgb, var(--color-blue) 13%, var(--color-light));
 }
 
@@ -131,16 +135,24 @@ body {
 
 /* Component animations */
 @keyframes ticker-scroll {
-  from { transform: translateX(0); }
-  to { transform: translateX(-50%); }
+  from {
+    transform: translateX(0);
+  }
+  to {
+    transform: translateX(-50%);
+  }
 }
 .animate-ticker {
   animation: ticker-scroll 40s linear infinite;
 }
 
 @keyframes ring-rotate {
-  from { transform: rotate(0deg); }
-  to { transform: rotate(360deg); }
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
 }
 .animate-ring {
   animation: ring-rotate 120s linear infinite;
@@ -148,11 +160,11 @@ body {
 
 /* ============ run 2: paper surfaces, type scale, motion utilities ============ */
 @theme {
-  --color-paper: #F5F7FA;
-  --color-paper-2: #E9EFF5;
-  --color-ink-on-paper: #0C183C;
-  --color-muted-on-paper: #4E6480;
-  --color-hairline: #C9D4E0;
+  --color-paper: #f5f7fa;
+  --color-paper-2: #e9eff5;
+  --color-ink-on-paper: #0c183c;
+  --color-muted-on-paper: #4e6480;
+  --color-hairline: #c9d4e0;
   --text-display-xl: clamp(64px, 11vw, 176px);
   --text-display-lg: clamp(40px, 6vw, 96px);
   --text-display-md: clamp(28px, 3.2vw, 44px);
@@ -162,30 +174,50 @@ body {
 }
 
 /* Band tones — set as data-tone on <Band>; children read the right ink colors */
-[data-tone="light"], [data-tone="light-2"], [data-tone="tinted"] {
+[data-tone="light"],
+[data-tone="light-2"],
+[data-tone="tinted"] {
   color: var(--color-ink-on-paper);
-  --accent-ink: var(--accent);
+  --accent-ink: var(--accent-paper);
   --tone-muted: var(--color-muted-on-paper);
   --tone-line: var(--color-hairline);
   --tone-ink: var(--color-ink-on-paper);
 }
-[data-tone="dark"], [data-tone="dark-2"], [data-tone="dark-3"] {
+[data-tone="dark"],
+[data-tone="dark-2"],
+[data-tone="dark-3"] {
   color: var(--color-ink);
   --accent-ink: var(--accent-fg);
   --tone-muted: var(--color-muted);
   --tone-line: var(--color-line);
   --tone-ink: var(--color-ink);
 }
-[data-tone="dark"]   { background: var(--color-navy-600); }
-[data-tone="dark-2"] { background: var(--color-navy-700); }
-[data-tone="dark-3"] { background: var(--color-navy-900); }
-[data-tone="light"]  { background: var(--color-paper); }
-[data-tone="light-2"]{ background: var(--color-paper-2); }
-[data-tone="tinted"] { background: color-mix(in oklab, var(--accent) 6%, var(--color-paper)); }
-[data-accent="red"][data-tone="tinted"] { background: color-mix(in oklab, var(--accent) 3%, var(--color-paper)); }
+[data-tone="dark"] {
+  background: var(--color-navy-600);
+}
+[data-tone="dark-2"] {
+  background: var(--color-navy-700);
+}
+[data-tone="dark-3"] {
+  background: var(--color-navy-900);
+}
+[data-tone="light"] {
+  background: var(--color-paper);
+}
+[data-tone="light-2"] {
+  background: var(--color-paper-2);
+}
+[data-tone="tinted"] {
+  background: color-mix(in oklab, var(--accent) 6%, var(--color-paper));
+}
+[data-accent="red"][data-tone="tinted"] {
+  background: color-mix(in oklab, var(--accent) 3%, var(--color-paper));
+}
 
 /* numbers are the design */
-.tnum { font-variant-numeric: tabular-nums; }
+.tnum {
+  font-variant-numeric: tabular-nums;
+}
 
 /* underline that draws in from the left */
 .u-draw {
@@ -195,47 +227,145 @@ body {
   background-repeat: no-repeat;
   transition: background-size 0.35s cubic-bezier(0.22, 1, 0.36, 1);
 }
-.u-draw:hover { background-size: 100% 1px; }
+.u-draw:hover {
+  background-size: 100% 1px;
+}
 
 /* true infinite marquee (two copies of the strip) */
-@keyframes marquee-x { from { transform: translateX(0); } to { transform: translateX(-50%); } }
-.marquee-track { animation: marquee-x 40s linear infinite; }
-.marquee-track:hover { animation-play-state: paused; }
+@keyframes marquee-x {
+  from {
+    transform: translateX(0);
+  }
+  to {
+    transform: translateX(-50%);
+  }
+}
+.marquee-track {
+  animation: marquee-x 40s linear infinite;
+}
+.marquee-track:hover {
+  animation-play-state: paused;
+}
 
 /* card hover lift */
-.lift { transition: transform 0.35s cubic-bezier(0.22,1,0.36,1), box-shadow 0.35s; }
-.lift:hover { transform: translateY(-4px); box-shadow: 0 24px 48px -24px color-mix(in srgb, var(--color-navy-900) 60%, transparent); }
+.lift {
+  transition:
+    transform 0.35s cubic-bezier(0.22, 1, 0.36, 1),
+    box-shadow 0.35s;
+}
+.lift:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 24px 48px -24px color-mix(in srgb, var(--color-navy-900) 60%, transparent);
+}
 
 /* button: fill slides off to reveal outline */
-.btn-slide { position: relative; overflow: hidden; isolation: isolate; }
-.btn-slide::before {
-  content: ""; position: absolute; inset: 0; background: var(--accent);
-  z-index: -1; transition: transform 0.4s cubic-bezier(0.22,1,0.36,1);
+.btn-slide {
+  position: relative;
+  overflow: hidden;
+  isolation: isolate;
+  border: 1px solid var(--accent);
 }
-.btn-slide:hover::before { transform: translateY(100%); }
-.btn-slide { border: 1px solid var(--accent); }
-.btn-slide:hover { color: var(--accent-fg); }
+.btn-slide::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: var(--accent);
+  z-index: -1;
+  transition: transform 0.4s cubic-bezier(0.22, 1, 0.36, 1);
+}
+.btn-slide:hover::before {
+  transform: translateY(100%);
+}
+.btn-slide:hover {
+  color: var(--accent-fg);
+}
 
 /* corner notches for TicketCard */
 .notch {
-  clip-path: polygon(10px 0, calc(100% - 10px) 0, 100% 10px, 100% calc(100% - 10px),
-    calc(100% - 10px) 100%, 10px 100%, 0 calc(100% - 10px), 0 10px);
+  clip-path: polygon(10px 0, calc(100% - 10px) 0, 100% 10px, 100% calc(100% - 10px), calc(100% - 10px) 100%, 10px 100%, 0 calc(100% - 10px), 0 10px);
 }
 
 /* run 5: fin-line terminal caret (block cursor, 1 Hz blink once the line lands) */
-.fin-caret { display: inline-block; margin-left: 0.15em; color: var(--color-teal); }
-@keyframes fin-blink { 0%, 49% { opacity: 1; } 50%, 100% { opacity: 0; } }
-.fin-caret-blink { animation: fin-blink 1s step-end infinite; }
+.fin-caret {
+  display: inline-block;
+  margin-left: 0.15em;
+  color: var(--color-teal);
+}
+
+@keyframes fin-blink {
+  0%,
+  49% {
+    opacity: 1;
+  }
+  50%,
+  100% {
+    opacity: 0;
+  }
+}
+.fin-caret-blink {
+  animation: fin-blink 1s step-end infinite;
+}
 
 /* run 5: Cyberhounds hero — when the 3D bust falls back to the pixel hound, hide the
    front-left pixel hound so the frame never shows two hounds */
-#cyberhound-slot:has([data-cyberhound="pixel"]) ~ svg { display: none; }
+#cyberhound-slot:has([data-cyberhound="pixel"]) ~ svg {
+  display: none;
+}
 
 /* run 6: footer map — dark treatment that lights up on hover (never a white hole) */
-.map-dark { filter: invert(0.92) hue-rotate(185deg) saturate(0.6) contrast(0.9); transition: filter 0.4s ease; }
-.group:hover .map-dark { filter: invert(0); }
+.map-dark {
+  filter: invert(0.92) hue-rotate(185deg) saturate(0.6) contrast(0.9);
+  transition: filter 0.4s ease;
+}
+.group:hover .map-dark {
+  filter: invert(0);
+}
 
 /* run 6: the Cyberhounds pennant sways 1.5° around its top edge on hover */
-@keyframes pennant-sway { 0% { transform: rotate(0); } 30% { transform: rotate(1.5deg); } 70% { transform: rotate(-1.5deg); } 100% { transform: rotate(0); } }
-.pennant-sway { transform-origin: 50% 0; }
-.pennant-sway:hover { animation: pennant-sway 1.2s ease-in-out; }
+@keyframes pennant-sway {
+  0% {
+    transform: rotate(0);
+  }
+  30% {
+    transform: rotate(1.5deg);
+  }
+  70% {
+    transform: rotate(-1.5deg);
+  }
+  100% {
+    transform: rotate(0);
+  }
+}
+.pennant-sway {
+  transform-origin: 50% 0;
+}
+.pennant-sway:hover {
+  animation: pennant-sway 1.2s ease-in-out;
+}
+
+/* a11y (pa11y G145): solid red display words on navy-900 use red-hi so large text clears 3:1 */
+[data-tone="dark-3"] .text-red {
+  color: var(--color-red-hi);
+}
+
+/* a11y (axe color-contrast): Tailwind's opacity-40/50/55/60 on text fell to 2.2–4.4:1. Muted chrome text
+   keeps its hierarchy at 0.72, which clears WCAG AA on navy-700, navy-900 and paper. Decorative layers use
+   arbitrary values (opacity-[0.05]) and are untouched. */
+.opacity-40,
+.opacity-50,
+.opacity-55,
+.opacity-60 {
+  opacity: 0.72;
+}
+
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip-path: inset(50%);
+  white-space: nowrap;
+  border: 0;
+}

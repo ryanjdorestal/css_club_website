@@ -1,3 +1,4 @@
+import { brand } from "@brand/brand.config";
 import { useState } from "react";
 import { ArrowUpRight } from "lucide-react";
 import links from "@data/links.json";
@@ -20,8 +21,11 @@ export default function Join() {
       <PageHero
         kicker="JOIN · FREE · OPEN TO ALL MAJORS"
         cubeFace="blue"
-        cubeGlow="#1E80F0"
-        lines={[{ text: "Join", stencil: true }, { text: "the society.", className: "text-(--accent-fg)", outline: true }]}
+        cubeGlow={brand.palette.blue}
+        lines={[
+          { text: "Join", stencil: true },
+          { text: "the society.", className: "text-(--accent-fg)", outline: true },
+        ]}
         dek="Joining is free and open to every John Jay student, any major. Fill the onboarding form, hop into the Discord, and show up — that's the entire process."
         right={
           <div aria-hidden className="relative border border-line p-8 hidden md:block" style={{ color: "var(--color-cube-blue)" }}>
@@ -41,14 +45,19 @@ export default function Join() {
       <Band tone="tinted" accent="blue" index="01 — WHY JOIN" sigil={<Sg.Star4 size={16} />} code="WHY" rail="01 · JOIN · 01001010 · ALL MAJORS">
         <div className="grid md:grid-cols-3 gap-6">
           {[
-            { tag: "COMMUNITY", copy: "A society of like-minded people who are eager to connect — study sessions, movie days, merch days, and a Discord that never sleeps." },
+            {
+              tag: "COMMUNITY",
+              copy: "A society of like-minded people who are eager to connect — study sessions, movie days, merch days, and a Discord that never sleeps.",
+            },
             { tag: "SKILLS", copy: "Workshops every semester: security, Python, AWS, AI, web, iOS — beginner to advanced, no prerequisites." },
             { tag: "CAREER", copy: "Interview prep, alumni panels, career workshops, and the Apps register to ship something with your name on it." },
           ].map((c) => (
             <Reveal key={c.tag}>
               <div className="border border-(--tone-line) p-6 h-full">
                 <Tag>{c.tag}</Tag>
-                <p className="text-sm leading-relaxed mt-4" style={{ color: "var(--tone-muted)" }}>{c.copy}</p>
+                <p className="text-sm leading-relaxed mt-4" style={{ color: "var(--tone-muted)" }}>
+                  {c.copy}
+                </p>
               </div>
             </Reveal>
           ))}
@@ -56,8 +65,19 @@ export default function Join() {
       </Band>
 
       {/* 3 — openings/committees/ideas/suggestions (full lists) */}
-      <Band tone="dark-2" accent="blue" index="02 — OPEN SEATS · FROM THE OLD COLLABORATE PAGE" sigil={<Sg.Lambda size={16} />} code="SEATS" rail="02 · SEATS · 01001111 · OPEN">
-        <div aria-hidden className="absolute right-[-10%] top-1/2 -translate-y-1/2 pointer-events-none opacity-[0.08] hidden xl:block" style={{ color: "var(--color-cube-blue)" }}>
+      <Band
+        tone="dark-2"
+        accent="blue"
+        index="02 — OPEN SEATS · FROM THE OLD COLLABORATE PAGE"
+        sigil={<Sg.Lambda size={16} />}
+        code="SEATS"
+        rail="02 · SEATS · 01001111 · OPEN"
+      >
+        <div
+          aria-hidden
+          className="absolute right-[-10%] top-1/2 -translate-y-1/2 pointer-events-none opacity-[0.08] hidden xl:block"
+          style={{ color: "var(--color-cube-blue)" }}
+        >
           <Sg.CSSKufic size={170} />
         </div>
         <div className="relative grid md:grid-cols-2 gap-x-12 gap-y-10">
@@ -90,7 +110,14 @@ function OnboardBand() {
     e.preventDefault();
     setBusy(true);
     const data = Object.fromEntries(new FormData(e.currentTarget).entries()) as Record<string, string>;
-    const payload: OnboardingSubmit = { name: data.name, email: data.email, major: data.major || null, class_year: data.class_year || null, interests: data.interests || null, discord_handle: data.discord_handle || null };
+    const payload: OnboardingSubmit = {
+      name: data.name,
+      email: data.email,
+      major: data.major || null,
+      class_year: data.class_year || null,
+      interests: data.interests || null,
+      discord_handle: data.discord_handle || null,
+    };
     setResult(await postWithFallback("/api/onboarding/submit", payload));
     setBusy(false);
   }
@@ -122,7 +149,9 @@ function OnboardBand() {
               { k: "INTO", el: <textarea name="interests" rows={3} className={field} placeholder="Cybersecurity, CTFs, iOS, web dev, AI…" /> },
             ].map((row) => (
               <label key={row.k} className="grid md:grid-cols-[200px_1fr] gap-2 md:gap-6 items-start px-5 py-4 border-b border-(--tone-line)">
-                <span className="mono-label pt-2.5" style={{ color: "var(--tone-muted)" }}>{row.k}</span>
+                <span className="mono-label pt-2.5" style={{ color: "var(--tone-muted)" }}>
+                  {row.k}
+                </span>
                 {row.el}
               </label>
             ))}
@@ -138,9 +167,17 @@ function OnboardBand() {
             <TicketCard
               model="DSC-2021"
               title="Discord — the fast lane"
-              rows={[{ k: "MEMBERS", v: "661 · EST. FEB 2021" }, { k: "STATUS", v: "INVITE FROM 2021 — CLICK-TEST" }]}
+              rows={[
+                { k: "MEMBERS", v: "661 · EST. FEB 2021" },
+                { k: "STATUS", v: "INVITE FROM 2021 — CLICK-TEST" },
+              ]}
               footer={
-                <a href={links.discord} target="_blank" rel="noreferrer noopener" className="inline-flex items-center gap-2 px-5 py-2.5 rounded-(--radius-sm) bg-(--accent) text-(--accent-contrast) text-sm font-semibold hover:brightness-110 transition-all">
+                <a
+                  href={links.discord}
+                  target="_blank"
+                  rel="noreferrer noopener"
+                  className="inline-flex items-center gap-2 px-5 py-2.5 rounded-(--radius-sm) bg-(--accent) text-(--accent-contrast) text-sm font-semibold hover:brightness-110 transition-all"
+                >
                   Join the Discord <ArrowUpRight size={14} />
                 </a>
               }
@@ -148,8 +185,12 @@ function OnboardBand() {
           </Reveal>
           <Reveal delay={0.08}>
             <div className="border border-(--tone-line) p-5">
-              <p className="mono-label mb-2" style={{ color: "var(--tone-muted)" }}>EMAIL UPDATES</p>
-              <p className="text-sm mb-4" style={{ color: "var(--tone-muted)" }}>Prefer email? The update list gets event announcements each semester.</p>
+              <p className="mono-label mb-2" style={{ color: "var(--tone-muted)" }}>
+                EMAIL UPDATES
+              </p>
+              <p className="text-sm mb-4" style={{ color: "var(--tone-muted)" }}>
+                Prefer email? The update list gets event announcements each semester.
+              </p>
               <a href={links.email_updates_form} target="_blank" rel="noreferrer noopener" className="mono-label text-(--accent-ink) u-draw">
                 GET EMAIL UPDATES ↗
               </a>

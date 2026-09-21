@@ -17,7 +17,7 @@ export function Label({
   value?: ReactNode;
   micro?: boolean;
   className?: string;
-  n?: number | string;   // for [n] style
+  n?: number | string; // for [n] style
 }) {
   const prefix = n !== undefined ? `[${n}]` : pfx;
   return (

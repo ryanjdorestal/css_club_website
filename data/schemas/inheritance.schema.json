@@ -16,7 +16,14 @@
     "role": { "type": "string" },
     "tags": { "type": "array", "items": { "type": "string", "pattern": "^[a-z][a-z0-9-]*$" } },
     "summary": { "type": "string" },
-    "links": { "type": "array", "items": { "type": "object", "required": ["label", "url"], "properties": { "label": { "type": "string" }, "url": { "type": "string", "pattern": "^https?://" } } } },
+    "links": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["label", "url"],
+        "properties": { "label": { "type": "string" }, "url": { "type": "string", "pattern": "^https?://" } }
+      }
+    },
     "supersedes": { "type": "string" },
     "succeeded_by": { "type": "string" },
     "related": { "type": "array", "items": { "type": "string" } }

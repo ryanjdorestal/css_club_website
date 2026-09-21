@@ -6,9 +6,11 @@ on:
 
 jobs:
   check:
+    # Exactly what `make check` runs on a laptop, plus the build and the render smoke.
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
+        with: { fetch-depth: 0 }
       - uses: actions/setup-node@v4
         with:
           node-version-file: .nvmrc
@@ -23,25 +25,20 @@ jobs:
           npm ci --prefix apps/web
           python -m venv .venv && .venv/bin/pip install -q -r api/requirements.txt ruff mypy pytest
 
-      # The guards that prevent the known silent failures, then everything `make check` runs.
-      - name: one-function guard + data schemas
+      - name: make check (lint · format · css · md · types · tests · audit · one-function guard · validators · dead code)
+        run: make check
+      - name: commit messages are conventional (commitlint)
         run: |
-          .venv/bin/python scripts/check_api_count.py
-          .venv/bin/python scripts/validate_data.py
-          .venv/bin/python scripts/validate_inheritance.py
-      - name: lint + types (ruff, mypy --strict, oxlint, tsc)
-        run: make lint types
-      - name: tests (pytest + vitest)
-        run: make test
-      - name: dead code + deps (ts-prune, depcheck)
-        run: |
-          cd apps/web && npm run prune && npm run depcheck
+          FROM="${{ github.event.pull_request.base.sha || github.event.before }}"
+          cd apps/web && npx commitlint --from "$FROM" --to "${{ github.sha }}" --verbose
       - name: generated types are current
         run: |
           .venv/bin/python scripts/gen_types.py
           git diff --exit-code apps/web/src/lib/api.types.ts
       - name: build
         run: npm run build --prefix apps/web
+      - name: html-validate (index.html + built page)
+        run: npm run lint:html --prefix apps/web
       - name: playwright smoke (every route renders, Tier 1)
         run: |
           npx playwright install --with-deps chromium
@@ -56,3 +53,24 @@ jobs:
         run: |
           npx vercel build --token "$VERCEL_TOKEN" || { echo "::warning::vercel build dry-run failed"; exit 0; }
           n=$(find .vercel/output/functions -maxdepth 1 -name '*.func' | wc -l); echo "functions: $n"; [ "$n" -le 1 ]
+
+  functional:
+    # A board member's day, end to end, against the dev server + API (Tier 1, no accounts):
+    # the OS gate (12 checks) and the 9-step functional smoke. All must pass.
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with: { node-version-file: .nvmrc, cache: npm, cache-dependency-path: apps/web/package-lock.json }
+      - uses: actions/setup-python@v5
+        with: { python-version-file: .python-version }
+      - run: npm ci --prefix apps/web && python -m venv .venv && .venv/bin/pip install -q -r api/requirements.txt
+      - run: npx --prefix apps/web playwright install --with-deps chromium
+      - name: start web + api (Tier 1)
+        run: |
+          (.venv/bin/uvicorn api.index:app --port 8000 &) ; (npm run dev --prefix apps/web -- --port 5173 &)
+          for i in $(seq 1 60); do curl -fsS http://localhost:5173/ >/dev/null 2>&1 && curl -fsS http://localhost:8000/api/health >/dev/null 2>&1 && break; sleep 1; done
+      - run: make smoke
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with: { name: smoke-screenshots, path: qa/loops/smoke, retention-days: 7 }

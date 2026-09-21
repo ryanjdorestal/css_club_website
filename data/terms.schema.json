@@ -1,18 +1,12 @@
 {
   "type": "object",
-  "required": [
-    "terms"
-  ],
+  "required": ["terms"],
   "properties": {
     "terms": {
       "type": "array",
       "items": {
         "type": "object",
-        "required": [
-          "id",
-          "label",
-          "is_current"
-        ]
+        "required": ["id", "label", "is_current"]
       }
     }
   }

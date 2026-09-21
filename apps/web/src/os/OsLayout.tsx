@@ -49,14 +49,16 @@ function Shell() {
               key={m.to}
               to={m.to}
               end={"end" in m ? m.end : false}
-              className={({ isActive }) => `mono-label px-3 py-2 whitespace-nowrap transition-colors ${isActive ? "bg-navy-700 text-ink" : "text-muted hover:text-ink"}`}
+              className={({ isActive }) =>
+                `mono-label px-3 py-2 whitespace-nowrap transition-colors ${isActive ? "bg-navy-700 text-ink" : "text-muted hover:text-ink"}`
+              }
             >
               <span className="opacity-50 mr-2">/{String(i + 1).padStart(2, "0")}</span>
               {m.label}
             </NavLink>
           ))}
         </nav>
-        <div className="hidden md:block mt-auto p-4 border-t border-line">
+        <div className="hidden md:block mt-auto p-4 pb-12 border-t border-line">
           <p className="text-[13px] text-ink truncate">{actor.name || actor.email}</p>
           <MonoLabel>
             {actor.role} · {actor.term ?? "no term"}

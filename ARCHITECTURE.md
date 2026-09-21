@@ -63,3 +63,15 @@ for the current term (any email not on the roster is a guest, whatever it
 is). `admin` = `os_role: admin` (president + webmaster): roles, rollover,
 settings, replay. In Tier 1 the local picker sets the role via a header the
 API only honours off Vercel.
+
+## Boundaries (the architecture review — adapted from quay/architecture-review)
+What may import what, checked by the tools rather than by a reviewer:
+- `apps/web/src/pages/**` and `os/**` read data only through `lib/useApi` (public) or
+  `os/ui/useOs` (OS). No page fetches (`grep -rn "fetch(" apps/web/src/pages` is empty).
+- Components read colour and copy from `tokens.css` + `brand/brand.config.ts`, never
+  literals (`qa-scripts/tokens_gate.mjs`).
+- `api/_core/routers/*` talk to storage only through `collections.Collection` and to
+  the spine only through `spine.py`; the validator lives once, in `spine.py`.
+- `api/index.py` is the only file Vercel turns into a function (`scripts/check_api_count.py`).
+- Secrets exist only as env names in `scripts/env_validate.py` and at API startup.
+Drift shows up as a red `make check`, not as a meeting.

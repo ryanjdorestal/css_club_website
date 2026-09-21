@@ -5,8 +5,12 @@ export function Marquee({ items }: { items: string[] }) {
       {items.map((t, i) => (
         <span key={i} className="flex items-center gap-6 shrink-0">
           <span className="t-label raise !tracking-[0.14em]">{t.toUpperCase()}</span>
-          <span aria-hidden className="t-micro raise text-(--accent-fg)">▮</span>
-          <span aria-hidden className="t-micro opacity-40">{"//"}</span>
+          <span aria-hidden className="t-micro raise text-(--accent-fg)">
+            ▮
+          </span>
+          <span aria-hidden className="t-micro opacity-40">
+            {"//"}
+          </span>
         </span>
       ))}
     </>

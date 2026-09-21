@@ -2,15 +2,7 @@ import { useEffect, useRef, useState } from "react";
 import { animate, useInView, useReducedMotion } from "motion/react";
 
 /** Number that counts from 0 when it enters the viewport (once). */
-export function Counter({
-  value,
-  suffix = "",
-  className = "",
-}: {
-  value: number;
-  suffix?: string;
-  className?: string;
-}) {
+export function Counter({ value, suffix = "", className = "" }: { value: number; suffix?: string; className?: string }) {
   const ref = useRef<HTMLSpanElement>(null);
   const inView = useInView(ref, { once: true, margin: "0px" });
   const reduced = useReducedMotion();

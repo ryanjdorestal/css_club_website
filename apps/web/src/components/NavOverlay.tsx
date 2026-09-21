@@ -34,7 +34,9 @@ export function NavOverlay({ onClose }: { onClose: () => void }) {
         <motion.span animate={{ rotate: 360 }} transition={{ duration: 24, repeat: Infinity, ease: "linear" }} className="text-ink">
           <CubeSigil size={28} />
         </motion.span>
-        <button onClick={onClose} aria-label="Close menu" className="text-ink p-2 cursor-pointer"><X size={24} /></button>
+        <button onClick={onClose} aria-label="Close menu" className="text-ink p-2 cursor-pointer">
+          <X size={24} />
+        </button>
       </div>
       <nav className="grow flex flex-col justify-center px-8 py-6 gap-2.5">
         {ROUTES.map((r, i) => (
@@ -45,7 +47,12 @@ export function NavOverlay({ onClose }: { onClose: () => void }) {
         ))}
       </nav>
       <div className="px-8 pb-10 flex flex-wrap gap-x-6 gap-y-2">
-        {[["DISCORD", links.discord], ["GITHUB", links.github], ["INSTAGRAM", links.instagram], ["YOUTUBE", links.youtube]].map(([label, href]) => (
+        {[
+          ["DISCORD", links.discord],
+          ["GITHUB", links.github],
+          ["INSTAGRAM", links.instagram],
+          ["YOUTUBE", links.youtube],
+        ].map(([label, href]) => (
           <a key={label} href={href} target="_blank" rel="noreferrer noopener" className="t-micro opacity-60 hover:opacity-100 hover:text-teal transition-all">
             {label} ↗
           </a>

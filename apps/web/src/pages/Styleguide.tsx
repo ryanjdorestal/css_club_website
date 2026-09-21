@@ -42,12 +42,16 @@ export default function Styleguide() {
         <div className="relative flex justify-between items-start mb-8">
           <Label pfx="//">SCN_00 · CHAKRA / MICHROMA / SILKSCREEN / SPACE_GROTESK / JB_MONO</Label>
           <div className="text-right space-y-1">
-            <p className="t-micro raise tnum">X_{COORDS.x} / Y_{COORDS.y}</p>
+            <p className="t-micro raise tnum">
+              X_{COORDS.x} / Y_{COORDS.y}
+            </p>
             <p className="t-micro opacity-55">{COORDS.place}</p>
           </div>
         </div>
         <h1 className="t-hero relative">
-          <Stencil bars={[0.4, 0.64]} barColor="var(--color-navy-600)">DEBUG</Stencil>{" "}
+          <Stencil bars={[0.4, 0.64]} barColor="var(--color-navy-600)">
+            DEBUG
+          </Stencil>{" "}
           <Outline>YOUR MIND,</Outline>
         </h1>
         <p className="t-hero mt-2" style={{ fontSize: "clamp(44px, 7.4vw, 124px)" }}>
@@ -57,28 +61,67 @@ export default function Styleguide() {
           <Wireframe className="t-h2 uppercase">Wireframe through type</Wireframe>
         </div>
         <div className="t-poster mt-10 text-ink/90">
-          <EdgeCrop side="right"><Ghost dx={5} dy={5}>SOCIETY</Ghost></EdgeCrop>
+          <EdgeCrop side="right">
+            <Ghost dx={5} dy={5}>
+              SOCIETY
+            </Ghost>
+          </EdgeCrop>
         </div>
-        <p className="t-pixel text-teal mt-8"><Decode text="1 /5 · 104 : 0768 · PIXEL COUNTERS" /></p>
-        <p className="t-micro raise mt-6 tnum opacity-70">VERSION {version()}-{buildHash().toUpperCase()}</p>
+        <p className="t-pixel text-teal mt-8">
+          <Decode text="1 /5 · 104 : 0768 · PIXEL COUNTERS" />
+        </p>
+        <p className="t-micro raise mt-6 tnum opacity-70">
+          VERSION {version()}-{buildHash().toUpperCase()}
+        </p>
       </Band>
 
       {/* ---- LABEL GRAMMAR + SIGILS (vs T04/T03) ---- */}
       <Band tone="dark-2" accent="red" index="01 — LABEL GRAMMAR · SIGILS" code="GRAMMAR" sigil={<S.Eye size={16} />} rail="01 · GRAMMAR · 01000111 · SPEC">
         <div className="grid md:grid-cols-2 gap-10">
           <div className="space-y-3">
-            <Label pfx="/">01 WHAT THE CLUB IS ABOUT</Label><br />
-            <Label pfx="//">SCN_03 · EVT_S25-01</Label><br />
-            <Label pfx="_">status <span className="raise">ARCHIVED</span></Label><br />
-            <Label pfx=">">RENDERING <span className="raise tnum">83%</span></Label><br />
-            <Label n={1}>SHOW UP</Label><br />
-            <Label pfx="●">LIVE</Label> <Label pfx="○">IDLE</Label><br />
-            <Label pfx="↗">ALL EVENTS</Label><br />
-            <Label pfx="X_"><span className="tnum">{COORDS.x}</span></Label> <Label pfx="Y_"><span className="tnum">{COORDS.y}</span></Label>
+            <Label pfx="/">01 WHAT THE CLUB IS ABOUT</Label>
+            <br />
+            <Label pfx="//">SCN_03 · EVT_S25-01</Label>
+            <br />
+            <Label pfx="_">
+              status <span className="raise">ARCHIVED</span>
+            </Label>
+            <br />
+            <Label pfx=">">
+              RENDERING <span className="raise tnum">83%</span>
+            </Label>
+            <br />
+            <Label n={1}>SHOW UP</Label>
+            <br />
+            <Label pfx="●">LIVE</Label> <Label pfx="○">IDLE</Label>
+            <br />
+            <Label pfx="↗">ALL EVENTS</Label>
+            <br />
+            <Label pfx="X_">
+              <span className="tnum">{COORDS.x}</span>
+            </Label>{" "}
+            <Label pfx="Y_">
+              <span className="tnum">{COORDS.y}</span>
+            </Label>
           </div>
           <div>
             <div className="flex flex-wrap gap-5 items-end text-ink">
-              {[S.CubeSigil, S.Flag, S.Terminal, S.Node, S.Shield, S.BracketSigil, S.Crosshair, S.Chevrons, S.Star4, S.Lambda, S.Eye, S.ArrowSq, S.PlusMark, S.Tick].map((Sig, i) => (
+              {[
+                S.CubeSigil,
+                S.Flag,
+                S.Terminal,
+                S.Node,
+                S.Shield,
+                S.BracketSigil,
+                S.Crosshair,
+                S.Chevrons,
+                S.Star4,
+                S.Lambda,
+                S.Eye,
+                S.ArrowSq,
+                S.PlusMark,
+                S.Tick,
+              ].map((Sig, i) => (
                 <Sig key={i} size={i === 0 ? 48 : 24} />
               ))}
             </div>
@@ -99,7 +142,9 @@ export default function Styleguide() {
           <PosterCard word={"CYBER\nHOUNDS"} index="CTF_01" meta="2026" sub="PICOCTF · SPRING" />
           <SpecSheet tag="SPEC" title="Spec sheet v2" rows={rows} meter={{ label: "review", value: 66 }}>
             <BigStat value={95} suffix="%" label="jj_11 telemetry" />
-            <div className="px-5 pb-4"><MiniChart points={[3, 5, 4, 8, 7, 9, 12]} /></div>
+            <div className="px-5 pb-4">
+              <MiniChart points={[3, 5, 4, 8, 7, 9, 12]} />
+            </div>
           </SpecSheet>
         </div>
         <IndexList
@@ -114,7 +159,10 @@ export default function Styleguide() {
           <Readout value={13} suffix="+" label="workshops run" meter={72} />
           <div className="space-y-2">
             <StatusChip state="live" /> <StatusChip state="idle" /> <StatusChip state="archived" label="ARCHIVED" />
-            <div className="flex gap-2 mt-2"><Tag>EXAMPLE</Tag><Tag variant="hatch">INACTIVE</Tag></div>
+            <div className="flex gap-2 mt-2">
+              <Tag>EXAMPLE</Tag>
+              <Tag variant="hatch">INACTIVE</Tag>
+            </div>
           </div>
           <div className="space-y-3">
             <Button>Join the society</Button>
@@ -132,13 +180,16 @@ export default function Styleguide() {
               PAPER, <Outline>NOT CREAM.</Outline>
             </h2>
             <p className="text-[15px] leading-[1.6] max-w-[52ch] mt-4" style={{ color: "var(--color-muted-on-paper)" }}>
-              The same register on white: registration marks, hair grid, hatch strip,
-              /0N indices, notched CTAs, ↗ on every card. Space Grotesk body.
+              The same register on white: registration marks, hair grid, hatch strip, /0N indices, notched CTAs, ↗ on every card. Space Grotesk body.
             </p>
             <Pullquote cite="_source · THE_ABOUT_PAGE">Let's grow together!</Pullquote>
             <div className="flex gap-3 mt-4">
-              <ButtonLink to="#" variant="primary">Explore work</ButtonLink>
-              <ButtonLink to="#" variant="ghost">view manifesto</ButtonLink>
+              <ButtonLink to="#" variant="primary">
+                Explore work
+              </ButtonLink>
+              <ButtonLink to="#" variant="ghost">
+                view manifesto
+              </ButtonLink>
             </div>
             <Hatch className="mt-8 text-navy-900" />
           </div>
@@ -174,10 +225,23 @@ export default function Styleguide() {
           ))}
         </div>
         <div className="grid grid-cols-2 md:grid-cols-4 gap-5 mt-5">
-          <div className="group relative h-28 border border-line"><Brackets size={12} inset={6} /><span className="absolute bottom-2 left-2 t-micro opacity-55">_brackets (hover)</span></div>
-          <div className="relative h-28 border border-line"><Registration inset={8} /><span className="absolute bottom-2 left-2 t-micro opacity-55">_registration</span></div>
-          <div className="relative h-28 border border-line bg-navy-800" style={chamferStyle(20)}><ChamferStub px={20} /><span className="absolute bottom-4 left-2 t-micro opacity-55">_chamfer+stub</span></div>
-          <div className="relative h-28 border border-line pl-[18px]"><Tab label="EVT-S25-01" /><Perforation className="absolute top-1 left-6 right-2" /><span className="absolute bottom-2 left-7 t-micro opacity-55">_tab+perforation</span></div>
+          <div className="group relative h-28 border border-line">
+            <Brackets size={12} inset={6} />
+            <span className="absolute bottom-2 left-2 t-micro opacity-55">_brackets (hover)</span>
+          </div>
+          <div className="relative h-28 border border-line">
+            <Registration inset={8} />
+            <span className="absolute bottom-2 left-2 t-micro opacity-55">_registration</span>
+          </div>
+          <div className="relative h-28 border border-line bg-navy-800" style={chamferStyle(20)}>
+            <ChamferStub px={20} />
+            <span className="absolute bottom-4 left-2 t-micro opacity-55">_chamfer+stub</span>
+          </div>
+          <div className="relative h-28 border border-line pl-[18px]">
+            <Tab label="EVT-S25-01" />
+            <Perforation className="absolute top-1 left-6 right-2" />
+            <span className="absolute bottom-2 left-7 t-micro opacity-55">_tab+perforation</span>
+          </div>
         </div>
         <p className="t-micro opacity-55 mt-6 tnum">HASH: {hexId("styleguide")} · METER ↓</p>
         <Meter label="loading sequence" value={83} className="max-w-[320px] mt-2" />

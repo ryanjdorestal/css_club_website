@@ -11,8 +11,8 @@ summary: The old GitHub-Pages site is replaced by the React site + the board pla
 links:
   - label: Repository
     url: https://github.com/jjcss
-  - label: Setup steps (SETUP.md)
-    url: https://github.com/jjcss/CSS_Website/blob/main/SETUP.md
+  - label: Old site (archived)
+    url: https://github.com/jjcss/CSS_Website
 ---
 
 ## Context

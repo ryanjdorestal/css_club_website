@@ -57,12 +57,16 @@ export default function Cyberhounds() {
           </div>
           <div className="grid md:grid-cols-[minmax(0,1fr)_auto] gap-8 items-center">
             <h1 className="t-poster min-w-0" style={{ fontSize: "clamp(60px, 9.6vw, 160px)" }}>
-              <EdgeCrop side="right"><Decode text="CYBER" /></EdgeCrop>
+              <EdgeCrop side="right">
+                <Decode text="CYBER" />
+              </EdgeCrop>
               <EdgeCrop side="right">
                 <span className="text-red">
                   <Stencil bars={[0.4, 0.66]} barColor="var(--color-navy-900)">
                     <span className="relative inline-block">
-                      <span aria-hidden className="t-outline absolute text-ink" style={{ left: 6, top: 6 }}>HOUNDS</span>
+                      <span aria-hidden className="t-outline absolute text-ink" style={{ left: 6, top: 6 }}>
+                        HOUNDS
+                      </span>
                       <span className="relative">HOUNDS</span>
                     </span>
                   </Stencil>
@@ -72,8 +76,12 @@ export default function Cyberhounds() {
             {/* the Cyberhound frame: the 3D pitbull bust with THE pixel hound in front-left (no cube in this hero — §4) */}
             <div className="relative justify-self-end max-md:hidden group" style={{ width: 460, height: 460 }}>
               <Brackets size={18} />
-              <span aria-hidden className="absolute top-3 left-4 t-micro opacity-50">HOUND_01 · BUST</span>
-              <span aria-hidden className="absolute top-3 right-4 t-micro opacity-50 tnum">380PX · GLB</span>
+              <span aria-hidden className="absolute top-3 left-4 t-micro opacity-50">
+                HOUND_01 · BUST
+              </span>
+              <span aria-hidden className="absolute top-3 right-4 t-micro opacity-50 tnum">
+                380PX · GLB
+              </span>
               <div id="cyberhound-slot" className="absolute inset-0 flex items-center justify-center">
                 <CyberhoundSpot size={460} />
               </div>
@@ -81,9 +89,7 @@ export default function Cyberhounds() {
             </div>
           </div>
           <HoundPixel size={120} className="md:hidden mt-8" />
-          <p className="t-label raise !tracking-[0.22em] mt-10">
-            STAY SHARP. CAPTURE THE FLAG. FOLLOW PROTOCOL.
-          </p>
+          <p className="t-label raise !tracking-[0.22em] mt-10">STAY SHARP. CAPTURE THE FLAG. FOLLOW PROTOCOL.</p>
           <p className="t-micro opacity-55 mt-2">PICOCTF · NCL · ANGSTROMCTF · SDCTF</p>
         </div>
         <span aria-hidden className="absolute right-5 top-0 bottom-0 hidden lg:flex items-center">
@@ -94,15 +100,26 @@ export default function Cyberhounds() {
       </section>
 
       {/* 2 — What is CTF (spread) */}
-      <Band tone="tinted" accent="red" index="01 — WHAT IS CTF?" sigil={<HoundPixel size={16} />} code="CTF_INTRO" rail="01 · CTF · 01000110 · OSINT/WEB/CRYPTO">
+      <Band
+        tone="tinted"
+        accent="red"
+        index="01 — WHAT IS CTF?"
+        sigil={<HoundPixel size={16} />}
+        code="CTF_INTRO"
+        rail="01 · CTF · 01000110 · OSINT/WEB/CRYPTO"
+      >
         <div className="grid md:grid-cols-[6fr_6fr] gap-10 md:gap-16 items-center">
           <div>
             <h2 className="t-h1 !text-[clamp(30px,4.2vw,60px)] mb-5">
               <span className="block">CAPTURE THE FLAG,</span>
-              <span className="block"><Outline>LITERALLY.</Outline></span>
+              <span className="block">
+                <Outline>LITERALLY.</Outline>
+              </span>
             </h2>
             <Reveal>
-              <p className="text-[16px] leading-relaxed max-w-[58ch]" style={{ color: "var(--tone-muted)" }}>{sec("What is CTF")}</p>
+              <p className="text-[16px] leading-relaxed max-w-[58ch]" style={{ color: "var(--tone-muted)" }}>
+                {sec("What is CTF")}
+              </p>
             </Reveal>
           </div>
           <Reveal delay={0.1}>
@@ -140,7 +157,9 @@ export default function Cyberhounds() {
           <div>
             <h2 className="t-h1 !text-[clamp(26px,3.4vw,48px)] mb-5">
               <span className="block">SUFFICIENT PARTICIPATION</span>
-              <span className="block"><Outline>GETS YOU ROSTERED.</Outline></span>
+              <span className="block">
+                <Outline>GETS YOU ROSTERED.</Outline>
+              </span>
             </h2>
             <Reveal>
               <p className="text-[16px] leading-relaxed max-w-[56ch]" style={{ color: "var(--tone-muted)" }}>
@@ -158,7 +177,12 @@ export default function Cyberhounds() {
                 { k: "STEP 3", v: "Show up to practice" },
               ]}
               footer={
-                <a href={links.discord} target="_blank" rel="noreferrer noopener" className="inline-flex items-center gap-2 px-5 py-2.5 rounded-(--radius-sm) bg-(--accent) text-(--accent-contrast) text-sm font-semibold hover:brightness-110 transition-all">
+                <a
+                  href={links.discord}
+                  target="_blank"
+                  rel="noreferrer noopener"
+                  className="inline-flex items-center gap-2 px-5 py-2.5 rounded-(--radius-sm) bg-(--accent) text-(--accent-contrast) text-sm font-semibold hover:brightness-110 transition-all"
+                >
                   Join the Discord channel <ArrowUpRight size={14} />
                 </a>
               }

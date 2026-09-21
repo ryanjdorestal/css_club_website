@@ -2,7 +2,8 @@ import { useRef } from "react";
 import { Link } from "react-router-dom";
 import { motion, useReducedMotion } from "motion/react";
 import { brand } from "@brand/brand.config";
-import links from "@data/links.json";
+import linksData from "@data/links.json";
+import { useApi } from "@/lib/useApi";
 import pkg from "../../package.json";
 import { BinaryRings } from "./BinaryRings";
 import { MapCard } from "./MapCard";
@@ -23,7 +24,7 @@ const NAVIGATE = [
   { to: "/join", label: "Join" },
 ];
 
-const CONNECT = [
+const connectFor = (links: Record<string, string>) => [
   { href: links.discord, label: "Discord", domain: "discord.gg" },
   { href: links.github, label: "GitHub", domain: "github.com/jjcss" },
   { href: `mailto:${links.email}`, label: "Email", domain: links.email },
@@ -36,6 +37,9 @@ const CONNECT = [
     right — full colour, cropped at the bottom, bleeding off the right edge.
     No glaze, no fade, no cascade, no tint (run 5 §3). */
 export function Footer() {
+  const { data: linksApi } = useApi<{ links: Record<string, string> }>("/api/links", { links: linksData as unknown as Record<string, string> });
+  const links = { ...(linksData as unknown as Record<string, string>), ...linksApi.links };
+  const CONNECT = connectFor(links);
   const ref = useRef<HTMLElement>(null);
   const { pathname } = useLocation();
   const isHome = pathname === "/";
@@ -88,7 +92,12 @@ export function Footer() {
           <ul className="space-y-2.5">
             {CONNECT.map((l) => (
               <li key={l.label} className="flex items-baseline justify-between gap-3">
-                <a href={l.href} target="_blank" rel="noreferrer noopener" className="u-draw text-[16px] font-medium text-ink/85 hover:text-ink transition-colors">
+                <a
+                  href={l.href}
+                  target="_blank"
+                  rel="noreferrer noopener"
+                  className="u-draw text-[16px] font-medium text-ink/85 hover:text-ink transition-colors"
+                >
                   {l.label}
                 </a>
                 <span className="mono-label text-muted/50 truncate">{l.domain}</span>
@@ -106,7 +115,9 @@ export function Footer() {
               </a>
             </li>
             <li className="t-micro opacity-70">MIT · CONTENT FROM CSS_WEBSITE@{brand.source.commit.toUpperCase()}</li>
-            <li className="t-micro opacity-70 tnum">BUILD {buildHash().toUpperCase()} · {buildTime()}</li>
+            <li className="t-micro opacity-70 tnum">
+              BUILD {buildHash().toUpperCase()} · {buildTime()}
+            </li>
             <li>
               <Link to="/os/login" className="t-micro text-teal hover:underline">
                 CSS_OS · BOARD LOGIN →
@@ -123,10 +134,16 @@ export function Footer() {
           <div className="flex flex-wrap gap-3 items-stretch">
             <Link to="/join" className="group inline-flex items-stretch" aria-label="Join the Society">
               <span className="flex items-center px-6 py-3 bg-teal text-navy-900 t-label raise !opacity-100 font-display font-bold">JOIN_THE_SOCIETY</span>
-              <span className="flex items-center justify-center w-10 bg-teal text-navy-900 border-l border-navy-900/25 transition-transform duration-200 group-hover:translate-x-1">↗</span>
+              <span className="flex items-center justify-center w-10 bg-teal text-navy-900 border-l border-navy-900/25 transition-transform duration-200 group-hover:translate-x-1">
+                ↗
+              </span>
             </Link>
-            <Link to="/projects#submit" className="group inline-flex items-center gap-2 border border-teal text-teal px-6 py-3 t-label raise hover:bg-teal/10 transition-colors">
-              <span className="transition-transform duration-200 group-hover:-translate-x-0.5">[</span>SUBMIT_A_PROJECT<span className="transition-transform duration-200 group-hover:translate-x-0.5">]</span>
+            <Link
+              to="/projects#submit"
+              className="group inline-flex items-center gap-2 border border-teal text-teal px-6 py-3 t-label raise hover:bg-teal/10 transition-colors"
+            >
+              <span className="transition-transform duration-200 group-hover:-translate-x-0.5">[</span>SUBMIT_A_PROJECT
+              <span className="transition-transform duration-200 group-hover:translate-x-0.5">]</span>
             </Link>
           </div>
         </div>
@@ -142,8 +159,12 @@ export function Footer() {
               <span className="sm:col-span-2 t-micro opacity-55 mb-1">{brand.college.toUpperCase()}</span>
               <span>{brand.campus.street}</span>
               <span>{brand.campus.city}</span>
-              <a href={`tel:${brand.campus.phoneHref}`} className="u-draw w-fit tnum">Main {brand.campus.phone}</a>
-              <a href={`mailto:${brand.email}`} className="u-draw w-fit truncate">{brand.email}</a>
+              <a href={`tel:${brand.campus.phoneHref}`} className="u-draw w-fit tnum">
+                Main {brand.campus.phone}
+              </a>
+              <a href={`mailto:${brand.email}`} className="u-draw w-fit truncate">
+                {brand.email}
+              </a>
             </address>
           </div>
         </div>

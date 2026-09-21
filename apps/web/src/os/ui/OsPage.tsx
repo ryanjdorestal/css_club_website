@@ -24,11 +24,18 @@ export function OsPage({
     <div className="max-w-[1180px]">
       <div className="flex flex-wrap items-end justify-between gap-4 mb-7">
         <div>
-          <MonoLabel accent>{"//"} {kicker}</MonoLabel>
+          <MonoLabel accent>
+            {"//"} {kicker}
+          </MonoLabel>
           <h1 className="font-display font-black uppercase text-[26px] md:text-[32px] leading-none mt-1">{title}</h1>
         </div>
         <div className="flex items-center gap-3 flex-wrap">
-          {source && <StatusChip state={source === "db" ? "live" : source === "local" ? "idle" : "offline"} label={source === "db" ? "SUPABASE" : source === "local" ? "LOCAL_TABLE" : "STATIC"} />}
+          {source && (
+            <StatusChip
+              state={source === "db" ? "live" : source === "local" ? "idle" : "offline"}
+              label={source === "db" ? "SUPABASE" : source === "local" ? "LOCAL_TABLE" : "STATIC"}
+            />
+          )}
           {actions}
         </div>
       </div>
@@ -55,7 +62,17 @@ function NotHere({ items }: { items: string[] }) {
   );
 }
 
-export function Chips<T extends string>({ options, value, onChange, counts }: { options: readonly T[]; value: T; onChange: (v: T) => void; counts?: Partial<Record<T, number>> }) {
+export function Chips<T extends string>({
+  options,
+  value,
+  onChange,
+  counts,
+}: {
+  options: readonly T[];
+  value: T;
+  onChange: (v: T) => void;
+  counts?: Partial<Record<T, number>>;
+}) {
   return (
     <div className="flex flex-wrap gap-1.5">
       {options.map((o) => (
@@ -87,10 +104,14 @@ export function KeyVal({ rows, className = "" }: { rows: { k: string; v: ReactNo
 
 export function Panel({ title, onClose, children, wide = false }: { title: string; onClose: () => void; children: ReactNode; wide?: boolean }) {
   return (
-    <aside className={`fixed inset-y-0 right-0 z-40 ${wide ? "w-[min(100vw,760px)]" : "w-[min(100vw,520px)]"} bg-navy-900 border-l border-line overflow-y-auto p-5 md:p-6 shadow-[-24px_0_48px_-24px_rgba(0,0,0,.6)]`}>
+    <aside
+      className={`fixed inset-y-0 right-0 z-40 ${wide ? "w-[min(100vw,760px)]" : "w-[min(100vw,520px)]"} bg-navy-900 border-l border-line overflow-y-auto p-5 md:p-6 shadow-[-24px_0_48px_-24px_rgba(0,0,0,.6)]`}
+    >
       <div className="flex items-center justify-between mb-5">
         <MonoLabel accent>{title}</MonoLabel>
-        <button onClick={onClose} className="mono-label text-muted hover:text-ink cursor-pointer">close ×</button>
+        <button onClick={onClose} className="mono-label text-muted hover:text-ink cursor-pointer">
+          close ×
+        </button>
       </div>
       {children}
     </aside>

@@ -1,0 +1,7 @@
+# CODEOWNERS — who reviews what. Replace @ryanjdorestal with @jjcss/board once
+# the repo is transferred (docs/HANDOFF.md). Later patterns win.
+*                         @ryanjdorestal
+/content/inheritance/     @ryanjdorestal     # → @jjcss/board (president + webmaster)
+/content/ /data/          @ryanjdorestal     # → @jjcss/board
+/api/ /supabase/          @ryanjdorestal     # → @jjcss/webmaster
+/.github/ /scripts/       @ryanjdorestal     # → @jjcss/webmaster

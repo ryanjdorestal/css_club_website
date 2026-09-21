@@ -12,7 +12,13 @@ import { OS_MODULES } from "./OsLayout";
 import { osFetch, useSession } from "./session";
 
 type Health = { ok: boolean; sha: string; db: string; tier: string; inbox: number; snapshot: string | null; keepalive: string | null };
-type Attention = { term: { id?: string; label?: string; ends_on?: string }; items: { key: string; label: string; count: number; href: string }[]; officers: number; last_post: string; next_event: { title?: string; date_label?: string } | null };
+type Attention = {
+  term: { id?: string; label?: string; ends_on?: string };
+  items: { key: string; label: string; count: number; href: string }[];
+  officers: number;
+  last_post: string;
+  next_event: { title?: string; date_label?: string } | null;
+};
 
 export default function OsToday() {
   const { actor, mode } = useSession();
@@ -39,24 +45,44 @@ export default function OsToday() {
       <div className="grid grid-cols-2 lg:grid-cols-4 gap-px bg-line border border-line">
         {[
           { l: "STATUS", v: health === "down" ? "○ OFFLINE" : h ? "● ONLINE" : "…", s: health === "down" ? "offline" : h ? "live" : "idle" },
-          { l: "DB", v: h ? (h.db === "ok" ? "SUPABASE" : h.db === "skipped" ? "TIER 1 · LOCAL" : "DB ERROR") : "—", s: h?.db === "ok" ? "live" : h?.db === "skipped" ? "idle" : "offline" },
+          {
+            l: "DB",
+            v: h ? (h.db === "ok" ? "SUPABASE" : h.db === "skipped" ? "TIER 1 · LOCAL" : "DB ERROR") : "—",
+            s: h?.db === "ok" ? "live" : h?.db === "skipped" ? "idle" : "offline",
+          },
           { l: "DEPLOY", v: h ? h.sha.slice(0, 7).toUpperCase() : "—", s: "live" },
           { l: "SNAPSHOT", v: h?.snapshot ? h.snapshot.slice(0, 10) : "NEVER", s: h?.snapshot ? "live" : "idle" },
         ].map((c) => (
           <div key={c.l} className="bg-navy-900 px-4 py-3">
-            <div className="flex items-center justify-between"><span className="mono-label text-muted">{c.l}</span><StatusChip state={c.s as "live" | "idle" | "offline"} /></div>
+            <div className="flex items-center justify-between">
+              <span className="mono-label text-muted">{c.l}</span>
+              <StatusChip state={c.s as "live" | "idle" | "offline"} />
+            </div>
             <p className="font-display font-black text-[20px] leading-none mt-2 text-teal">{c.v}</p>
           </div>
         ))}
       </div>
-      {mode === "local" && <p className="t-micro text-teal mt-3">LOCAL_DEV · this browser is signed in as {actor?.role} without a server session; everything you write goes to data/*.local.json + the inbox.</p>}
+      {mode === "local" && (
+        <p className="t-micro text-teal mt-3">
+          LOCAL_DEV · this browser is signed in as {actor?.role} without a server session; everything you write goes to data/*.local.json + the inbox.
+        </p>
+      )}
 
       <div className="grid lg:grid-cols-[3fr_2fr] gap-8 mt-8">
         <section>
           <MonoLabel accent>NEEDS ATTENTION · {pending.length}</MonoLabel>
           <div className="mt-2">
             {pending.length ? (
-              <IndexList rows={pending.map((i, n) => ({ index: String(n + 1), bracket: true, title: i.label, meta: `${i.count}`, href: i.href, chip: i.key.toUpperCase() }))} />
+              <IndexList
+                rows={pending.map((i, n) => ({
+                  index: String(n + 1),
+                  bracket: true,
+                  title: i.label,
+                  meta: `${i.count}`,
+                  href: i.href,
+                  chip: i.key.toUpperCase(),
+                }))}
+              />
             ) : (
               <div className="border border-dashed border-line px-5 py-6 text-[13px] text-muted">{att ? "Nothing pending. Enjoy it." : "Loading…"}</div>
             )}
@@ -77,12 +103,18 @@ export default function OsToday() {
               ]}
             />
           </div>
-          <MonoLabel accent className="mt-6 block">QUICK LINKS</MonoLabel>
+          <MonoLabel accent className="mt-6 block">
+            QUICK LINKS
+          </MonoLabel>
           <div className="flex flex-wrap gap-2 mt-2">
             {OS_MODULES.filter((m) => m.to !== "/os").map((m) => (
-              <Link key={m.to} to={m.to} className="t-micro raise border border-line px-2.5 py-1.5 text-muted hover:text-ink hover:border-teal">{m.label}</Link>
+              <Link key={m.to} to={m.to} className="t-micro raise border border-line px-2.5 py-1.5 text-muted hover:text-ink hover:border-teal">
+                {m.label}
+              </Link>
             ))}
-            <a href="/" className="t-micro raise border border-line px-2.5 py-1.5 text-muted hover:text-ink hover:border-teal">public site ↗</a>
+            <a href="/" className="t-micro raise border border-line px-2.5 py-1.5 text-muted hover:text-ink hover:border-teal">
+              public site ↗
+            </a>
           </div>
         </section>
       </div>

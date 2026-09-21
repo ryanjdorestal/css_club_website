@@ -66,7 +66,10 @@ export default function OsMembers() {
     const r = await act<Row>("/api/os/members/import", { body: { csv: imp.csv, dry_run: dry } });
     setBusy(false);
     if (r.ok) setImp({ ...imp, result: r.data });
-    say(r.ok, r.ok ? (dry ? "Dry run done — review the diff, then commit." : `Imported: ${String(r.data.added)} added, ${String(r.data.changed)} changed.`) : r.msg);
+    say(
+      r.ok,
+      r.ok ? (dry ? "Dry run done — review the diff, then commit." : `Imported: ${String(r.data.added)} added, ${String(r.data.changed)} changed.`) : r.msg,
+    );
     if (!dry) await reload();
   }
 
@@ -77,9 +80,23 @@ export default function OsMembers() {
       source={source}
       actions={
         <>
-          <Button variant="ghost" onClick={() => setImp({ csv: "" })}>import csv</Button>
-          <Button variant="ghost" onClick={() => { const a = document.createElement("a"); a.href = URL.createObjectURL(new Blob([toCsv(rows)], { type: "text/csv" })); a.download = "members.csv"; a.click(); }}>export csv</Button>
-          <Button variant="ghost" onClick={() => setSel("new")}>+ add</Button>
+          <Button variant="ghost" onClick={() => setImp({ csv: "" })}>
+            import csv
+          </Button>
+          <Button
+            variant="ghost"
+            onClick={() => {
+              const a = document.createElement("a");
+              a.href = URL.createObjectURL(new Blob([toCsv(rows)], { type: "text/csv" }));
+              a.download = "members.csv";
+              a.click();
+            }}
+          >
+            export csv
+          </Button>
+          <Button variant="ghost" onClick={() => setSel("new")}>
+            + add
+          </Button>
         </>
       }
       notHere={[
@@ -91,12 +108,19 @@ export default function OsMembers() {
       {notice && <Notice kind={notice.kind}>{notice.text}</Notice>}
       <div className="grid grid-cols-2 sm:grid-cols-5 gap-px bg-line border border-line mt-4 max-w-[900px]">
         {STATUSES.filter((s) => s !== "all").map((s) => (
-          <div key={s} className="bg-navy-900"><Readout value={Number(counts[s])} label={s.toUpperCase()} meter={rows.length ? Number(counts[s]) / rows.length : 0} /></div>
+          <div key={s} className="bg-navy-900">
+            <Readout value={Number(counts[s])} label={s.toUpperCase()} meter={rows.length ? Number(counts[s]) / rows.length : 0} />
+          </div>
         ))}
       </div>
       <div className="flex flex-wrap items-center gap-3 mt-5">
         <Chips options={STATUSES} value={status} onChange={setStatus} counts={counts} />
-        <input value={q} onChange={(e) => setQ(e.target.value)} placeholder="search" className="bg-transparent border-b border-line px-1 py-1 font-mono text-[12px] text-ink focus:border-teal outline-none" />
+        <input
+          value={q}
+          onChange={(e) => setQ(e.target.value)}
+          placeholder="search"
+          className="bg-transparent border-b border-line px-1 py-1 font-mono text-[12px] text-ink focus:border-teal outline-none"
+        />
       </div>
       <div className="mt-4">
         <OsTable
@@ -118,10 +142,19 @@ export default function OsMembers() {
         <Panel title={sel === "new" ? "ADD PERSON" : `MEMBER · ${String(sel.display_name)}`} onClose={() => setSel(null)}>
           {sel !== "new" && (
             <div className="mb-4">
-              <KeyVal rows={[{ k: "STATUS", v: <StatusWord s={sel.status} /> }, { k: "SOURCE", v: String(sel.source ?? "") }]} />
+              <KeyVal
+                rows={[
+                  { k: "STATUS", v: <StatusWord s={sel.status} /> },
+                  { k: "SOURCE", v: String(sel.source ?? "") },
+                ]}
+              />
               {next.length > 0 && (
                 <div className="flex flex-wrap gap-2 mt-3">
-                  {next.map((n) => <Button key={n} variant="ghost" onClick={() => transition(n)}>→ {n}</Button>)}
+                  {next.map((n) => (
+                    <Button key={n} variant="ghost" onClick={() => transition(n)}>
+                      → {n}
+                    </Button>
+                  ))}
                 </div>
               )}
             </div>
@@ -131,16 +164,43 @@ export default function OsMembers() {
       )}
       {imp && (
         <Panel title="IMPORT CSV · dry run first" onClose={() => setImp(null)} wide>
-          <p className="t-micro opacity-60 mb-2">columns: display_name, discord_handle, email, status, joined_term (extra columns ignored; Discord's export works as-is)</p>
-          <textarea value={imp.csv} onChange={(e) => setImp({ csv: e.target.value })} rows={10} className="w-full bg-transparent border border-line px-3 py-2 font-mono text-[12px] text-ink focus:border-teal outline-none" placeholder="display_name,discord_handle,email,status,joined_term" />
+          <p className="t-micro opacity-60 mb-2">
+            columns: display_name, discord_handle, email, status, joined_term (extra columns ignored; Discord's export works as-is)
+          </p>
+          <textarea
+            value={imp.csv}
+            onChange={(e) => setImp({ csv: e.target.value })}
+            rows={10}
+            className="w-full bg-transparent border border-line px-3 py-2 font-mono text-[12px] text-ink focus:border-teal outline-none"
+            placeholder="display_name,discord_handle,email,status,joined_term"
+          />
           <div className="flex gap-2 mt-3">
-            <Button variant="ghost" disabled={busy || !imp.csv.trim()} onClick={() => runImport(true)}>dry run</Button>
-            <Button variant="primary" disabled={busy || !imp.result} onClick={() => runImport(false)}>commit import</Button>
+            <Button variant="ghost" disabled={busy || !imp.csv.trim()} onClick={() => runImport(true)}>
+              dry run
+            </Button>
+            <Button variant="primary" disabled={busy || !imp.result} onClick={() => runImport(false)}>
+              commit import
+            </Button>
           </div>
           {imp.result && (
             <div className="mt-4">
-              <KeyVal rows={[{ k: "ADDED", v: String(imp.result.added) }, { k: "CHANGED", v: String(imp.result.changed) }, { k: "UNCHANGED", v: String(imp.result.unchanged) }]} />
-              <OsTable cols={[{ key: "display_name", label: "NAME" }, { key: "discord_handle", label: "DISCORD", mono: true }, { key: "school_email", label: "EMAIL", mono: true }, { key: "status", label: "STATUS" }]} rows={(imp.result.preview as Row[]) ?? []} rowKey="display_name" />
+              <KeyVal
+                rows={[
+                  { k: "ADDED", v: String(imp.result.added) },
+                  { k: "CHANGED", v: String(imp.result.changed) },
+                  { k: "UNCHANGED", v: String(imp.result.unchanged) },
+                ]}
+              />
+              <OsTable
+                cols={[
+                  { key: "display_name", label: "NAME" },
+                  { key: "discord_handle", label: "DISCORD", mono: true },
+                  { key: "school_email", label: "EMAIL", mono: true },
+                  { key: "status", label: "STATUS" },
+                ]}
+                rows={(imp.result.preview as Row[]) ?? []}
+                rowKey="display_name"
+              />
             </div>
           )}
         </Panel>

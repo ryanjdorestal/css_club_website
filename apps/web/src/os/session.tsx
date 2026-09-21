@@ -7,7 +7,7 @@ import { createContext, useCallback, useContext, useEffect, useMemo, useState, t
 import { createClient, type SupabaseClient } from "@supabase/supabase-js";
 
 export type Role = "guest" | "officer" | "admin";
-export type Actor = { email: string; role: Role; name: string; profile_id: string | null; term: string | null; source: string };
+type Actor = { email: string; role: Role; name: string; profile_id: string | null; term: string | null; source: string };
 type Mode = "supabase" | "local" | "unconfigured";
 
 const URL = import.meta.env.VITE_SUPABASE_URL as string | undefined;
@@ -24,7 +24,7 @@ function client(): SupabaseClient | null {
 const creds: { token: string | null; localRole: string | null; attempt: boolean } = { token: null, localRole: null, attempt: false };
 
 /** Load whatever credentials this browser already holds (no network). */
-export async function initCreds(): Promise<void> {
+async function initCreds(): Promise<void> {
   const sb = client();
   if (sb) {
     const { data } = await sb.auth.getSession();
@@ -47,7 +47,9 @@ export function useWhoami(): Actor | null {
   const [actor, setActor] = useState<Actor | null>(null);
   useEffect(() => {
     let alive = true;
-    void initCreds().then(() => osFetch<Actor & { ok: boolean }>("/api/whoami")).then((r) => alive && r.ok && r.data.role !== "guest" && setActor(r.data));
+    void initCreds()
+      .then(() => osFetch<Actor & { ok: boolean }>("/api/whoami"))
+      .then((r) => alive && r.ok && r.data.role !== "guest" && setActor(r.data));
     return () => {
       alive = false;
     };

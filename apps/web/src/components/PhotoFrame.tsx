@@ -35,7 +35,11 @@ export function PhotoFrame({
       <div className="relative overflow-hidden">
         <motion.img src={src} alt={alt} loading="lazy" style={{ y: reduced ? 0 : y, scale: 1.12 }} className="w-full object-cover" />
         {track && (
-          <span aria-hidden className="absolute border border-(--accent) pointer-events-none" style={{ left: track.x, top: track.y, width: track.w, height: track.h }}>
+          <span
+            aria-hidden
+            className="absolute border border-(--accent) pointer-events-none"
+            style={{ left: track.x, top: track.y, width: track.w, height: track.h }}
+          >
             <span className="absolute -top-4 left-0 t-micro raise text-(--accent) whitespace-nowrap">{track.label}</span>
           </span>
         )}

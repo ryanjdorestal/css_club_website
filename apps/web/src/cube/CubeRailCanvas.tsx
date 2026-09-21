@@ -75,9 +75,7 @@ function RailCube({ onFace }: { onFace: (f: Face, kf?: CubeKeyframe) => void }) 
       spinY.current += dt * 0.15;
     }
     const target = FACE_QUAT[kf.face ?? "threeQuarter"].clone();
-    const drift = new THREE.Quaternion().setFromEuler(
-      new THREE.Euler(Math.sin(t * 0.6) * 0.05, spinY.current + Math.sin(t * 0.4) * 0.1, 0),
-    );
+    const drift = new THREE.Quaternion().setFromEuler(new THREE.Euler(Math.sin(t * 0.6) * 0.05, spinY.current + Math.sin(t * 0.4) * 0.1, 0));
     target.multiply(drift);
     easing.dampQ(group.current.quaternion, target, 0.28, dt);
     // float
@@ -106,15 +104,7 @@ function RailCube({ onFace }: { onFace: (f: Face, kf?: CubeKeyframe) => void }) 
       {/* teal/accent rim: slightly larger back-side shell, additive */}
       <mesh ref={rim} scale={1.028}>
         <boxGeometry args={[1.02, 1.02, 1.02]} />
-        <meshBasicMaterial
-          ref={rimMat}
-          color="#6ED2E6"
-          side={THREE.BackSide}
-          transparent
-          opacity={0.1}
-          blending={THREE.AdditiveBlending}
-          depthWrite={false}
-        />
+        <meshBasicMaterial ref={rimMat} color="#6ED2E6" side={THREE.BackSide} transparent opacity={0.1} blending={THREE.AdditiveBlending} depthWrite={false} />
       </mesh>
     </group>
   );
@@ -137,7 +127,12 @@ export default function CubeRailCanvas() {
         <directionalLight position={[-1.5, 4.5, 3.5]} intensity={1.35} />
         <directionalLight position={[4, 1.5, -2]} intensity={0.6} />
         <ambientLight intensity={0.22} />
-        <RailCube onFace={(f, kf) => { setFace(f); if (kf) setPos({ x: kf.x, y: kf.y }); }} />
+        <RailCube
+          onFace={(f, kf) => {
+            setFace(f);
+            if (kf) setPos({ x: kf.x, y: kf.y });
+          }}
+        />
         <EffectComposer>
           <Bloom intensity={0.6} luminanceThreshold={0.8} luminanceSmoothing={0.3} mipmapBlur />
         </EffectComposer>

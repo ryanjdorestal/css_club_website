@@ -69,11 +69,7 @@ export default function Resources() {
         <div className="grid md:grid-cols-[260px_1fr] gap-10 items-start">
           <nav className="md:sticky md:top-24 flex md:flex-col flex-wrap gap-1.5">
             {resources.groups.map((grp, i) => (
-              <button
-                key={grp.group}
-                onClick={() => setActive(i)}
-                className="group flex items-center gap-3 text-left cursor-pointer py-1"
-              >
+              <button key={grp.group} onClick={() => setActive(i)} className="group flex items-center gap-3 text-left cursor-pointer py-1">
                 <span
                   className={`t-label raise w-8 h-8 shrink-0 flex items-center justify-center transition-all ${
                     i === active ? "border border-(--accent) text-(--accent-ink)" : "text-current opacity-40 group-hover:opacity-80"
@@ -82,9 +78,7 @@ export default function Resources() {
                 >
                   {String.fromCharCode(65 + i)}
                 </span>
-                <span className={`t-micro ${i === active ? "raise text-(--accent-ink)" : "opacity-55"}`}>
-                  {grp.group.toUpperCase().replace(/ /g, "_")}
-                </span>
+                <span className={`t-micro ${i === active ? "raise text-(--accent-ink)" : "opacity-55"}`}>{grp.group.toUpperCase().replace(/ /g, "_")}</span>
               </button>
             ))}
           </nav>
@@ -126,7 +120,11 @@ export default function Resources() {
         </Reveal>
       </Band>
 
-      <PosterBand accent="teal" meta="// THE OLD SITE SAID IT BEST" lines={["Not sure where", { text: "to start? Here.", className: "text-teal", outline: true }]} />
+      <PosterBand
+        accent="teal"
+        meta="// THE OLD SITE SAID IT BEST"
+        lines={["Not sure where", { text: "to start? Here.", className: "text-teal", outline: true }]}
+      />
       <FinLine n="06" next="/news" />
     </main>
   );

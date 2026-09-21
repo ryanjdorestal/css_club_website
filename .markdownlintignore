@@ -1,0 +1,7 @@
+node_modules
+docs/archive
+qa
+assets
+.venv
+apps/web/node_modules
+KICKOFF_PROMPT_*.md

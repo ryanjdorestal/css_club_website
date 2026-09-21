@@ -13,7 +13,7 @@ type IndexRowData = {
   href?: string;
   sigil?: ReactNode;
   onClick?: () => void;
-  bracket?: boolean;   // [n] style index
+  bracket?: boolean; // [n] style index
 };
 
 /** T04 /03 SELECTED WORK rows: /01 · sigil · title · dek · ↗.
@@ -33,12 +33,12 @@ export function IndexList({ rows, className = "" }: { rows: IndexRowData[]; clas
 function IndexRow({ index, title, dek, meta, chip, href, sigil, onClick, bracket }: IndexRowData) {
   const body = (
     <div className="group relative flex items-center gap-4 md:gap-5 py-3.5 border-b border-(--tone-line) transition-colors duration-200 hover:bg-current/[0.03] cursor-pointer px-1">
-      <span className="t-label raise text-(--accent-ink) shrink-0 w-10 tnum">
-        {bracket ? `[${index}]` : `/${index}`}
-      </span>
+      <span className="t-label raise text-(--accent-ink) shrink-0 w-10 tnum">{bracket ? `[${index}]` : `/${index}`}</span>
       {sigil && <span className="shrink-0 opacity-70">{sigil}</span>}
       <div className="grow min-w-0">
-        <p className="t-h3 !font-medium leading-tight" style={{ textWrap: "balance" }}>{title}</p>
+        <p className="t-h3 !font-medium leading-tight" style={{ textWrap: "balance" }}>
+          {title}
+        </p>
         {dek && <p className="t-micro opacity-55 mt-1 line-clamp-2 normal-case tracking-[0.04em]">{dek}</p>}
       </div>
       {chip && <StatusChip state={chip.toLowerCase() === "live" ? "live" : chip.toLowerCase() === "planned" ? "idle" : "archived"} label={chip} />}
@@ -49,7 +49,17 @@ function IndexRow({ index, title, dek, meta, chip, href, sigil, onClick, bracket
       </span>
     </div>
   );
-  if (href?.startsWith("http")) return <a href={href} target="_blank" rel="noreferrer noopener" className="block">{body}</a>;
-  if (href) return <Link to={href} className="block">{body}</Link>;
+  if (href?.startsWith("http"))
+    return (
+      <a href={href} target="_blank" rel="noreferrer noopener" className="block">
+        {body}
+      </a>
+    );
+  if (href)
+    return (
+      <Link to={href} className="block">
+        {body}
+      </Link>
+    );
   return <div onClick={onClick}>{body}</div>;
 }

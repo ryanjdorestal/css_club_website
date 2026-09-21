@@ -1,0 +1,15 @@
+node_modules
+dist
+.venv
+.cache
+qa/
+docs/archive/
+assets/
+content/
+*.md
+package-lock.json
+apps/web/src/lib/api.types.ts
+apps/web/src/sigils/cyberhoundHeadPath.ts
+data/*.local.json
+.cache/
+qa/loops/smoke/

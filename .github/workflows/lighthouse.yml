@@ -1,0 +1,15 @@
+name: lighthouse
+# Performance budget on the production build (desktop). Mobile is recorded, not gated (docs/LATER.md: prerender).
+on:
+  pull_request:
+  push:
+    branches: [main, master]
+jobs:
+  lhci:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with: { node-version-file: .nvmrc, cache: npm, cache-dependency-path: apps/web/package-lock.json }
+      - run: npm ci --prefix apps/web && npm run build --prefix apps/web
+      - run: cd apps/web && npx lhci autorun --config=lighthouserc.json

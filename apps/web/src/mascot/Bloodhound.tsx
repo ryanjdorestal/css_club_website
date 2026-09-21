@@ -9,35 +9,18 @@ export type Emote = "idle" | "thinking" | "happy" | "confused" | "sleeping" | "a
 
 const FUR = "#E9EEF5";
 const FUR_SHADE = "#C7D2DF";
-const LINE = "#12294A";
-const BEANIE = "#1E4664";
-const BEANIE_DARK = "#12294A";
-const TEAL = "#6ED2E6";
+const LINE = "var(--color-navy-800)";
+const BEANIE = "var(--color-navy-600)";
+const BEANIE_DARK = "var(--color-navy-800)";
+const TEAL = "var(--color-teal)";
 
-export function Bloodhound({
-  emote = "idle",
-  size = 128,
-  className = "",
-}: {
-  emote?: Emote;
-  size?: number;
-  className?: string;
-}) {
-  const earTilt =
-    emote === "alert" ? -14 : emote === "thinking" ? -7 : emote === "happy" ? -5 : 0;
-  const earTiltR =
-    emote === "alert" ? 14 : emote === "confused" ? 9 : emote === "happy" ? 5 : 0;
+export function Bloodhound({ emote = "idle", size = 128, className = "" }: { emote?: Emote; size?: number; className?: string }) {
+  const earTilt = emote === "alert" ? -14 : emote === "thinking" ? -7 : emote === "happy" ? -5 : 0;
+  const earTiltR = emote === "alert" ? 14 : emote === "confused" ? 9 : emote === "happy" ? 5 : 0;
   const headTilt = emote === "confused" ? 5 : 0;
 
   return (
-    <svg
-      viewBox="0 0 120 120"
-      width={size}
-      height={size}
-      className={className}
-      role="img"
-      aria-label={`Hound mascot — ${emote}`}
-    >
+    <svg viewBox="0 0 120 120" width={size} height={size} className={className} role="img" aria-label={`Hound mascot — ${emote}`}>
       <style>{`
         .bh-eye { transform-origin: center; transform-box: fill-box; }
         .bh-blink .bh-eye { animation: bh-blink 6s infinite; }
@@ -60,23 +43,27 @@ export function Bloodhound({
         }
       `}</style>
 
-      {emote === "alert" && (
-        <circle className="bh-ring" cx="60" cy="62" r="52" fill="none" stroke={TEAL} strokeWidth="2.5" />
-      )}
+      {emote === "alert" && <circle className="bh-ring" cx="60" cy="62" r="52" fill="none" stroke={TEAL} strokeWidth="2.5" />}
 
       <g transform={`rotate(${headTilt} 60 66)`} className={emote === "idle" ? "bh-blink" : undefined}>
         {/* ears — long scalloped flaps hanging beside the face */}
         <g transform={`rotate(${earTilt} 27 42)`}>
           <path
             d="M28 40 C 16 46, 12 62, 14 78 C 15 90, 22 96, 28 92 C 34 88, 34 76, 33 64 C 32.5 55, 32 46, 33 41 Z"
-            fill={FUR_SHADE} stroke={LINE} strokeWidth="2.5" strokeLinejoin="round"
+            fill={FUR_SHADE}
+            stroke={LINE}
+            strokeWidth="2.5"
+            strokeLinejoin="round"
           />
           <path d="M20 58 q 4 3 8 1 M18 70 q 4 3 8 1" fill="none" stroke={LINE} strokeWidth="1.4" opacity="0.5" />
         </g>
         <g transform={`rotate(${-earTiltR} 93 42)`}>
           <path
             d="M92 40 C 104 46, 108 62, 106 78 C 105 90, 98 96, 92 92 C 86 88, 86 76, 87 64 C 87.5 55, 88 46, 87 41 Z"
-            fill={FUR_SHADE} stroke={LINE} strokeWidth="2.5" strokeLinejoin="round"
+            fill={FUR_SHADE}
+            stroke={LINE}
+            strokeWidth="2.5"
+            strokeLinejoin="round"
           />
           <path d="M100 58 q -4 3 -8 1 M102 70 q -4 3 -8 1" fill="none" stroke={LINE} strokeWidth="1.4" opacity="0.5" />
         </g>
@@ -84,7 +71,9 @@ export function Bloodhound({
         {/* head — wide, cheeks bulging, chin at the jowls */}
         <path
           d="M32 44 C 28 52, 28 62, 32 72 C 36 84, 46 92, 60 92 C 74 92, 84 84, 88 72 C 92 62, 92 52, 88 44 C 82 38, 72 36, 60 36 C 48 36, 38 38, 32 44 Z"
-          fill={FUR} stroke={LINE} strokeWidth="2.5"
+          fill={FUR}
+          stroke={LINE}
+          strokeWidth="2.5"
         />
         {/* teal rim light — the banner's ring glow */}
         <path d="M31.5 48 C 29.5 56, 29.5 64, 32.5 72" fill="none" stroke={TEAL} strokeWidth="2" opacity="0.7" strokeLinecap="round" />
@@ -93,7 +82,10 @@ export function Bloodhound({
         <g transform="rotate(-4 60 26)">
           <path
             d="M34 38 C 32 22, 44 12, 60 12 C 74 12, 86 20, 87 32 C 88 38, 87 40, 86 41 L 34 41 Z"
-            fill={BEANIE} stroke={LINE} strokeWidth="2.5" strokeLinejoin="round"
+            fill={BEANIE}
+            stroke={LINE}
+            strokeWidth="2.5"
+            strokeLinejoin="round"
           />
           {/* slouch fold hanging right */}
           <path d="M84 20 C 92 18, 97 24, 94 31 C 92 36, 87 37, 85 35 Z" fill={BEANIE} stroke={LINE} strokeWidth="2.5" strokeLinejoin="round" />
@@ -159,17 +151,20 @@ export function Bloodhound({
         {/* muzzle: jowl lobes + nose + mouth */}
         <path
           d="M45 66 C 41 74, 43 84, 50 86 C 55 87.5, 58 84, 58 79 L 58 70 Z"
-          fill="#F4F7FB" stroke={LINE} strokeWidth="2.2" strokeLinejoin="round"
+          fill="var(--color-ink)"
+          stroke={LINE}
+          strokeWidth="2.2"
+          strokeLinejoin="round"
         />
         <path
           d="M75 66 C 79 74, 77 84, 70 86 C 65 87.5, 62 84, 62 79 L 62 70 Z"
-          fill="#F4F7FB" stroke={LINE} strokeWidth="2.2" strokeLinejoin="round"
+          fill="var(--color-ink)"
+          stroke={LINE}
+          strokeWidth="2.2"
+          strokeLinejoin="round"
         />
-        <path
-          d="M52 62 C 52 58, 68 58, 68 62 C 68 67, 64 70, 60 70 C 56 70, 52 67, 52 62 Z"
-          fill={BEANIE_DARK} stroke={LINE} strokeWidth="2"
-        />
-        <path d="M56 63.5 q 1.5 1.5 3 0 M61 63.5 q 1.5 1.5 3 0" stroke="#0C183C" strokeWidth="1.4" fill="none" opacity="0.8" />
+        <path d="M52 62 C 52 58, 68 58, 68 62 C 68 67, 64 70, 60 70 C 56 70, 52 67, 52 62 Z" fill={BEANIE_DARK} stroke={LINE} strokeWidth="2" />
+        <path d="M56 63.5 q 1.5 1.5 3 0 M61 63.5 q 1.5 1.5 3 0" stroke="var(--color-navy-900)" strokeWidth="1.4" fill="none" opacity="0.8" />
 
         {/* mouth per emote */}
         {emote === "happy" ? (
@@ -183,9 +178,15 @@ export function Bloodhound({
 
       {emote === "sleeping" && (
         <g>
-          <text className="bh-z bh-z1" x="88" y="34" fontSize="16">z</text>
-          <text className="bh-z bh-z2" x="96" y="26" fontSize="20">z</text>
-          <text className="bh-z bh-z3" x="105" y="18" fontSize="24">z</text>
+          <text className="bh-z bh-z1" x="88" y="34" fontSize="16">
+            z
+          </text>
+          <text className="bh-z bh-z2" x="96" y="26" fontSize="20">
+            z
+          </text>
+          <text className="bh-z bh-z3" x="105" y="18" fontSize="24">
+            z
+          </text>
         </g>
       )}
       {emote === "thinking" && (
