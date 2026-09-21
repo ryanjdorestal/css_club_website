@@ -13,10 +13,10 @@ from pydantic import BaseModel, Field
 from .. import audit, spine
 from .. import collections as C
 from ..auth import Actor, require_role
-from ..crud import clean, make_router
+from ..crud import RouterSpec, clean, make_router
 from ..models import BoardProfileIn, TermIn
 
-r: APIRouter = make_router("/os/board", C.board, BoardProfileIn, filters=("term", "active"), write_role="admin", order_by="sort")
+r: APIRouter = make_router(RouterSpec("/os/board", C.board, BoardProfileIn, filters=("term", "active"), write_role="admin", order_by="sort"))
 terms_r = APIRouter(prefix="/os/terms")
 
 

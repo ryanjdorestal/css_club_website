@@ -14,7 +14,7 @@ from pydantic import BaseModel
 from .. import audit, lifecycle
 from .. import collections as C
 from ..auth import Actor, require_role
-from ..crud import make_router
+from ..crud import RouterSpec, make_router
 from ..models import ImportIn, MemberIn
 
 STATUSES = {"interested", "member", "active", "alumni", "left"}
@@ -27,8 +27,8 @@ def prepare(data: dict[str, Any], actor: Actor) -> dict[str, Any]:
     return data
 
 
-r: APIRouter = make_router("/os/members", C.members, MemberIn, filters=("status", "joined_term"), delete_role="officer",
-                           transitions="members", prepare=prepare)
+r: APIRouter = make_router(RouterSpec("/os/members", C.members, MemberIn, filters=("status", "joined_term"), delete_role="officer",
+                                      transitions="members", prepare=prepare))
 
 
 def parse_csv(text: str) -> list[dict[str, Any]]:

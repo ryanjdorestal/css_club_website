@@ -4,14 +4,26 @@ target-version = "py312"
 src = ["api", "scripts"]
 
 [tool.ruff.lint]
-select = ["E", "F", "I", "UP", "B"]
+# docs/CODE_STANDARDS.md: complexity ≤ 10 (C901), ≤ 5 parameters (PLR0913 — path + body + actor + two options is
+# the FastAPI shape; beyond that, an object), ≤ 12 branches / 50 statements. Function length ≤ 40 lines is
+# scripts/check_function_length.py (ruff has no line-count rule).
+select = ["E", "F", "I", "UP", "B", "C901", "PLR0912", "PLR0913", "PLR0915"]
 ignore = ["B008"]  # FastAPI's Depends(...) in defaults is the framework idiom
 
+[tool.ruff.lint.mccabe]
+max-complexity = 10
+
+[tool.ruff.lint.pylint]
+max-args = 5
+
 [tool.ruff.lint.per-file-ignores]
-"scripts/extract_old_site.py" = ["E501"]  # migration script: long source strings
-"scripts/build_kb.py" = ["E501"]
-"scripts/images.py" = ["E501"]
+# one-off extraction of the old site (runs once, against .cache/CSS_Website); kept for provenance, not maintained
+"scripts/extract_old_site.py" = ["E501", "C901", "PLR"]
+"scripts/build_kb.py" = ["E501", "C901", "PLR"]
+"scripts/images.py" = ["E501", "C901", "PLR"]
 "scripts/test_api.py" = ["E501"]
+"api/_core/audit.py" = ["PLR0913"]  # record() takes the audit row's seven columns by name — an object here would be the same seven names
+"api/_core/tests/*" = ["PLR0913"]  # parametrised tests take one argument per fixture
 
 [tool.ruff.lint.isort]
 known-first-party = ["_core"]

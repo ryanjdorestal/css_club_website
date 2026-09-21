@@ -53,6 +53,19 @@ def write_md(path: Path, text: str, dry: bool) -> bool:
     return text != old
 
 
+def write_markdown(posts_full: list[dict[str, Any]], dry: bool) -> list[tuple[str, bool]]:
+    """content/news/<slug>.md per published post, and the inheritance spine mirrored back from the DB
+    (Tier 2 → files; in Tier 1 the files are already the truth). Returns (name, changed) pairs."""
+    written: list[tuple[str, bool]] = []
+    for p in posts_full:
+        fm = f"---\ntitle: {p['title']}\ndate: {p.get('published_at', '')}\nkind: {(p.get('tags') or ['article'])[0]}\nauthor: {p.get('author_name', 'The Board')}\nslug: {p['slug']}\n---\n\n"
+        written.append((f"content/news/{p['slug']}.md", write_md(CONTENT / "news" / f"{p['slug']}.md", fm + (p.get("body_md") or "").strip() + "\n", dry)))
+    for rec in db.select(spine.TABLE) or []:
+        meta = dict(rec.get("frontmatter") or {})
+        written.append((f"content/inheritance/{rec['id']}.md", write_md(spine.DIR / f"{rec['id']}.md", spine.dump(meta, str(rec.get("body_md") or "")), dry)))
+    return written
+
+
 def snapshot(dry: bool) -> int:
     src = "supabase" if config.supabase_configured() and db.reachable() else "local tables"
     print(f"source: {src}")
@@ -78,14 +91,8 @@ def snapshot(dry: bool) -> int:
     note("links.json", write_json("links.json", links, dry))
     note("site_settings.json", write_json("site_settings.json", public.site_settings()["settings"], dry))
 
-    for p in posts_full:
-        fm = f"---\ntitle: {p['title']}\ndate: {p.get('published_at', '')}\nkind: {(p.get('tags') or ['article'])[0]}\nauthor: {p.get('author_name', 'The Board')}\nslug: {p['slug']}\n---\n\n"
-        note(f"content/news/{p['slug']}.md", write_md(CONTENT / "news" / f"{p['slug']}.md", fm + (p.get("body_md") or "").strip() + "\n", dry))
-    # the inheritance spine: DB rows (Tier 2) → content/inheritance files; the files are the truth in Tier 1
-    mirrored = db.select(spine.TABLE) or []
-    for rec in mirrored:
-        meta = dict(rec.get("frontmatter") or {})
-        note(f"content/inheritance/{rec['id']}.md", write_md(spine.DIR / f"{rec['id']}.md", spine.dump(meta, str(rec.get("body_md") or "")), dry))
+    for name, did in write_markdown(posts_full, dry):
+        note(name, did)
     by_term = {t: 1 for t in spine.terms()}
 
     meta = {"generated_at": time.strftime("%Y-%m-%dT%H:%M:%SZ", time.gmtime()), "source": src,

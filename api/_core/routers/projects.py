@@ -11,10 +11,10 @@ from fastapi import APIRouter, Depends, HTTPException
 from .. import collections as C
 from .. import lifecycle
 from ..auth import Actor, require_role
-from ..crud import make_router
+from ..crud import RouterSpec, make_router
 from ..models import DecideIn, ProjectIn, ReorderIn
 
-r: APIRouter = make_router("/os/projects", C.projects, ProjectIn, filters=("status", "kind"), transitions="projects")
+r: APIRouter = make_router(RouterSpec("/os/projects", C.projects, ProjectIn, filters=("status", "kind"), transitions="projects"))
 
 DECISION_STATE = {"approve": "approved", "request_changes": "changes_requested", "archive": "archived", "in_review": "in_review"}
 

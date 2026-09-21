@@ -10,10 +10,10 @@ from fastapi import APIRouter, Depends, HTTPException
 
 from .. import collections as C
 from ..auth import Actor, require_role
-from ..crud import make_router
+from ..crud import RouterSpec, make_router
 from ..models import WorkshopIn
 
-r: APIRouter = make_router("/os/workshops", C.workshops, WorkshopIn, filters=("status", "series", "level"), transitions="workshops", order_by="date")
+r: APIRouter = make_router(RouterSpec("/os/workshops", C.workshops, WorkshopIn, filters=("status", "series", "level"), transitions="workshops", order_by="date"))
 
 
 @r.post("/{row_id:path}/publish")

@@ -15,24 +15,26 @@ TYPES = {"object": dict, "array": list, "string": str, "number": (int, float),
 
 
 def check(value, schema, path="$") -> list[str]:
-    errs = []
+    """One JSON value against one schema node: type, enum, then the object / array children."""
     t = schema.get("type")
     if t:
         allowed = t if isinstance(t, list) else [t]
         if not any(isinstance(value, TYPES[a]) for a in allowed):
             return [f"{path}: expected {t}, got {type(value).__name__}"]
-    if "enum" in schema and value not in schema["enum"]:
-        errs.append(f"{path}: {value!r} not in {schema['enum']}")
+    errs = [f"{path}: {value!r} not in {schema['enum']}"] if "enum" in schema and value not in schema["enum"] else []
     if isinstance(value, dict):
-        for req in schema.get("required", []):
-            if req not in value:
-                errs.append(f"{path}: missing required key '{req}'")
-        for key, sub in schema.get("properties", {}).items():
-            if key in value:
-                errs.extend(check(value[key], sub, f"{path}.{key}"))
+        errs += check_object(value, schema, path)
     if isinstance(value, list) and "items" in schema:
         for i, item in enumerate(value):
             errs.extend(check(item, schema["items"], f"{path}[{i}]"))
+    return errs
+
+
+def check_object(value: dict, schema: dict, path: str) -> list[str]:
+    errs = [f"{path}: missing required key '{req}'" for req in schema.get("required", []) if req not in value]
+    for key, sub in schema.get("properties", {}).items():
+        if key in value:
+            errs.extend(check(value[key], sub, f"{path}.{key}"))
     return errs
 
 
@@ -69,33 +71,26 @@ def main() -> int:
     return 1 if failures or xerrs else 0
 
 
-def cross_checks() -> list[str]:
-    """content-indexer, adapted: references between data/, content/ and public/ resolve."""
+def load(name: str) -> dict:
     import json as _json
 
+    return _json.loads((DATA / name).read_text())
+
+
+def missing_files(rows: list[dict], key: str, label: str) -> list[str]:
+    """Every `row[key]` that names a file must exist under apps/web/public/."""
     public = ROOT / "apps/web/public"
-    errs: list[str] = []
-    events = _json.loads((DATA / "events.json").read_text())
-    for sem in events["semesters"]:
-        for ev in sem["events"]:
-            fl = ev.get("flyer")
-            if fl and not (public / fl).exists():
-                errs.append(f"events.json: flyer missing in public/: {fl}")
-    board = _json.loads((DATA / "board.json").read_text())
-    for t in board["terms"]:
-        for m in t["members"]:
-            ph = m.get("photo")
-            if ph and not (public / ph).exists():
-                errs.append(f"board.json: photo missing in public/: {ph}")
-    posts = _json.loads((DATA / "posts.json").read_text())["posts"]
-    for p in posts:
-        if not (ROOT / "content/news" / f"{p['slug']}.md").exists():
-            errs.append(f"posts.json: content/news/{p['slug']}.md missing (run scripts/snapshot.py)")
-    projects = _json.loads((DATA / "projects.json").read_text())["projects"]
-    for pr in projects:
-        for sc in pr.get("screenshots", []):
-            if sc.startswith("/") and not (public / sc.lstrip("/")).exists():
-                errs.append(f"projects.json: screenshot missing: {sc}")
+    return [f"{label}: {key} missing in public/: {r[key]}" for r in rows if r.get(key) and not (public / str(r[key]).lstrip("/")).exists()]
+
+
+def cross_checks() -> list[str]:
+    """content-indexer, adapted: references between data/, content/ and public/ resolve."""
+    events = [ev for sem in load("events.json")["semesters"] for ev in sem["events"]]
+    officers = [m for t in load("board.json")["terms"] for m in t["members"]]
+    posts = load("posts.json")["posts"]
+    shots = [{"screenshot": sc} for pr in load("projects.json")["projects"] for sc in pr.get("screenshots", []) if sc.startswith("/")]
+    errs = missing_files(events, "flyer", "events.json") + missing_files(officers, "photo", "board.json") + missing_files(shots, "screenshot", "projects.json")
+    errs += [f"posts.json: content/news/{p['slug']}.md missing (run scripts/snapshot.py)" for p in posts if not (ROOT / "content/news" / f"{p['slug']}.md").exists()]
     return errs
 
 

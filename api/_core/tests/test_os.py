@@ -10,14 +10,9 @@ from pathlib import Path
 import pytest
 from fastapi.testclient import TestClient
 
-API = Path(__file__).resolve().parents[2]
-ROOT = API.parent
-sys.path.insert(0, str(API))
+from _core import config
 
-from _core import config  # noqa: E402
-
-OFFICER = {"X-Local-Role": "officer"}
-ADMIN = {"X-Local-Role": "admin"}
+from .conftest import ADMIN, OFFICER, ROOT
 
 
 # ------------------------------------------------------------ auth / whoami

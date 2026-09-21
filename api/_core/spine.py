@@ -56,42 +56,54 @@ def parse(text: str) -> tuple[dict[str, Any], str]:
     lines = m.group(1).split("\n")
     i = 0
     while i < len(lines):
-        line = lines[i]
-        km = re.match(r"^([A-Za-z_][\w-]*):\s*(.*)$", line)
+        km = re.match(r"^([A-Za-z_][\w-]*):\s*(.*)$", lines[i])
         if not km:
             i += 1
             continue
         key, val = km.group(1), km.group(2).strip()
         if val == "":
-            items: list[Any] = []
-            i += 1
-            while i < len(lines) and (lines[i].startswith("  ") or lines[i].startswith("- ")):
-                s = lines[i].strip()
-                if s.startswith("- "):
-                    body = s[2:].strip()
-                    if ":" in body and not body.startswith(("http", "\"", "'")):
-                        obj: dict[str, str] = {}
-                        k2, v2 = body.split(":", 1)
-                        obj[k2.strip()] = v2.strip().strip("\"'")
-                        i += 1
-                        while i < len(lines) and lines[i].startswith("    ") and not lines[i].strip().startswith("- "):
-                            k3, v3 = lines[i].strip().split(":", 1)
-                            obj[k3.strip()] = v3.strip().strip("\"'")
-                            i += 1
-                        items.append(obj)
-                        continue
-                    items.append(body.strip("\"'"))
-                i += 1
-            meta[key] = items
-            continue
-        if val.startswith("[") and val.endswith("]"):
-            meta[key] = [x.strip().strip("\"'") for x in val[1:-1].split(",") if x.strip()]
-        elif val.lower() in ("true", "false"):
-            meta[key] = val.lower() == "true"
+            meta[key], i = parse_block_list(lines, i + 1)
         else:
-            meta[key] = val.strip("\"'")
+            meta[key] = parse_scalar(val)
+            i += 1
+    return meta, text[m.end() :]
+
+
+def parse_scalar(val: str) -> Any:
+    if val.startswith("[") and val.endswith("]"):
+        return [x.strip().strip("\"'") for x in val[1:-1].split(",") if x.strip()]
+    if val.lower() in ("true", "false"):
+        return val.lower() == "true"
+    return val.strip("\"'")
+
+
+def parse_block_list(lines: list[str], i: int) -> tuple[list[Any], int]:
+    """`- x` items, or `- label: x` maps continued by indented `key: value` lines; returns (items, next line)."""
+    items: list[Any] = []
+    while i < len(lines) and (lines[i].startswith("  ") or lines[i].startswith("- ")):
+        s = lines[i].strip()
+        if not s.startswith("- "):
+            i += 1
+            continue
+        body = s[2:].strip()
+        if ":" in body and not body.startswith(("http", '"', "'")):
+            obj, i = parse_block_map(lines, i, body)
+            items.append(obj)
+        else:
+            items.append(body.strip("\"'"))
+            i += 1
+    return items, i
+
+
+def parse_block_map(lines: list[str], i: int, first: str) -> tuple[dict[str, str], int]:
+    k, v = first.split(":", 1)
+    obj = {k.strip(): v.strip().strip("\"'")}
+    i += 1
+    while i < len(lines) and lines[i].startswith("    ") and not lines[i].strip().startswith("- "):
+        k, v = lines[i].strip().split(":", 1)
+        obj[k.strip()] = v.strip().strip("\"'")
         i += 1
-    return meta, text[m.end():]
+    return obj, i
 
 
 def dump(meta: dict[str, Any], body: str) -> str:
@@ -181,55 +193,70 @@ def howto() -> str:
 
 
 # ------------------------------------------------------------- validate
+KNOWN_FIELDS = set(REQUIRED) | set(OPTIONAL) | {"id", "path", "body_md", "excerpt", "updated_at"}
+ENUMS: tuple[tuple[str, tuple[str, ...], str], ...] = (
+    ("type", tuple(TYPES), f"type must be one of {', '.join(TYPES)}"),
+    ("status", STATUSES, f"status must be one of {', '.join(STATUSES)}"),
+    ("visibility", VISIBILITY, "visibility must be board or public"),
+)
+SHAPES: tuple[tuple[str, re.Pattern[str], str], ...] = (
+    ("term", TERM_RE, "term must look like F26 or F24-S25"),
+    ("date", DATE_RE, "date must be YYYY-MM-DD"),
+)
+
+
 def validate(meta: dict[str, Any], body: str, roster_names: list[str] | None = None, others: list[dict[str, Any]] | None = None) -> list[str]:
-    """Every rule the spine enforces. Returns [] when the record is acceptable."""
-    errs: list[str] = []
-    for k in REQUIRED:
-        if k not in meta or meta[k] in ("", None, []):
-            errs.append(f"missing required field: {k}")
-    if meta.get("type") and meta["type"] not in TYPES:
-        errs.append(f"type must be one of {', '.join(TYPES)}")
-    if meta.get("status") and meta["status"] not in STATUSES:
-        errs.append(f"status must be one of {', '.join(STATUSES)}")
-    if meta.get("visibility") and meta["visibility"] not in VISIBILITY:
-        errs.append("visibility must be board or public")
-    if meta.get("term") and not TERM_RE.match(str(meta["term"])):
-        errs.append("term must look like F26 or F24-S25")
-    if meta.get("date") and not DATE_RE.match(str(meta["date"])):
-        errs.append("date must be YYYY-MM-DD")
-    owners = meta.get("owners") or []
-    if not isinstance(owners, list) or not owners:
-        errs.append("owners must be a non-empty list of names or roles")
-    for k in meta:
-        if k not in REQUIRED and k not in OPTIONAL and k not in ("id", "path", "body_md", "excerpt", "updated_at"):
-            errs.append(f"unknown field: {k}")
+    """Every rule the spine enforces, one check per concern. Returns [] when the record is acceptable."""
+    errs = check_header(meta)
+    errs += check_owners(meta, roster_names)
+    if others is not None:
+        errs += check_references(meta, others)
+    errs += check_privacy(meta, body)
+    return errs
+
+
+def check_header(meta: dict[str, Any]) -> list[str]:
+    """Required fields present, enums and shapes right, no unknown keys, links well-formed."""
+    errs = [f"missing required field: {k}" for k in REQUIRED if k not in meta or meta[k] in ("", None, [])]
+    errs += [msg for key, allowed, msg in ENUMS if meta.get(key) and meta[key] not in allowed]
+    errs += [msg for key, rx, msg in SHAPES if meta.get(key) and not rx.match(str(meta[key]))]
+    errs += [f"unknown field: {k}" for k in meta if k not in KNOWN_FIELDS]
     for ln in meta.get("links") or []:
         if not isinstance(ln, dict) or not ln.get("label") or not str(ln.get("url", "")).startswith("http"):
             errs.append("each link needs a label and an http(s) url")
-    # owners on the roster (skipped, with a note, when the term has no roster rows yet)
-    if roster_names and owners:
-        known = {n.lower() for n in roster_names} | {"the board", "board"}
-        for o in owners:
-            if str(o).lower() not in known:
-                errs.append(f"owner not on the {meta.get('term')} roster: {o}")
-    # supersedes / succeeded_by / related resolve; no cycles
-    if others is not None:
-        ids = {r["id"] for r in others}
-        for k in ("supersedes", "succeeded_by"):
-            v = meta.get(k)
-            if v and v not in ids:
-                errs.append(f"{k} does not resolve: {v}")
-        for rel in meta.get("related") or []:
-            if rel not in ids:
-                errs.append(f"related does not resolve: {rel}")
-        chain, cur = set(), meta.get("supersedes")
-        by_id = {r["id"]: r for r in others}
-        while cur:
-            if cur in chain or cur == record_id(meta):
-                errs.append("supersedes chain forms a cycle")
-                break
-            chain.add(cur)
-            cur = by_id.get(cur, {}).get("supersedes")
+    return errs
+
+
+def check_owners(meta: dict[str, Any], roster_names: list[str] | None) -> list[str]:
+    """Owners are a non-empty list; when the term has a roster, every owner is on it (or a role)."""
+    owners = meta.get("owners") or []
+    if not isinstance(owners, list) or not owners:
+        return ["owners must be a non-empty list of names or roles"]
+    if not roster_names:
+        return []
+    known = {n.lower() for n in roster_names} | {"the board", "board"}
+    return [f"owner not on the {meta.get('term')} roster: {o}" for o in owners if str(o).lower() not in known]
+
+
+def check_references(meta: dict[str, Any], others: list[dict[str, Any]]) -> list[str]:
+    """supersedes / succeeded_by / related resolve to real records, and the supersedes chain has no cycle."""
+    ids = {r["id"] for r in others}
+    errs = [f"{k} does not resolve: {meta[k]}" for k in ("supersedes", "succeeded_by") if meta.get(k) and meta[k] not in ids]
+    errs += [f"related does not resolve: {rel}" for rel in meta.get("related") or [] if rel not in ids]
+    by_id = {r["id"]: r for r in others}
+    chain, cur = set(), meta.get("supersedes")
+    while cur:
+        if cur in chain or cur == record_id(meta):
+            errs.append("supersedes chain forms a cycle")
+            break
+        chain.add(cur)
+        cur = by_id.get(cur, {}).get("supersedes")
+    return errs
+
+
+def check_privacy(meta: dict[str, Any], body: str) -> list[str]:
+    """No secret-shaped string anywhere; no email or phone number in a public record."""
+    errs: list[str] = []
     text = json.dumps(meta) + "\n" + body
     for rx in SECRET_RES:
         if rx.search(text):

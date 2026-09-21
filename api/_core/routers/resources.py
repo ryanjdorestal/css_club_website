@@ -14,10 +14,10 @@ from pydantic import BaseModel, Field
 
 from .. import collections as C
 from ..auth import Actor, require_role
-from ..crud import clean, make_router
+from ..crud import RouterSpec, clean, make_router
 from ..models import LinkIn, ReorderIn, ResourceIn
 
-r: APIRouter = make_router("/os/resources", C.resources, ResourceIn, filters=("group",), delete_role="officer", order_by="sort")
+r: APIRouter = make_router(RouterSpec("/os/resources", C.resources, ResourceIn, filters=("group",), delete_role="officer", order_by="sort"))
 links_r = APIRouter(prefix="/os/links")
 
 

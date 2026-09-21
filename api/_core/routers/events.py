@@ -9,7 +9,7 @@ from fastapi import APIRouter, Depends, HTTPException
 from .. import collections as C
 from .. import lifecycle
 from ..auth import Actor, require_role
-from ..crud import make_router
+from ..crud import RouterSpec, make_router
 from ..models import EventIn
 
 
@@ -20,7 +20,7 @@ def prepare(data: dict[str, Any], actor: Actor) -> dict[str, Any]:
     return data
 
 
-r: APIRouter = make_router("/os/events", C.events, EventIn, filters=("status", "semester"), transitions="events", prepare=prepare)
+r: APIRouter = make_router(RouterSpec("/os/events", C.events, EventIn, filters=("status", "semester"), transitions="events", prepare=prepare))
 
 
 @r.post("/{row_id:path}/publish")
