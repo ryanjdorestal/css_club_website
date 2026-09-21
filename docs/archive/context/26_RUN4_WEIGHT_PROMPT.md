@@ -19,7 +19,7 @@ Confirm each of these in the current build before editing (`qa/loops/*/vp-0.png`
 1. **Three display faces are fighting.** Chakra Petch (hero/H2), Michroma (posters/brandmark/nav logotype),
    Silkscreen (counters/404), plus Space Grotesk body — four voices. Michroma ships only at weight 400, so
    every poster word (`CYBER HOUNDS`, `DEBUG YOUR MIND.`, `COMPUTER SCIENCE / SOCIETY`) is *light*. The refs
-   (`assets/refs/type/T02` LAST SURVIVOR, rhecwb's brandmark which is Space Grotesk **700**) are heavy.
+   (`../jjay_css_refs/type/T02` LAST SURVIVOR, rhecwb's brandmark which is Space Grotesk **700**) are heavy.
    Outline treatments on a light face read as wire, not as type.
 2. **The 3D cube is still an icon.** Hero cube ≈ 140 px inside a 560 px frame; other pages have no cube in
    the hero at all (Cyberhounds has a 60 px pixel hound where a cube should be); the footer shows a 2D cube
@@ -39,7 +39,7 @@ cube rail keyframes, parity) is kept.
 - `~/Desktop/LAGCC/rhec_web/rhecwb/` — read `css/style.css` `.site-footer*` and `index.html` footer for the
   exact weights/sizes/opacity/spacing Ryan calls "heavy and premium" (its brandmark is Space Grotesk 700 at
   ~14 vw, ~7 % white). Match the *weight feel*, not the font or colors.
-- `~/Desktop/UI:UX INSPO/` — all 533 images; `context/22_REF_STUDY.md` indexes them; `assets/refs/type/T01–T12`.
+- `~/Desktop/UI:UX INSPO/` — all 533 images; `context/22_REF_STUDY.md` indexes them; `../jjay_css_refs/type/T01–T12`.
 - `~/Desktop/portfolio*` (Ryan's) — his own footer/nav components for what he considers premium.
 - **John Jay logo:** search the whole Mac for a real one before falling back: `mdfind -name "john jay"`,
   `mdfind -name "jjay"`, `mdfind kind:image "john jay college"`, look in `~/Desktop`, `~/Downloads`,
@@ -50,7 +50,7 @@ cube rail keyframes, parity) is kept.
   `assets/brand/jj_logo.{svg|png}` at ≥ 1024 px. Never crop it to a circle; keep its native shape and
   clear space. If only the YouTube-banner crop (`jj_shield.png`, 284 px) exists, upscale it cleanly
   (Lanczos ×4 + slight unsharp) and log that the board must supply the official file.
-- Bloodhound: `apps/web/src/mascot/Bloodhound.tsx` (run-1 SVG, 6 emotes) and `assets/refs/club/youtube_banner.png`.
+- Bloodhound: `apps/web/src/mascot/Bloodhound.tsx` (run-1 SVG, 6 emotes) and `../jjay_css_refs/club/youtube_banner.png`.
 
 ## 2. Type system v3 — ONE display face, heavy, everywhere
 
@@ -150,7 +150,7 @@ Keep the column grid, divider/CTA, bottom rail, status bar. Replace the lockup a
 - **Loop 0 (≤ 35 min):** fonts v3 + `type.css` + `font_audit.mjs` + Outline/Stencil retune + cube scale +
   `CubeSpot` in heroes + footer v3 + JJ logo sourcing + Bloodhound glaze + §6. Shoot `/styleguide`, Home
   vp-0, the footer at 1440×900 scrolled to bottom, Cyberhounds vp-0. Compare sheet against **T02, rhecwb
-  footer crop (`assets/refs/rhecwb/home_1440_b.png` bottom 900 px), T01, T09**. Score. ≤ 3 iterations. Commit.
+  footer crop (`../jjay_css_refs/rhecwb/home_1440_b.png` bottom 900 px), T01, T09**. Score. ≤ 3 iterations. Commit.
 - **Per page** (Home, Cyberhounds, About, Events, Apps, Join, Resources, News, 404): apply §2–§5, shoot, run
   `font_audit`, compare, score, fix 3 lowest, ≤ 3 iterations, commit.
 - **Budget 120 min**, checkpoints 30/60/90 in `context/27_RUN4_LOG.md`. No questions; ambiguity → the

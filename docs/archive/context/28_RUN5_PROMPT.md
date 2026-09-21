@@ -26,16 +26,16 @@ regress. Budget **150 min** (the 3D asset is the long pole — §5 has its own 6
 
 - `assets/brand/jj_bloodhound.webp` — **the official John Jay Bloodhound mascot** (1472×1332, full color: navy
   outline, white/ice-blue fur, blue net beanie, TM mark). This is the footer mark now.
-- `assets/refs/hound/cyberhound_logo_red_outline.png` — **the Cyberhounds logo**: a pitbull head, black fill,
+- `../jjay_css_refs/hound/cyberhound_logo_red_outline.png` — **the Cyberhounds logo**: a pitbull head, black fill,
   thick red outline, cropped ears, red eye slits, red nose/muzzle lines. This is the 3D asset's color and
   attitude reference.
-- `assets/refs/hound/photo_pitbull_standing.png`, `photo_pitbull_bully_profile.png` — real pitbull anatomy
+- `../jjay_css_refs/hound/photo_pitbull_standing.png`, `photo_pitbull_bully_profile.png` — real pitbull anatomy
   (cropped ears, blocky head, heavy chest, wide stance, serious expression).
-- `assets/refs/hound/stylized_*.png` — a stylized big-head/small-body vinyl-figure look Ryan grabbed for
+- `../jjay_css_refs/hound/stylized_*.png` — a stylized big-head/small-body vinyl-figure look Ryan grabbed for
   **proportion** only (blocky head ≈ 55 % of total height, stubby legs). Do **not** reproduce that toy style
   or its round glossy eyes — the Cyberhound is *serious*: narrowed eye slits from the logo, brow ridge, closed
   jowls, cropped ears, chest forward.
-- `assets/refs/type/T09` (N1–N5 poster) and `T05` for how a mascot mark sits in a HUD frame.
+- `../jjay_css_refs/type/T09` (N1–N5 poster) and `T05` for how a mascot mark sits in a HUD frame.
 
 ## 2. Fin line → `END_OF_SECTION` with a hack/typing animation
 

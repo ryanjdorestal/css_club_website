@@ -27,3 +27,11 @@ data/*.local.json
 
 # QA loop history (kept locally, not committed)
 qa/archive/
+
+# run-8 slim: loop screenshots stay local (make shots / make smoke regenerate them); parity.md is the record
+qa/loops/*
+!qa/loops/parity.md
+
+# reference material lives outside the repo at ~/Desktop/jjay_css_refs/ (assets/refs/README.md)
+assets/refs/*
+!assets/refs/README.md

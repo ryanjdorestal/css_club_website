@@ -24,7 +24,7 @@
 ## Design references
 - Library: `~/Desktop/UI:UX INSPO/` (836 MB, ~540 images)
 - Contact sheets: `~/Desktop/UI:UX INSPO/_contact_sheets/` (66 jpgs + `jj_detail/`)
-- John Jay refs: `~/Desktop/UI:UX INSPO/jj_inspo/` (12) → copied to `assets/refs/jj_inspo/`
+- John Jay refs: `~/Desktop/UI:UX INSPO/jj_inspo/` (12) → copied to `../jjay_css_refs/jj_inspo/`
 
 ## John Jay curriculum
 - CSCI 271 (2023–24 bulletin): https://jjay.smartcatalogiq.com/en/2023-2024/undergraduate-bulletin/course-descriptions/csci-computer-science/200/csci-271/

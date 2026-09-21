@@ -15,7 +15,7 @@ of the default look.
 Contact sheets (3×3 grids, numbered) of the entire library are at
 `~/Desktop/UI:UX INSPO/_contact_sheets/` (66 sheets), with the 12 John Jay refs at full
 size in `_contact_sheets/jj_detail/jj_01..12.jpg` and copied into
-`assets/refs/jj_inspo/`.
+`../jjay_css_refs/jj_inspo/`.
 
 Subfolders and what they are:
 - `(root)` 232 — general taste library (the pole analysis below is from these)
@@ -88,7 +88,7 @@ spec-sheet labels, the cube as an object.
 ## Palette — sampled from John Jay CSS's own assets (not rhecwb)
 
 Sources measured: old repo CSS (`styles/*.css`, `a8fca55`), the YouTube banner
-(`assets/refs/club/youtube_banner.png`), the GitHub org avatar, the old header art.
+(`../jjay_css_refs/club/youtube_banner.png`), the GitHub org avatar, the old header art.
 
 **What the old site actually used** (hex counts across its CSS):
 `#ce4a4a` ×37 (primary/CTA red) · `#333` · `#0e76a8` (LinkedIn) · `#c13584` (Instagram) ·

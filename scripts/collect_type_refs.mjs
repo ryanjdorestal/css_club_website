@@ -1,12 +1,12 @@
 // Copies the context/22 T-cells + secondary refs out of ~/Desktop/UI:UX INSPO/
-// into assets/refs/type/. Matches on the time fragment (macOS screenshot names
+// into ../jjay_css_refs/type/. Matches on the time fragment (macOS screenshot names
 // contain U+202F before AM/PM, so we match loosely).
 import { readdirSync, statSync, copyFileSync, mkdirSync } from "node:fs";
 import { join } from "node:path";
 import { homedir } from "node:os";
 
 const ROOT = join(homedir(), "Desktop", "UI:UX INSPO");
-const OUT = "assets/refs/type";
+const OUT = "../jjay_css_refs/type";
 mkdirSync(OUT, { recursive: true });
 
 const T = [

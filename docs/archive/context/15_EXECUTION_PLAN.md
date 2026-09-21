@@ -54,7 +54,7 @@ env vars are read if present and ignored if not — the site and OS must fully w
 ## Phase 2 — Design system + shell (0:35–0:55)
 
 - Global layout: `Nav` (one component; brand name from config; section accent set per route via `data-accent`), `Footer` (stamp lockup as SVG, links from `data/links.json`, MIT/source notice), `BinaryRings` background (VT323 digits on circular SVG paths, faint, slow rotation, respects reduced-motion), `Ticker` (tagline 2), `SectionHeader` (numbered + mono kicker), `SpecCard`, `StatTile`, `CornerBrackets`, `PixelDivider`, `MonoLabel`, `Button` (primary = section accent, ghost = teal outline).
-- Match `assets/refs/jj_inspo/`: jj_06 for type scale, jj_11 for spec cards/stat tiles, jj_03 for chips/ticker, jj_04 for numbered index and ↗ arrows. Write `apps/web/src/components/README.md` mapping each component to its ref image.
+- Match `../jjay_css_refs/jj_inspo/`: jj_06 for type scale, jj_11 for spec cards/stat tiles, jj_03 for chips/ticker, jj_04 for numbered index and ↗ arrows. Write `apps/web/src/components/README.md` mapping each component to its ref image.
 - Verify: a `/styleguide` route rendering every component in every accent; Playwright screenshots at 1440 and 390 → `qa/shots/02-styleguide-*.png`. Contrast check (borrow rhecwb `os-contrast-rendered.mjs` idea; WCAG AA on ink/muted vs navy).
 - Minimum: Nav, Footer, SectionHeader, SpecCard, Button, tokens applied.
 

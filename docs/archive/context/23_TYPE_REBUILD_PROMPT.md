@@ -49,12 +49,12 @@ Loop 0**), `context/22_REF_STUDY.md` (the evidence — every line), `context/19_
 
 Then run `scripts/collect_type_refs.mjs` (write it: copies the 12 T-cells + the secondary list from
 `context/22` out of `~/Desktop/UI:UX INSPO/` — match on the time fragment in the filename, macOS screenshot
-names contain U+202F before AM/PM — into `assets/refs/type/T01.png … T12.png` and `assets/refs/type/S01…`),
+names contain U+202F before AM/PM — into `../jjay_css_refs/type/T01.png … T12.png` and `../jjay_css_refs/type/S01…`),
 and **Read every T-cell at full resolution**. Write `context/24_TYPE_NOTES.md`: for each T-cell, three
 lines — the letterform facts, the micro-system facts, the one thing you will reproduce on which page.
 No line = you did not look.
 
-Also Read `assets/refs/rhecwb/home_1440_b.png` bottom third (Ryan's own footer) and `assets/refs/jj_inspo/jj_07.jpg` (the Kufic sigil).
+Also Read `../jjay_css_refs/rhecwb/home_1440_b.png` bottom third (Ryan's own footer) and `../jjay_css_refs/jj_inspo/jj_07.jpg` (the Kufic sigil).
 
 ## 2. Type system v2 (`apps/web/src/tokens.css` + `apps/web/src/type.css`, both before any component)
 
@@ -346,7 +346,7 @@ Perf gate unchanged (desktop ≥ 84; do not regress).
   styleguide region that answers it | one line saying what matches and what doesn't]. Score §11. Iterate
   ≤ 3 times. Commit `feat(type): loop 0 — type system v2, sigils, card anatomy v2, readouts`.
 - **Per page:** plan → apply §7 → shoot (same shots + 6 motion frames) → compare sheet (this time the ref
-  crops come from `assets/refs/type/`, not rhecwb) → score → fix the 3 lowest → ≤ 4 iterations → commit.
+  crops come from `../jjay_css_refs/type/`, not rhecwb) → score → fix the 3 lowest → ≤ 4 iterations → commit.
   Order: Home, Cyberhounds, Apps, Events, About, Join, Resources, News, 404, OS.
 - **Time budget: 150 min.** Checkpoints at 30/60/90/120 in `context/25_RUN3_LOG.md`. No questions.
   Ambiguity → the option closest to the named T-cell; log it.

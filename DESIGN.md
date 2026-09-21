@@ -6,7 +6,7 @@ derived from the club's existing repo CSS, its YouTube banner, its GitHub org, a
 
 **Direction:** modern industrial-editorial (the `jj_inspo` folder): big grotesque type,
 one accent per section, spec-sheet mono labels, numbered sections, the 3D cube as the one
-hero object. Key refs (`assets/refs/jj_inspo/`): jj_06 CATCH Conference (3D glyph cubes,
+hero object. Key refs (`../jjay_css_refs/jj_inspo/`): jj_06 CATCH Conference (3D glyph cubes,
 giant type), jj_11 TRA/D350 (spec sheets, stat tiles, "user manual" framing), jj_03 Web3
 agency (stat chips + ticker), jj_04 Swiss deck (numbered index, arrows ↗), jj_05 Chinese
 posters (halftone, geometric type), jj_10 phone UI (technical labels), jj_12 Supavoxel

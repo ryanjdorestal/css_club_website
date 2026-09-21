@@ -7,7 +7,7 @@
 
 ## What the build actually uses
 - Claude Code in `~/Desktop/jjay_css`, reading `CLAUDE.md` → `context/15_EXECUTION_PLAN.md`.
-- npm/pip installs directly. Components written by hand to match `assets/refs/jj_inspo/`
+- npm/pip installs directly. Components written by hand to match `../jjay_css_refs/jj_inspo/`
   and `DESIGN.md` — no component registries.
 - Visual check: Vite dev server + Playwright (npm package, not the MCP) for screenshots
   at 1440/1024/768/390 into `qa/shots/` (same idea as rhecwb's `os:shots`).

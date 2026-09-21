@@ -7,7 +7,7 @@ as you can."
 ## The mascot
 
 John Jay College's athletics mascot is the **Bloodhound**. The club's YouTube banner
-(`assets/refs/club/youtube_banner.png`, left side) shows it: a white/light-gray bloodhound
+(`../jjay_css_refs/club/youtube_banner.png`, left side) shows it: a white/light-gray bloodhound
 head-and-shoulders, long droopy ears, jowls, wearing a **navy knit beanie**, drawn in a
 clean flat-vector style with navy outlines, on the banner's steel-navy `#1E4664`.
 That drawing is the reference. It is the college's mark; a recognized student club using

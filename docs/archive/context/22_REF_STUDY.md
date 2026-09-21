@@ -17,7 +17,7 @@ containers: chamfered corners, side tabs, registration marks, ID codes, coordina
 meters, hex hashes, bracketed CTAs, hatch fills, tick rulers. The look is ~70% type + micro-labels and ~30%
 layout. Run 2 fixed the 30%.
 
-## The 12 cells that define the target (copied to `assets/refs/type/` by the run)
+## The 12 cells that define the target (copied to `../jjay_css_refs/type/` by the run)
 
 | # | Source file (in `~/Desktop/UI:UX INSPO/`) | What it proves |
 |---|---|---|

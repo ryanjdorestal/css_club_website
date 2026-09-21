@@ -66,7 +66,7 @@ Read, in order:
 Then **look at every one of these images with the Read tool, and write one line per image
 into `context/20_REF_NOTES.md` saying what you will take from it.** No line = you didn't look.
 
-### 1a. `assets/refs/rhecwb/home_1440.png` — the composition benchmark (NOT the color benchmark)
+### 1a. `../jjay_css_refs/rhecwb/home_1440.png` — the composition benchmark (NOT the color benchmark)
 Full-page render of rhecwb's home at 1440 wide (7357px tall). Scroll it top to bottom with
 `Read` on the crops in the same folder (`home_1440_a.png`, `home_1440_b.png`). What to take —
 *structure only, recolored into John Jay's palette*:
@@ -94,7 +94,7 @@ Full-page render of rhecwb's home at 1440 wide (7357px tall). Scroll it top to b
 
 Do **not** take: its cream, its serif, its black, its wordmark text, any copy.
 
-### 1b. `assets/refs/jj_inspo/` — the taste benchmark (12 images)
+### 1b. `../jjay_css_refs/jj_inspo/` — the taste benchmark (12 images)
 - `jj_01.jpg` — old site header: binary rings + the round "John Jay College · Computer
   Science Society" stamp. Keep both as first-class brand marks (rings = background system,
   stamp = footer/hero seal).
@@ -135,10 +135,10 @@ Do **not** take: its cream, its serif, its black, its wordmark text, any copy.
   spotlight and the Resources index and the OS Today tiles.
 - `jj_12.jpg` — Supavoxel screenshot: proportion reference for the cube only.
 
-### 1c. `assets/refs/old-site/*.png` — what must survive
+### 1c. `../jjay_css_refs/old-site/*.png` — what must survive
 Twelve desktop/mobile renders of jjaycss.tech. Every section visible in them is in §10.
 
-### 1d. `assets/refs/club/*.png`
+### 1d. `../jjay_css_refs/club/*.png`
 `youtube_banner.png` (Bloodhound + palette), `old_site_header_binary_rings_and_stamp.png`
 (rings + stamp at full res), `github_org_page.png`, `discord_links_pin_2021.png`.
 

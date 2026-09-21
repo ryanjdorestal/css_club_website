@@ -27,7 +27,7 @@ the planning session; nothing is AI-generated.
 ## Step 2 — the AI 3D attempt (Supavoxel) — rejected as an asset
 
 Ryan ran the 3000 px PNG through Supavoxel (image → 3D, 3 credits). Screenshots in
-`assets/refs/supavoxel/`. Verdict:
+`../jjay_css_refs/supavoxel/`. Verdict:
 - Front three faces: decent silhouette, plastic feel, bevel radius and groove depth
   convincing. Concept validated: the logo *works* as a physical object.
 - **Back faces are garbage** (smeared texture, no letters — the model never saw them).
