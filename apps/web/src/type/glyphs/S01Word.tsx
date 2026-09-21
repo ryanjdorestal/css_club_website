@@ -83,7 +83,14 @@ export function S01Word({
           ) : null}
         </defs>
       )}
-      <g mask={bars?.length ? `url(#${id}-bars)` : undefined} fill="none" stroke="currentColor" strokeWidth={STROKE} strokeLinejoin="round" strokeLinecap="butt">
+      <g
+        mask={bars?.length ? `url(#${id}-bars)` : undefined}
+        fill="none"
+        stroke="currentColor"
+        strokeWidth={STROKE}
+        strokeLinejoin="round"
+        strokeLinecap="butt"
+      >
         {glyphs.map((g, i) => (
           <g key={i} transform={`translate(${g.x} 0)`} mask={g.outline ? `url(#${id}-o${i})` : undefined}>
             {g.d.map((d, j) => (

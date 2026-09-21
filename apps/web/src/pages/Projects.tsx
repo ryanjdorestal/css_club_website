@@ -10,6 +10,7 @@ import { FinLine } from "@/components/FinLine";
 import { TicketCard } from "@/components/cards/TicketCard";
 import { SpecSheet, BigStat } from "@/components/cards/SpecSheet";
 import { SlotCard } from "@/components/cards/SlotCard";
+import { FolderCard } from "@/components/cards/FolderCard";
 import { IndexList } from "@/components/cards/IndexList";
 import { Readout } from "@/components/cards/StatChip";
 import { Meter } from "@/components/cards/Meter";
@@ -34,6 +35,7 @@ type Project = {
   featured?: boolean;
   example?: boolean;
   term?: string;
+  screenshots?: string[];
 };
 const KINDS = ["app", "project", "research", "tool"] as const;
 const SLOTS = [
@@ -149,19 +151,35 @@ export default function Projects() {
       >
         {projects.length ? (
           <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+            {/* run 9: non-app kinds are folders (T11); apps keep TicketCard */}
             {projects.map((p) => (
-              <TicketCard
+              <FolderCard
                 key={p.id}
-                model={`${p.kind.toUpperCase().slice(0, 4)}-${p.id.slice(-4).toUpperCase()}`}
-                title={p.title}
-                body={p.summary}
+                as={p.links?.live || p.links?.repo ? "a" : "article"}
                 href={p.links?.live || p.links?.repo}
-                rows={[
-                  { k: "KIND", v: p.kind.toUpperCase() },
-                  { k: "AUTHORS", v: p.authors?.map((a) => a.name).join(", ") || "—" },
-                  { k: "TERM", v: p.term || "—" },
-                ]}
-              />
+                tab={`${p.kind.toUpperCase()} · ${p.term || "TERM_TBD"}`}
+                tone="navy"
+                split={0.55}
+                edgeLabel={`${p.kind.toUpperCase().slice(0, 4)}-${p.id.slice(-4).toUpperCase()}`}
+                barcode={p.id}
+                lower={
+                  <>
+                    <p className="text-[17px] font-medium leading-tight">{p.title}</p>
+                    <p className="text-[13px] mt-2 leading-relaxed" style={{ color: "var(--tone-muted)" }}>
+                      {p.summary}
+                    </p>
+                    <p className="t-micro opacity-60 mt-3">{p.authors?.map((a) => a.name).join(", ") || "—"}</p>
+                  </>
+                }
+              >
+                {p.screenshots?.[0] ? (
+                  <img src={p.screenshots[0]} alt="" loading="lazy" className="w-full aspect-[16/10] object-cover" />
+                ) : (
+                  <div className="w-full aspect-[16/10] border border-dashed border-line flex items-center justify-center t-micro opacity-50">
+                    NO_SCREENSHOT
+                  </div>
+                )}
+              </FolderCard>
             ))}
           </div>
         ) : (

@@ -8,6 +8,7 @@ import { PosterBand } from "@/components/PosterBand";
 import { FinLine } from "@/components/FinLine";
 import { TicketCard } from "@/components/cards/TicketCard";
 import { SlotCard } from "@/components/cards/SlotCard";
+import { FolderCard } from "@/components/cards/FolderCard";
 import { SpecSheet } from "@/components/cards/SpecSheet";
 import { Watermark } from "@/components/Watermark";
 import { Reveal, RevealGroup, RevealItem } from "@/motion/Reveal";
@@ -69,7 +70,12 @@ export default function Events() {
       >
         <div className="grid md:grid-cols-3 gap-5 items-stretch">
           <SlotCard n="01" label="Next event — Open" action="propose one ↗" href="/join" className="min-h-[160px]" />
-          <SlotCard n="02" label="Open" className="min-h-[160px]" />
+          <FolderCard tab="SLOT · 02 · OPEN" tone="paper" mirrorTab edgeLabel="//EVT_F26-02" className="min-h-[160px]">
+            <p className="t-label raise">_status OPEN</p>
+            <p className="text-[15px] mt-3 leading-snug" style={{ color: "var(--tone-muted)" }}>
+              Second slot of the term. Filed by the board on /os/events; it lands here with a flyer.
+            </p>
+          </FolderCard>
           <Reveal className="flex flex-col justify-center border border-(--tone-line) p-6">
             <p className="text-sm leading-relaxed" style={{ color: "var(--tone-muted)" }}>
               Nothing scheduled yet — the board sets the Fall 2026 slate at the first general meeting. Want something taught? Propose it and the board will slot

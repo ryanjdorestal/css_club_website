@@ -8,6 +8,7 @@ import { parseMd } from "@/lib/md";
 import { Band } from "@/components/Band";
 import { PageHero } from "@/components/PageHero";
 import { PosterBand } from "@/components/PosterBand";
+import { FolderCard } from "@/components/cards/FolderCard";
 import { FinLine } from "@/components/FinLine";
 import { PhotoFrame } from "@/components/PhotoFrame";
 import { Pullquote } from "@/components/Pullquote";
@@ -174,17 +175,21 @@ export default function About() {
         <RevealGroup className="grid grid-cols-2 md:grid-cols-4 gap-5 mb-14">
           {current.members.slice(0, 8).map((m) => (
             <RevealItem key={m.name}>
-              <figure className="border border-(--tone-line) bg-paper p-2">
-                <div className="flex items-center justify-between pb-1.5 px-1">
-                  <span className="t-micro opacity-55">BRD-F24-{String(current.members.indexOf(m) + 1).padStart(2, "0")}</span>
-                  <span aria-hidden className="w-1.5 h-1.5 bg-(--accent)" />
-                </div>
+              {/* run 9: officer = a folder (T11) — tab = role, edge label = the board id, dossier layout inside */}
+              <FolderCard
+                as="article"
+                tab={m.role.toUpperCase()}
+                tone="paper"
+                edgeLabel={`BRD-${current.term
+                  .replace(/[^A-Z0-9]/gi, "")
+                  .slice(0, 3)
+                  .toUpperCase()}-${String(current.members.indexOf(m) + 1).padStart(2, "0")}`}
+                className="h-full"
+              >
                 {m.photo && <img src={`/${m.photo}`} alt={m.name} loading="lazy" className="w-full aspect-square object-cover object-top" />}
-                <figcaption className="pt-2 px-1 pb-1">
-                  <p className="t-h3 !text-[14px] !font-medium leading-tight">{m.name}</p>
-                  <p className="t-micro raise text-(--accent-ink) mt-1">_role {m.role.toUpperCase()}</p>
-                </figcaption>
-              </figure>
+                <p className="t-h3 !text-[14px] !font-medium leading-tight mt-3">{m.name}</p>
+                <p className="t-micro raise text-(--accent-ink) mt-1">_term {current.term.toUpperCase()}</p>
+              </FolderCard>
             </RevealItem>
           ))}
         </RevealGroup>

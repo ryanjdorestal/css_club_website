@@ -14,6 +14,7 @@ import { Reveal, RevealGroup, RevealItem } from "@/motion/Reveal";
 import { Outline } from "@/components/type/Outline";
 import { EdgeCrop } from "@/components/type/EdgeCrop";
 import { S01Word } from "@/type/glyphs/S01Word";
+import { HairGrid48, HalftoneBlock, OutlinePath, ScrollBracket } from "@/components/DossierHero";
 import { Label } from "@/components/type/Label";
 import { Scanlines, Halftone } from "@/textures";
 import { Chevrons, HoundPixel, CyberhoundHead } from "@/sigils";
@@ -45,9 +46,41 @@ export default function Cyberhounds() {
   return (
     <main>
       {/* 1 — poster hero, jj_05 + jj_09 + T09 protocol line */}
-      <section data-tone="dark-3" data-accent="red" className="relative overflow-hidden pt-[120px] pb-14">
+      <section
+        id="hero"
+        data-tone="dark-3"
+        data-accent="red"
+        className="relative overflow-hidden pt-[120px] pb-14"
+        style={{ "--hero-fin": "0px" } as React.CSSProperties}
+      >
         <Scanlines />
         <Halftone corner="100% 0" opacity={0.07} />
+        {/* type v4 dossier layer (S01): 48 px grid · two red halftone blocks · the outline path · scroll bracket */}
+        <HairGrid48 opacity={0.06} />
+        <HalftoneBlock
+          src="/img/photos/cybersecurity.webp"
+          sec="SEC-01"
+          className="left-0 top-[72px] max-md:hidden"
+          style={{ width: "min(7vw, 100px)", height: 260 }}
+        />
+        <HalftoneBlock
+          src="/img/photos/intro-cyb-group-pic.webp"
+          sec="SEC-02"
+          className="right-0 bottom-[70px] max-md:hidden"
+          style={{ width: "min(9vw, 130px)", height: 150 }}
+        />
+        <OutlinePath
+          points={[
+            [80, 30],
+            [420, 30],
+            [460, 110],
+            [330, 260],
+            [560, 300],
+            [600, 440],
+            [780, 440],
+          ]}
+        />
+        <ScrollBracket target="#hero" />
         <BinaryRings opacity={0.04} />
         <div className="relative max-w-[1280px] mx-auto px-5 md:px-10">
           <div className="flex items-center justify-between mb-8">

@@ -7,6 +7,7 @@ import { PageHero } from "@/components/PageHero";
 import { PosterBand } from "@/components/PosterBand";
 import { FinLine } from "@/components/FinLine";
 import { IndexList } from "@/components/cards/IndexList";
+import { FolderCard } from "@/components/cards/FolderCard";
 import { SpecSheet } from "@/components/cards/SpecSheet";
 import { Reveal } from "@/motion/Reveal";
 import { ArrowUpRight } from "lucide-react";
@@ -82,7 +83,14 @@ export default function Resources() {
               </button>
             ))}
           </nav>
-          <div>
+          {/* run 9: each category is a folder (T11) — tab = category, the index list inside */}
+          <FolderCard
+            key={g.group}
+            tab={`RES · ${String.fromCharCode(65 + active)} · ${g.group.toUpperCase()}`}
+            tone="paper"
+            edgeLabel={`//RES_${String(active + 1).padStart(2, "0")} · ${g.links.length}_LINKS`}
+            barcode={g.group}
+          >
             <div className="flex items-center justify-between border-b border-(--tone-line) pb-3 mb-2 gap-4">
               <h2 className="t-h2 uppercase">{g.group}</h2>
               <span className="flex items-center gap-3">
@@ -91,7 +99,6 @@ export default function Resources() {
               </span>
             </div>
             <IndexList
-              key={g.group}
               rows={g.links.map((l, i) => ({
                 index: String(i + 1).padStart(2, "0"),
                 title: l.title,
@@ -100,7 +107,7 @@ export default function Resources() {
                 href: l.url,
               }))}
             />
-          </div>
+          </FolderCard>
         </div>
       </Band>
 

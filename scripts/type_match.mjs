@@ -102,9 +102,43 @@ const PIXEL = [
 ];
 const ROLES = {
   // the D sits under a halftone block in the crop (occluded) — it is segmented, then dropped; EMON is scored
-  display: { ref: "R9_01a_demon_wordmark_crop.png", text: "EMON", refGlyphs: 5, drop: 1, bin: "paper", cands: DISPLAY, track: [-0.06, 0.12], glyphs: 4, cornerGlyph: 2, line: 0 },
-  mono: { ref: "R9_01b_demon_body_mono_crop.png", text: "BRUTAL AND RELENTLESS, THE ONI CLASS EMBODIES RAW", bin: "light", cands: MONO, cap: 40, track: [-0.15, 0.25], glyphs: 0, cornerGlyph: -1, line: 0, chars: 49, ofChars: 68 },
-  pixel: { ref: "R9_02_permitify_T03_login_layout.png", crop: { x: 855, y: 130, w: 520, h: 80 }, text: "AI-POWERED", bin: "light", cands: PIXEL, cap: 60, track: [-0.06, 0.2], glyphs: 0, cornerGlyph: -1, line: 0 },
+  display: {
+    ref: "R9_01a_demon_wordmark_crop.png",
+    text: "EMON",
+    refGlyphs: 5,
+    drop: 1,
+    bin: "paper",
+    cands: DISPLAY,
+    track: [-0.06, 0.12],
+    glyphs: 4,
+    cornerGlyph: 2,
+    line: 0,
+  },
+  mono: {
+    ref: "R9_01b_demon_body_mono_crop.png",
+    text: "BRUTAL AND RELENTLESS, THE ONI CLASS EMBODIES RAW",
+    bin: "light",
+    cands: MONO,
+    cap: 40,
+    track: [-0.15, 0.25],
+    glyphs: 0,
+    cornerGlyph: -1,
+    line: 0,
+    chars: 49,
+    ofChars: 68,
+  },
+  pixel: {
+    ref: "R9_02_permitify_T03_login_layout.png",
+    crop: { x: 855, y: 130, w: 520, h: 80 },
+    text: "AI-POWERED",
+    bin: "light",
+    cands: PIXEL,
+    cap: 60,
+    track: [-0.06, 0.2],
+    glyphs: 0,
+    cornerGlyph: -1,
+    line: 0,
+  },
 };
 const R = ROLES[role];
 if (!R) throw new Error(`role must be display|mono|pixel, got ${role}`);
@@ -133,7 +167,9 @@ const result = await page.evaluate(
       const out = new Uint8Array(img.width * img.height);
       const d = img.data;
       for (let i = 0, j = 0; i < d.length; i += 4, j++) {
-        const r = d[i], g = d[i + 1], b = d[i + 2];
+        const r = d[i],
+          g = d[i + 1],
+          b = d[i + 2];
         const lum = 0.2126 * r + 0.7152 * g + 0.0722 * b;
         // "paper": the S01 letter cream (235,229,207) — tighter than the halftone blocks' tan (206–221)
         out[j] = mode === "paper" ? (r >= 224 && g >= 218 && b >= 192 && Math.max(r, g, b) - Math.min(r, g, b) < 50 ? 1 : 0) : lum > 150 ? 1 : 0;
@@ -141,8 +177,18 @@ const result = await page.evaluate(
       return { m: out, w: img.width, h: img.height };
     };
     const bbox = (M) => {
-      let x0 = M.w, y0 = M.h, x1 = -1, y1 = -1;
-      for (let y = 0; y < M.h; y++) for (let x = 0; x < M.w; x++) if (M.m[y * M.w + x]) { if (x < x0) x0 = x; if (x > x1) x1 = x; if (y < y0) y0 = y; if (y > y1) y1 = y; }
+      let x0 = M.w,
+        y0 = M.h,
+        x1 = -1,
+        y1 = -1;
+      for (let y = 0; y < M.h; y++)
+        for (let x = 0; x < M.w; x++)
+          if (M.m[y * M.w + x]) {
+            if (x < x0) x0 = x;
+            if (x > x1) x1 = x;
+            if (y < y0) y0 = y;
+            if (y > y1) y1 = y;
+          }
       return { x0, y0, x1, y1, w: x1 - x0 + 1, h: y1 - y0 + 1 };
     };
     const crop = (M, bb) => {
@@ -153,25 +199,36 @@ const result = await page.evaluate(
     const rowsOfLine = (M, line) => {
       // rows with ink, grouped into lines by empty-row gaps; returns [y0,y1] of the requested line
       const has = [];
-      for (let y = 0; y < M.h; y++) { let s = 0; for (let x = 0; x < M.w; x++) s += M.m[y * M.w + x]; has.push(s > M.w * 0.004); }
+      for (let y = 0; y < M.h; y++) {
+        let s = 0;
+        for (let x = 0; x < M.w; x++) s += M.m[y * M.w + x];
+        has.push(s > M.w * 0.004);
+      }
       const lines = [];
       let start = -1;
       for (let y = 0; y <= M.h; y++) {
         const on = y < M.h && has[y];
         if (on && start < 0) start = y;
-        if (!on && start >= 0) { if (y - start > 6) lines.push([start, y - 1]); start = -1; }
+        if (!on && start >= 0) {
+          if (y - start > 6) lines.push([start, y - 1]);
+          start = -1;
+        }
       }
       return lines[line] ?? [0, M.h - 1];
     };
     const iou = (A, B) => {
       // both aligned at (0,0); union canvas
-      const w = Math.max(A.w, B.w), h = Math.max(A.h, B.h);
-      let inter = 0, uni = 0;
-      for (let y = 0; y < h; y++) for (let x = 0; x < w; x++) {
-        const a = y < A.h && x < A.w ? A.m[y * A.w + x] : 0;
-        const b = y < B.h && x < B.w ? B.m[y * B.w + x] : 0;
-        inter += a & b; uni += a | b;
-      }
+      const w = Math.max(A.w, B.w),
+        h = Math.max(A.h, B.h);
+      let inter = 0,
+        uni = 0;
+      for (let y = 0; y < h; y++)
+        for (let x = 0; x < w; x++) {
+          const a = y < A.h && x < A.w ? A.m[y * A.w + x] : 0;
+          const b = y < B.h && x < B.w ? B.m[y * B.w + x] : 0;
+          inter += a & b;
+          uni += a | b;
+        }
       return uni ? inter / uni : 0;
     };
     const segmentsX = (M, minW) => {
@@ -184,11 +241,20 @@ const result = await page.evaluate(
       for (let x = 0; x <= M.w; x++) {
         const on = x < M.w && col[x] > minInk;
         if (on && s < 0) s = x;
-        if (!on && s >= 0) { segs.push([s, x - 1]); s = -1; }
+        if (!on && s >= 0) {
+          segs.push([s, x - 1]);
+          s = -1;
+        }
       }
       for (let i = segs.length - 1; i >= 0; i--) {
         if (segs[i][1] - segs[i][0] < minW && segs.length > 1) {
-          if (i > 0) { segs[i - 1][1] = segs[i][1]; segs.splice(i, 1); } else { segs[1][0] = segs[0][0]; segs.splice(0, 1); }
+          if (i > 0) {
+            segs[i - 1][1] = segs[i][1];
+            segs.splice(i, 1);
+          } else {
+            segs[1][0] = segs[0][0];
+            segs.splice(0, 1);
+          }
         }
       }
       return segs;
@@ -200,36 +266,62 @@ const result = await page.evaluate(
       });
     const erode = (M) => {
       const out = new Uint8Array(M.w * M.h);
-      for (let y = 1; y < M.h - 1; y++) for (let x = 1; x < M.w - 1; x++) {
-        const i = y * M.w + x;
-        out[i] = M.m[i] & M.m[i - 1] & M.m[i + 1] & M.m[i - M.w] & M.m[i + M.w] ? 1 : 0;
-      }
+      for (let y = 1; y < M.h - 1; y++)
+        for (let x = 1; x < M.w - 1; x++) {
+          const i = y * M.w + x;
+          out[i] = M.m[i] & M.m[i - 1] & M.m[i + 1] & M.m[i - M.w] & M.m[i + M.w] ? 1 : 0;
+        }
       return { m: out, w: M.w, h: M.h };
     };
     const area = (M) => M.m.reduce((a, v) => a + v, 0);
     const pad = (M, p) => {
-      const w = M.w + 2 * p, h = M.h + 2 * p, out = new Uint8Array(w * h);
+      const w = M.w + 2 * p,
+        h = M.h + 2 * p,
+        out = new Uint8Array(w * h);
       for (let y = 0; y < M.h; y++) for (let x = 0; x < M.w; x++) out[(y + p) * w + x + p] = M.m[y * M.w + x];
       return { m: out, w, h };
     };
     const strokeWidth = (M0) => {
       const M = pad(M0, 4);
       const a0 = area(M);
-      let cur = M, prev = 1, k = 0;
-      while (k < 60) { cur = erode(cur); k++; const f = area(cur) / a0; if (f < 0.5) { const t = (prev - 0.5) / (prev - f); return 4 * (k - 1 + t); } prev = f; }
+      let cur = M,
+        prev = 1,
+        k = 0;
+      while (k < 60) {
+        cur = erode(cur);
+        k++;
+        const f = area(cur) / a0;
+        if (f < 0.5) {
+          const t = (prev - 0.5) / (prev - f);
+          return 4 * (k - 1 + t);
+        }
+        prev = f;
+      }
       return 4 * k;
     };
     const cornerFill = (G, s) => {
       const side = Math.max(2, Math.round(s));
-      const q = [[0, 0], [G.w - side, 0], [0, G.h - side], [G.w - side, G.h - side]];
+      const q = [
+        [0, 0],
+        [G.w - side, 0],
+        [0, G.h - side],
+        [G.w - side, G.h - side],
+      ];
       let tot = 0;
-      for (const [cx, cy] of q) { let c = 0; for (let y = 0; y < side; y++) for (let x = 0; x < side; x++) c += G.m[(cy + y) * G.w + cx + x] ?? 0; tot += c / (side * side); }
+      for (const [cx, cy] of q) {
+        let c = 0;
+        for (let y = 0; y < side; y++) for (let x = 0; x < side; x++) c += G.m[(cy + y) * G.w + cx + x] ?? 0;
+        tot += c / (side * side);
+      }
       return tot / 4;
     };
     const scaleMask = (M, f) => {
       // nearest-neighbour rescale by factor f (used to bring the reference to CAP)
-      const w = Math.round(M.w * f), h = Math.round(M.h * f), out = new Uint8Array(w * h);
-      for (let y = 0; y < h; y++) for (let x = 0; x < w; x++) out[y * w + x] = M.m[Math.min(M.h - 1, Math.floor(y / f)) * M.w + Math.min(M.w - 1, Math.floor(x / f))];
+      const w = Math.round(M.w * f),
+        h = Math.round(M.h * f),
+        out = new Uint8Array(w * h);
+      for (let y = 0; y < h; y++)
+        for (let x = 0; x < w; x++) out[y * w + x] = M.m[Math.min(M.h - 1, Math.floor(y / f)) * M.w + Math.min(M.w - 1, Math.floor(x / f))];
       return { m: out, w, h };
     };
 
@@ -239,7 +331,8 @@ const result = await page.evaluate(
     await img.decode();
     const rc = document.createElement("canvas");
     const cr = R.crop ?? { x: 0, y: 0, w: img.naturalWidth, h: img.naturalHeight };
-    rc.width = cr.w; rc.height = cr.h;
+    rc.width = cr.w;
+    rc.height = cr.h;
     rc.getContext("2d").drawImage(img, cr.x, cr.y, cr.w, cr.h, 0, 0, cr.w, cr.h);
     let refM = bin(rc.getContext("2d").getImageData(0, 0, cr.w, cr.h), R.bin);
     const [ly0, ly1] = rowsOfLine(refM, R.line);
@@ -256,7 +349,8 @@ const result = await page.evaluate(
       const raw = segmentsX(ref, ref.h * 0.15);
       log.push(`ref ${ref.w}x${ref.h} rb=${JSON.stringify(rb)} line=${ly0}-${ly1} segs=${JSON.stringify(raw)}`);
       if (raw.length >= R.refGlyphs) {
-        const x0 = raw[R.drop][0], x1 = raw[raw.length - 1][1];
+        const x0 = raw[R.drop][0],
+          x1 = raw[raw.length - 1][1];
         const t = crop(ref, { x0, y0: 0, w: x1 - x0 + 1, h: ref.h });
         ref = crop(t, bbox(t));
       } else log.push(`drop: expected ${R.refGlyphs} segments, got ${raw.length}`);
@@ -270,11 +364,13 @@ const result = await page.evaluate(
 
     // ---- candidates ----
     const c = document.createElement("canvas");
-    c.width = 2400; c.height = 400;
+    c.width = 2400;
+    c.height = 400;
     const ctx = c.getContext("2d", { willReadFrequently: true });
     const render = (fam, w, size, trackEm) => {
       ctx.clearRect(0, 0, c.width, c.height);
-      ctx.fillStyle = "#000"; ctx.fillRect(0, 0, c.width, c.height);
+      ctx.fillStyle = "#000";
+      ctx.fillRect(0, 0, c.width, c.height);
       ctx.fillStyle = "#fff";
       ctx.font = `${w} ${size}px "${fam}"`;
       ctx.letterSpacing = `${trackEm * size}px`;
@@ -304,8 +400,11 @@ const result = await page.evaluate(
       const per = R.glyphs && segs.length === refSegs.length ? segs.map((g, i) => iou(refSegs[i], g)) : null;
       const corner = R.cornerGlyph >= 0 && segs[R.cornerGlyph] ? cornerFill(segs[R.cornerGlyph], stroke) : null;
       out.push({
-        fam: f.fam, w: f.w, pkg: f.pkg,
-        iou: +best.iou.toFixed(3), track: best.track,
+        fam: f.fam,
+        w: f.w,
+        pkg: f.pkg,
+        iou: +best.iou.toFixed(3),
+        track: best.track,
         widthRatio: +(M.w / ref.w).toFixed(3),
         strokeRatio: +(stroke / CAP).toFixed(3),
         perGlyph: per ? per.map((v) => +v.toFixed(2)) : null,
@@ -316,7 +415,20 @@ const result = await page.evaluate(
       });
     }
     const dbgSegs = { ref: refSegs.map((g) => ({ w: g.w, h: g.h, m: Array.from(g.m) })), cand: out[0] ? out[0].dbg : [] };
-    return { dbgSegs, log, refRaw: { w: refM.w, h: refM.h, m: Array.from(refM.m) }, ref: { w: ref.w, h: ref.h, m: Array.from(ref.m), stroke: +(refStroke / CAP).toFixed(3), corner: refCorner === null ? null : +refCorner.toFixed(2), segs: refSegs.length }, out };
+    return {
+      dbgSegs,
+      log,
+      refRaw: { w: refM.w, h: refM.h, m: Array.from(refM.m) },
+      ref: {
+        w: ref.w,
+        h: ref.h,
+        m: Array.from(ref.m),
+        stroke: +(refStroke / CAP).toFixed(3),
+        corner: refCorner === null ? null : +refCorner.toFixed(2),
+        segs: refSegs.length,
+      },
+      out,
+    };
   },
   { R, fonts, refData },
 );
@@ -325,13 +437,22 @@ result.log.forEach((l) => console.log(l));
 const ranked = result.out.slice().sort((a, b) => b.iou - a.iou);
 if (process.env.DEBUG_MASK) {
   const sharp = createRequire(new URL("../apps/web/package.json", import.meta.url))("sharp");
-  const segsList = [["raw", result.refRaw], ["ref", result.ref], ...result.dbgSegs.ref.map((g, i) => [`refseg${i}`, g]), ...result.dbgSegs.cand.map((g, i) => [`candseg${i}`, g])];
+  const segsList = [
+    ["raw", result.refRaw],
+    ["ref", result.ref],
+    ...result.dbgSegs.ref.map((g, i) => [`refseg${i}`, g]),
+    ...result.dbgSegs.cand.map((g, i) => [`candseg${i}`, g]),
+  ];
   for (const [name, M] of segsList) {
     const buf = Buffer.from(M.m.map((v) => (v ? 255 : 0)));
-    await sharp(buf, { raw: { width: M.w, height: M.h, channels: 1 } }).png().toFile(`${OUT}/debug_${role}_${name}.png`);
+    await sharp(buf, { raw: { width: M.w, height: M.h, channels: 1 } })
+      .png()
+      .toFile(`${OUT}/debug_${role}_${name}.png`);
   }
 }
-console.log(`\n${role.toUpperCase()} — ref "${R.text}" · ref stroke ${result.ref.stroke} of cap · ref corner fill ${result.ref.corner ?? "—"} · ${result.ref.segs} glyphs segmented`);
+console.log(
+  `\n${role.toUpperCase()} — ref "${R.text}" · ref stroke ${result.ref.stroke} of cap · ref corner fill ${result.ref.corner ?? "—"} · ${result.ref.segs} glyphs segmented`,
+);
 console.log("rank  face                    wt   IoU    glyphs  width  stroke  corner  track");
 ranked.forEach((r, i) =>
   console.log(
@@ -350,28 +471,47 @@ await page.evaluate(
   ({ ref, ranked, rowH, role, text }) => {
     const c = document.getElementById("c");
     const ctx = c.getContext("2d");
-    ctx.fillStyle = "#0E1116"; ctx.fillRect(0, 0, c.width, c.height);
+    ctx.fillStyle = "#0E1116";
+    ctx.fillRect(0, 0, c.width, c.height);
     const draw = (M, x, y, color) => {
       const id = ctx.createImageData(M.w, M.h);
       const [r, g, b] = color;
-      for (let i = 0; i < M.m.length; i++) if (M.m[i]) { id.data[i * 4] = r; id.data[i * 4 + 1] = g; id.data[i * 4 + 2] = b; id.data[i * 4 + 3] = 150; }
-      const t = document.createElement("canvas"); t.width = M.w; t.height = M.h; t.getContext("2d").putImageData(id, 0, 0);
+      for (let i = 0; i < M.m.length; i++)
+        if (M.m[i]) {
+          id.data[i * 4] = r;
+          id.data[i * 4 + 1] = g;
+          id.data[i * 4 + 2] = b;
+          id.data[i * 4 + 3] = 150;
+        }
+      const t = document.createElement("canvas");
+      t.width = M.w;
+      t.height = M.h;
+      t.getContext("2d").putImageData(id, 0, 0);
       ctx.drawImage(t, x, y);
     };
-    ctx.fillStyle = "#E8E4D8"; ctx.font = "600 22px monospace";
+    ctx.fillStyle = "#E8E4D8";
+    ctx.font = "600 22px monospace";
     ctx.fillText(`TYPE MATCH · ${role.toUpperCase()} · reference "${text}" in paper, candidate in red, overlap = pink · ranked by IoU`, 24, 40);
-    ctx.font = "14px monospace"; ctx.fillStyle = "#9DB0C4";
+    ctx.font = "14px monospace";
+    ctx.fillStyle = "#9DB0C4";
     ctx.fillText(`ref stroke ${ref.stroke} of cap · ref corner fill ${ref.corner ?? "—"}`, 24, 70);
     ranked.forEach((r, i) => {
       const y = 110 + i * rowH;
-      ctx.fillStyle = "#1A1D22"; ctx.fillRect(0, y - 8, c.width, rowH - 8);
+      ctx.fillStyle = "#1A1D22";
+      ctx.fillRect(0, y - 8, c.width, rowH - 8);
       draw(ref, 420, y, [232, 228, 216]);
       draw(r.mask, 420, y, [230, 60, 46]);
-      ctx.fillStyle = "#E8E4D8"; ctx.font = "600 18px monospace";
+      ctx.fillStyle = "#E8E4D8";
+      ctx.font = "600 18px monospace";
       ctx.fillText(`${String(i + 1).padStart(2, "0")}  ${r.fam} ${r.w}`, 24, y + 30);
-      ctx.fillStyle = "#9DB0C4"; ctx.font = "13px monospace";
+      ctx.fillStyle = "#9DB0C4";
+      ctx.font = "13px monospace";
       ctx.fillText(`IoU ${r.iou.toFixed(3)}${r.glyphMean != null ? `  glyphs ${r.glyphMean.toFixed(3)}` : ""}`, 24, y + 56);
-      ctx.fillText(`width ×${r.widthRatio.toFixed(2)}  stroke ${r.strokeRatio.toFixed(3)}${r.corner != null ? `  corner ${r.corner.toFixed(2)}` : ""}`, 24, y + 76);
+      ctx.fillText(
+        `width ×${r.widthRatio.toFixed(2)}  stroke ${r.strokeRatio.toFixed(3)}${r.corner != null ? `  corner ${r.corner.toFixed(2)}` : ""}`,
+        24,
+        y + 76,
+      );
       ctx.fillText(`tracking ${r.track >= 0 ? "+" : ""}${r.track.toFixed(2)}em${r.perGlyph ? "  [" + r.perGlyph.join(" ") + "]" : ""}`, 24, y + 96);
     });
   },
@@ -379,6 +519,9 @@ await page.evaluate(
 );
 const png = `${OUT}/type_match_${role}.png`;
 await page.locator("#c").screenshot({ path: png });
-writeFileSync(`${OUT}/type_match_${role}.json`, JSON.stringify({ role, text: R.text, ref: { stroke: result.ref.stroke, corner: result.ref.corner }, ranked: ranked.map(({ mask, ...r }) => r) }, null, 2));
+writeFileSync(
+  `${OUT}/type_match_${role}.json`,
+  JSON.stringify({ role, text: R.text, ref: { stroke: result.ref.stroke, corner: result.ref.corner }, ranked: ranked.map(({ mask, ...r }) => r) }, null, 2),
+);
 console.log(`sheet → ${png}`);
 await browser.close();

@@ -55,7 +55,10 @@ for (const route of routes) {
       if (el.classList.contains("unit")) continue; // stat units ride the display face
       const bucket = size >= 28 ? "display" : size >= 12 ? "mid" : "micro";
       out[bucket][fam] = (out[bucket][fam] ?? 0) + 1;
-      if ((bucket === "micro" && fam !== "JetBrains Mono" && fam !== "VT323") || (bucket === "display" && !["Unbounded", "Space Mono", "VT323"].includes(fam))) {
+      if (
+        (bucket === "micro" && fam !== "JetBrains Mono" && fam !== "VT323") ||
+        (bucket === "display" && !["Unbounded", "Space Mono", "VT323"].includes(fam))
+      ) {
         (out.__offenders ??= []).push(`${bucket} ${fam} ${Math.round(size)}px "${n.textContent.trim().slice(0, 40)}"`);
       }
     }

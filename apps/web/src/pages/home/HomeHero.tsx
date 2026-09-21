@@ -7,7 +7,8 @@ import { Label } from "@/components/type/Label";
 import { Decode } from "@/components/type/Decode";
 import { S01Word } from "@/type/glyphs/S01Word";
 import { Brackets } from "@/components/frame";
-import { HairGrid, CodeRain } from "@/textures";
+import { CodeRain } from "@/textures";
+import { HairGrid48, HalftoneBlock, OutlinePath, ScrollBracket } from "@/components/DossierHero";
 import { Reveal } from "@/motion/Reveal";
 import { Counter } from "@/motion/Counter";
 import { CubeAnchor } from "@/cube/CubeRailContext";
@@ -21,8 +22,39 @@ export function HomeHero() {
   return (
     <>
       <CubeAnchor id="hero" kf={{ x: 0.68, y: 0.47, scale: 1, face: "threeQuarter", glow: brand.palette.teal, spin: true }}>
-        <section data-tone="dark" data-accent="teal" className="relative min-h-dvh flex flex-col justify-end overflow-hidden pt-[72px]">
-          <HairGrid opacity={0.05} />
+        <section
+          id="hero"
+          data-tone="dark"
+          data-accent="teal"
+          className="relative min-h-dvh flex flex-col justify-end overflow-hidden pt-[72px]"
+          style={{ "--hero-fin": "96px" } as React.CSSProperties}
+        >
+          {/* type v4 dossier layer (S01): 48 px grid · two halftone blocks · the outline path · scroll bracket */}
+          <HairGrid48 opacity={0.06} />
+          <HalftoneBlock
+            src="/img/photos/club2.webp"
+            sec="SEC-01"
+            className="left-0 top-[72px] max-md:hidden"
+            style={{ width: "min(7vw, 100px)", height: 240 }}
+          />
+          <HalftoneBlock
+            src="/img/photos/invol-fair.webp"
+            sec="SEC-02"
+            className="right-0 max-md:hidden"
+            style={{ width: "min(10vw, 150px)", height: 160, bottom: 108 }}
+          />
+          <OutlinePath
+            points={[
+              [40, 60],
+              [360, 60],
+              [400, 130],
+              [290, 250],
+              [520, 320],
+              [560, 450],
+              [720, 450],
+            ]}
+          />
+          <ScrollBracket target="#hero" />
           <BinaryRings opacity={0.05} />
           <CodeRain className="!left-[62%]" />
           <div

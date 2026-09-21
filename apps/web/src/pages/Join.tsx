@@ -7,7 +7,7 @@ import { Band } from "@/components/Band";
 import { PageHero } from "@/components/PageHero";
 import { FinLine } from "@/components/FinLine";
 import { IndexList } from "@/components/cards/IndexList";
-import { TicketCard } from "@/components/cards/TicketCard";
+import { FolderCard } from "@/components/cards/FolderCard";
 import { Reveal } from "@/motion/Reveal";
 import * as Sg from "@/sigils";
 import { Tag } from "@/components/cards/Tag";
@@ -164,24 +164,24 @@ function OnboardBand() {
         )}
         <div className="flex flex-col gap-5">
           <Reveal>
-            <TicketCard
-              model="DSC-2021"
-              title="Discord — the fast lane"
-              rows={[
-                { k: "MEMBERS", v: "661 · EST. FEB 2021" },
-                { k: "STATUS", v: "INVITE FROM 2021 — CLICK-TEST" },
-              ]}
-              footer={
-                <a
-                  href={links.discord}
-                  target="_blank"
-                  rel="noreferrer noopener"
-                  className="inline-flex items-center gap-2 px-5 py-2.5 rounded-(--radius-sm) bg-(--accent) text-(--accent-contrast) text-sm font-semibold hover:brightness-110 transition-all"
-                >
-                  Join the Discord <ArrowUpRight size={14} />
-                </a>
-              }
-            />
+            {/* run 9: the Discord card is a folder (T11), paper, mirrored tab */}
+            <FolderCard tab="DSC-2021 · DISCORD" tone="paper" mirrorTab edgeLabel="//JOIN_01 · FAST_LANE" barcode="discord-2021">
+              <p className="text-[18px] font-medium leading-tight">Discord — the fast lane</p>
+              <dl className="mt-3 text-[13px] grid grid-cols-[92px_1fr] gap-y-1">
+                <dt className="t-micro opacity-60 pt-0.5">MEMBERS</dt>
+                <dd className="tnum">661 · EST. FEB 2021</dd>
+                <dt className="t-micro opacity-60 pt-0.5">STATUS</dt>
+                <dd>INVITE FROM 2021 — CLICK-TEST</dd>
+              </dl>
+              <a
+                href={links.discord}
+                target="_blank"
+                rel="noreferrer noopener"
+                className="mt-5 inline-flex items-center gap-2 px-5 py-2.5 bg-(--accent) text-(--accent-contrast) text-sm font-semibold hover:brightness-110 transition-all"
+              >
+                Join the Discord <ArrowUpRight size={14} />
+              </a>
+            </FolderCard>
           </Reveal>
           <Reveal delay={0.08}>
             <div className="border border-(--tone-line) p-5">
