@@ -5,6 +5,7 @@ Uses the `client` fixture from test_os.py (a fresh Tier-1 data/ per test)."""
 from __future__ import annotations
 
 import io
+from typing import Any
 
 import pytest
 from fastapi.testclient import TestClient
@@ -23,14 +24,14 @@ ENTITIES = [
 ]
 
 
-def envelope(res) -> dict:  # type: ignore[no-untyped-def]
+def envelope(res: Any) -> dict[str, Any]:
     body = res.json()
     assert body.get("ok") is False and "error" in body and "code" in body["error"] and "message" in body["error"], body
-    return body["error"]
+    return dict(body["error"])
 
 
 @pytest.mark.parametrize("prefix,body,role,_", ENTITIES)
-def test_create_get_patch_roundtrip(client: TestClient, prefix: str, body: dict, role: dict, _: str) -> None:
+def test_create_get_patch_roundtrip(client: TestClient, prefix: str, body: dict[str, Any], role: dict[str, str], _: str) -> None:
     r = client.post(prefix, json=body, headers=role)
     assert r.status_code == 200, r.text
     row = r.json()["row"]
@@ -41,7 +42,7 @@ def test_create_get_patch_roundtrip(client: TestClient, prefix: str, body: dict,
 
 
 @pytest.mark.parametrize("prefix,body,role,blank", ENTITIES)
-def test_validation_failure_names_the_field(client: TestClient, prefix: str, body: dict, role: dict, blank: str) -> None:
+def test_validation_failure_names_the_field(client: TestClient, prefix: str, body: dict[str, Any], role: dict[str, str], blank: str) -> None:
     r = client.post(prefix, json={**body, blank: ""}, headers=role)
     assert r.status_code == 422
     err = envelope(r)
@@ -49,19 +50,19 @@ def test_validation_failure_names_the_field(client: TestClient, prefix: str, bod
 
 
 @pytest.mark.parametrize("prefix,body,role,_", ENTITIES)
-def test_anonymous_is_401(client: TestClient, prefix: str, body: dict, role: dict, _: str) -> None:
+def test_anonymous_is_401(client: TestClient, prefix: str, body: dict[str, Any], role: dict[str, str], _: str) -> None:
     r = client.post(prefix, json=body)
     assert r.status_code == 401 and envelope(r)["code"] == "unauthorized"
 
 
 @pytest.mark.parametrize("prefix,body,role,_", ENTITIES)
-def test_missing_row_is_404(client: TestClient, prefix: str, body: dict, role: dict, _: str) -> None:
+def test_missing_row_is_404(client: TestClient, prefix: str, body: dict[str, Any], role: dict[str, str], _: str) -> None:
     r = client.get(f"{prefix}/nope-nope", headers=role)
     assert r.status_code == 404 and envelope(r)["code"] == "not_found"
 
 
 @pytest.mark.parametrize("prefix,body,role,_", ENTITIES)
-def test_stale_write_is_409_never_a_clobber(client: TestClient, prefix: str, body: dict, role: dict, _: str) -> None:
+def test_stale_write_is_409_never_a_clobber(client: TestClient, prefix: str, body: dict[str, Any], role: dict[str, str], _: str) -> None:
     row = client.post(prefix, json=body, headers=role).json()["row"]
     key = "title" if "title" in body else "name" if "name" in body else "display_name"
     first = client.patch(f"{prefix}/{row['id']}", json={**body, key: "tab one", "expected_updated_at": row["updated_at"]}, headers=role)
@@ -74,7 +75,7 @@ def test_stale_write_is_409_never_a_clobber(client: TestClient, prefix: str, bod
 
 
 @pytest.mark.parametrize("prefix,body,role,_", ENTITIES)
-def test_client_id_makes_exactly_one_row(client: TestClient, prefix: str, body: dict, role: dict, _: str) -> None:
+def test_client_id_makes_exactly_one_row(client: TestClient, prefix: str, body: dict[str, Any], role: dict[str, str], _: str) -> None:
     before = client.get(prefix, headers=role).json()["count"]
     a = client.post(prefix, json={**body, "client_id": "dbl-click-1"}, headers=role).json()["row"]
     b = client.post(prefix, json={**body, "client_id": "dbl-click-1"}, headers=role).json()["row"]
@@ -83,7 +84,7 @@ def test_client_id_makes_exactly_one_row(client: TestClient, prefix: str, body: 
 
 
 @pytest.mark.parametrize("prefix,body,role,_", ENTITIES)
-def test_archive_unarchive_duplicate(client: TestClient, prefix: str, body: dict, role: dict, _: str) -> None:
+def test_archive_unarchive_duplicate(client: TestClient, prefix: str, body: dict[str, Any], role: dict[str, str], _: str) -> None:
     row = client.post(prefix, json=body, headers=role).json()["row"]
     a = client.post(f"{prefix}/{row['id']}/archive", headers=role).json()["row"]
     assert a.get("status") == "archived" or a.get("archived") is True
@@ -103,7 +104,7 @@ def test_archive_unarchive_duplicate(client: TestClient, prefix: str, body: dict
     ("delete", "/api/os/posts/anything", None),
     ("delete", "/api/os/events/anything", None),
 ])
-def test_officer_gets_403_on_admin_writes(client: TestClient, method: str, path: str, body: dict | None) -> None:
+def test_officer_gets_403_on_admin_writes(client: TestClient, method: str, path: str, body: dict[str, Any] | None) -> None:
     r = getattr(client, method)(path, headers=OFFICER, **({"json": body} if body is not None else {}))
     assert r.status_code == 403, r.text
     assert envelope(r)["code"] == "forbidden"
