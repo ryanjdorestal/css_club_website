@@ -9,18 +9,21 @@ import { useLayoutEffect, useRef, useState, type ReactNode } from "react";
 import { pathOf } from "@/type/glyphs/glyphs";
 import { BarcodeStrip } from "@/components/BarcodeStrip";
 
-type FolderTone = "navy" | "paper" | "red" | "teal";
+type FolderTone = "navy" | "paper" | "red" | "teal" | "os" | "slate";
 const TONE: Record<FolderTone, { bg: string; ink: string; muted: string }> = {
   navy: { bg: "var(--color-navy-700)", ink: "var(--color-ink)", muted: "var(--color-muted)" },
+  // OS realm tiles (run 9 §5): one step above the page, and the "slate" accent tile
+  os: { bg: "var(--color-navy-800)", ink: "var(--color-ink)", muted: "var(--color-muted)" },
+  slate: { bg: "var(--os-accent)", ink: "var(--color-ink)", muted: "var(--color-muted)" },
   paper: { bg: "var(--color-paper)", ink: "var(--color-ink-on-paper)", muted: "var(--color-muted-on-paper)" },
   red: { bg: "var(--color-red)", ink: "var(--color-ink)", muted: "color-mix(in srgb, var(--color-ink) 78%, transparent)" },
   teal: { bg: "var(--color-teal)", ink: "var(--color-navy-900)", muted: "color-mix(in srgb, var(--color-navy-900) 72%, transparent)" },
 };
-const OTHER: Record<FolderTone, FolderTone> = { navy: "paper", paper: "navy", red: "paper", teal: "navy" };
+const OTHER: Record<FolderTone, FolderTone> = { navy: "paper", paper: "navy", red: "paper", teal: "navy", os: "paper", slate: "paper" };
 
-function silhouette(w: number, h: number, mirror: boolean, chamfer: "br" | "tr" | "bl") {
+function silhouette(w: number, h: number, mirror: boolean, chamfer: "br" | "tr" | "bl", tabFrac = 0.34) {
   const r = 4;
-  const tabW = Math.round(w * 0.34);
+  const tabW = Math.round(w * tabFrac);
   const tabH = Math.max(22, Math.min(34, Math.round(h * 0.09)));
   const c = 16;
   const top = tabH;
@@ -53,6 +56,7 @@ export function FolderCard({
   className = "",
   as: Tag = "div",
   href,
+  tabFrac = 0.34,
 }: {
   tab: string;
   tone?: FolderTone;
@@ -66,6 +70,8 @@ export function FolderCard({
   className?: string;
   as?: "div" | "a" | "article" | "li";
   href?: string;
+  /** tab width as a fraction of the card (T11 ≈ .34; OS tiles use .62 for their titles) */
+  tabFrac?: number;
 }) {
   const ref = useRef<HTMLElement>(null);
   const [geo, setGeo] = useState<{ d: string; tabH: number; tabW: number } | null>(null);
@@ -75,11 +81,11 @@ export function FolderCard({
     if (!el) return;
     const ro = new ResizeObserver(([e]) => {
       const { width, height } = e.contentRect;
-      if (width && height) setGeo(silhouette(Math.round(width), Math.round(height), mirrorTab, cut));
+      if (width && height) setGeo(silhouette(Math.round(width), Math.round(height), mirrorTab, cut, tabFrac));
     });
     ro.observe(el);
     return () => ro.disconnect();
-  }, [mirrorTab, cut]);
+  }, [mirrorTab, cut, tabFrac]);
   const t = TONE[tone];
   const o = TONE[OTHER[tone]];
   const tabH = geo?.tabH ?? 26;

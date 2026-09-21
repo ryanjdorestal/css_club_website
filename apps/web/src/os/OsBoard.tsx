@@ -1,6 +1,7 @@
 /** /os/board — the roster (who can log in), roles, terms, and the admin-only
     term rollover wizard (confirm dates → who continues → done). */
 import { useState } from "react";
+import { boardSpec } from "./ui/specs";
 import { OsPage, Chips, KeyVal, Notice, Panel } from "./ui/OsPage";
 import { OsTable, StatusWord, type Row } from "./ui/OsTable";
 import { OsForm, type Field } from "./ui/OsForm";
@@ -75,6 +76,7 @@ export default function OsBoard() {
 
   return (
     <OsPage
+      dash={boardSpec(board.rows, terms.rows, board.source !== "loading", String(current?.id ?? ""))}
       kicker="BOARD · ROLES · TERMS"
       title="Board"
       source={board.source}

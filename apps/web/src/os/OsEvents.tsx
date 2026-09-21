@@ -2,6 +2,7 @@
     time, location, summary, flyer, recap post), publish / archive.
     Published rows drive /events and Home §4 through /api/events. */
 import { useState } from "react";
+import { eventsSpec } from "./ui/specs";
 import { OsPage, Chips, Notice, Panel } from "./ui/OsPage";
 import { OsTable, StatusWord, type Row } from "./ui/OsTable";
 import { OsForm, type Field } from "./ui/OsForm";
@@ -51,6 +52,7 @@ export default function OsEvents() {
 
   return (
     <OsPage
+      dash={eventsSpec(rows, source !== "loading")}
       kicker="EVENTS · BY SEMESTER"
       title="Events"
       source={source}

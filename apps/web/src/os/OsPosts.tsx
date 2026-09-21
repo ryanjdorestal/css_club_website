@@ -2,6 +2,7 @@
     a markdown textarea + live preview (same md.ts as /news), cover upload,
     save draft / send to review / publish. */
 import { useState } from "react";
+import { postsSpec } from "./ui/specs";
 import { OsPage, Chips, Notice, Panel } from "./ui/OsPage";
 import { OsTable, StatusWord, ago, type Row } from "./ui/OsTable";
 import { OsForm, type Field } from "./ui/OsForm";
@@ -54,6 +55,7 @@ export default function OsPosts() {
   const initial = sel && sel !== "new" ? { title: sel.title, slug: sel.slug, dek: sel.dek, tags: sel.tags, body_md: sel.body_md } : {};
   return (
     <OsPage
+      dash={postsSpec(rows, source !== "loading")}
       kicker="NEWS · BULLETINS · BLOG"
       title="Posts"
       source={source}

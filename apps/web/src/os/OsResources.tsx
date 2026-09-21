@@ -3,6 +3,7 @@
     with edit-in-place + "Check all links". This is how the board updates the
     Discord invite without a deploy. */
 import { useMemo, useState } from "react";
+import { resourcesSpec } from "./ui/specs";
 import { OsPage, Notice, Panel, KeyVal } from "./ui/OsPage";
 import { OsTable, StatusWord, type Row } from "./ui/OsTable";
 import { OsForm, type Field } from "./ui/OsForm";
@@ -75,6 +76,7 @@ export default function OsResources() {
 
   return (
     <OsPage
+      dash={resourcesSpec(res.rows, links.rows, res.source !== "loading")}
       kicker="RESOURCES · LINKS · LINK CHECK"
       title="Resources"
       source={res.source}

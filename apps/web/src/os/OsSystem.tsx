@@ -4,6 +4,7 @@
 import { useEffect, useState } from "react";
 import runbookRaw from "@docs/RUNBOOK.md?raw";
 import docsIndex from "@docs/INDEX.json";
+import { systemSpec } from "./ui/specs";
 import { OsPage, Notice, KeyVal } from "./ui/OsPage";
 import { StatusWord } from "./ui/OsTable";
 import { act, useNotice, useOsList } from "./ui/useOs";
@@ -20,6 +21,7 @@ export default function OsSystem() {
   const { actor } = useSession();
   const admin = actor?.role === "admin";
   const [checks, setChecks] = useState<Check[] | null>(null);
+  const [health, setHealth] = useState<{ db: string; snapshot: string | null; keepalive: string | null } | null>(null);
   const settings = useOsList("/api/os/site-settings");
   const board = useOsList("/api/os/board");
   const [ownEdit, setOwnEdit] = useState<Account[] | null>(null);
@@ -29,6 +31,7 @@ export default function OsSystem() {
     void osFetch<{ checks: Check[] }>("/api/os/status").then((r) =>
       setChecks(r.ok ? r.data.checks : [{ state: "offline", label: "API", detail: r.error ?? "unreachable", fix: "make dev (README)" }]),
     );
+    void osFetch<{ db: string; snapshot: string | null; keepalive: string | null }>("/api/health").then((r) => r.ok && setHealth(r.data));
   }, []);
 
   const ownership = (settings.rows.find((r) => r.key === "ownership")?.value as { accounts?: Account[] } | undefined)?.accounts ?? [];
@@ -50,6 +53,7 @@ export default function OsSystem() {
 
   return (
     <OsPage
+      dash={systemSpec(checks, health?.keepalive ?? null, health?.snapshot ?? null, health ? (health.db === "ok" ? "LIVE" : "TIER1") : "—")}
       kicker="SYSTEM · HEALTH · ACCOUNTS"
       title="System"
       source="files"

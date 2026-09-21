@@ -1,9 +1,11 @@
-/** OS page furniture: header (kicker · title · actions), the status/source
-    readout, filter chips, key/value sheets, the "What is not here, and why"
-    block every OS page ends with. Used by every os/Os*.tsx page. */
+/** OS page furniture: the dashboard face (run 9 §5 — the R9_06 bento is the top of every
+    module page; the working surface sits under a hairline), header (kicker · title · actions)
+    in the OS face, the status/source readout, filter chips, key/value sheets, the
+    "What is not here, and why" block every OS page ends with. Used by every os/Os*.tsx page. */
 import type { ReactNode } from "react";
 import { MonoLabel } from "@/components/MonoLabel";
 import { StatusChip } from "@/components/cards/StatusChip";
+import { Dashboard, type Spec } from "./Dashboard";
 
 export function OsPage({
   kicker,
@@ -12,6 +14,7 @@ export function OsPage({
   source,
   children,
   notHere,
+  dash,
 }: {
   kicker: string;
   title: string;
@@ -19,15 +22,22 @@ export function OsPage({
   source?: string;
   children: ReactNode;
   notHere: string[];
+  dash?: Spec;
 }) {
   return (
-    <div className="max-w-[1180px]">
+    <div className="max-w-[1320px]">
+      {dash && (
+        <>
+          <Dashboard spec={dash} />
+          <hr className="border-0 border-t border-line my-7" />
+        </>
+      )}
       <div className="flex flex-wrap items-end justify-between gap-4 mb-7">
         <div>
           <MonoLabel accent>
             {"//"} {kicker}
           </MonoLabel>
-          <h1 className="font-display font-black uppercase text-[26px] md:text-[32px] leading-none mt-1">{title}</h1>
+          <h1 className="t-os-display text-[30px] md:text-[38px] mt-1">{title}</h1>
         </div>
         <div className="flex items-center gap-3 flex-wrap">
           {source && (
@@ -62,6 +72,7 @@ function NotHere({ items }: { items: string[] }) {
   );
 }
 
+/** Filter tabs as the R9_04 segmented strip (run 9 §6.5): 1 px dividers, the active cell red. */
 export function Chips<T extends string>({
   options,
   value,
@@ -74,15 +85,11 @@ export function Chips<T extends string>({
   counts?: Partial<Record<T, number>>;
 }) {
   return (
-    <div className="flex flex-wrap gap-1.5">
+    <div className="os-tabs max-w-full overflow-x-auto" role="group">
       {options.map((o) => (
-        <button
-          key={o}
-          onClick={() => onChange(o)}
-          className={`t-micro raise px-2.5 py-1.5 border transition-colors cursor-pointer ${value === o ? "border-teal text-teal bg-teal/10" : "border-line text-muted hover:text-ink"}`}
-        >
+        <button key={o} onClick={() => onChange(o)} aria-pressed={value === o} className="t-micro raise whitespace-nowrap">
           {o.replace(/_/g, " ")}
-          {counts && counts[o] !== undefined && <span className="ml-1.5 opacity-60 tnum">{counts[o]}</span>}
+          {counts && counts[o] !== undefined && <span className="ml-1.5 opacity-70 tnum">{counts[o]}</span>}
         </button>
       ))}
     </div>

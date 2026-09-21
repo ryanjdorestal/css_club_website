@@ -1,0 +1,126 @@
+/* os.css — the OS realm (run 9 §5–§6). Loaded by OsLayout + OsLogin only.
+   Page navy-900 · tiles navy-800 · accent tiles = teal 18 % over navy-700 · paper tile = --color-paper.
+   Scanlines 3 % + a 32 px hairline grid 4 % (R9_05), the pixel display face, SYS VER readout. */
+:root {
+  --os-accent: color-mix(in srgb, var(--color-teal) 18%, var(--color-navy-700));
+  --os-rail: 56px;
+}
+
+[data-realm="os"] {
+  background:
+    repeating-linear-gradient(0deg, color-mix(in srgb, var(--color-ink) 3%, transparent) 0 1px, transparent 1px 3px),
+    linear-gradient(90deg, color-mix(in srgb, var(--color-ink) 4%, transparent) 1px, transparent 1px),
+    linear-gradient(color-mix(in srgb, var(--color-ink) 4%, transparent) 1px, transparent 1px), var(--color-navy-900);
+  background-size:
+    100% 3px,
+    32px 32px,
+    32px 32px,
+    auto;
+}
+
+.os-accent {
+  background: var(--os-accent);
+}
+.os-accent-bar {
+  background: color-mix(in srgb, var(--color-teal) 55%, var(--color-navy-500));
+}
+
+/* the bento: 12 columns, four row tracks in the ref's proportions, 10 px gutters */
+.bento {
+  display: grid;
+  grid-template-columns: repeat(12, minmax(0, 1fr));
+  grid-template-rows: 129fr 127fr 262fr 148fr;
+  gap: 10px;
+  aspect-ratio: 1081 / 697;
+  width: 100%;
+}
+
+@media (max-width: 899px) {
+  .bento {
+    grid-template-columns: 1fr;
+    grid-template-rows: none;
+    aspect-ratio: auto;
+  }
+  .bento-slot {
+    grid-area: auto !important;
+    min-height: 150px;
+  }
+}
+
+/* the left icon rail (R9_04): square cells, 1 px dividers, the active cell has a red left edge that pulses 1 Hz */
+.os-rail-cell {
+  position: relative;
+  width: var(--os-rail);
+  height: var(--os-rail);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-bottom: 1px solid var(--color-line);
+  color: var(--color-muted);
+}
+.os-rail-cell:hover,
+.os-rail-cell:focus-visible {
+  color: var(--color-ink);
+}
+.os-rail-cell[aria-current="page"] {
+  color: var(--color-ink);
+  background: color-mix(in srgb, var(--color-ink) 4%, transparent);
+}
+.os-rail-cell[aria-current="page"]::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: 0;
+  bottom: 0;
+  width: 3px;
+  background: var(--color-red);
+  animation: os-pulse 1s steps(1) infinite;
+}
+
+@keyframes os-pulse {
+  0%,
+  49% {
+    opacity: 1;
+  }
+  50%,
+  100% {
+    opacity: 0.55;
+  }
+}
+
+/* the 5-cell segmented tab strip (R9_04 bottom): 1 px dividers, the active cell filled red */
+.os-tabs {
+  display: inline-grid;
+  grid-auto-flow: column;
+  grid-auto-columns: minmax(84px, auto);
+  border: 1px solid var(--color-line);
+}
+.os-tabs > button {
+  padding: 8px 12px;
+  border-right: 1px solid var(--color-line);
+  color: var(--color-muted);
+  cursor: pointer;
+}
+.os-tabs > button:last-child {
+  border-right: 0;
+}
+.os-tabs > button[aria-pressed="true"] {
+  background: var(--color-red);
+  color: var(--color-ink);
+  animation: os-pulse 1s steps(1) infinite;
+}
+
+/* ring gauges fill on load; traces drift; reduced motion → static */
+.ring-fill {
+  transition: stroke-dasharray 0.9s ease-out;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .os-rail-cell[aria-current="page"]::before,
+  .os-tabs > button[aria-pressed="true"] {
+    animation: none;
+  }
+  .ring-fill {
+    transition: none;
+  }
+}

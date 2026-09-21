@@ -3,6 +3,7 @@
     buttons, note required on request-changes). Published: featured toggle,
     up/down reorder. "Add on behalf of a student" uses the same fields. */
 import { useMemo, useState } from "react";
+import { projectsSpec } from "./ui/specs";
 import { OsPage, Chips, KeyVal, Panel, Notice } from "./ui/OsPage";
 import { OsTable, StatusWord, ago, type Row } from "./ui/OsTable";
 import { OsForm, type Field } from "./ui/OsForm";
@@ -102,6 +103,7 @@ export default function OsProjects() {
 
   return (
     <OsPage
+      dash={projectsSpec(rows, source !== "loading")}
       kicker="PROJECTS · APPS · ONE QUEUE"
       title="Projects"
       source={source}

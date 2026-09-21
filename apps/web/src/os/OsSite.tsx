@@ -2,6 +2,7 @@
     inline JSON/string editing, the maintenance banner toggle, feature flags,
     ticker items. The public site reads these through /api/site-settings. */
 import { useState } from "react";
+import { siteSpec } from "./ui/specs";
 import { OsPage, Notice, KeyVal } from "./ui/OsPage";
 import { act, useNotice, useOsList } from "./ui/useOs";
 import { useSession } from "./session";
@@ -48,6 +49,7 @@ export default function OsSite() {
 
   return (
     <OsPage
+      dash={siteSpec(rows, source !== "loading")}
       kicker="SITE · CONTENT · SETTINGS"
       title="Site"
       source={source}

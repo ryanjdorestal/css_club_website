@@ -2,6 +2,7 @@
     before/after diff view, and the Tier-1 inbox (writes not yet in Supabase)
     with an admin "Replay to DB" button. Read-only otherwise. */
 import { useMemo, useState } from "react";
+import { auditSpec } from "./ui/specs";
 import { OsPage, Chips, Notice, Panel, KeyVal, Empty } from "./ui/OsPage";
 import { OsTable, ago, type Row } from "./ui/OsTable";
 import { act, useNotice, useOsList } from "./ui/useOs";
@@ -65,6 +66,7 @@ export default function OsAudit() {
 
   return (
     <OsPage
+      dash={auditSpec(records.rows, inbox.rows, records.source !== "loading")}
       kicker="AUDIT · RECORDS · INBOX"
       title="Audit"
       source={records.source}

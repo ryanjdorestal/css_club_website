@@ -4,6 +4,7 @@
     form + the same markdown editor as Posts), attach docs as links, export
     the whole spine as a zip. The API validates every save. */
 import { useEffect, useMemo, useState } from "react";
+import { inheritanceSpec } from "./ui/specs";
 import { OsPage, Chips, KeyVal, Notice, Panel, Empty } from "./ui/OsPage";
 import { IndexList } from "@/components/cards/IndexList";
 import { Readout } from "@/components/cards/StatChip";
@@ -11,6 +12,7 @@ import { MonoLabel } from "@/components/MonoLabel";
 import { Button } from "@/components/Button";
 import { StatusWord } from "./ui/OsTable";
 import { RecordEditor, RecordView, type Rec } from "./ui/SpineRecord";
+import type { Row } from "./ui/OsTable";
 import { osFetch, osHeaders, useSession } from "./session";
 
 type Index = {
@@ -79,6 +81,7 @@ export default function OsInheritance() {
 
   return (
     <OsPage
+      dash={inheritanceSpec((idx?.rows ?? []) as unknown as Row[], !!idx, term || idx?.current || undefined, idx?.stats.officers ?? 0)}
       kicker="INHERITANCE · THE SPINE · content/inheritance/"
       title="Inheritance"
       source="files"

@@ -2,6 +2,7 @@
     search), row → side-panel editor, status transition with the allowed
     next states, CSV import with a dry-run diff, client-side CSV export. */
 import { useMemo, useState } from "react";
+import { membersSpec } from "./ui/specs";
 import { OsPage, Chips, Notice, Panel, KeyVal } from "./ui/OsPage";
 import { OsTable, StatusWord, ago, type Row } from "./ui/OsTable";
 import { OsForm, type Field } from "./ui/OsForm";
@@ -75,6 +76,7 @@ export default function OsMembers() {
 
   return (
     <OsPage
+      dash={membersSpec(rows, source !== "loading")}
       kicker="MEMBERS · DISCORD TRACKER"
       title="Members"
       source={source}
