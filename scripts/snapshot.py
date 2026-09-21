@@ -6,7 +6,7 @@ Tier-1 tables in data/*.local.json) and rewrites:
   data/projects.json · data/posts.json · data/events.json · data/board.json
   data/terms.json · data/resources.json · data/links.json · data/site_settings.json
   content/news/<slug>.md (one per published post)
-  content/handoffs/<term>.md (one per term, filed handoffs only)
+  content/inheritance/<id>.md (the spine, mirrored back from the DB when configured)
   data/snapshot.json (generated_at + counts — /os/inheritance reads it)
 then validates data/*.json against the schemas and prints a diff summary.
 This is what keeps Tier 1 current, and the restore path if Supabase is lost.
@@ -30,7 +30,7 @@ from typing import Any
 ROOT = Path(__file__).resolve().parent.parent
 sys.path.insert(0, str(ROOT / "api"))
 from _core import collections as C  # noqa: E402
-from _core import config, db  # noqa: E402
+from _core import config, db, spine  # noqa: E402
 from _core.routers import public  # noqa: E402
 
 DATA, CONTENT = ROOT / "data", ROOT / "content"
@@ -81,17 +81,16 @@ def snapshot(dry: bool) -> int:
     for p in posts_full:
         fm = f"---\ntitle: {p['title']}\ndate: {p.get('published_at', '')}\nkind: {(p.get('tags') or ['article'])[0]}\nauthor: {p.get('author_name', 'The Board')}\nslug: {p['slug']}\n---\n\n"
         note(f"content/news/{p['slug']}.md", write_md(CONTENT / "news" / f"{p['slug']}.md", fm + (p.get("body_md") or "").strip() + "\n", dry))
-    by_term: dict[str, list[dict[str, Any]]] = {}
-    for h in C.handoffs.list():
-        if h.get("status") in ("filed", "acknowledged"):
-            by_term.setdefault(str(h.get("term")), []).append(h)
-    for term, hs in by_term.items():
-        body = f"# Handoffs — {term}\n\n" + "\n\n".join(f"## {h.get('officer_name', '?')} — {h.get('role_title', '')}\n\n{(h.get('body_md') or '').strip()}" for h in hs) + "\n"
-        note(f"content/handoffs/{term}.md", write_md(CONTENT / "handoffs" / f"{term}.md", body, dry))
+    # the inheritance spine: DB rows (Tier 2) → content/inheritance files; the files are the truth in Tier 1
+    mirrored = db.select(spine.TABLE) or []
+    for rec in mirrored:
+        meta = dict(rec.get("frontmatter") or {})
+        note(f"content/inheritance/{rec['id']}.md", write_md(spine.DIR / f"{rec['id']}.md", spine.dump(meta, str(rec.get("body_md") or "")), dry))
+    by_term = {t: 1 for t in spine.terms()}
 
     meta = {"generated_at": time.strftime("%Y-%m-%dT%H:%M:%SZ", time.gmtime()), "source": src,
             "counts": {"projects": len(public.projects()["projects"]), "posts": len(posts_full), "events": sum(len(s["events"]) for s in ev["semesters"]),
-                       "resources": rs["count"], "handoff_terms": len(by_term)}}
+                       "resources": rs["count"], "spine_terms": len(by_term), "spine_records": len(spine.list_records())}}
     if not dry:
         write_json("snapshot.json", meta, dry)
     print(f"changed: {changed or 'nothing'}")

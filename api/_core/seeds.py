@@ -119,10 +119,6 @@ def members() -> Rows:
     return []
 
 
-def handoffs() -> Rows:
-    return []
-
-
 def content_news_files() -> list[str]:
     d = config.CONTENT / "news"
     return sorted(p.name for p in d.glob("*.md")) if d.exists() else []

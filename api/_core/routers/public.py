@@ -13,8 +13,8 @@ from typing import Any
 from fastapi import APIRouter, Request
 from fastapi.responses import JSONResponse, RedirectResponse
 
-from .. import collections as C
 from .. import audit, config, db, tier1
+from .. import collections as C
 from ..auth import whoami
 from ..models import ChatIn, OnboardingSubmit, ProjectSubmit
 

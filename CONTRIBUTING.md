@@ -57,6 +57,13 @@ Example: `/os/sponsors`.
 4. Route in `App.tsx` under `os/`; nav entry in `os/OsLayout.tsx::OS_MODULES`.
 5. Tests (§3) and shots (`node qa-scripts/shoot_os.mjs`).
 
+## 5. Write an inheritance record (board knowledge, not code)
+CSS OS → Inheritance → pick a type → the template loads → fill the header
+(title, date, owners = names or roles, status, visibility) → write → save.
+The file lands in `content/inheritance/<term>/…` and `scripts/validate_inheritance.py`
+(the same rules the OS applies) runs in `make check`. Attach docs as links; never
+paste a credential. `content/inheritance/HOW-TO.md` has the five steps.
+
 ## Style
 - Files ≤ 400 lines, components ≤ 200, functions ≤ 60 (Python). Pages compose;
   logic lives in `lib/`, `_core/`.

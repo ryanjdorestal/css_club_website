@@ -30,6 +30,7 @@ const OsMembers = lazy(() => import("@/os/OsMembers"));
 const OsBoard = lazy(() => import("@/os/OsBoard"));
 const OsSite = lazy(() => import("@/os/OsSite"));
 const OsInheritance = lazy(() => import("@/os/OsInheritance"));
+const OsSystem = lazy(() => import("@/os/OsSystem"));
 const OsAudit = lazy(() => import("@/os/OsAudit"));
 const News = lazy(() => import("@/pages/News").then((m) => ({ default: m.NewsIndex })));
 const NewsArticle = lazy(() => import("@/pages/News").then((m) => ({ default: m.NewsArticle })));
@@ -98,6 +99,7 @@ export default function App() {
             <Route path="board" element={<OsBoard />} />
             <Route path="site" element={<OsSite />} />
             <Route path="inheritance" element={<OsInheritance />} />
+            <Route path="system" element={<OsSystem />} />
             <Route path="audit" element={<OsAudit />} />
             <Route path="queue" element={<OsProjects />} />
           </Route>

@@ -14,3 +14,9 @@ Start 2026-09-21 00:49 EDT. Budget 150 min (§2 ≤ 20 · §3 ≤ 40 · §4 ≤ 
 
 ## §2 done (01:06 — 17 min)
 os_gate.mjs: 12/12 (anonymous → login + reason + next; guest → NOT_ON_ROSTER; admin picker honours next; nav button anonymous/signed-in; overlay entry). Shots qa/loops/run8/os-login-{1440,390}.png, home-nav-os-1440.png.
+| 7 | Spine frontmatter is a YAML *subset* parsed by `spine.parse` (scalars, inline lists, block lists, block lists of label/url maps) | no PyYAML dependency; templates and the OS editor only ever emit this subset |
+| 8 | `owners` on the roster is enforced only when that term has roster rows; `the board` is always allowed | F26 has no officers yet — a validator that fails on an empty roster would block the seed records |
+| 9 | Rollover now writes `<next>/roster.md` + one draft `handoffs/<role>.md` per outgoing officer into the spine; the run-7 `handoffs` table is retired (0003 adds `inheritance_records`) | one place for board knowledge |
+
+## §3 done (01:10 — 21 min)
+/os/inheritance = blurb · readouts · term rail · grouped IndexList · record view (spec sheet, link buttons, article body) · editor (frontmatter form + markdown preview) · export zip · HOW-TO panel. /os/system = health + ownership + docs + runbook. Seed: HOW-TO, 8 templates, F26/roster.md, the platform-adoption decision. `scripts/validate_inheritance.py` in make check + CI. pytest 49. Shots qa/loops/run8/os-inheritance-*.png, os-system-1440.png.

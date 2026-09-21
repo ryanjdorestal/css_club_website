@@ -27,6 +27,7 @@ dev:
 check: lint types test
 	$(PY) scripts/check_api_count.py
 	$(PY) scripts/validate_data.py
+	$(PY) scripts/validate_inheritance.py --quiet
 	cd $(WEB) && npx ts-prune -p tsconfig.app.json --ignore "sigils/index|textures/index|frame/index|brand.config|api.types" --error
 	cd $(WEB) && npx depcheck
 

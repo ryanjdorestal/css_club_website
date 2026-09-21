@@ -28,12 +28,23 @@ manager, Vercel settings), not *what* it is.
   semester and fix the dead ones.
 - **Green means green** — glance at /os/inheritance monthly. A red chip has a
   one-line fix next to it and a runbook entry (docs/RUNBOOK.md).
-- **Last 4 weeks** — every officer files a handoff on /os/inheritance (what I
-  ran, where things are, what's unfinished, advice). Today nags until it's filed.
+- **Last 4 weeks** — every officer files a handoff on /os/inheritance → New record →
+  handoff (what I ran, where things are, what's unfinished, who to call, advice).
+  Set `status: final` when it's good enough to hand over; Today nags until then.
 - **Term end** — an admin runs **Term rollover** on /os/board: closes the
   term, opens the next, clones who continues (as inactive — confirm each),
   files handoff stubs. Remove graduated officers' ACTIVE flag. Update the
   ownership sheet.
+
+## Where the spine lives, and how to take it with you
+Everything the board writes on /os/inheritance is a markdown file in the repo under
+`content/inheritance/<term>/` (roster, handoffs, decisions, projects, events,
+contacts, lessons, minutes). It reads without any software. `EXPORT_SPINE.zip` on
+that page downloads the whole folder; the nightly snapshot keeps the repo copy
+current when Supabase is on. Attach documents as links (Drive, the club Gmail,
+GitHub) — the platform never stores your files. Never put a password or key in a
+record; the validator refuses secret-shaped text and public records with emails
+or phone numbers.
 
 ## Adding / removing an officer
 /os/board → Add officer (name, role, login email, OS role: `officer`, or

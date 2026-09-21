@@ -33,7 +33,7 @@ export default function OsToday() {
       notHere={[
         "No analytics — page views need a third-party account (docs/LATER.md); the numbers here are the club's own data.",
         "No Discord feed — there is no bot; announcements are posted by a human, tracked on /os/members.",
-        "Nothing here is cached or invented: red means red. Follow the fix line on /os/inheritance.",
+        "Nothing here is cached or invented: red means red. Follow the fix line on /os/system.",
       ]}
     >
       <div className="grid grid-cols-2 lg:grid-cols-4 gap-px bg-line border border-line">

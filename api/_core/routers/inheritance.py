@@ -1,42 +1,19 @@
-"""/api/os/status + /api/os/handoffs + /api/os/attention — the inheritance
-spine. status = honest live checks (no fake green); handoffs = one per officer
-per term; attention = the counts Today shows. Mounted by api/index.py."""
+"""/api/os/status + /api/os/attention — platform health (the /os/system page)
+and the counts Today shows. status = honest live checks, no fake green.
+Handoffs live in the spine (routers/spine.py). Mounted by api/index.py."""
 from __future__ import annotations
 
 import subprocess
 import time
 from typing import Any
 
-from fastapi import APIRouter, Depends, HTTPException
+from fastapi import APIRouter, Depends
 
 from .. import collections as C
-from .. import config, db, lifecycle, tier1
+from .. import config, db, spine, tier1
 from ..auth import Actor, current_term, require_role
-from ..crud import make_router
-from ..models import HandoffIn
 
-
-def prepare(data: dict[str, Any], actor: Actor) -> dict[str, Any]:
-    data.setdefault("term", (current_term() or {}).get("id"))
-    data.setdefault("profile_id", actor.profile_id or actor.email)
-    data.setdefault("officer_name", actor.name or actor.email)
-    data.setdefault("status", "draft")
-    return data
-
-
-r: APIRouter = make_router("/os/handoffs", C.handoffs, HandoffIn, filters=("term", "status"), delete_role="admin",
-                           transitions="handoffs", prepare=prepare)
 status_r = APIRouter(prefix="/os")
-
-
-@r.post("/{row_id:path}/file")
-def file_handoff(row_id: str, actor: Actor = Depends(require_role("officer"))) -> dict[str, Any]:
-    before = C.handoffs.get(row_id)
-    if not before:
-        raise HTTPException(404, "not found")
-    if not lifecycle.allowed("handoffs", str(before.get("status")), "filed"):
-        raise HTTPException(422, f"cannot file from {before.get('status')}")
-    return {"ok": True, "row": C.handoffs.patch(row_id, {"status": "filed", "filed_at": int(time.time())}, actor.email, action="file")}
 
 
 def repo_sha() -> str:
@@ -88,7 +65,8 @@ def attention(actor: Actor = Depends(require_role("officer"))) -> dict[str, Any]
     stale_drafts = [p for p in posts if p.get("status") == "draft" and now - float(p.get("updated_at") or 0) > 14 * 86400]
     events = C.events.list()
     officers = C.board.list(term=term.get("id"))
-    filed = {h.get("profile_id") for h in C.handoffs.list(term=term.get("id")) if h.get("status") in ("filed", "acknowledged")}
+    filed_roles = {str(h.get("role") or "").lower() for h in spine.list_records(str(term.get("id") or "")) if h.get("type") == "handoff" and h.get("status") == "final"}
+    filed = {o["id"] for o in officers if str(o.get("role_title", "")).lower() in filed_roles}
     ends = term.get("ends_on")
     last_weeks = False
     if ends:

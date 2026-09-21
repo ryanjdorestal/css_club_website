@@ -10,7 +10,7 @@ from typing import Any
 from fastapi import APIRouter, Depends, HTTPException
 from pydantic import BaseModel, Field
 
-from .. import audit
+from .. import audit, spine
 from .. import collections as C
 from ..auth import Actor, require_role
 from ..crud import clean, make_router
@@ -58,12 +58,18 @@ def rollover(body: RolloverIn, actor: Actor = Depends(require_role("admin"))) ->
         if o["id"] in body.continuing_ids:
             cloned.append(C.board.create({**{k: v for k, v in o.items() if k not in ("id", "created_at", "updated_at")},
                                           "id": f"{body.next_id}/{o['id'].split('/')[-1]}", "term": body.next_id, "active": False}, actor.email))
-    # 3. a handoff stub per outgoing officer for the closing term
+    # 3. the spine: <next>/roster.md from the confirmed officers + a draft handoff stub per outgoing officer
     stubs = 0
+    today = time.strftime("%Y-%m-%d")
+    table = "\n".join(f"| {o.get('role_title', '')} | {o.get('name', '')} | {body.next_id} |" for o in cloned) or "| | | |"
+    spine.save_record({"type": "roster", "title": f"Board roster — {body.next_label}", "term": body.next_id, "date": today, "status": "draft",
+                       "owners": ["the board"], "visibility": "board"},
+                      f"## Officers\n\n| Role | Name | Since |\n|---|---|---|\n{table}\n\n## Who holds what\n\nSee CSS OS → System → Ownership.\n", actor.email)
     for o in officers:
-        if not any(h.get("profile_id") == o["id"] and h.get("term") == current["id"] for h in C.handoffs.list()):
-            C.handoffs.create({"profile_id": o["id"], "officer_name": o.get("name", ""), "role_title": o.get("role_title", ""),
-                               "term": current["id"], "body_md": "", "status": "draft"}, actor.email)
+        role = str(o.get("role_title") or o.get("name") or "officer")
+        meta = {"type": "handoff", "title": f"Handoff — {role}", "term": current["id"], "date": today, "status": "draft", "owners": [role], "visibility": "board", "role": role}
+        if not spine.get_record(spine.record_id(meta)):
+            spine.save_record(meta, "## What I ran\n\n## Where things are\n\n## What's unfinished\n\n## Who to call\n\n## Advice for whoever is next\n", actor.email)
             stubs += 1
     audit.record(actor.email, "rollover", "terms", body.next_id, current, nxt, note=f"{len(cloned)} continuing, {stubs} handoff stubs")
     return {"ok": True, "closed": current["id"], "opened": nxt, "cloned": cloned, "handoff_stubs": stubs, "ts": int(time.time())}

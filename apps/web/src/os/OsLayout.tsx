@@ -19,6 +19,7 @@ export const OS_MODULES = [
   { to: "/os/board", label: "Board" },
   { to: "/os/site", label: "Site", admin: true },
   { to: "/os/inheritance", label: "Inheritance" },
+  { to: "/os/system", label: "System" },
   { to: "/os/audit", label: "Audit" },
 ] as const;
 

@@ -20,7 +20,7 @@ from pathlib import Path
 from fastapi import FastAPI
 
 sys.path.insert(0, str(Path(__file__).resolve().parent))  # api/ → `_core` importable in both uvicorn and Vercel
-from _core.routers import audit, board, events, inheritance, members, posts, projects, public, resources, settings, uploads
+from _core.routers import audit, board, events, inheritance, members, posts, projects, public, resources, settings, spine, uploads
 
 app = FastAPI(title="jjcss-api", docs_url=None, redoc_url=None)
 
@@ -35,7 +35,7 @@ for router in (
     board.terms_r,
     members.r,
     settings.r,
-    inheritance.r,
+    spine.r,
     inheritance.status_r,
     audit.r,
     uploads.r,

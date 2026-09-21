@@ -28,6 +28,7 @@ jobs:
         run: |
           .venv/bin/python scripts/check_api_count.py
           .venv/bin/python scripts/validate_data.py
+          .venv/bin/python scripts/validate_inheritance.py
       - name: lint + types (ruff, mypy --strict, oxlint, tsc)
         run: make lint types
       - name: tests (pytest + vitest)

@@ -16,8 +16,9 @@ make dev            # web on http://localhost:5173, API on :8000   (Tier 1)
 ```
 
 - `http://localhost:5173/` — the site, reading `data/*.json` through the API.
-- `http://localhost:5173/os` — the board platform; pick **admin** in the LOCAL_DEV
-  picker (no auth until Supabase is configured — SETUP.md).
+- `http://localhost:5173/os` — the board platform (also `[ CSS_OS · BOARD ]` in the site's nav);
+  pick **admin** in the LOCAL_DEV panel under the login form (no auth until Supabase is
+  configured — SETUP.md).
 - `make check` — lint + types + tests + guards (what CI runs). Should be green.
 
 Try it: change `primary` in `data/site_settings.json` → reload `/` (the hero
@@ -35,7 +36,8 @@ apps/web/          React + TS + Vite (Tailwind v4, Motion, R3F)
   src/sigils/ textures/ motion/ lib/   marks, backgrounds, reveals, helpers
 api/index.py       the ONE Vercel function; api/_core/ holds the real code
                    (store, auth, audit, routers/, tests/)
-data/ content/     the Tier-1 fallback: committed JSON + markdown the site renders
+data/ content/     the Tier-1 fallback: committed JSON + markdown the site renders;
+                   content/inheritance/ is the board's spine (one folder per term, markdown + frontmatter)
 supabase/          migrations + the schema the API expects
 scripts/           snapshot, bootstrap_admin, extract_old_site, validators (each has --help)
 brand/ assets/     brand.config.ts (names, palette, links) + brand files, cube, hound

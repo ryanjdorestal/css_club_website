@@ -16,7 +16,6 @@ board = Collection("board_profiles", seeds.board_profiles)
 terms = Collection("terms", seeds.terms)
 members = Collection("members", seeds.members)
 settings = Collection("site_settings", seeds.site_settings, id_field="key")
-handoffs = Collection("handoffs", seeds.handoffs)
 onboarding = Collection("onboarding_requests")
 
-ALL = {c.table: c for c in (projects, submissions, posts, events, resources, links, board, terms, members, settings, handoffs, onboarding)}
+ALL = {c.table: c for c in (projects, submissions, posts, events, resources, links, board, terms, members, settings, onboarding)}

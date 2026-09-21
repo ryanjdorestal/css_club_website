@@ -32,6 +32,10 @@ def client(tmp_path: Path, monkeypatch: pytest.MonkeyPatch) -> TestClient:
     monkeypatch.setattr(config, "SUPABASE_URL", "")
     monkeypatch.setattr(config, "SUPABASE_KEY", "")
     monkeypatch.setattr(config, "IS_VERCEL", False)
+    from _core import spine as sp
+
+    shutil.copytree(ROOT / "content/inheritance", tmp_path / "inheritance")
+    monkeypatch.setattr(sp, "DIR", tmp_path / "inheritance")  # rollover + spine writes stay out of the repo
     from index import app  # noqa: WPS433
 
     return TestClient(app)
@@ -186,6 +190,7 @@ def test_rollover(client: TestClient) -> None:
     cur = client.get("/api/os/terms", headers=OFFICER).json()["current"]["id"]
     r = client.post("/api/os/terms/rollover", json={"next_id": "S27", "next_label": "Spring 2027", "continuing_ids": []}, headers=ADMIN).json()
     assert r["closed"] == cur and r["opened"]["id"] == "S27"
+    assert "S27" in client.get("/api/os/inheritance", headers=OFFICER).json()["terms"]  # rollover wrote S27/roster.md into the spine
     assert client.get("/api/os/terms", headers=OFFICER).json()["current"]["id"] == "S27"
     assert client.post("/api/os/terms/rollover", json={"next_id": "S27", "next_label": "Spring 2027"}, headers=ADMIN).status_code == 409
 
@@ -239,11 +244,48 @@ def test_status_is_honest(client: TestClient) -> None:
     assert next(c for c in checks if c["label"] == "SUPABASE")["state"] == "offline"
 
 
-def test_handoff_file_and_attention(client: TestClient) -> None:
-    h = client.post("/api/os/handoffs", json={"body_md": "what I ran"}, headers=OFFICER).json()["row"]
-    assert client.post(f"/api/os/handoffs/{h['id']}/file", headers=OFFICER).json()["row"]["status"] == "filed"
+def test_attention_keys(client: TestClient) -> None:
     items = client.get("/api/os/attention", headers=OFFICER).json()["items"]
     assert {i["key"] for i in items} >= {"submissions", "dead_links", "handoffs", "inbox"}
+
+
+# ------------------------------------------------------------------ spine
+def test_spine_index_and_templates(client: TestClient) -> None:
+    j = client.get("/api/os/inheritance", headers=OFFICER).json()
+    assert j["ok"] and "F26" in j["terms"] and j["stats"]["records"] >= 1
+    t = client.get("/api/os/inheritance/templates", headers=OFFICER).json()
+    assert set(t["templates"]) == {"roster", "handoff", "decision", "project", "event", "contact", "lesson", "minutes"} and "## The five steps" in t["howto"]
+
+
+def test_spine_create_writes_a_file(client: TestClient, tmp_path: Path) -> None:
+    d = tmp_path / "inheritance"
+    body = {"meta": {"type": "decision", "title": "Meet on Thursdays", "term": "F26", "date": "2026-10-01", "status": "final", "owners": ["the board"], "visibility": "board",
+                     "links": [{"label": "Notes", "url": "https://drive.google.com/x"}]}, "body_md": "## Decision\n\nThursdays 1:40."}
+    r = client.post("/api/os/inheritance", json=body, headers=OFFICER)
+    assert r.status_code == 200, r.text
+    assert (d / "F26/decisions/2026-10-01-meet-on-thursdays.md").exists()
+    assert client.post("/api/os/inheritance", json=body, headers=OFFICER).status_code == 409
+    got = client.get("/api/os/inheritance/F26/decisions/2026-10-01-meet-on-thursdays", headers=OFFICER).json()["row"]
+    assert got["links"][0]["label"] == "Notes" and got["body_md"].startswith("## Decision")
+
+
+def test_spine_refuses_secrets_and_pii(client: TestClient) -> None:
+    base = {"type": "lesson", "title": "x", "term": "F26", "date": "2026-10-02", "status": "draft", "owners": ["the board"], "visibility": "board"}
+    r = client.post("/api/os/inheritance", json={"meta": base, "body_md": "token: ghp_abcdefghijklmnopqrstuvwxyz0123456789"}, headers=OFFICER)
+    assert r.status_code == 422 and "secret-shaped" in r.text
+    r = client.post("/api/os/inheritance", json={"meta": {**base, "visibility": "public"}, "body_md": "call me at 212-555-0100"}, headers=OFFICER)
+    assert r.status_code == 422 and "phone" in r.text
+    r = client.post("/api/os/inheritance", json={"meta": {**base, "status": "published"}, "body_md": "ok"}, headers=OFFICER)
+    assert r.status_code == 422 and "status must be" in r.text
+
+
+def test_spine_export_zip(client: TestClient) -> None:
+    r = client.get("/api/os/inheritance/export.zip", headers=OFFICER)
+    assert r.status_code == 200 and r.headers["content-type"] == "application/zip" and len(r.content) > 500
+
+
+def test_spine_needs_auth(client: TestClient) -> None:
+    assert client.get("/api/os/inheritance").status_code == 401
 
 
 def test_status_needs_auth(client: TestClient) -> None:
