@@ -53,6 +53,21 @@ old SHA. `scripts/check_api_count.py` fails CI; the `post-deploy-smoke` workflow
   role again.
 - **The bento grid is fixed.** Every OS page opens on the same nine-tile layout; the specs in
   `os/ui/specs.ts` fill it. Do not move tiles per page — `qa-scripts/bento_overlay.mjs` measures the drift.
+- **WebGL does not survive a CI runner.** Two headless tabs compositing the cube through software
+  rendering on two cores either crash the tab (`Target.closeTarget: No target with given id found`) or blow
+  the navigation timeout, and which route dies moves between runs so it looks like a flake. pa11y runs with
+  `--force-prefers-reduced-motion` and `concurrency: 1` for exactly this reason (run 12). Any new browser
+  gate that loads the home page needs the same treatment or a single tab.
+- **A gate that grades the wrong page passes.** Without the API, every OS route bounces to `/os/login`, and
+  an accessibility run over eleven login screens looks identical to eleven passing OS pages. `axe.mjs` now
+  fails on a redirect; keep that check in anything that visits `/os/*`.
+- **An iframe's `onLoad` fires for the browser's error page too**, and that page is cross-origin, so
+  `contentDocument` cannot tell them apart either. `MapCard` probes the host before mounting the embed
+  (run 12). Do not "simplify" it back to `onLoad` — that is how the footer showed a grey box on a network
+  that blocks Google.
+- **`CHROME_PATH` points every browser gate and Lighthouse at one Chromium.** Use `browser.mjs`'s
+  `launchChrome()` in a new script rather than `chromium.launch()`, or it will not run where the Playwright
+  download is blocked.
 
 ## Process
 
