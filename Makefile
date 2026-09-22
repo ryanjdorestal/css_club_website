@@ -85,7 +85,7 @@ clean:
 
 hooks:
 	git config core.hooksPath .githooks
-	@echo "pre-commit hook installed (ruff + tsc + vitest)"
+	@echo "hooks installed: pre-commit (ruff + tsc + vitest) + commit-msg (commitlint)"
 
 # run 10: Tier-1 store durability
 restore:

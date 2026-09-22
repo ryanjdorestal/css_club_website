@@ -1,0 +1,3 @@
+#!/usr/bin/env bash
+# commit-msg: the same commitlint CI runs (conventional type, header ≤ 140 chars). Install with: make hooks
+cd apps/web && npx --no-install commitlint --edit "$1"
