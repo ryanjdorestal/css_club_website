@@ -22,7 +22,10 @@ const browser = await chromium.launch();
 const page = await browser.newPage({ viewport: { width: 1280, height: 800 } });
 const errors = [];
 page.on("pageerror", (e) => errors.push(`pageerror: ${e.message}`));
-page.on("console", (m) => m.type() === "error" && !m.text().includes("/api/") && errors.push(`console: ${m.text().slice(0, 160)}`));
+// the API is not running here: a 502 on /api/* is the fallback path working, not a render error
+// (Chrome puts the failing URL in location(), not in the message text)
+const fromApi = (m) => m.text().includes("/api/") || (m.location()?.url ?? "").includes("/api/");
+page.on("console", (m) => m.type() === "error" && !fromApi(m) && errors.push(`console: ${m.text().slice(0, 160)}`));
 let failed = 0;
 for (const route of ROUTES) {
   const res = await page.goto(`http://localhost:4173${route}`, { waitUntil: "domcontentloaded" });
