@@ -40,3 +40,7 @@ qa/loops/*
 # reference material lives outside the repo at ~/Desktop/jjay_css_refs/ (assets/refs/README.md)
 assets/refs/*
 !assets/refs/README.md
+
+# lhci writes reports next to the app; the numbers live in the job summary and the artifact.
+apps/web/.lighthouseci/
+apps/web/.lighthouseci-report/
