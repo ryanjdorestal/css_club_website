@@ -55,7 +55,7 @@ audit:
 	$(PY) scripts/gen_api_docs.py && git diff --quiet -- docs/API.md || (echo "docs/API.md changed — commit it" && exit 1)
 
 a11y:
-	cd $(WEB) && npm run a11y:axe && npm run a11y:pa11y
+	bash scripts/a11y.sh
 
 smoke:
 	cd $(WEB) && npm run gate && npm run smoke:functional

@@ -12,16 +12,16 @@ concurrency:
 jobs:
   check:
     # Exactly what `make check` runs on a laptop, plus the build and the render smoke.
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v5
         with: { fetch-depth: 0 }
-      - uses: actions/setup-node@v4
+      - uses: actions/setup-node@v5
         with:
           node-version-file: .nvmrc
           cache: npm
           cache-dependency-path: apps/web/package-lock.json
-      - uses: actions/setup-python@v5
+      - uses: actions/setup-python@v6
         with:
           python-version-file: .python-version
 
@@ -64,15 +64,15 @@ jobs:
   functional:
     # A board member's day, end to end, against the dev server + API (Tier 1, no accounts):
     # the OS gate (12 checks), the 9-step functional smoke, the 25-step board simulation and the 16-case break pass. All must pass.
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04
     permissions:
       contents: read
       actions: write # upload-artifact
     steps:
-      - uses: actions/checkout@v4
-      - uses: actions/setup-node@v4
+      - uses: actions/checkout@v5
+      - uses: actions/setup-node@v5
         with: { node-version-file: .nvmrc, cache: npm, cache-dependency-path: apps/web/package-lock.json }
-      - uses: actions/setup-python@v5
+      - uses: actions/setup-python@v6
         with: { python-version-file: .python-version }
       - run: npm ci --prefix apps/web && python -m venv .venv && .venv/bin/pip install -q -r api/requirements.txt
       - run: npx --prefix apps/web playwright install --with-deps chromium
@@ -84,7 +84,7 @@ jobs:
       # run 10: the semester simulation (25 steps, empty store) and the adversarial pass (16 cases)
       - run: make sim
       - run: make break
-      - uses: actions/upload-artifact@v4
+      - uses: actions/upload-artifact@v6
         if: always()
         continue-on-error: true # the screenshots are a convenience, never the gate
         with: { name: smoke-screenshots, path: qa/loops/smoke, retention-days: 7 }

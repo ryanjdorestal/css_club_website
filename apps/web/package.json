@@ -18,7 +18,7 @@
     "lint:css": "stylelint 'src/**/*.css' --config ../../.stylelintrc.json",
     "lint:html": "html-validate --config ../../.htmlvalidate.json dist/index.html index.html",
     "lint:md": "cd ../.. && markdownlint --config .markdownlint.json --ignore-path .markdownlintignore \"**/*.md\"",
-    "a11y:pa11y": "pa11y-ci --config ../../.pa11yci.json",
+    "a11y:pa11y": "pa11y-ci --config ../../.pa11yci.js",
     "a11y:axe": "node qa-scripts/axe.mjs",
     "audit:routes": "node qa-scripts/route_validator.mjs",
     "audit:images": "node qa-scripts/broken_image_scan.mjs",

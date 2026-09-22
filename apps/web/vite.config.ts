@@ -32,4 +32,12 @@ export default defineConfig({
       "/api": { target: "http://127.0.0.1:8000", changeOrigin: true },
     },
   },
+  // `vite preview` serves the shipped bundle for the a11y and Lighthouse gates; without the same
+  // proxy every /api call would fall through to index.html and the page would quietly run on its
+  // Tier 1 JSON, which is not what those gates are meant to measure.
+  preview: {
+    proxy: {
+      "/api": { target: "http://127.0.0.1:8000", changeOrigin: true },
+    },
+  },
 });

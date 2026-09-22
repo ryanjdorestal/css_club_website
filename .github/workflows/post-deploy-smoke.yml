@@ -11,7 +11,7 @@ concurrency:
 jobs:
   verify:
     if: github.event.deployment_status.state == 'success'
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04
     steps:
       - name: compare deployed sha to pushed sha
         run: |
