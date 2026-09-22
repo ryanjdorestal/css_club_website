@@ -1,7 +1,7 @@
 // Font-consistency gate (context/26 §2, run 9 §2.4: two realms). Buckets every rendered
 // text node by size and prints the font-family set per bucket per page. Fails on extras.
 // Run from apps/web: node qa-scripts/font_audit.mjs [route ...]   (OS routes = the os realm)
-import { chromium } from "@playwright/test";
+import { launchChrome } from "./browser.mjs";
 
 const routes = process.argv.slice(2).length
   ? process.argv.slice(2)
@@ -27,7 +27,7 @@ const REALMS = {
 };
 // /styleguide shows the OS face in its specimen — the one public page allowed Silkscreen ≥ 28 px
 const STYLEGUIDE_EXTRA = new Set(["Silkscreen"]);
-const browser = await chromium.launch();
+const browser = await launchChrome();
 const page = await browser.newPage({ viewport: { width: 1440, height: 900 } });
 let fail = 0;
 for (const route of routes) {

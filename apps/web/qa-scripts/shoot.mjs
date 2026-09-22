@@ -1,7 +1,7 @@
 // npm run shoot -- --page /events [--name events]
 // Full-page 1440+390, viewport shots at 0/25/50/75/100% scroll, nav-after-200px,
 // and a 6s scroll video → 6 frames via ffmpeg. Output: qa/loops/<name>/
-import { chromium } from "@playwright/test";
+import { launchChrome } from "./browser.mjs";
 import { execSync } from "node:child_process";
 import { mkdirSync, rmSync, readdirSync, renameSync } from "node:fs";
 
@@ -11,7 +11,7 @@ const name = args.includes("--name") ? args[args.indexOf("--name") + 1] : page_ 
 const base = `../../qa/loops/${name}`;
 mkdirSync(`${base}/motion`, { recursive: true });
 
-const browser = await chromium.launch();
+const browser = await launchChrome();
 
 // full pages
 for (const w of [1440, 390]) {

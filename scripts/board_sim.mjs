@@ -3,7 +3,7 @@
 // Run:  make sim   (= cd apps/web && node ../../scripts/board_sim.mjs; needs `make dev` up)
 // Screenshots → qa/loops/run10/sim/NN-*.png. Exit 1 on any failed step; never deletes a step.
 import { createRequire } from "node:module";
-const { chromium } = createRequire(new URL("../apps/web/package.json", import.meta.url))("@playwright/test");
+import { launchChrome } from "../apps/web/qa-scripts/browser.mjs";
 import { mkdirSync, existsSync, readdirSync, rmSync } from "node:fs";
 import { join } from "node:path";
 import zlib from "node:zlib";
@@ -39,7 +39,7 @@ const say = (ok, label) => {
 const shot = (p, name) => p.screenshot({ path: join(OUT, `${String(step).padStart(2, "0")}-${name}.png`), fullPage: false }).catch(() => {});
 const wait = (ms) => new Promise((r) => setTimeout(r, ms));
 
-const b = await chromium.launch();
+const b = await launchChrome();
 const ctx = await b.newContext({ viewport: { width: 1440, height: 900 } });
 const os = await ctx.newPage();
 const site = await ctx.newPage();

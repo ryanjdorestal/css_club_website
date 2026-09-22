@@ -1,7 +1,7 @@
 // T03 login overlay gate (run 9 §4): at the ref's aspect (1665×1032 → 1440×892 viewport) measure the
 // field split, the panel chamfer, the headline / list / pagination blocks as fractions of the page and
 // compare with R9_02. Pass = every measure within ±3 %. Run from apps/web with make dev up.
-import { chromium } from "@playwright/test";
+import { launchChrome } from "./browser.mjs";
 
 // R9_02 measured (1665×1032, the outer frame is 30 px): nav 30–75, field 85–1000, left 35–820, panel 830–1630 / 108–990,
 // headline 145–265 at x 865, list 408–530, giant "1" 895–960 at x 880, "/5" x 1360–1445, chamfer ≈ 130 px of the panel's 800
@@ -14,7 +14,7 @@ const REF = {
   pageTop: (895 - 108) / (990 - 108),
   chamfer: 130 / 800,
 };
-const b = await chromium.launch();
+const b = await launchChrome();
 const p = await b.newPage({ viewport: { width: 1440, height: 892 } });
 await p.goto("http://localhost:5173/os/login", { waitUntil: "networkidle" });
 await p.waitForTimeout(1500);

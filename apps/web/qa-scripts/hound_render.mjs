@@ -1,10 +1,10 @@
 // cd apps/web && node qa-scripts/hound_render.mjs [tag] [extra-query]  — needs `python3 -m http.server 8787` at the repo root
-import { chromium } from "@playwright/test";
+import { launchChrome } from "./browser.mjs";
 import { mkdirSync } from "node:fs";
 const tag = process.argv[2] ?? "v";
 const extra = process.argv[3] ?? "";
 mkdirSync("/Users/ryandorestal/Desktop/jjay_css/assets/hound3d/renders", { recursive: true });
-const b = await chromium.launch({ args: ["--use-gl=angle", "--use-angle=swiftshader", "--enable-unsafe-swiftshader"] });
+const b = await launchChrome({ args: ["--use-gl=angle", "--use-angle=swiftshader", "--enable-unsafe-swiftshader"] });
 for (const view of ["front", "three", "side"]) {
   const p = await b.newPage({ viewport: { width: 900, height: 900 } });
   const errs = [];

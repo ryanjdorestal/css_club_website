@@ -5,7 +5,7 @@
 // writes qa/loops/run9/type_match_<role>.{png,json}.
 // Run from the repo root:  node scripts/type_match.mjs display [--fonts <node_modules>] [--refs <dir>]
 import { createRequire } from "node:module";
-const { chromium } = createRequire(new URL("../apps/web/package.json", import.meta.url))("@playwright/test");
+import { launchChrome } from "../apps/web/qa-scripts/browser.mjs";
 import { readFileSync, writeFileSync, mkdirSync, existsSync } from "node:fs";
 import { resolve } from "node:path";
 
@@ -156,7 +156,7 @@ const fonts = R.cands
   .filter(Boolean);
 const refData = b64(`${REFS}/${R.ref}`);
 
-const browser = await chromium.launch();
+const browser = await launchChrome();
 const page = await browser.newPage({ viewport: { width: 1700, height: 1200 } });
 await page.goto("about:blank");
 const result = await page.evaluate(

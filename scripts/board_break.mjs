@@ -3,7 +3,7 @@
 // lost draft. Prints a 16-row pass/fail table; screenshots → qa/loops/run10/break/NN-*.png.
 // Run:  make break   (needs `make dev` up; Tier 1). Exit 1 on any failed case.
 import { createRequire } from "node:module";
-const { chromium } = createRequire(new URL("../apps/web/package.json", import.meta.url))("@playwright/test");
+import { launchChrome } from "../apps/web/qa-scripts/browser.mjs";
 import { mkdirSync } from "node:fs";
 import { join } from "node:path";
 
@@ -21,7 +21,7 @@ const rec = (ok, label, detail = "") => {
 };
 const stamp = Date.now().toString().slice(-4);
 
-const b = await chromium.launch();
+const b = await launchChrome();
 const ctx = await b.newContext({ viewport: { width: 1440, height: 900 } });
 await ctx.addInitScript(() => sessionStorage.setItem("jjcss-os-role", "admin"));
 const p = await ctx.newPage();

@@ -1,12 +1,12 @@
 // OS gate (Tier 1, dev server): anonymous /os → /os/login with a reason chip;
 // LOCAL_DEV admin → /os renders; guest (signed in, not on roster) → NOT_ON_ROSTER.
 // node qa-scripts/os_gate.mjs   (exit 1 on any failure; shots → qa/loops/run8/)
-import { chromium } from "@playwright/test";
+import { launchChrome } from "./browser.mjs";
 import { mkdirSync } from "node:fs";
 const base = "../../qa/loops/run8";
 mkdirSync(base, { recursive: true });
 const BASE = process.env.BASE_URL ?? "http://localhost:5173";
-const b = await chromium.launch();
+const b = await launchChrome();
 let failed = 0;
 const check = (ok, label) => {
   console.log(`${ok ? "ok  " : "FAIL"} ${label}`);

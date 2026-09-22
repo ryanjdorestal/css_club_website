@@ -2,7 +2,7 @@
 // as a fraction of the grid box and compare with R9_06 (measured in docs/archive/context/39_OS_GRID.md).
 // Passes when every edge is within ±2 % of the ref. Run from apps/web with make dev up:
 //   node qa-scripts/bento_overlay.mjs [/os /os/members ...]
-import { chromium } from "@playwright/test";
+import { launchChrome } from "./browser.mjs";
 import { mkdirSync } from "node:fs";
 
 // ref tiles at 1120×788: x0,y0,x1,y1 in px; the grid box is x 17–1098, y 75–771
@@ -21,7 +21,7 @@ const REF = {
 const frac = ([x0, y0, x1, y1], g) => [(x0 - g.x0) / (g.x1 - g.x0), (y0 - g.y0) / (g.y1 - g.y0), (x1 - g.x0) / (g.x1 - g.x0), (y1 - g.y0) / (g.y1 - g.y0)];
 const routes = process.argv.slice(2).length ? process.argv.slice(2) : ["/os", "/os/members", "/os/audit"];
 mkdirSync("../../qa/loops/run9", { recursive: true });
-const b = await chromium.launch();
+const b = await launchChrome();
 const ctx = await b.newContext({ viewport: { width: 1120 + 56, height: 900 } }); // + the 56 px rail: the grid keeps the ref's width
 await ctx.addInitScript(() => sessionStorage.setItem("jjcss-os-role", "admin"));
 let fail = 0;

@@ -1,8 +1,7 @@
 // functional_smoke.mjs — what a board member does, end to end, in Tier 1 (dev server + API).
 // Asserts the PUBLIC site changed after each OS action. Every step screenshots to qa/loops/smoke/.
 // Run:  cd apps/web && node ../../scripts/functional_smoke.mjs   (BASE_URL, API_URL overridable)
-import { createRequire } from "node:module";
-const { chromium } = createRequire(new URL("../apps/web/package.json", import.meta.url))("@playwright/test");
+import { launchChrome } from "../apps/web/qa-scripts/browser.mjs";
 import { mkdirSync, existsSync, readFileSync, rmSync } from "node:fs";
 import { execFileSync } from "node:child_process";
 import { join } from "node:path";
@@ -20,7 +19,7 @@ const say = (ok, label) => {
 };
 const shot = (p, name) => p.screenshot({ path: join(OUT, `${String(step).padStart(2, "0")}-${name}.png`), fullPage: false });
 
-const b = await chromium.launch();
+const b = await launchChrome();
 const admin = await b.newContext({ viewport: { width: 1440, height: 900 } });
 const pub = await b.newContext({ viewport: { width: 1440, height: 900 } });
 const os = await admin.newPage();
