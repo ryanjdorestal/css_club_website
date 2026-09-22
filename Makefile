@@ -53,6 +53,7 @@ audit:
 	cd $(WEB) && npm run audit:routes && npm run audit:images && npm run audit:tokens && npm run audit:repo
 	$(PY) scripts/env_validate.py
 	$(PY) scripts/gen_api_docs.py && git diff --quiet -- docs/API.md || (echo "docs/API.md changed — commit it" && exit 1)
+	node scripts/gen_sitemap.mjs && git diff --quiet -- apps/web/public/sitemap.xml || (echo "sitemap.xml changed — commit it" && exit 1)
 
 a11y:
 	bash scripts/a11y.sh
