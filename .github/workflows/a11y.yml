@@ -29,4 +29,4 @@ jobs:
           for _ in $(seq 1 30); do curl -fsS http://localhost:8000/api/health >/dev/null 2>&1 && break; sleep 1; done
       - run: make a11y
       - if: failure()
-        run: tail -n 40 /tmp/a11y-dev.log /tmp/a11y-preview.log 2>/dev/null || true
+        run: tail -n 40 /tmp/a11y-api.log /tmp/a11y-dev.log /tmp/a11y-preview.log 2>/dev/null || true
