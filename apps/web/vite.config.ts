@@ -19,15 +19,15 @@ export default defineConfig({
   plugins: [react(), tailwindcss()],
   resolve: {
     alias: {
-      "@": path.resolve(__dirname, "src"),
-      "@brand": path.resolve(__dirname, "../../brand"),
-      "@data": path.resolve(__dirname, "../../data"),
-      "@content": path.resolve(__dirname, "../../content"),
-      "@docs": path.resolve(__dirname, "../../docs"),
+      "@": path.resolve(import.meta.dirname, "src"),
+      "@brand": path.resolve(import.meta.dirname, "../../brand"),
+      "@data": path.resolve(import.meta.dirname, "../../data"),
+      "@content": path.resolve(import.meta.dirname, "../../content"),
+      "@docs": path.resolve(import.meta.dirname, "../../docs"),
     },
   },
   server: {
-    fs: { allow: [path.resolve(__dirname, "../..")] },
+    fs: { allow: [path.resolve(import.meta.dirname, "../..")] },
     proxy: {
       "/api": { target: "http://127.0.0.1:8000", changeOrigin: true },
     },

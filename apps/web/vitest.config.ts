@@ -5,11 +5,11 @@ export default defineConfig({
   test: { include: ["src/**/*.test.ts"], environment: "node" },
   resolve: {
     alias: {
-      "@": path.resolve(__dirname, "src"),
-      "@brand": path.resolve(__dirname, "../../brand"),
-      "@data": path.resolve(__dirname, "../../data"),
-      "@content": path.resolve(__dirname, "../../content"),
-      "@docs": path.resolve(__dirname, "../../docs"),
+      "@": path.resolve(import.meta.dirname, "src"),
+      "@brand": path.resolve(import.meta.dirname, "../../brand"),
+      "@data": path.resolve(import.meta.dirname, "../../data"),
+      "@content": path.resolve(import.meta.dirname, "../../content"),
+      "@docs": path.resolve(import.meta.dirname, "../../docs"),
     },
   },
 });
