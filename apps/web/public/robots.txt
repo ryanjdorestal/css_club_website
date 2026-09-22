@@ -1,0 +1,10 @@
+# Computer Science Society — John Jay College, CUNY
+# The public site is open to crawlers. The board platform is not: /os needs a
+# sign-in, so indexing it would only publish login screens.
+User-agent: *
+Allow: /
+Disallow: /os
+Disallow: /os/
+Disallow: /styleguide
+
+Sitemap: https://jjaycss.tech/sitemap.xml
