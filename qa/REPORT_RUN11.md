@@ -2,7 +2,7 @@
 
 Repo connection, hosting centralisation that cannot hit a free-tier limit, the maintainer's handoff package,
 a contributor-grade repo, and a clean-code pass enforced by lint. Log: `docs/archive/context/44_RUN11_LOG.md`.
-Started 18:06, closed CLOSE_TIME (2026-09-21).
+Started 18:06, closed 20:40 (2026-09-21).
 
 ## Repo — before / after
 
@@ -79,10 +79,20 @@ plain-language map of the file.
 | Lighthouse desktop ≥ 85                                                          | ⚠️ not re-run locally (run 9: 97 desktop); the CI job now uses Playwright's Chromium — verified on the next run                                                           |
 | Type v5 audit green                                                              | ✅ `font_audit.mjs` 13/13 routes                                                                                                                                          |
 
+## CI on GitHub — the first runs ever (the repo had never been pushed)
+
+| Workflow          | Result on `main`                                                                                                                                                                                        |
+| ----------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `CI` / check      | green after three environment fixes: commitlint's range on a first push, the generated-types check (`api.types.ts` regenerated), the render smoke's handling of `/api` 502s when the API is not running |
+| `CI` / functional | **green from the first run**: OS gate 12/12 · smoke 9/9 · sim 25/25 · break 16/16 on the runner (only the artifact upload 403'd — `actions: write`, never gates now)                                    |
+| `secret-scan`     | green                                                                                                                                                                                                   |
+| `a11y`            | axe: 0 violations in CI; **pa11y times out on every URL on the runner** (passes 10/10 locally) — issue #14 with two hypotheses                                                                          |
+| `lighthouse`      | runs now (Chrome sandbox fixed); the desktop score on the runner is 0.54–0.57 → red, issue #6                                                                                                           |
+
 ## What was seeded
 
 12 labels; 12 issues (#1–#5 good first issue with the file, the definition of done and the proving command;
-#6–#12 from `docs/LATER.md` and the OS matrix; #13 the clean-code debt list); five issue templates, a PR
+#6–#12 from `docs/LATER.md` and the OS matrix; #13 the clean-code debt list, #14 pa11y on the runner); five issue templates, a PR
 template, `SECURITY.md`; `docs/handoff/` 00–09 + `FIRST_WEEK.md`; `docs/OWNERSHIP.md`, `TERM_CHECKLIST.md`,
 `HOSTING_LIMITS.md`, `ENVIRONMENT.md`, `REPO_SETTINGS.md`, `CODE_STANDARDS.md`; `.env.example`.
 

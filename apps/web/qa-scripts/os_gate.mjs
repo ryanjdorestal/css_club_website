@@ -50,7 +50,14 @@ const check = (ok, label) => {
   await p.locator('[data-testid="local-admin"]').click();
   await p.waitForTimeout(1200);
   check(new URL(p.url()).pathname === "/os/board", `admin picker honours next → ${new URL(p.url()).pathname}`);
-  check((await p.locator("text=Board").count()) > 0, "/os/board renders for admin");
+  // the module is a lazy chunk; on a slow runner give it time to arrive rather than reading the DOM at 1.2 s
+  const boardTitle = await p
+    .locator("text=Board")
+    .first()
+    .waitFor({ timeout: 15000 })
+    .then(() => true)
+    .catch(() => false);
+  check(boardTitle, "/os/board renders for admin");
   await ctx.close();
 }
 // 4. public nav shows the button; signed-in nav shows the name

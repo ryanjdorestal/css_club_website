@@ -88,7 +88,13 @@ Started 18:06 (2026-09-21). Prompt: `docs/archive/prompts/KICKOFF_PROMPT_RUN11_S
 - Issue #12 (weekly link check → an issue) seeded, not built.
 - `docs/API.md` regenerated (130 endpoints); the old run logs still cite pre-rewrite SHAs — history, left.
 
-## Close (CLOSE_TIME)
+- **20:30** After the push, four more small commits from watching the first-ever CI runs: `ci:` (axe before
+  pa11y, Lighthouse `--no-sandbox`), `chore(types)` (regenerated `api.types.ts` — CI's generated-types step is
+  not in `make check`, noted), `ci:` (the render smoke ignores `/api` 502s by URL). The functional job — smoke,
+  sim, break — was green on the runner from the first run. Left red on purpose and filed: pa11y on the runner
+  (#14) and the Lighthouse score on the runner (0.54–0.57, on #6).
+
+## Close (20:40)
 
 Pushed to `origin/main` after the third clean gitleaks sweep. Local tables, inbox and sim spine files reset;
 dev servers left running; the old `.git` (331 MB) sits outside the repo in this session's scratch folder and
