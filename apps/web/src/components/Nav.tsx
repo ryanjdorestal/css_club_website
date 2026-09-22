@@ -26,6 +26,8 @@ export function Nav({ compact = false }: { compact?: boolean }) {
   const [time, setTime] = useState(nyTime());
   const api = useApiState();
   const me = useWhoami();
+  // What the OS button prints. Kept in one place so the button and the mobile overlay agree.
+  const osLabel = me ? `CSS_OS · ${(me.name || me.email).split(/[ @]/)[0].toUpperCase()}` : "CSS_OS";
   const lastY = useRef(0);
   const ticking = useRef(false);
   const { pathname } = useLocation();
@@ -106,20 +108,25 @@ export function Nav({ compact = false }: { compact?: boolean }) {
             <span className={`t-micro raise hidden md:block ${api.live ? "text-teal" : "opacity-50"}`}>
               {api.live === null ? "○ --" : api.live ? "● LIVE" : "○ OFFLINE"}
             </span>
+            {/* WCAG 2.5.3 (Label in Name): an aria-label here would replace the words printed on
+                the control, and voice control users say what they can see. So the visible text is
+                the name, and the extra context rides along as screen-reader-only text. */}
             <Link
               to={me ? "/os" : "/os/login"}
               className="hidden sm:inline-flex items-center gap-1.5 t-micro raise border border-(--accent) text-(--accent-fg) px-3 py-2 hover:bg-(--accent)/10 transition-colors"
-              aria-label={me ? "Open CSS OS" : "CSS OS — board login"}
               data-testid="nav-os"
             >
               <span aria-hidden>[</span>
-              <span>CSS_OS{me ? ` · ${(me.name || me.email).split(/[ @]/)[0].toUpperCase()}` : ""}</span>
+              <span>{osLabel}</span>
               <span className="hidden xl:inline">{me ? "" : " · BOARD"}</span>
               <span aria-hidden>]</span>
+              <span className="sr-only">{me ? " — open the board platform" : " — board login"}</span>
             </Link>
-            <Link to="/join" className="hidden sm:inline-flex items-stretch t-micro raise font-semibold" aria-label="Join">
+            <Link to="/join" className="hidden sm:inline-flex items-stretch t-micro raise font-semibold">
               <span className="flex items-center px-3.5 py-2 bg-(--accent) text-(--accent-contrast)">JOIN</span>
-              <span className="flex items-center justify-center w-7 bg-(--accent) text-(--accent-contrast) border-l border-navy-900/25">↗</span>
+              <span aria-hidden className="flex items-center justify-center w-7 bg-(--accent) text-(--accent-contrast) border-l border-navy-900/25">
+                ↗
+              </span>
             </Link>
             <button className="lg:hidden text-ink p-2 cursor-pointer" aria-label="Open menu" onClick={() => setOpen(true)}>
               <Menu size={22} />

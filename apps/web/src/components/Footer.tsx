@@ -140,9 +140,12 @@ export function Footer() {
         <div className="max-w-[1280px] mx-auto px-5 md:px-10 py-10 flex flex-col md:flex-row md:items-center gap-6 justify-between">
           <p className="t-h1 !text-[clamp(28px,3.6vw,52px)]">READY TO COMMIT?</p>
           <div className="flex flex-wrap gap-3 items-stretch">
-            <Link to="/join" className="group inline-flex items-stretch" aria-label="Join the Society">
+            <Link to="/join" className="group inline-flex items-stretch">
               <span className="flex items-center px-6 py-3 bg-teal text-navy-900 t-label raise !opacity-100 font-display font-bold">JOIN_THE_SOCIETY</span>
-              <span className="flex items-center justify-center w-10 bg-teal text-navy-900 border-l border-navy-900/25 transition-transform duration-200 group-hover:translate-x-1">
+              <span
+                aria-hidden
+                className="flex items-center justify-center w-10 bg-teal text-navy-900 border-l border-navy-900/25 transition-transform duration-200 group-hover:translate-x-1"
+              >
                 ↗
               </span>
             </Link>

@@ -37,6 +37,10 @@ export function Band({
       {rail && <VerticalRail text={rail} />}
       {(tone === "light" || tone === "light-2" || tone === "tinted") && <Registration />}
       <div className={`relative ${wide ? "max-w-[1440px]" : "max-w-[1280px]"} mx-auto px-5 md:px-10`}>
+        {/* The section index is drawn as small mono type, so the document outline would otherwise
+            jump straight from the page h1 to a card's h3. This names the section for a screen
+            reader and repairs the order without changing a pixel. */}
+        {(title || index) && <h2 className="sr-only">{title ?? index}</h2>}
         {index && <SectionIndex label={index} title={title} sigil={sigil} code={code} />}
         {children}
       </div>
