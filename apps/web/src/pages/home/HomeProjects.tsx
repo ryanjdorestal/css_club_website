@@ -17,7 +17,7 @@ import { exampleApps } from "./data";
 export function HomeProjects() {
   return (
     <>
-      <CubeAnchor id="apps" kf={{ x: 0.88, y: 0.55, scale: 0.62, face: "green", glow: brand.palette.green }}>
+      <CubeAnchor id="apps" kf={{ x: 0.9, y: 0.4, scale: 0.58, face: "green", glow: brand.palette.green }}>
         <Band
           tone="tinted"
           accent="green"

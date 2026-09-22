@@ -154,25 +154,25 @@ export function Dashboard({ spec }: { spec: Spec }) {
           <Tile title={e.title} menu="arrow" href={e.href}>
             <Kpi value={e.value} denom={e.denom} size="xl" className="!mt-6" />
             <p className="t-micro opacity-50 mt-4 pt-3 border-t border-ink/15">{e.thumbsLabel}</p>
-            {e.custom ?? (
-              <ul className="grid grid-cols-3 gap-1.5 mt-2 grow content-start">
-                {Array.from({ length: 6 }).map((_, n) => {
-                  const t = e.thumbs[n];
-                  return (
-                    <li key={t?.key ?? n} className="aspect-square bg-navy-900/60 overflow-hidden relative min-w-0">
-                      {t?.src ? (
+            {/* Only the thumbs that exist. Padding the grid out to six left rows of empty boxes
+                holding a "·", which reads as broken images rather than as an empty shelf. */}
+            {e.custom ??
+              (e.thumbs.length === 0 ? (
+                <p className="t-micro opacity-50 mt-2">NO_DATA_YET</p>
+              ) : (
+                <ul className="grid grid-cols-3 gap-1.5 mt-2 grow content-start">
+                  {e.thumbs.slice(0, 6).map((t) => (
+                    <li key={t.key} className="aspect-square bg-navy-900/60 overflow-hidden relative min-w-0">
+                      {t.src ? (
                         <img src={t.src} alt="" width={160} height={160} loading="lazy" decoding="async" className="w-full h-full object-cover" />
                       ) : (
-                        <span className="absolute inset-0 flex items-center justify-center t-micro text-center px-1 opacity-70 break-words">
-                          {t?.text ?? "·"}
-                        </span>
+                        <span className="absolute inset-0 flex items-center justify-center t-micro text-center px-1 opacity-70 break-words">{t.text}</span>
                       )}
-                      {t?.href && <Link to={t.href} className="absolute inset-0" aria-label={t.text ?? "open"} tabIndex={-1} />}
+                      {t.href && <Link to={t.href} className="absolute inset-0" aria-label={t.text ?? "open"} tabIndex={-1} />}
                     </li>
-                  );
-                })}
-              </ul>
-            )}
+                  ))}
+                </ul>
+              ))}
           </Tile>
         ),
         f: <FTile f={spec.f} />,

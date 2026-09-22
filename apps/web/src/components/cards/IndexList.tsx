@@ -35,8 +35,10 @@ function IndexRow({ index, title, dek, meta, chip, href, sigil, onClick, bracket
     <div className="group relative flex items-center gap-4 md:gap-5 py-3.5 border-b border-(--tone-line) transition-colors duration-200 hover:bg-current/[0.03] cursor-pointer px-1">
       <span className="t-label raise text-(--accent-ink) shrink-0 w-10 tnum">{bracket ? `[${index}]` : `/${index}`}</span>
       {sigil && <span className="shrink-0 opacity-70">{sigil}</span>}
-      <div className="grow min-w-0">
-        <p className="t-h3 !font-medium leading-tight" style={{ textWrap: "balance" }}>
+      <div className="grow min-w-0 overflow-hidden">
+        {/* break-words is load-bearing: in a four-column grid "President" is wider than its box,
+            and without it the title paints over the meta and the arrow instead of wrapping. */}
+        <p className="t-h3 !font-medium leading-tight break-words" style={{ textWrap: "balance" }}>
           {title}
         </p>
         {dek && <p className="t-micro opacity-55 mt-1 line-clamp-2 normal-case tracking-[0.04em]">{dek}</p>}

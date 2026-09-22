@@ -70,8 +70,9 @@ export function HomeHero() {
               background: "radial-gradient(ellipse at center, color-mix(in srgb, var(--color-teal) 15%, transparent), transparent 65%)",
             }}
           />
-          {/* coordinate rail */}
-          <div className="absolute top-[88px] right-5 md:right-10 text-right space-y-1 z-10">
+          {/* Coordinate rail. Hidden on phones: it is absolutely positioned at the same height as
+              the SCN_01 label, and at 390 px the two printed on top of each other. */}
+          <div className="absolute top-[88px] right-5 md:right-10 text-right space-y-1 z-10 hidden md:block">
             <p className="t-micro raise tnum">
               X_{COORDS.x} / Y_{COORDS.y}
             </p>
@@ -133,7 +134,9 @@ export function HomeHero() {
                 <Readout
                   value={counts.terms}
                   label="boards since 2020"
-                  style={{ position: "absolute", left: -16, bottom: 56, transform: "translateX(-100%)", width: "max-content" }}
+                  // Mirrors the workshops chip on the other corner. It used to sit outside the
+                  // frame's left edge, where the dek is — it covered the last line of the copy.
+                  style={{ position: "absolute", left: 0, top: 30, transform: "translateY(-100%)", width: "max-content" }}
                 />
               </Reveal>
               <span className="absolute bottom-3 left-3 t-micro opacity-55">_object CS_CUBE.GLB · DRAG-FREE · CLICK_A_FACE</span>

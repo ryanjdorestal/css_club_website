@@ -24,9 +24,9 @@ export function SlotCard({
       </span>
       <Perforation className="absolute top-0 left-3 right-3" />
       <span className="t-micro opacity-70 mt-2">SLOT_{n}</span>
-      <div className="flex items-end justify-between gap-2">
-        <span className="t-label raise text-(--accent-ink)">[ {label.toUpperCase().replace(/\s+/g, "_")} ]</span>
-        {action && <span className="t-micro opacity-60">{action}</span>}
+      <div className="flex flex-wrap items-end justify-between gap-x-3 gap-y-1">
+        <span className="t-label raise text-(--accent-ink) min-w-0 break-words">[ {label.toUpperCase().replace(/\s+/g, "_")} ]</span>
+        {action && <span className="t-micro opacity-60 shrink-0">{action}</span>}
       </div>
     </div>
   );

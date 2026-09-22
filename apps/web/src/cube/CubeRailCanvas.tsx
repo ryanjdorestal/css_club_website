@@ -139,7 +139,9 @@ export default function CubeRailCanvas() {
       </Canvas>
       {face && FACE_LABEL[face] && (
         <span
-          className="mono-label text-teal absolute transition-all duration-700"
+          // The caption rides a fixed overlay over flowing copy, so it needs its own plate —
+          // as bare text it read as two sentences printed on top of each other.
+          className="mono-label text-teal absolute transition-all duration-700 pointer-events-none whitespace-nowrap border border-teal/35 bg-navy-900/85 px-2.5 py-1"
           style={{ left: `${pos.x * 100}%`, top: `calc(${pos.y * 100}% + 13vh)`, transform: "translateX(-50%)" }}
         >
           {FACE_LABEL[face]}

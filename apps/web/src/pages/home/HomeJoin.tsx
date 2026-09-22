@@ -14,7 +14,7 @@ import { bandCopy, collaborate } from "./data";
 export function HomeJoin() {
   return (
     <>
-      <CubeAnchor id="join" kf={{ x: 0.13, y: 0.42, scale: 0.62, face: "blue", glow: brand.palette.blue }}>
+      <CubeAnchor id="join" kf={{ x: 0.86, y: 0.34, scale: 0.55, face: "blue", glow: brand.palette.blue }}>
         <Band tone="tinted" accent="blue" index="05 — COLLABORATE" sigil={<Sg.Lambda size={16} />} code="OPEN_SEATS" rail="05 · JOIN · 01001010 · OPEN SEATS">
           <div
             aria-hidden
@@ -33,7 +33,8 @@ export function HomeJoin() {
               </p>
             </Reveal>
           </div>
-          <div className="grid md:grid-cols-2 xl:grid-cols-4 gap-x-10 gap-y-8">
+          {/* The two lists carry display-size titles; equal quarters left them ~150px of text. */}
+          <div className="grid md:grid-cols-2 xl:grid-cols-[1.25fr_1.25fr_1fr_1fr] gap-x-10 gap-y-8">
             <div>
               <Tag className="mb-3">OPENINGS</Tag>
               <IndexList rows={collaborate.openings.slice(0, 4).map((o) => ({ title: o.role, meta: "OPEN", href: "/join", bracket: true }))} />
